@@ -41,7 +41,7 @@ Traditional httpd-based load balancers require explicit configuration of the wor
 
 * Server-side load balance factor calculation
 
-In contrast with traditional httpd-based load balancers, mod_cluster uses load balance factors calculated and provided by the application servers, rather than computing these in the proxy. Consequently, mod_cluster offers a more robust and accurate set of load metrics than is available from the proxy. (see Load Metrics for more)
+In contrast with traditional httpd-based load balancers, mod_cluster uses load balance factors calculated and provided by the application servers, rather than computing these in the proxy. Consequently, mod_cluster offers a more robust and accurate set of load metrics than is available from the proxy (see Load Metrics for more).
 
 * Fine grained web-app lifecycle control
 
@@ -60,13 +60,11 @@ The original concepts are described in a http://www.jboss.org/community/docs/DOC
 
 === Worker side
 
-mod_cluster java module is provided for all the undermentioned containers:
+The mod_cluster container integration module (implemented in Java) is provided for all the following containers:
 
-* Tomcat 6
-* Tomcat 7
-* Tomcat 8
-* JBoss AS7+
-* Wildfly
+* Tomcat 6 and newer
+* JBoss AS 7
+* WildFly 8 and newer
 
 == Limitations
 
