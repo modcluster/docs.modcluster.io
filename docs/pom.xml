@@ -33,7 +33,7 @@
     </parent>
 
     <artifactId>mod_cluster-docs</artifactId>
-    <name>mod_cluster: Documentation</name>
+    <name>mod_cluster docs: Documentation</name>
     <packaging>pom</packaging>
 
     <build>
