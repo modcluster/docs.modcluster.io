@@ -22,7 +22,7 @@ mod_proxy_ajp provides all the AJP logic needed by mod_cluster.
 [[platforms]]
 == Platforms
 
-JBoss already prepares http://www.jboss.org/mod_cluster/downloads.html[binary
+JBoss already prepares https://github.com/modcluster/mod_cluster/releases[binary
 packages] with httpd
 and mod_cluster so you can quickly try mod_cluster on the following
 platforms:
