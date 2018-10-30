@@ -48,7 +48,7 @@
                                 <directory>src/main/asciidoc/images</directory>
                                 <targetPath>images</targetPath>
                             </resource>
-                            <!-- e.g. CNAME record file for github -->
+                            <!-- e.g. CNAME record file for GitHub, favicon -->
                             <resource>
                                 <directory>src/main/asciidoc/static</directory>
                                 <targetPath>.</targetPath>
