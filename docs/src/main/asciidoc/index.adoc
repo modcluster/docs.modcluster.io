@@ -10,6 +10,7 @@
 :leveloffset: +1
 :imagesdir: images
 :nofooter:
+:favicon:
 
 :editurl: https://github.com/modcluster/docs.modcluster.io/edit/master/docs/src/main/asciidoc/
 :editnote: Help us improve this section on GitHub!
