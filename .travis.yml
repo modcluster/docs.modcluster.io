@@ -20,3 +20,5 @@ matrix:
         verbose: true
         on:
           branch: master
+notifications:
+  email: false
