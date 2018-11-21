@@ -11,7 +11,7 @@ TODO: JBoss AS 5, 7, Wildfly (Undertow)
 
 mod_cluster is supported in AS7 via the modcluster subsystem See AS7 modcluster subsystem Configuration.
 
-In other AS version mod_cluster's configuration resides within the
+In JBoss AS 6 and older version mod_cluster's configuration resides within the
 following file:
 
     $JBOSS_HOME/server/$PROFILE/deploy/mod_cluster.sar/META-INF/mod_cluster-jboss-beans.xml
