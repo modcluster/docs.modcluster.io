@@ -522,7 +522,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2018-11-21</span>
+<span id="revdate">2019-02-12</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -1615,7 +1615,7 @@ to <code>$CATALINA_HOME/lib</code>.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;subsystem</span> <span class="attribute-name">xmlns</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">urn:jboss:domain:modcluster:1.0</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
   <span class="tag">&lt;mod-cluster-config</span> <span class="attribute-name">advertise-socket</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mod_cluster</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-    <span class="tag">&lt;dynamic-load-provider</span> <span class="attribute-name">history</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">decay</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;dynamic-load-provider</span> <span class="attribute-name">history</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">decay</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">initial-load</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">50</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
        <span class="tag">&lt;load-metric</span> <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">cpu</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">weight</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">capacity</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
        <span class="tag">&lt;load-metric</span> <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">sessions</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">weight</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">capacity</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">512</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
        <span class="tag">&lt;custom-load-metric</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mypackage.myclass</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">weight</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">capacity</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">512</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
@@ -1650,6 +1650,11 @@ to <code>$CATALINA_HOME/lib</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">decay</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">decayFactor</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">512</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">initialLoad</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">initialLoad</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
 </tr>
 </tbody>
 </table>
@@ -2696,37 +2701,42 @@ in JBoss Web standalone or Tomcat.</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Attribute</th>
 <th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Description</th>
-<th class="tableblock halign-left valign-top"></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">loadMetricClass</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">org.jboss.modcluster.load.metric.impl.BusyConnectorsLoadMetric</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Class name of an object implementing org.jboss.load.metric.LoadMetric</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">loadMetricCapacity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Class name of an object implementing <code>org.jboss.load.metric.LoadMetric</code>.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">loadMetricCapacity</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The capacity of the load metric defined via the loadMetricClass property</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The capacity of the load metric defined via the loadMetricClass property.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">loadHistory</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of historic load values to consider in the load balance factor computation.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The number of historic load values to consider in the load balance factor computation.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">loadDecayFactor</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The factor by which a historic load values should degrade in significance.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">initialLoad</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial load within the range [0..100] with which to prepopulate historical values. Used to gradually drive load to the node. Value of 0 prepopulates with full load and value of -1 disables this behavior.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2757,6 +2767,7 @@ balance factor of a node from a defined set of load metrics.</p>
   <span class="tag">&lt;/constructor&gt;</span>
   <span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">history</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>9<span class="tag">&lt;/property&gt;</span>
   <span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">decayFactor</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>2<span class="tag">&lt;/property&gt;</span>
+  <span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">initialLoad</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>0<span class="tag">&lt;/property&gt;</span>
 <span class="tag">&lt;/bean&gt;</span></code></pre>
 </div>
 </div>
