@@ -258,7 +258,7 @@ TODO: Check XSD for attributes and their descriptions.
 ----
 <subsystem xmlns="urn:jboss:domain:modcluster:1.0">
   <mod-cluster-config advertise-socket="mod_cluster">
-    <dynamic-load-provider history="10" decay="2">
+    <dynamic-load-provider history="10" decay="2" initial-load="50">
        <load-metric type="cpu" weight="2" capacity="1"/>
        <load-metric type="sessions" weight="1" capacity="512"/>
        <custom-load-metric class="mypackage.myclass" weight="1" capacity="512">
@@ -272,9 +272,10 @@ TODO: Check XSD for attributes and their descriptions.
 
 [options="header"]
 |===
-| Attribute  | Property     | Default
-| history    | history      | 512
-| decay      | decayFactor  | 512
+| Attribute   | Property     | Default
+| history     | history      | 512
+| decay       | decayFactor  | 512
+| initialLoad | initialLoad  | 0
 |===
 
 === load-metric Configuration
@@ -611,11 +612,12 @@ in JBoss Web standalone or Tomcat.
 
 [options="header"]
 |===
-| Attribute           | Default | Description    |
-| loadMetricClass     | org.jboss.modcluster.load.metric.impl.BusyConnectorsLoadMetric | Class name of an object implementing org.jboss.load.metric.LoadMetric
-| loadMetricCapacity  | 1                                                              | The capacity of the load metric defined via the loadMetricClass property
+| Attribute           | Default                                                        | Description
+| loadMetricClass     | org.jboss.modcluster.load.metric.impl.BusyConnectorsLoadMetric | Class name of an object implementing `org.jboss.load.metric.LoadMetric`.
+| loadMetricCapacity  | 1                                                              | The capacity of the load metric defined via the loadMetricClass property.
 | loadHistory         | 9                                                              | The number of historic load values to consider in the load balance factor computation.
 | loadDecayFactor     | 2                                                              | The factor by which a historic load values should degrade in significance.
+| initialLoad         | 0                                                              | Initial load within the range [0..100] with which to prepopulate historical values. Used to gradually drive load to the node. Value of 0 prepopulates with full load and value of -1 disables this behavior.
 |===
 
 == Worker-side Load Metrics
@@ -640,6 +642,7 @@ balance factor of a node from a defined set of load metrics.
   </constructor>
   <property name="history">9</property>
   <property name="decayFactor">2</property>
+  <property name="initialLoad">0</property>
 </bean>
 ----
 
