@@ -250,7 +250,7 @@ sessions.
 [source]
 ----
 \# httpd 2.2.x and older
-<Location /mod_cluster_manager>
+<Location /mod_cluster-manager>
    SetHandler mod_cluster-manager
    Order deny,allow
    Deny from all
@@ -258,7 +258,7 @@ sessions.
 </Location>
 
 \# httpd 2.4.x and on
-<Location /mod_cluster_manager>
+<Location /mod_cluster-manager>
    SetHandler mod_cluster-manager
    Require ip 127.0.0
 </Location>
@@ -371,7 +371,7 @@ LoadModule advertise_module modules/mod_advertise.so
   EnableMCPMReceive
 
   # Where administrator reads the console from
-  <Location /mod_cluster_manager>
+  <Location /mod_cluster-manager>
      SetHandler mod_cluster-manager
      Require ip 127.0.0
   </Location>
@@ -408,7 +408,7 @@ LoadModule advertise_module modules/mod_advertise.so
   EnableMCPMReceive
 
   # Where administrator reads the console from
-  <Location /mod_cluster_manager>
+  <Location /mod_cluster-manager>
      SetHandler mod_cluster-manager
      Order deny,allow
      Deny from all

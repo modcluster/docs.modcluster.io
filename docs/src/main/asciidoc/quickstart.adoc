@@ -63,7 +63,7 @@ Always check the release notes as to which version was used during the build: mo
 There is a script `opt/jboss/httpd/sbin/installhome.sh` in the httpd bundle distribution that allows reconfiguration of the
 bundle installation so that it can run in user's home directory. To do that, simply extract the bundle in your home directory
 and run the script. Once that done, httpd will run on port 8000 and will accept MCMP messages on localhost:6666 and offer
-`/mod_cluster_manager` on the same host and port.
+`/mod_cluster-manager` on the same host and port.
 
 === Install in Windows
 
@@ -137,7 +137,7 @@ LoadModule advertise_module /opt/jboss/httpd/lib/httpd/modules/mod_advertise.so
     #AdvertiseGroup @ADVIP@:23364
     EnableMCPMReceive
 
-    <Location /mod_cluster_manager>
+    <Location /mod_cluster-manager>
        SetHandler mod_cluster-manager
        Require ip 127.0.0
     </Location>

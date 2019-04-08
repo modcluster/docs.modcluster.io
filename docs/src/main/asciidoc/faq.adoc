@@ -100,7 +100,7 @@ TODO: Links to docs; explain terms.
 AllowDisplay On
 ----
 
-When accessing the mod_cluster_manager console you should get something like: TODO: Image.
+When accessing the mod_cluster-manager console you should get something like: TODO: Image.
  If not, go to the Minimal Example and add the missing directive(s).
 
 . Check that Advertise message are received on the cluster node.
@@ -252,9 +252,9 @@ In Web subsystem:
 <connector name="http" protocol="HTTP/1.1" scheme="http" socket-binding="http" max-connections="513" />
 ----
 
-== Chrome does not display /mod_cluster_manager page
+== Chrome does not display /mod_cluster-manager page
 
-When using Chrome with mod_cluster_manager, the page is not displayed
+When using Chrome with mod_cluster-manager, the page is not displayed
 and the following error is displayed instead:
 
 [source]

@@ -447,7 +447,7 @@ If no host is indicated, it is assumed to be the default host of the server (e.g
 | autoEnableContexts | auto-enable-contexts   | true    | Worker   | Worker |
 |===
 
-If false the contexts are registered disabled in httpd, they need to be enabled via the enable() mbean method, jboss-cli command or via mod_cluster_manager web console on Apache HTTP Server.
+If false the contexts are registered disabled in httpd, they need to be enabled via the enable() mbean method, jboss-cli command or via mod_cluster-manager web console on Apache HTTP Server.
 
 ==== Stop context timeout
 
