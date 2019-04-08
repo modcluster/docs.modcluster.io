@@ -204,7 +204,7 @@ TODO: Explain better the placement for Attributes and properties in their respec
 | Attribute              | Property             | Default
 | sticky-session         | stickySession        | *true*
 | sticky-session-remove  | stickySessionRemove  | *false*
-| sticky-session-force   | stickySessionForce   | *true*
+| sticky-session-force   | stickySessionForce   | *false*
 | node-timeout           | workerTimeout        | *-1*
 | max-attempts           | maxAttempts          | *1*
 | flush-packets          | flushPackets         | *false*
@@ -557,7 +557,7 @@ the resetting of a proxy's configuration during error recovery.
 | Attribute            | AS7 Attribute                | Default                            | Scope     | Description
 | stickySession        | sticky-session               | true                               | Balancer  | Indicates whether subsequent requests for a given session should be routed to the same node, if possible.
 | stickySessionRemove  | sticky-session-remove        | false                              | Balancer  | Indicates whether the httpd proxy should remove session stickiness in the event that the balancer is unable to route a request to the node to which it is stuck. This property is ignored if stickySession is false.
-| stickySessionForce   | sticky-session-force         | true                               | Balancer  | Indicates whether the httpd proxy should return an error in the event that the balancer is unable to route a request to the node to which it is stuck. This property is ignored if stickySession is false.
+| stickySessionForce   | sticky-session-force         | false                              | Balancer  | Indicates whether the httpd proxy should return an error in the event that the balancer is unable to route a request to the node to which it is stuck. This property is ignored if stickySession is false.
 | workerTimeout        | worker-timeout               | -1                                 | Balancer  | Number of seconds to wait for a worker to become available to handle a request. When no workers of a balancer are usable, mod_cluster will retry after a while (workerTimeout/100). That is timeout in the balancer mod_proxy documentation. A value of -1 indicates that the httpd will not wait for a worker to be available and will return an error if none is available.
 | maxAttempts          | max-attempts                 | 1                                  | Balancer  | Maximum number of failover attempts before giving up. The minimum value is 0, i.e. no failover. The default value is 1, i.e. do a one failover attempt.
 | flushPackets         | flush-packets                | false                              | Node      | Enables/disables packet flushing
