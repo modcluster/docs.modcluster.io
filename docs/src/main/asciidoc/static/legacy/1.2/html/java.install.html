@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory">Chapter 11. Installing Server-Side Components</title><link rel="stylesheet" href="css/jbossorg.css" type="text/css"/><meta xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="mod_cluster Documentation"/><link rel="up" href="index.html" title="mod_cluster Documentation"/><link rel="prev" href="java.load.html" title="Chapter 10. Server-Side Load Metrics"/><link rel="next" href="UsingSSL.html" title="Chapter 12. Using SSL in mod_cluster"/></head><body><p id="title"><a href="http://www.jboss.org" class="site_href"><strong>JBoss.org</strong></a><a href="http://docs.jboss.org/" class="doc_href"><strong>Community Documentation</strong></a></p><ul class="docnav"><li class="previous"><a accesskey="p" href="java.load.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="UsingSSL.html"><strong>Next</strong></a></li></ul><div class="chapter" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="java.install"/>Chapter 11. Installing Server-Side Components</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="java.install.html#d0e2840">11.1. Installing in JBoss AS 6.0.0.M1 and up</a></span></dt><dt><span class="section"><a href="java.install.html#d0e2845">11.2. Installing in JBoss AS 5.x</a></span></dt><dt><span class="section"><a href="java.install.html#d0e2852">11.3. Installing in Tomcat</a></span></dt></dl></div><p>
+    First, extract the server-side binary to a temporary directory.
+    The following assumes it was extracted to /tmp/mod_cluster
+  </p><p>
+    Your next step depends on whether your target server is JBoss AS or JBossWeb/Tomcat.
+  </p><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="d0e2840"/>11.1. Installing in JBoss AS 6.0.0.M1 and up</h2></div></div></div><p>
+      You don't need to do anything to install the java-side binaries in AS 6.x;
+      it's part of the AS distribution's default, standard and all configurations.
+    </p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="d0e2845"/>11.2. Installing in JBoss AS 5.x</h2></div></div></div><p>
+      Assuming $JBOSS_HOME indicates the root of your JBoss AS install and that you want to use mod_cluster in the AS's all config:
+    </p><pre class="programlisting">cp -r /tmp/mod_cluster/mod_cluster.sar $JBOSS_HOME/server/all/deploy</pre></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="d0e2852"/>11.3. Installing in Tomcat</h2></div></div></div><p>
+      Assuming $CATALINA_HOME indicates the root of your Tomcat install:
+    </p><pre class="programlisting">
+    cp /tmp/mod_cluster/JBossWeb-Tomcat/lib/jboss-logging.jar $CATALINA_HOME/lib/
+    cp /tmp/mod_cluster/JBossWeb-Tomcat/lib/mod_cluster-container-catalina* $CATALINA_HOME/lib/
+    cp /tmp/mod_cluster/JBossWeb-Tomcat/lib/mod_cluster-container-spi* $CATALINA_HOME/lib/
+    cp /tmp/mod_cluster/JBossWeb-Tomcat/lib/mod_cluster-core* $CATALINA_HOME/lib/
+    </pre>
+    and additionally for Tomcat6:
+    <pre class="programlisting">cp /tmp/mod_cluster/JBossWeb-Tomcat/lib/mod_cluster-container-tomcat6* $CATALINA_HOME/lib </pre>
+    and additionally for Tomcat7:
+    <pre class="programlisting">cp /tmp/mod_cluster/JBossWeb-Tomcat/lib/mod_cluster-container-tomcat7* $CATALINA_HOME/lib </pre></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="java.load.html"><strong>Prev</strong>Chapter 10. Server-Side Load Metrics</a></li><li class="up"><a accesskey="u" href="#"><strong>Top of page</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Front page</strong></a></li><li class="next"><a accesskey="n" href="UsingSSL.html"><strong>Next</strong>Chapter 12. Using SSL in mod_cluster</a></li></ul></body></html>
