@@ -1,4 +1,4 @@
-= Documentation 2.0 image:https://travis-ci.org/modcluster/docs.modcluster.io.svg?branch=master["Build Status", link="https://travis-ci.org/modcluster/docs.modcluster.io"] [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=modcluster/docs.modcluster.io)](https://dependabot.com)
+= Documentation 2.0 image:https://travis-ci.org/modcluster/docs.modcluster.io.svg?branch=master["Build Status", link="https://travis-ci.org/modcluster/docs.modcluster.io"] image:https://api.dependabot.com/badges/status?host=github&repo=modcluster/docs.modcluster.io["Dependabot Status", link="https://dependabot.com"]
 
 Welcome to the new mod_cluster live documentation!
 
