@@ -7,7 +7,7 @@ Welcome to the new mod_cluster live documentation!
 How can I contribute?
 
 * Learn https://asciidoctor.org/docs/asciidoc-writers-guide/[AsciiDoc].
-* Open http://docs.modcluster.io and locate section you want to contribute to.
+* Open https://docs.modcluster.io and locate section you want to contribute to.
 * Click 'Help us improve this section on GitHub!' at the top of each section.
 * If using an IDE, fork and clone the repository locally and navigate to `docs/src/main/asciidoc/` directory.
 * Once finished editing, click 'Propose changes' which will open a new pull request.
