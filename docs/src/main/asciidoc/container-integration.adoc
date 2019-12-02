@@ -187,14 +187,14 @@ TODO: Explain better the placement for Attributes and properties in their respec
 [options="header"]
 |===
 | Attribute               | Property              | Default
-| proxy-list              | proxyList             | *none*
-| proxy-url               | proxyURL              | *none*
-| advertise               | advertise             | *true*
-| advertise-security-key  | advertiseSecurityKey  | *none*
-| excluded-contexts       | excludedContexts      | *none*
-| auto-enable-contexts    | autoEnableContexts    | *true*
-| stop-context-timeout    | stopContextTimeout    | *10 seconds* (in seconds)
-| socket-timeout          | nodeTimeout           | *20 seconds* (in milliseconds)
+| proxy-list              | proxyList             | none
+| proxy-url               | proxyURL              | none
+| advertise               | advertise             | true
+| advertise-security-key  | advertiseSecurityKey  | none
+| excluded-contexts       | excludedContexts      | none
+| auto-enable-contexts    | autoEnableContexts    | true
+| stop-context-timeout    | stopContextTimeout    | 10 (in seconds)
+| socket-timeout          | nodeTimeout           | 20000 (in milliseconds)
 |===
 
 === Proxy Configuration
@@ -202,18 +202,18 @@ TODO: Explain better the placement for Attributes and properties in their respec
 [options="header"]
 |===
 | Attribute              | Property             | Default
-| sticky-session         | stickySession        | *true*
-| sticky-session-remove  | stickySessionRemove  | *false*
-| sticky-session-force   | stickySessionForce   | *false*
-| node-timeout           | workerTimeout        | *-1*
-| max-attempts           | maxAttempts          | *1*
-| flush-packets          | flushPackets         | *false*
-| flush-wait             | flushWait            | *-1*
-| ping                   | ping                 | *10*
-| smax                   | smax                 | *-1* (it uses default value)
-| ttl                    | ttl                  | *-1* (it uses default value)
-| domain                 | loadBalancingGroup   | *none*
-| load-balancing-group   | loadBalancingGroup   | *none*
+| sticky-session         | stickySession        | true
+| sticky-session-remove  | stickySessionRemove  | false
+| sticky-session-force   | stickySessionForce   | false
+| node-timeout           | workerTimeout        | -1
+| max-attempts           | maxAttempts          | 1
+| flush-packets          | flushPackets         | false
+| flush-wait             | flushWait            | -1
+| ping                   | ping                 | 10
+| smax                   | smax                 | -1 (it uses default value)
+| ttl                    | ttl                  | -1 (it uses default value)
+| domain                 | loadBalancingGroup   | none
+| load-balancing-group   | loadBalancingGroup   | none
 |===
 
 === SSL Configuration
@@ -285,9 +285,9 @@ The load-metric are the "classes" collecting information to allow computation of
 [options="header"]
 |===
 | Attribute  | Property                   | Default
-| type       | A Server-Side Load Metric  | *mandatory*
-| weight     | weight                     | *9*
-| capacity   | capacity                   | *512*
+| type       | A Server-Side Load Metric  | mandatory
+| weight     | weight                     | 9
+| capacity   | capacity                   | 512
 |===
 
 === Out-of-box load metric types
@@ -308,33 +308,32 @@ The load-metric are the "classes" collecting information to allow computation of
 
 === custom-load-metric Configuration
 
-The custom-load-metric are for user defined "classes" collecting information.
-They are like the load-metric except `type` is replaced by `class`:
+The `custom-load-metric` are for user defined "classes" collecting information.
+They are like the `load-metric` except `type` is replaced by `class`:
 
 [options="header"]
 |===
 |Attribute  | Property            | Default
-|class      | Name of your class  | *Mandatory*
+|class      | Name of your class  | Mandatory
 |===
 
 See an https://github.com/Karm/mod_cluster-custom-load-metric[Example Custom Load Metric] that reads load from a local file.
 
 === load-metric Configuration with the JBoss AS7 CLI
 
-The load-metric have 4 commands to add / remove metrics
+The `load-metric` have 4 commands to add and remove metrics
 
-* add-metric: Allows to add a `load-metric` to the *dynamic-load-provider*, e.g.
+* add-metric: Allows to add a `load-metric` to the `dynamic-load-provider`, e.g.
 
-    `./:add-metric(type=cpu, weight=2, capacity=1)`
+    ./:add-metric(type=cpu, weight=2, capacity=1)
 
-* remove-metric: Allows to remove a `load-metric` from the *dynamic-load-provider*, e.g.
+* remove-metric: Allows to remove a `load-metric` from the `dynamic-load-provider`, e.g.
 
     ./:remove-metric(type=cpu)
 
 * add-custom-metric: Allows to add a `load-custom-metric` to the *dynamic-load-provider*, e.g.
 
-    ./:add-custom-metric(class=myclass, weight=2, capacity=1, \
-    property=[("pool" => "mypool"), ("var" => "myvariable")])
+    ./:add-custom-metric(class=myclass, weight=2, capacity=1, property=[("pool" => "mypool"), ("var" => "myvariable")])
 
 * remove-custom-metric: Allows to remove a `load-custom-metric` from the *dynamic-load-provider*, e.g.
 
@@ -343,6 +342,7 @@ The load-metric have 4 commands to add / remove metrics
 == Building worker-side Components
 
 === Requirements
+
 Building mod_cluster's worker-side components from source requires the following tools:
 
 * JDK 5.0+
@@ -361,8 +361,7 @@ Steps to build:
     cd mod_cluster
     mvn -P dist package
 
-**Note:** Some unit tests require UDP port 23365. Make sure your local firewall allows the port.
-{: .notice}
+NOTE: Some unit tests require UDP port 23365. Make sure your local firewall allows the port.
 
 === Built Artifacts
 
@@ -406,7 +405,7 @@ from having to define static, environment-specific configuration values.
 [options="header"]
 |===
 | Tomcat attribute        | AS7/Wildfly attribute     | Default       | Location | Scope    |
-| sessionDrainingStrategy | session-draining-strategy | `DEFAULT` | Worker   | Worker   |
+| sessionDrainingStrategy | session-draining-strategy | `DEFAULT`     | Worker   | Worker   |
 |===
 
 Indicates the session draining strategy used during undeployment of a web application. There are three possible values:
@@ -419,13 +418,13 @@ Indicates the session draining strategy used during undeployment of a web applic
 
 [options="header"]
 |===
-| Tomcat attribute        | AS7 attribute | Wildfly attribute | Default | Location | Scope    |
-| proxyList               | proxy-list    | proxies           | *None*  | Worker   | Worker   |
+| Tomcat attribute        | AS7 attribute | WildFly attribute | Default | Location | Scope    |
+| proxyList               | proxy-list    | proxies           | None  | Worker   | Worker   |
 |===
 
 * Tomcat/AS7: Defines a comma delimited list of httpd proxies with which this node will initially communicate. Value should be of the form: *address1*:*port1*,*address2*:*port2*. Using the default configuration, this property can by manipulated via the jboss.mod_cluster.proxyList system property.
-* Wildfly: In Wildfly, the `proxy-list` attribute of the modcluster subsystem element is deprecated. Instead, one uses an output socket binding. The following example leverages `jboss-cli.sh`, e.g. :
-  * Add a socket binding: `/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=my-proxies:add(host=10.10.10.11,port=3333)`
+* WildFly: In Wildfly, the `proxy-list` attribute of the modcluster subsystem element is deprecated. Instead, one uses an output socket binding. The following example leverages `jboss-cli.sh`, e.g. :
+  * Add a socket binding: `/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=my-proxies:add(host=10.10.10.11, port=3333)`
   * Add the socket binding to the modcluster subsystem: `/subsystem=modcluster/mod-cluster-config=configuration:write-attribute(name=proxies, value="my-proxies")`
 
 ==== Excluded contexts
@@ -433,7 +432,7 @@ Indicates the session draining strategy used during undeployment of a web applic
 [options="header"]
 |===
 | Tomcat attribute | AS7/Wildfly attribute  | Wildfly Default | Tomcat/AS7 Default | Location | Scope    |
-| excludedContexts | excluded-contexts      | *None*          | ROOT, admin-console, invoker, bossws, jmx-console, juddi, web-console | Worker | Worker |
+| excludedContexts | excluded-contexts      | None            | ROOT, admin-console, invoker, bossws, jmx-console, juddi, web-console | Worker | Worker |
 |===
 
 List of contexts to exclude from httpd registration, of the form: *host1*:*context1*,*host2*:*context2*,*host3*:*context3*
@@ -443,7 +442,7 @@ If no host is indicated, it is assumed to be the default host of the server (e.g
 
 [options="header"]
 |===
-| Tomcat attribute   | AS7/Wildfly attribute  | Default | Location | Scope  |
+| Tomcat attribute   | AS7/WildFly attribute  | Default | Location | Scope  |
 | autoEnableContexts | auto-enable-contexts   | true    | Worker   | Worker |
 |===
 
@@ -464,7 +463,7 @@ The amount of time in seconds for which to wait for a clean shutdown of a contex
 [options="header"]
 |===
 | Tomcat attribute       | AS7/Wildfly attribute  | Default | Location | Scope  |
-| stopContextTimeoutUnit | *None*                 | TimeUnit.SECONDS | Worker   | Worker |
+| stopContextTimeoutUnit | None                   | TimeUnit.SECONDS | Worker   | Worker |
 |===
 
 Tomcat allows for configuring an arbitrary TimeUnit for Stop context timeout
@@ -473,7 +472,7 @@ Tomcat allows for configuring an arbitrary TimeUnit for Stop context timeout
 
 [options="header"]
 |===
-| Tomcat attribute  | AS7/Wildfly attribute  | Default | Location | Scope  |
+| Tomcat attribute  | AS7/Wildfly attribute  | Default | Location | Scope    |
 | proxyURL          | proxy-url              | /       | Worker   | Balancer |
 |===
 
@@ -528,8 +527,8 @@ Beware of https://issues.jboss.org/browse/MODCLUSTER-446[MODCLUSTER-446].
 
 [options="header"]
 |===
-| Tomcat attribute       | AS7/Wildfly attribute  | Default | Location | Scope
-| advertiseThreadFactory | *None*                 | Executors.defaultThreadFactory() | Worker | Worker
+| Tomcat attribute       | AS7/WildFly attribute  | Default | Location | Scope
+| advertiseThreadFactory | None                 | Executors.defaultThreadFactory() | Worker | Worker
 |===
 
 The thread factory used to create the background advertisement listener.
@@ -539,7 +538,7 @@ The thread factory used to create the background advertisement listener.
 [options="header"]
 |===
 | Tomcat attribute       | AS7/Wildfly attribute  | Default | Location | Scope
-| jvmRouteFactory        | *None*                 | new SystemPropertyJvmRouteFactory(new UUIDJvmRouteFactory(), "jboss.mod_cluster.jvmRoute") | Worker | Worker
+| jvmRouteFactory        | None                 | new SystemPropertyJvmRouteFactory(new UUIDJvmRouteFactory(), "jboss.mod_cluster.jvmRoute") | Worker | Worker
 |===
 
 Defines the strategy for determining the jvm route of a node, if none was specified in Tomcat's server.xml.
@@ -588,14 +587,14 @@ NOTE: This HTTP/HTTPS channel should not be confused with the processing of HTTP
 |===
 | Attribute                        | AS7 Attribute         | Default                                                          | Description
 | ssl                              | *None*                | false                                                            | Should connection to proxy use a secure socket layer
-| sslCiphers                       | cipher-suite          | *The default JSSE cipher suites*                                 | Overrides the cipher suites used to initialize an SSL socket ignoring any unsupported ciphers
+| sslCiphers                       | cipher-suite          | The default JSSE cipher suites                                   | Overrides the cipher suites used to initialize an SSL socket ignoring any unsupported ciphers
 | sslProtocol                      | protocol              | TLS (ALL in AS7)                                                 | Overrides the default SSL socket protocol.
-| sslCertificateEncodingAlgorithm  | *None*                | *The default JSSE key manager algorithm*                         | The algorithm of the key manager factory
-| sslKeyStore                      | certificate-key-file  | System.getProperty("user.home") + "/.keystore"          | The location of the key store containing client certificates
+| sslCertificateEncodingAlgorithm  | *None*                | The default JSSE key manager algorithm                           | The algorithm of the key manager factory
+| sslKeyStore                      | certificate-key-file  | System.getProperty("user.home") + "/.keystore"                   | The location of the key store containing client certificates
 | sslKeyStorePassword              | password              | changeit                                                         | The password granting access to the key store (and trust store in AS7)
 | sslKeyStoreType                  | *None*                | JKS                                                              | The type of key store
-| sslKeyStoreProvider              | *None*                | *The default JSSE security provider*                             | The key store provider
-| sslTrustAlgorithm                | *None*                | *The default JSSE trust manager algorithm*                       | The algorithm of the trust manager factory
+| sslKeyStoreProvider              | *None*                | The default JSSE security provider                               | The key store provider
+| sslTrustAlgorithm                | *None*                | The default JSSE trust manager algorithm                         | The algorithm of the trust manager factory
 | sslKeyAlias                      | key-alias             |                                                                  | The alias of the key holding the client certificates in the key store
 | sslCrlFile                       | ca-revocation-url     |                                                                  | Certificate revocation list
 | sslTrustMaxCertLength            | *None*                | 5                                                                | The maximum length of a certificate held in the trust store
