@@ -104,9 +104,9 @@ When accessing the mod_cluster-manager console you should get something like: TO
  If not, go to the Minimal Example and add the missing directive(s).
 
 . Check that Advertise message are received on the cluster node.
- A https://github.com/modcluster/mod_cluster/blob/master/test/java/Advertize.java[small Java utility]
- could be used to check Advertise. It is in the mod_cluster repository and can be compiled using javac.
- The output should be something like:
+ A https://github.com/modcluster/mod_proxy_cluster/blob/master/test/java/Advertize.java[small Java utility]
+ could be used to check Advertise. It is in the https://github.com/modcluster/mod_proxy_cluster[mod_proxy_cluster repository]
+ and can be compiled using javac. The output should be something like:
 
 [source]
 ----
