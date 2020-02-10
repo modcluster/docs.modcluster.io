@@ -193,8 +193,7 @@ No post-installation configuration necessary!
 
 === Configuring mod_cluster with standalone JBoss Web or Tomcat
 
-Edit the `$CATALINA_HOME/conf/server.xml`file, adding the
-following next to the other `&lt;Listener/&gt;` elements:
+Edit the `$CATALINA_HOME/conf/server.xml` file, adding the following next to the other `&lt;Listener/&gt;` elements:
 
 [source,xml]
 ----
