@@ -142,11 +142,11 @@ VirtualHost configuration. If not an error message will be displayed and httpd w
 
 === EnableMCPMReceive
 
-EnableMCPMReceive &mdash; allow the VirtualHost to receive Mod Cluster Protocol Messages (MCPM). You need one
+EnableMCPMReceive &mdash; allow the VirtualHost to receive mod_cluster management protocol (MCMP) messages. You need one
 EnableMCPMReceive in your httpd configuration to allow mod_cluster to
 work, put it in the VirtualHost where you configure advertise.
 
-This directive was added so as to address the issue of receiving MCPM on arbitrary VirtualHosts which was problematic due to accepting messages on insecure, unintended VirtualHosts.
+This directive was added so as to address the issue of receiving MCMP on arbitrary VirtualHosts which was problematic due to accepting messages on insecure, unintended VirtualHosts.
 
 === MemManagerFile
 
@@ -155,28 +155,28 @@ files. That must be an absolute path name; the directories will created if neede
 files are placed on a local drive and not an NFS share. (Context: **server config**)
 
 **Default:** `$server_root/logs/`
-<script src="http://gist-it.appspot.com/github/modcluster/mod_cluster/blob/master/native/mod_manager/mod_manager.c?slice=521:538&footer=minimal"></script>
+<script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=521:538&footer=minimal"></script>
 
 === Maxcontext
 
 The maximum number of application contexts supported by mod_cluster. (Context: **server config**)
 
 **Default:**
-<script src="http://gist-it.appspot.com/github/modcluster/mod_cluster/blob/master/native/mod_manager/mod_manager.c?slice=55:56&footer=minimal"></script>
+<script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=55:56&footer=minimal"></script>
 
 === Maxnode
 
 That is the maximum number of nodes supported by mod_cluster. (Context: **server config**)
 
 **Default:**
-<script src="http://gist-it.appspot.com/github/modcluster/mod_cluster/blob/master/native/mod_manager/mod_manager.c?slice=56:57&footer=minimal"></script>
+<script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=56:57&footer=minimal"></script>
 
 === Maxhost
 
 That is the maximum number of hosts (Aliases) supported by mod_cluster. That is also the max number of balancers. (Context: **server config**)
 
 **Default:**
-<script src="http://gist-it.appspot.com/github/modcluster/mod_cluster/blob/master/native/mod_manager/mod_manager.c?slice=57:58&footer=minimal"></script>
+<script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=57:58&footer=minimal"></script>
 
 === Maxsessionid
 
@@ -186,7 +186,7 @@ TODO
 
 Maxsessionid: That is the number of active sessionid we store to give
 number of active sessions in the mod_cluster-manager handler. A session
-is unactive when mod_cluster doesn't receive any information from the
+is inactive when mod_cluster doesn't receive any information from the
 session in 5 minutes. (Context: server config)
 
 Default: 0 (the logic is not activated).
