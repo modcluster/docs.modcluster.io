@@ -3455,9 +3455,9 @@ files. That must be an absolute path name; the directories will created if neede
 files are placed on a local drive and not an NFS share. (Context: <strong>server config</strong>)</p>
 </div>
 <div class="paragraph">
-<p><strong>Default:</strong> <code>$server_root/logs/</code>
-&lt;script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=521:538&amp;footer=minimal"&gt;&lt;/script&gt;</p>
+<p><strong>Default:</strong> <code>$server_root/logs/</code></p>
 </div>
+<script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=521:538&footer=minimal"></script>
 </div>
 <div class="sect3">
 <h4 id="_maxcontext">4.5.3. Maxcontext</h4>
@@ -3465,9 +3465,9 @@ files are placed on a local drive and not an NFS share. (Context: <strong>server
 <p>The maximum number of application contexts supported by mod_cluster. (Context: <strong>server config</strong>)</p>
 </div>
 <div class="paragraph">
-<p><strong>Default:</strong>
-&lt;script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=55:56&amp;footer=minimal"&gt;&lt;/script&gt;</p>
+<p><strong>Default:</strong></p>
 </div>
+<script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=55:56&footer=minimal"></script>
 </div>
 <div class="sect3">
 <h4 id="_maxnode">4.5.4. Maxnode</h4>
@@ -3475,9 +3475,9 @@ files are placed on a local drive and not an NFS share. (Context: <strong>server
 <p>That is the maximum number of nodes supported by mod_cluster. (Context: <strong>server config</strong>)</p>
 </div>
 <div class="paragraph">
-<p><strong>Default:</strong>
-&lt;script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=56:57&amp;footer=minimal"&gt;&lt;/script&gt;</p>
+<p><strong>Default:</strong></p>
 </div>
+<script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=56:57&footer=minimal"></script>
 </div>
 <div class="sect3">
 <h4 id="_maxhost">4.5.5. Maxhost</h4>
@@ -3485,9 +3485,9 @@ files are placed on a local drive and not an NFS share. (Context: <strong>server
 <p>That is the maximum number of hosts (Aliases) supported by mod_cluster. That is also the max number of balancers. (Context: <strong>server config</strong>)</p>
 </div>
 <div class="paragraph">
-<p><strong>Default:</strong>
-&lt;script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=57:58&amp;footer=minimal"&gt;&lt;/script&gt;</p>
+<p><strong>Default:</strong></p>
 </div>
+<script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=57:58&footer=minimal"></script>
 </div>
 <div class="sect3">
 <h4 id="_maxsessionid">4.5.6. Maxsessionid</h4>
@@ -3558,7 +3558,7 @@ page on | off Since 1.1.0.GA</p>
 mod_cluster 1.1.0.GA</p>
 </div>
 <div class="paragraph">
-<p>Default: on Commmands allowed</p>
+<p>Default: on Commands allowed</p>
 </div>
 </div>
 <div class="sect3">
@@ -3581,7 +3581,7 @@ sessions.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>\# httpd 2.2.x and older
+<pre class="CodeRay highlight"><code># httpd 2.2.x or older
 &lt;Location /mod_cluster-manager&gt;
    SetHandler mod_cluster-manager
    Order deny,allow
@@ -3589,7 +3589,7 @@ sessions.</p>
    Allow from 127.0.0.1
 &lt;/Location&gt;
 
-\# httpd 2.4.x and on
+# httpd 2.4.x or later
 &lt;Location /mod_cluster-manager&gt;
    SetHandler mod_cluster-manager
    Require ip 127.0.0
@@ -4004,7 +4004,7 @@ You can ignore the libtool message on most platform:
 <p>Several bundles are available at <a href="http://www.jboss.org/mod_cluster/downloads.html">http://www.jboss.org/mod_cluster/downloads.html</a>.</p>
 </div>
 <div class="paragraph">
-<p>In case you can&#8217;t find a prepared package of mod_cluser in the download area, it is possible to build mod_cluster for the sources.
+<p>In case you can&#8217;t find a prepared package of mod_cluster in the download area, it is possible to build mod_cluster for the sources.
 You need a distribution of httpd (at least 2.2.8) or (better) a source tarball of httpd and the sources of mod_cluster.</p>
 </div>
 <div class="sect3">
