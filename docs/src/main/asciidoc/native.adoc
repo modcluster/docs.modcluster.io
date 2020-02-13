@@ -156,7 +156,7 @@ files are placed on a local drive and not an NFS share. (Context: **server confi
 
 **Default:** `$server_root/logs/`
 ++++
-<script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=521:538&footer=minimal"></script>
+<script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=521:538&footer=minimal"></script>
 ++++
 
 === Maxcontext
@@ -165,7 +165,7 @@ The maximum number of application contexts supported by mod_cluster. (Context: *
 
 **Default:**
 ++++
-<script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=55:56&footer=minimal"></script>
+<script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=55:56&footer=minimal"></script>
 ++++
 
 === Maxnode
@@ -174,7 +174,7 @@ That is the maximum number of nodes supported by mod_cluster. (Context: **server
 
 **Default:**
 ++++
-<script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=56:57&footer=minimal"></script>
+<script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=56:57&footer=minimal"></script>
 ++++
 
 === Maxhost
@@ -183,7 +183,7 @@ That is the maximum number of hosts (Aliases) supported by mod_cluster. That is 
 
 **Default:**
 ++++
-<script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=57:58&footer=minimal"></script>
+<script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=57:58&footer=minimal"></script>
 ++++
 
 === Maxsessionid
