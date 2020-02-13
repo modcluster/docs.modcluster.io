@@ -69,12 +69,11 @@ ProxyPass / balancer://mycluster1/[balancer://mycluster1/]
 
 *Default:* 0
 
-*CreateBalancers 1:* When using 1 don't forget to configure the balancer in the ProxyPass directive, because the default is
+NOTE: *CreateBalancers 1:* When using 1 don't forget to configure the balancer in the ProxyPass directive, because the default is
 empty stickysession and `nofailover=Off` and the values received via the MCMP CONFIG message are ignored.
-{: .notice}
 
-*Default: 0* Note https://issues.jboss.org/browse/MODCLUSTER-430[MODCLUSTER-430 &mdash; CreateBalancers behave the same with option 0 or 2]
-{: .notice}
+NOTE: *Default: 0* Note https://issues.jboss.org/browse/MODCLUSTER-430[MODCLUSTER-430 &mdash; CreateBalancers behave the same with option 0 or 2]
+
 
 === UseAlias
 
@@ -85,8 +84,7 @@ Check that the Alias corresponds to the ServerName (See http://labs.jboss.com/fi
 
 *Default:* Off Ignore the Alias information from the nodes.
 
-*Older mod_cluster versions:* Versions older than 1.3.1.Final only accept values 0 and 1 respectively.
-{: .notice}
+NOTE: *Older mod_cluster versions:* Versions older than 1.3.1.Final only accept values 0 and 1 respectively.
 
 === LBstatusRecalTime
 Time interval in seconds for loadbalancing logic to recalculate the status of a node.
