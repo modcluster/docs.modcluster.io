@@ -3326,14 +3326,30 @@ directives because mod_cluster automatically configures which URLs have to be fo
 <div class="paragraph">
 <p><strong>Default:</strong> 0</p>
 </div>
-<div class="paragraph">
-<p><strong>CreateBalancers 1:</strong> When using 1 don&#8217;t forget to configure the balancer in the ProxyPass directive, because the default is
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<strong>CreateBalancers 1:</strong> When using 1 don&#8217;t forget to configure the balancer in the ProxyPass directive, because the default is
 empty stickysession and <code>nofailover=Off</code> and the values received via the MCMP CONFIG message are ignored.
-{: .notice}</p>
+</td>
+</tr>
+</table>
 </div>
-<div class="paragraph">
-<p><strong>Default: 0</strong> Note <a href="https://issues.jboss.org/browse/MODCLUSTER-430">MODCLUSTER-430 &mdash; CreateBalancers behave the same with option 0 or 2</a>
-{: .notice}</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<strong>Default: 0</strong> Note <a href="https://issues.jboss.org/browse/MODCLUSTER-430">MODCLUSTER-430 &mdash; CreateBalancers behave the same with option 0 or 2</a>
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
@@ -3354,9 +3370,17 @@ empty stickysession and <code>nofailover=Off</code> and the values received via 
 <div class="paragraph">
 <p><strong>Default:</strong> Off Ignore the Alias information from the nodes.</p>
 </div>
-<div class="paragraph">
-<p><strong>Older mod_cluster versions:</strong> Versions older than 1.3.1.Final only accept values 0 and 1 respectively.
-{: .notice}</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<strong>Older mod_cluster versions:</strong> Versions older than 1.3.1.Final only accept values 0 and 1 respectively.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
@@ -3457,7 +3481,7 @@ files are placed on a local drive and not an NFS share. (Context: <strong>server
 <div class="paragraph">
 <p><strong>Default:</strong> <code>$server_root/logs/</code></p>
 </div>
-<script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=521:538&footer=minimal"></script>
+<script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=521:538&footer=minimal"></script>
 </div>
 <div class="sect3">
 <h4 id="_maxcontext">4.5.3. Maxcontext</h4>
@@ -3467,7 +3491,7 @@ files are placed on a local drive and not an NFS share. (Context: <strong>server
 <div class="paragraph">
 <p><strong>Default:</strong></p>
 </div>
-<script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=55:56&footer=minimal"></script>
+<script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=55:56&footer=minimal"></script>
 </div>
 <div class="sect3">
 <h4 id="_maxnode">4.5.4. Maxnode</h4>
@@ -3477,7 +3501,7 @@ files are placed on a local drive and not an NFS share. (Context: <strong>server
 <div class="paragraph">
 <p><strong>Default:</strong></p>
 </div>
-<script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=56:57&footer=minimal"></script>
+<script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=56:57&footer=minimal"></script>
 </div>
 <div class="sect3">
 <h4 id="_maxhost">4.5.5. Maxhost</h4>
@@ -3487,7 +3511,7 @@ files are placed on a local drive and not an NFS share. (Context: <strong>server
 <div class="paragraph">
 <p><strong>Default:</strong></p>
 </div>
-<script src="http://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=57:58&footer=minimal"></script>
+<script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=57:58&footer=minimal"></script>
 </div>
 <div class="sect3">
 <h4 id="_maxsessionid">4.5.6. Maxsessionid</h4>
