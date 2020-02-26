@@ -1,8 +1,6 @@
 sudo: false
 dist: trusty
 language: java
-install: mvn -s .travis.maven.settings.xml install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-script: mvn -s .travis.maven.settings.xml install
 matrix:
   include:
     - env: JDK_RELEASE='OracleJDK 8'
