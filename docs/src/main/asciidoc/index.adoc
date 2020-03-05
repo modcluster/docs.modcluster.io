@@ -17,7 +17,7 @@
 
 ifndef::ebook-format[:leveloffset: 1]
 
-(C) 2018-2019 mod_cluster contributors
+(C) 2018-2020 mod_cluster contributors
 
 image::modcluster_logo_600px.png[]
 
