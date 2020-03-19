@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2020-03-15</span>
+<span id="revdate">2020-03-19</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -536,72 +536,72 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#platforms">1.1. Platforms</a></li>
 <li><a href="#advantages">1.2. Advantages</a></li>
-<li><a href="#_requirements">1.3. Requirements</a></li>
-<li><a href="#_limitations">1.4. Limitations</a></li>
-<li><a href="#_downloads">1.5. Downloads</a></li>
-<li><a href="#_configuration">1.6. Configuration</a></li>
-<li><a href="#_migration">1.7. Migration</a></li>
-<li><a href="#_ssl_support">1.8. SSL support</a></li>
+<li><a href="#requirements">1.3. Requirements</a></li>
+<li><a href="#limitations">1.4. Limitations</a></li>
+<li><a href="#downloads">1.5. Downloads</a></li>
+<li><a href="#configuration">1.6. Configuration</a></li>
+<li><a href="#migration">1.7. Migration</a></li>
+<li><a href="#ssl-support">1.8. SSL support</a></li>
 </ul>
 </li>
-<li><a href="#_quick_start_guide">2. Quick Start Guide</a>
+<li><a href="#quick-start-guide">2. Quick Start Guide</a>
 <ul class="sectlevel2">
-<li><a href="#_download_mod_cluster_components">2.1. Download mod_cluster components</a></li>
-<li><a href="#_install_the_httpd_binary">2.2. Install the httpd binary</a></li>
-<li><a href="#_configure_httpd">2.3. Configure httpd</a></li>
-<li><a href="#_install_the_worker_side_binaries">2.4. Install the worker-side binaries</a></li>
-<li><a href="#_configuring_the_server_side">2.5. Configuring the server-side</a></li>
-<li><a href="#_experiment_with_the_load_balancing_demo_application">2.6. Experiment with the Load Balancing Demo Application</a></li>
+<li><a href="#download-mod_cluster-components">2.1. Download mod_cluster components</a></li>
+<li><a href="#install-the-httpd-binary">2.2. Install the httpd binary</a></li>
+<li><a href="#configure-httpd">2.3. Configure httpd</a></li>
+<li><a href="#install-the-worker-side-binaries">2.4. Install the worker-side binaries</a></li>
+<li><a href="#configuring-the-server-side">2.5. Configuring the server-side</a></li>
+<li><a href="#experiment-with-the-load-balancing-demo-application">2.6. Experiment with the Load Balancing Demo Application</a></li>
 </ul>
 </li>
-<li><a href="#_container_integration_configuration">3. Container Integration Configuration</a>
+<li><a href="#container-integration-configuration">3. Container Integration Configuration</a>
 <ul class="sectlevel2">
-<li><a href="#_jboss_as">3.1. JBoss AS</a></li>
-<li><a href="#_jboss_web_tomcat">3.2. JBoss Web &amp; Tomcat</a></li>
-<li><a href="#_as7_modcluster_subsystem_configuration">3.3. AS7 modcluster subsystem Configuration</a></li>
-<li><a href="#_modcluster_subsystem_configuration">3.4. ModCluster Subsystem configuration</a></li>
-<li><a href="#_building_worker_side_components">3.5. Building worker-side Components</a></li>
-<li><a href="#_worker_side_load_metrics">3.6. Worker-side Load Metrics</a></li>
-<li><a href="#_installing_worker_side_components">3.7. Installing Worker-side Components</a></li>
+<li><a href="#jboss-as">3.1. JBoss AS</a></li>
+<li><a href="#jboss-web-tomcat">3.2. JBoss Web &amp; Tomcat</a></li>
+<li><a href="#as7-modcluster-subsystem-configuration">3.3. AS7 modcluster subsystem Configuration</a></li>
+<li><a href="#modcluster-subsystem-configuration">3.4. ModCluster Subsystem configuration</a></li>
+<li><a href="#building-worker-side-components">3.5. Building worker-side Components</a></li>
+<li><a href="#worker-side-load-metrics">3.6. Worker-side Load Metrics</a></li>
+<li><a href="#installing-worker-side-components">3.7. Installing Worker-side Components</a></li>
 </ul>
 </li>
 <li><a href="#httpd">4. httpd configuration</a>
 <ul class="sectlevel2">
-<li><a href="#_apache_httpd_configuration">4.1. Apache httpd configuration</a></li>
-<li><a href="#_mod_proxy_configuration">4.2. mod_proxy configuration</a></li>
-<li><a href="#_mod_slotmemcluster_slotmem_module_configuration">4.3. mod_slotmem/cluster_slotmem_module configuration</a></li>
-<li><a href="#_mod_proxy_cluster">4.4. mod_proxy_cluster</a></li>
-<li><a href="#_mod_manager">4.5. mod_manager</a></li>
-<li><a href="#_minimal_example">4.6. Minimal Example</a></li>
-<li><a href="#_building_httpd_modules">4.7. Building httpd modules</a></li>
-<li><a href="#_installing_httpd_modules">4.8. Installing httpd modules</a></li>
+<li><a href="#apache-httpd-configuration">4.1. Apache httpd configuration</a></li>
+<li><a href="#mod_proxy-configuration">4.2. mod_proxy configuration</a></li>
+<li><a href="#mod_slotmemcluster_slotmem_module-configuration">4.3. mod_slotmem/cluster_slotmem_module configuration</a></li>
+<li><a href="#mod_proxy_cluster">4.4. mod_proxy_cluster</a></li>
+<li><a href="#mod_manager">4.5. mod_manager</a></li>
+<li><a href="#minimal-example">4.6. Minimal Example</a></li>
+<li><a href="#building-httpd-modules">4.7. Building httpd modules</a></li>
+<li><a href="#installing-httpd-modules">4.8. Installing httpd modules</a></li>
 </ul>
 </li>
-<li><a href="#_security_configuration">5. Security configuration</a>
+<li><a href="#security-configuration">5. Security configuration</a>
 <ul class="sectlevel2">
-<li><a href="#_using_ssl_in_mod_cluster">5.1. Using SSL in mod_cluster</a></li>
+<li><a href="#using-ssl-in-mod_cluster">5.1. Using SSL in mod_cluster</a></li>
 </ul>
 </li>
 <li><a href="#demo">6. Load Balancing Demo Application</a>
 <ul class="sectlevel2">
-<li><a href="#_overview">6.1. Overview</a></li>
-<li><a href="#_basic_usage">6.2. Basic Usage</a></li>
-<li><a href="#_client_driver_configuration_options">6.3. Client Driver Configuration Options</a></li>
-<li><a href="#_load_generation_scenarios">6.4. Load Generation Scenarios</a></li>
+<li><a href="#overview-2">6.1. Overview</a></li>
+<li><a href="#basic-usage">6.2. Basic Usage</a></li>
+<li><a href="#client-driver-configuration-options">6.3. Client Driver Configuration Options</a></li>
+<li><a href="#load-generation-scenarios">6.4. Load Generation Scenarios</a></li>
 </ul>
 </li>
-<li><a href="#_faq">7. FAQ</a>
+<li><a href="#faq">7. FAQ</a>
 <ul class="sectlevel2">
-<li><a href="#_what_is_advertise">7.1. What is Advertise</a></li>
-<li><a href="#_what_to_do_if_i_dont_want_to_use_advertise_udp_multicast">7.2. What to do if I don&#8217;t want to use Advertise (UDP multicast)</a></li>
-<li><a href="#_it_is_not_working_what_should_i_do">7.3. It is not working, what should I do?</a></li>
-<li><a href="#_i_started_mod_cluster_and_it_looks_like_its_using_only_one_of_the_workers">7.4. I started mod_cluster and it looks like it&#8217;s using only one of the workers</a></li>
-<li><a href="#_keep_seeing_http1_1_501_method_not_implemented">7.5. Keep seeing "HTTP/1.1 501 Method Not Implemented"</a></li>
-<li><a href="#_redirect_is_not_working_tomcat_jbossweb">7.6. Redirect is not working (Tomcat, JBossWeb):</a></li>
-<li><a href="#_i_have_more_than_one_tomcatjbossweb_connector">7.7. I have more than one Tomcat/JBossWeb Connector</a></li>
-<li><a href="#_chrome_does_not_display_mod_cluster_manager_page">7.8. Chrome does not display /mod_cluster-manager page</a></li>
-<li><a href="#_using_mod_cluster_and_selinux">7.9. Using mod_cluster and SELinux.</a></li>
-<li><a href="#_system_properties_to_modify_behaviour">7.10. System properties to modify behaviour</a></li>
+<li><a href="#what-is-advertise">7.1. What is Advertise</a></li>
+<li><a href="#what-to-do-if-i-dont-want-to-use-advertise-udp-multicast">7.2. What to do if I don&#8217;t want to use Advertise (UDP multicast)</a></li>
+<li><a href="#it-is-not-working-what-should-i-do">7.3. It is not working, what should I do?</a></li>
+<li><a href="#i-started-mod_cluster-and-it-looks-like-its-using-only-one-of-the-workers">7.4. I started mod_cluster and it looks like it&#8217;s using only one of the workers</a></li>
+<li><a href="#keep-seeing-http1-1-501-method-not-implemented">7.5. Keep seeing "HTTP/1.1 501 Method Not Implemented"</a></li>
+<li><a href="#redirect-is-not-working-tomcat-jbossweb">7.6. Redirect is not working (Tomcat, JBossWeb):</a></li>
+<li><a href="#i-have-more-than-one-tomcatjbossweb-connector">7.7. I have more than one Tomcat/JBossWeb Connector</a></li>
+<li><a href="#chrome-does-not-display-mod_cluster-manager-page">7.8. Chrome does not display /mod_cluster-manager page</a></li>
+<li><a href="#using-mod_cluster-and-selinux">7.9. Using mod_cluster and SELinux.</a></li>
+<li><a href="#system-properties-to-modify-behaviour">7.10. System properties to modify behaviour</a></li>
 </ul>
 </li>
 <li><a href="#migration">8. Migration</a>
@@ -628,7 +628,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect1">
-<h2 id="overview">1. Overview</h2>
+<h2 id="overview"><a class="link" href="#overview">1. Overview</a></h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -661,7 +661,7 @@ with mod_proxy enabled. Much of the logic comes from mod_proxy, e.g.
 mod_proxy_ajp provides all the AJP logic needed by mod_cluster.</p>
 </div>
 <div class="sect2">
-<h3 id="platforms">1.1. Platforms</h3>
+<h3 id="platforms"><a class="link" href="#platforms">1.1. Platforms</a></h3>
 <div class="paragraph">
 <p>JBoss already prepares <a href="https://github.com/modcluster/mod_cluster/releases">binary
 packages</a> with httpd
@@ -683,7 +683,7 @@ platforms:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="advantages">1.2. Advantages</h3>
+<h3 id="advantages"><a class="link" href="#advantages">1.2. Advantages</a></h3>
 <div class="paragraph">
 <p>mod_cluster boasts the following advantages over other httpd-based load balancers:</p>
 </div>
@@ -730,9 +730,9 @@ The original concepts are described in a <a href="http://www.jboss.org/community
 </div>
 </div>
 <div class="sect2">
-<h3 id="_requirements">1.3. Requirements</h3>
+<h3 id="requirements"><a class="link" href="#requirements">1.3. Requirements</a></h3>
 <div class="sect3">
-<h4 id="_balancer_side">1.3.1. Balancer side</h4>
+<h4 id="balancer-side"><a class="link" href="#balancer-side">1.3.1. Balancer side</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -742,7 +742,7 @@ The original concepts are described in a <a href="http://www.jboss.org/community
 </div>
 </div>
 <div class="sect3">
-<h4 id="_worker_side">1.3.2. Worker side</h4>
+<h4 id="worker-side"><a class="link" href="#worker-side">1.3.2. Worker side</a></h4>
 <div class="paragraph">
 <p>The mod_cluster container integration module (implemented in Java) is provided for all the following containers:</p>
 </div>
@@ -762,7 +762,7 @@ The original concepts are described in a <a href="http://www.jboss.org/community
 </div>
 </div>
 <div class="sect2">
-<h3 id="_limitations">1.4. Limitations</h3>
+<h3 id="limitations"><a class="link" href="#limitations">1.4. Limitations</a></h3>
 <div class="paragraph">
 <p>mod_cluster uses shared memory to keep the nodes description, the shared memory is created at the start of httpd and the structure of each item is fixed. The following cannot be changed by configuration directives.</p>
 </div>
@@ -805,7 +805,7 @@ The original concepts are described in a <a href="http://www.jboss.org/community
 </div>
 </div>
 <div class="sect2">
-<h3 id="_downloads">1.5. Downloads</h3>
+<h3 id="downloads"><a class="link" href="#downloads">1.5. Downloads</a></h3>
 <div class="paragraph">
 <p>Download the latest <a href="http://mod-cluster.jboss.org/downloads">mod_cluster release</a>.</p>
 </div>
@@ -827,7 +827,7 @@ The original concepts are described in a <a href="http://www.jboss.org/community
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configuration">1.6. Configuration</h3>
+<h3 id="configuration"><a class="link" href="#configuration">1.6. Configuration</a></h3>
 <div class="paragraph">
 <p>If you want to skip the details and just set up a minimal working
 installation of mod_cluster, see the <a href="#Quick_Start_Guide">Quick Start Guide</a>.</p>
@@ -844,7 +844,7 @@ installation of mod_cluster, see the <a href="#Quick_Start_Guide">Quick Start Gu
 </div>
 </div>
 <div class="sect2">
-<h3 id="_migration">1.7. Migration</h3>
+<h3 id="migration"><a class="link" href="#migration">1.7. Migration</a></h3>
 <div class="paragraph">
 <p>Migrating from mod_jk or mod_proxy is fairly straightforward. In general, much of the configuration previously
 found in httpd.conf is now defined in the application server worker nodes.</p>
@@ -861,7 +861,7 @@ found in httpd.conf is now defined in the application server worker nodes.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ssl_support">1.8. SSL support</h3>
+<h3 id="ssl-support"><a class="link" href="#ssl-support">1.8. SSL support</a></h3>
 <div class="paragraph">
 <p>Both the request connections between httpd and the application server nodes, and the feedback channel
 between the nodes and httpd can be secured. The former is achieved via the <a href="#mod_proxy_https">mod_proxy_https module</a>
@@ -887,7 +887,7 @@ Strong cryptography: Please remember that export/import and/or use of strong cry
 </div>
 </div>
 <div class="sect1">
-<h2 id="_quick_start_guide">2. Quick Start Guide</h2>
+<h2 id="quick-start-guide"><a class="link" href="#quick-start-guide">2. Quick Start Guide</a></h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -914,7 +914,7 @@ for example <a href="#UsingSSL">using SSL to secure access</a> to the httpd-side
 <a href="#worker_config">worker-side</a> configuration documentation for the full set of configuration options.</p>
 </div>
 <div class="sect2">
-<h3 id="_download_mod_cluster_components">2.1. Download mod_cluster components</h3>
+<h3 id="download-mod_cluster-components"><a class="link" href="#download-mod_cluster-components">2.1. Download mod_cluster components</a></h3>
 <div class="paragraph">
 <p>Download the latest httpd and java release bundles.
 If there is no pre-built httpd bundle appropriate for your OS or system architecture,
@@ -922,9 +922,9 @@ you can <a href="#nativebuilding">build the binary from source</a>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_install_the_httpd_binary">2.2. Install the httpd binary</h3>
+<h3 id="install-the-httpd-binary"><a class="link" href="#install-the-httpd-binary">2.2. Install the httpd binary</a></h3>
 <div class="sect3">
-<h4 id="_install_the_whole_httpd">2.2.1. Install the whole httpd</h4>
+<h4 id="install-the-whole-httpd"><a class="link" href="#install-the-whole-httpd">2.2.1. Install the whole httpd</a></h4>
 <div class="paragraph">
 <p>The httpd-side bundles are zipped and include a full httpd installation. As they contain already an Apache httpd installation
 you do not need to download Apache httpd. Just extract them in root, e.g.</p>
@@ -940,7 +940,7 @@ unzip mod_cluster-1.3.1.Final-linux2-x64-ssl.zip</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_install_only_the_mod_cluster_modules">2.2.2. Install only the mod_cluster modules</h4>
+<h4 id="install-only-the-mod_cluster-modules"><a class="link" href="#install-only-the-mod_cluster-modules">2.2.2. Install only the mod_cluster modules</a></h4>
 <div class="paragraph">
 <p>If you already have a working httpd install that you would prefer to
 use, you&#8217;ll need to download the bundle named mod_cluster httpd dynamic
@@ -980,7 +980,7 @@ Always check the release notes as to which version was used during the build: mo
 </div>
 </div>
 <div class="sect3">
-<h4 id="_install_in_an_arbitrary_directory">2.2.3. Install in an arbitrary directory</h4>
+<h4 id="install-in-an-arbitrary-directory"><a class="link" href="#install-in-an-arbitrary-directory">2.2.3. Install in an arbitrary directory</a></h4>
 <div class="paragraph">
 <p>There is a script <code>opt/jboss/httpd/sbin/installhome.sh</code> in the httpd bundle distribution that allows reconfiguration of the
 bundle installation so that it can run in user&#8217;s home directory. To do that, simply extract the bundle in your home directory
@@ -989,7 +989,7 @@ and run the script. Once that done, httpd will run on port 8000 and will accept 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_install_in_windows">2.2.4. Install in Windows</h4>
+<h4 id="install-in-windows"><a class="link" href="#install-in-windows">2.2.4. Install in Windows</a></h4>
 <div class="paragraph">
 <p>Unzip the bundle corresponding to your architecture.
 Change to the bin directory of the subfolder <code>httpd-*</code> where you unzipped the bundle and run the installconf.bat shell script.</p>
@@ -1038,7 +1038,7 @@ installconf.bat</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configure_httpd">2.3. Configure httpd</h3>
+<h3 id="configure-httpd"><a class="link" href="#configure-httpd">2.3. Configure httpd</a></h3>
 <div class="paragraph">
 <p>httpd.conf is preconfigured with the Quick Start values. You should adapt the default values to your configuration.]
 There follows an example configuration. If you extracted the download bundle to root as shown above and you are using that
@@ -1092,7 +1092,7 @@ mod_cluster 1.2.x vs mod_cluster 1.3.x: Note that from mod_cluster 1.3.x on, the
 </div>
 </div>
 <div class="sect2">
-<h3 id="_install_the_worker_side_binaries">2.4. Install the worker-side binaries</h3>
+<h3 id="install-the-worker-side-binaries"><a class="link" href="#install-the-worker-side-binaries">2.4. Install the worker-side binaries</a></h3>
 <div class="paragraph">
 <p>First, extract the java libraries distribution to a temporary directory. One can grab the <code>mod_cluster-java-libs-*-bin.zip</code> from
 mod_cluster release. The following text assumes it is extracted to <code>/tmp/mod-cluster</code>.</p>
@@ -1101,7 +1101,7 @@ mod_cluster release. The following text assumes it is extracted to <code>/tmp/mo
 <p>Your next step depends on whether your target server is JBoss AS 5.x, JBoss AS 7.x, JBoss Web/Tomcat 6, 7, 8 or Wildfly (Undertow).</p>
 </div>
 <div class="sect3">
-<h4 id="_installing_in_jboss_as_5_x">2.4.1. Installing in JBoss AS 5.x</h4>
+<h4 id="installing-in-jboss-as-5-x"><a class="link" href="#installing-in-jboss-as-5-x">2.4.1. Installing in JBoss AS 5.x</a></h4>
 <div class="paragraph">
 <p>Assuming \$JBOSS_HOME indicates the root of your JBoss AS install and
 that you want to use mod_cluster in the AS&#8217;s all config:</p>
@@ -1113,7 +1113,7 @@ that you want to use mod_cluster in the AS&#8217;s all config:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_installing_in_tomcat">2.4.2. Installing in Tomcat</h4>
+<h4 id="installing-in-tomcat"><a class="link" href="#installing-in-tomcat">2.4.2. Installing in Tomcat</a></h4>
 <div class="paragraph">
 <p>Assuming $CATALINA_HOME indicates the root of your Tomcat install:</p>
 </div>
@@ -1129,20 +1129,20 @@ that you want to use mod_cluster in the AS&#8217;s all config:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_installing_in_wildfly">2.4.3. Installing in Wildfly</h4>
+<h4 id="installing-in-wildfly"><a class="link" href="#installing-in-wildfly">2.4.3. Installing in Wildfly</a></h4>
 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configuring_the_server_side">2.5. Configuring the server-side</h3>
+<h3 id="configuring-the-server-side"><a class="link" href="#configuring-the-server-side">2.5. Configuring the server-side</a></h3>
 <div class="sect3">
-<h4 id="_configuring_mod_cluster_with_jboss_as_5_x">2.5.1. Configuring mod_cluster with JBoss AS 5.x+</h4>
+<h4 id="configuring-mod_cluster-with-jboss-as-5-x"><a class="link" href="#configuring-mod_cluster-with-jboss-as-5-x">2.5.1. Configuring mod_cluster with JBoss AS 5.x+</a></h4>
 <div class="paragraph">
 <p>No post-installation configuration necessary!</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuring_mod_cluster_with_standalone_jboss_web_or_tomcat">2.5.2. Configuring mod_cluster with standalone JBoss Web or Tomcat</h4>
+<h4 id="configuring-mod_cluster-with-standalone-jboss-web-or-tomcat"><a class="link" href="#configuring-mod_cluster-with-standalone-jboss-web-or-tomcat">2.5.2. Configuring mod_cluster with standalone JBoss Web or Tomcat</a></h4>
 <div class="paragraph">
 <p>Edit the <code>$CATALINA_HOME/conf/server.xml</code> file, adding the following next to the other <code>&lt;Listener/&gt;</code> elements:</p>
 </div>
@@ -1153,7 +1153,7 @@ that you want to use mod_cluster in the AS&#8217;s all config:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_start_httpd">2.5.3. Start httpd</h4>
+<h4 id="start-httpd"><a class="link" href="#start-httpd">2.5.3. Start httpd</a></h4>
 <div class="paragraph">
 <p>To start httpd do the following:</p>
 </div>
@@ -1164,9 +1164,9 @@ that you want to use mod_cluster in the AS&#8217;s all config:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_start_the_back_end_server">2.5.4. Start the back-end server</h4>
+<h4 id="start-the-back-end-server"><a class="link" href="#start-the-back-end-server">2.5.4. Start the back-end server</a></h4>
 <div class="sect4">
-<h5 id="_starting_jboss_as">Starting JBoss AS</h5>
+<h5 id="starting-jboss-as"><a class="link" href="#starting-jboss-as">Starting JBoss AS</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash">cd $JBOSS_HOME/bin
@@ -1175,7 +1175,7 @@ that you want to use mod_cluster in the AS&#8217;s all config:</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_starting_jbossweb_or_tomcat">Starting JBossWeb or Tomcat</h5>
+<h5 id="starting-jbossweb-or-tomcat"><a class="link" href="#starting-jbossweb-or-tomcat">Starting JBossWeb or Tomcat</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash">cd $CATALINA_HOME
@@ -1184,7 +1184,7 @@ that you want to use mod_cluster in the AS&#8217;s all config:</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_set_up_more_back_end_servers">Set up more back-end servers</h5>
+<h5 id="set-up-more-back-end-servers"><a class="link" href="#set-up-more-back-end-servers">Set up more back-end servers</a></h5>
 <div class="paragraph">
 <p>Repeat the back-end server install and configuration steps for each
 server in your cluster.</p>
@@ -1193,7 +1193,7 @@ server in your cluster.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_experiment_with_the_load_balancing_demo_application">2.6. Experiment with the Load Balancing Demo Application</h3>
+<h3 id="experiment-with-the-load-balancing-demo-application"><a class="link" href="#experiment-with-the-load-balancing-demo-application">2.6. Experiment with the Load Balancing Demo Application</a></h3>
 <div class="paragraph">
 <p>See <a href="#demo">demo</a>.</p>
 </div>
@@ -1201,7 +1201,7 @@ server in your cluster.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_container_integration_configuration">3. Container Integration Configuration</h2>
+<h2 id="container-integration-configuration"><a class="link" href="#container-integration-configuration">3. Container Integration Configuration</a></h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -1216,7 +1216,7 @@ server in your cluster.</p>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_jboss_as">3.1. JBoss AS</h3>
+<h3 id="jboss-as"><a class="link" href="#jboss-as">3.1. JBoss AS</a></h3>
 <div class="paragraph">
 <p>mod_cluster is supported in AS7 via the modcluster subsystem See AS7 modcluster subsystem Configuration.</p>
 </div>
@@ -1264,7 +1264,7 @@ following file:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_properties">3.1.1. Configuration Properties</h4>
+<h4 id="configuration-properties"><a class="link" href="#configuration-properties">3.1.1. Configuration Properties</a></h4>
 <div class="paragraph">
 <p>The <code>ModClusterConfig</code> bean enumerates the configuration properties used by mod_cluster.
 For the complete list of configuration properties and their default values, see the chapter entitled
@@ -1282,7 +1282,7 @@ Server-side Configuration Properties.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_tomcat_connector">3.1.2. Tomcat connector</h4>
+<h4 id="tomcat-connector"><a class="link" href="#tomcat-connector">3.1.2. Tomcat connector</a></h4>
 <div class="paragraph">
 <p>Like mod_jk and mod_proxy_balancer, mod_cluster requires a connector in your server.xml to which to forward web requests.
 Unlike mod_jk and mod_proxy_balancer, mod_cluster is not confined to AJP, but can use HTTP as well. While AJP is generally
@@ -1316,7 +1316,7 @@ mod_cluster uses the following algorithm to choose between them:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_node_identity">3.1.3. Node Identity</h4>
+<h4 id="node-identity"><a class="link" href="#node-identity">3.1.3. Node Identity</a></h4>
 <div class="paragraph">
 <p>Like mod_jk and mod_proxy_balancer, mod_cluster identifies each node via a unique
 <a href="http://docs.jboss.org/jbossweb/2.1.x/config/engine.html">jvm route</a>. By default, mod_cluster uses the following algorithm to
@@ -1349,7 +1349,7 @@ The factory generates jvm routes of the form:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_jboss_web_tomcat">3.2. JBoss Web &amp; Tomcat</h3>
+<h3 id="jboss-web-tomcat"><a class="link" href="#jboss-web-tomcat">3.2. JBoss Web &amp; Tomcat</a></h3>
 <div class="paragraph">
 <p>mod_cluster&#8217;s entire configuration for JBoss Web or Tomcat resides entirely within <code>$CATALINA_HOME/conf/server.xml</code>.</p>
 </div>
@@ -1367,7 +1367,7 @@ The factory generates jvm routes of the form:</p>
 </ul>
 </div>
 <div class="sect3">
-<h4 id="_lifecycle_listener">3.2.1. Lifecycle Listener</h4>
+<h4 id="lifecycle-listener"><a class="link" href="#lifecycle-listener">3.2.1. Lifecycle Listener</a></h4>
 <div class="paragraph">
 <p>The entry point for JBoss Web and Tomcat configuration is the ModClusterListener.
 All mod_cluster configuration properties are defined as
@@ -1384,7 +1384,7 @@ the chapter entitled "Server-side Configuration Properties".</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_additional_tomcat_dependencies">3.2.2. Additional Tomcat dependencies</h4>
+<h4 id="additional-tomcat-dependencies"><a class="link" href="#additional-tomcat-dependencies">3.2.2. Additional Tomcat dependencies</a></h4>
 <div class="paragraph">
 <p>mod_cluster uses jboss-logging, which exists in JBoss Web, but not in Tomcat. Consequently, to use mod_cluster with Tomcat,
 it is necessary to add <a href="http://repository.jboss.org/nexus/content/groups/public-jboss/org/jboss/logging/jboss-logging-spi/">jboss-logging-spi.jar</a>
@@ -1393,18 +1393,18 @@ to <code>$CATALINA_HOME/lib</code>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_as7_modcluster_subsystem_configuration">3.3. AS7 modcluster subsystem Configuration</h3>
+<h3 id="as7-modcluster-subsystem-configuration"><a class="link" href="#as7-modcluster-subsystem-configuration">3.3. AS7 modcluster subsystem Configuration</a></h3>
 <div class="paragraph">
 <p>JBoss Application Server 7+ mod_cluster subsystem configuration.</p>
 </div>
 <div class="sect3">
-<h4 id="_modcluster_subsystem_in_jboss_as7">3.3.1. ModCluster Subsystem in JBoss AS7</h4>
+<h4 id="modcluster-subsystem-in-jboss-as7"><a class="link" href="#modcluster-subsystem-in-jboss-as7">3.3.1. ModCluster Subsystem in JBoss AS7</a></h4>
 <div class="paragraph">
 <p>The mod_cluster integration is done via the modcluster subsystem.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_modcluster_subsystem_minimal_configuration">3.3.2. ModCluster Subsystem minimal configuration</h4>
+<h4 id="modcluster-subsystem-minimal-configuration"><a class="link" href="#modcluster-subsystem-minimal-configuration">3.3.2. ModCluster Subsystem minimal configuration</a></h4>
 <div class="paragraph">
 <p>The minimal configuration is having the modcluster <code>schemaLocation</code> in the <code>schemaLocation</code> list:</p>
 </div>
@@ -1427,13 +1427,13 @@ to <code>$CATALINA_HOME/lib</code>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_modcluster_subsystem_configuration">3.4. ModCluster Subsystem configuration</h3>
+<h3 id="modcluster-subsystem-configuration"><a class="link" href="#modcluster-subsystem-configuration">3.4. ModCluster Subsystem configuration</a></h3>
 <div class="sect3">
-<h4 id="_mod_cluster_config_attributes">3.4.1. mod-cluster-config Attributes</h4>
+<h4 id="mod-cluster-config-attributes"><a class="link" href="#mod-cluster-config-attributes">3.4.1. mod-cluster-config Attributes</a></h4>
 
 </div>
 <div class="sect3">
-<h4 id="_proxy_discovery_configuration">3.4.2. Proxy Discovery Configuration</h4>
+<h4 id="proxy-discovery-configuration"><a class="link" href="#proxy-discovery-configuration">3.4.2. Proxy Discovery Configuration</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1492,7 +1492,7 @@ to <code>$CATALINA_HOME/lib</code>.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_proxy_configuration">3.4.3. Proxy Configuration</h4>
+<h4 id="proxy-configuration"><a class="link" href="#proxy-configuration">3.4.3. Proxy Configuration</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1571,11 +1571,11 @@ to <code>$CATALINA_HOME/lib</code>.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_ssl_configuration">3.4.4. SSL Configuration</h4>
+<h4 id="ssl-configuration"><a class="link" href="#ssl-configuration">3.4.4. SSL Configuration</a></h4>
 
 </div>
 <div class="sect3">
-<h4 id="_simple_load_provider_attributes">3.4.5. simple-load-provider Attributes</h4>
+<h4 id="simple-load-provider-attributes"><a class="link" href="#simple-load-provider-attributes">3.4.5. simple-load-provider Attributes</a></h4>
 <div class="paragraph">
 <p>The simple load provider always sends the same load factor. Its purpose is testing, experiments and special scenarios such as hot stand-by.</p>
 </div>
@@ -1611,7 +1611,7 @@ to <code>$CATALINA_HOME/lib</code>.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_dynamic_load_provider_attributes">3.4.6. dynamic-load-provider Attributes</h4>
+<h4 id="dynamic-load-provider-attributes"><a class="link" href="#dynamic-load-provider-attributes">3.4.6. dynamic-load-provider Attributes</a></h4>
 <div class="paragraph">
 <p>The dynamic load provide allows to have <code>load-metric</code> as well as <code>custom-load-metric</code> defined. For example:</p>
 </div>
@@ -1664,7 +1664,7 @@ to <code>$CATALINA_HOME/lib</code>.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_load_metric_configuration">3.4.7. load-metric Configuration</h4>
+<h4 id="load-metric-configuration"><a class="link" href="#load-metric-configuration">3.4.7. load-metric Configuration</a></h4>
 <div class="paragraph">
 <p>The load-metric are the "classes" collecting information to allow computation of the load factor sent to httpd.</p>
 </div>
@@ -1701,7 +1701,7 @@ to <code>$CATALINA_HOME/lib</code>.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_out_of_box_load_metric_types">3.4.8. Out-of-box load metric types</h4>
+<h4 id="out-of-box-load-metric-types"><a class="link" href="#out-of-box-load-metric-types">3.4.8. Out-of-box load metric types</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1754,7 +1754,7 @@ to <code>$CATALINA_HOME/lib</code>.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_custom_load_metric_configuration">3.4.9. custom-load-metric Configuration</h4>
+<h4 id="custom-load-metric-configuration"><a class="link" href="#custom-load-metric-configuration">3.4.9. custom-load-metric Configuration</a></h4>
 <div class="paragraph">
 <p>The <code>custom-load-metric</code> are for user defined "classes" collecting information.
 They are like the <code>load-metric</code> except <code>type</code> is replaced by <code>class</code>:</p>
@@ -1785,7 +1785,7 @@ They are like the <code>load-metric</code> except <code>type</code> is replaced 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_load_metric_configuration_with_the_jboss_as7_cli">3.4.10. load-metric Configuration with the JBoss AS7 CLI</h4>
+<h4 id="load-metric-configuration-with-the-jboss-as7-cli"><a class="link" href="#load-metric-configuration-with-the-jboss-as7-cli">3.4.10. load-metric Configuration with the JBoss AS7 CLI</a></h4>
 <div class="paragraph">
 <p>The <code>load-metric</code> have 4 commands to add and remove metrics</p>
 </div>
@@ -1828,9 +1828,9 @@ They are like the <code>load-metric</code> except <code>type</code> is replaced 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_building_worker_side_components">3.5. Building worker-side Components</h3>
+<h3 id="building-worker-side-components"><a class="link" href="#building-worker-side-components">3.5. Building worker-side Components</a></h3>
 <div class="sect3">
-<h4 id="_requirements_2">3.5.1. Requirements</h4>
+<h4 id="requirements-2"><a class="link" href="#requirements-2">3.5.1. Requirements</a></h4>
 <div class="paragraph">
 <p>Building mod_cluster&#8217;s worker-side components from source requires the following tools:</p>
 </div>
@@ -1846,7 +1846,7 @@ They are like the <code>load-metric</code> except <code>type</code> is replaced 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_building">3.5.2. Building</h4>
+<h4 id="building"><a class="link" href="#building">3.5.2. Building</a></h4>
 <div class="paragraph">
 <p>Steps to build:</p>
 </div>
@@ -1885,7 +1885,7 @@ Some unit tests require UDP port 23365. Make sure your local firewall allows the
 </div>
 </div>
 <div class="sect3">
-<h4 id="_built_artifacts">3.5.3. Built Artifacts</h4>
+<h4 id="built-artifacts"><a class="link" href="#built-artifacts">3.5.3. Built Artifacts</a></h4>
 <div class="paragraph">
 <p>The build produces the following output in the target directory:</p>
 </div>
@@ -1915,13 +1915,13 @@ The full distribution tarball; includes the aforementioned elements.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_worker_side_configuration_properties">3.5.4. worker-side Configuration Properties</h4>
+<h4 id="worker-side-configuration-properties"><a class="link" href="#worker-side-configuration-properties">3.5.4. worker-side Configuration Properties</a></h4>
 <div class="paragraph">
 <p>The tables below enumerate the configuration properties available to an application server node.
 The location for these properties depends on how mod_cluster is configured.</p>
 </div>
 <div class="sect4">
-<h5 id="_proxy_discovery_configuration_2">Proxy Discovery Configuration</h5>
+<h5 id="proxy-discovery-configuration-2"><a class="link" href="#proxy-discovery-configuration-2">Proxy Discovery Configuration</a></h5>
 <div class="paragraph">
 <p>The list of proxies from which an application expects to receive AJP
 connections is either defined statically, via the addresses defined in the proxyList
@@ -1934,7 +1934,7 @@ from having to define static, environment-specific configuration values.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_session_draining_strategy">Session draining strategy</h5>
+<h5 id="session-draining-strategy"><a class="link" href="#session-draining-strategy">Session draining strategy</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 16.6666%;">
@@ -1983,7 +1983,7 @@ from having to define static, environment-specific configuration values.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_proxies">Proxies</h5>
+<h5 id="proxies"><a class="link" href="#proxies">Proxies</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 14.2857%;">
@@ -2035,7 +2035,7 @@ from having to define static, environment-specific configuration values.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_excluded_contexts">Excluded contexts</h5>
+<h5 id="excluded-contexts"><a class="link" href="#excluded-contexts">Excluded contexts</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 14.2857%;">
@@ -2075,7 +2075,7 @@ If no host is indicated, it is assumed to be the default host of the server (e.g
 </div>
 </div>
 <div class="sect4">
-<h5 id="_auto_enable_contexts">Auto Enable Contexts</h5>
+<h5 id="auto-enable-contexts"><a class="link" href="#auto-enable-contexts">Auto Enable Contexts</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 16.6666%;">
@@ -2111,7 +2111,7 @@ If no host is indicated, it is assumed to be the default host of the server (e.g
 </div>
 </div>
 <div class="sect4">
-<h5 id="_stop_context_timeout">Stop context timeout</h5>
+<h5 id="stop-context-timeout"><a class="link" href="#stop-context-timeout">Stop context timeout</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 16.6666%;">
@@ -2147,7 +2147,7 @@ If no host is indicated, it is assumed to be the default host of the server (e.g
 </div>
 </div>
 <div class="sect4">
-<h5 id="_stop_context_timeout_unit">Stop context timeout unit</h5>
+<h5 id="stop-context-timeout-unit"><a class="link" href="#stop-context-timeout-unit">Stop context timeout unit</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 16.6666%;">
@@ -2183,7 +2183,7 @@ If no host is indicated, it is assumed to be the default host of the server (e.g
 </div>
 </div>
 <div class="sect4">
-<h5 id="_proxy_url">Proxy URL</h5>
+<h5 id="proxy-url"><a class="link" href="#proxy-url">Proxy URL</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 16.6666%;">
@@ -2219,7 +2219,7 @@ If no host is indicated, it is assumed to be the default host of the server (e.g
 </div>
 </div>
 <div class="sect4">
-<h5 id="_socket_timeout">Socket timeout</h5>
+<h5 id="socket-timeout"><a class="link" href="#socket-timeout">Socket timeout</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 16.6666%;">
@@ -2255,7 +2255,7 @@ If no host is indicated, it is assumed to be the default host of the server (e.g
 </div>
 </div>
 <div class="sect4">
-<h5 id="_advertise">Advertise</h5>
+<h5 id="advertise"><a class="link" href="#advertise">Advertise</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
@@ -2289,7 +2289,7 @@ This can be used either in concert or in place of a static proxies.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_advertise_socket_group">Advertise socket group</h5>
+<h5 id="advertise-socket-group"><a class="link" href="#advertise-socket-group">Advertise socket group</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 16.6666%;">
@@ -2335,7 +2335,7 @@ and <a href="https://issues.jboss.org/browse/MODCLUSTER-495">MODCLUSTER-495</a> 
 </div>
 </div>
 <div class="sect4">
-<h5 id="_advertise_security_key">Advertise security key</h5>
+<h5 id="advertise-security-key"><a class="link" href="#advertise-security-key">Advertise security key</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
@@ -2369,7 +2369,7 @@ Beware of <a href="https://issues.jboss.org/browse/MODCLUSTER-446">MODCLUSTER-44
 </div>
 </div>
 <div class="sect4">
-<h5 id="_advertise_thread_factory">Advertise thread factory</h5>
+<h5 id="advertise-thread-factory"><a class="link" href="#advertise-thread-factory">Advertise thread factory</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
@@ -2402,7 +2402,7 @@ Beware of <a href="https://issues.jboss.org/browse/MODCLUSTER-446">MODCLUSTER-44
 </div>
 </div>
 <div class="sect4">
-<h5 id="_jvmroute_factory">JVMRoute factory</h5>
+<h5 id="jvmroute-factory"><a class="link" href="#jvmroute-factory">JVMRoute factory</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
@@ -2438,7 +2438,7 @@ Wildfly with Undertow web subsystem uses Undertow&#8217;s <code>instance-id</cod
 </div>
 </div>
 <div class="sect3">
-<h4 id="_proxy_configuration_2">3.5.5. Proxy Configuration</h4>
+<h4 id="proxy-configuration-2"><a class="link" href="#proxy-configuration-2">3.5.5. Proxy Configuration</a></h4>
 <div class="paragraph">
 <p>The following configuration values are sent to proxies during server
 startup, when a proxy is detected via the advertise mechanism, or during
@@ -2571,7 +2571,7 @@ at the socket level.
 </table>
 </div>
 <div class="sect4">
-<h5 id="_ssl_configuration_2">SSL Configuration</h5>
+<h5 id="ssl-configuration-2"><a class="link" href="#ssl-configuration-2">SSL Configuration</a></h5>
 <div class="paragraph">
 <p>The communication channel between application servers and httpd proxies
 uses HTTP by default. This channel can be secured using HTTPS by setting
@@ -2705,7 +2705,7 @@ This HTTP/HTTPS channel should not be confused with the processing of HTTP/HTTPS
 </table>
 </div>
 <div class="sect4">
-<h5 id="_load_configuration_for_jboss_web_and_tomcat">Load Configuration for JBoss Web and Tomcat</h5>
+<h5 id="load-configuration-for-jboss-web-and-tomcat"><a class="link" href="#load-configuration-for-jboss-web-and-tomcat">Load Configuration for JBoss Web and Tomcat</a></h5>
 <div class="paragraph">
 <p>Additional configuration properties used when mod_cluster is configured
 in JBoss Web standalone or Tomcat.</p>
@@ -2755,7 +2755,7 @@ in JBoss Web standalone or Tomcat.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_worker_side_load_metrics">3.6. Worker-side Load Metrics</h3>
+<h3 id="worker-side-load-metrics"><a class="link" href="#worker-side-load-metrics">3.6. Worker-side Load Metrics</a></h3>
 <div class="paragraph">
 <p>A major feature of mod_cluster is the ability to use server-side load
 metrics to determine how best to balance requests.</p>
@@ -2867,9 +2867,9 @@ load. Therefore, the final load factor sent to the load balancer</p>
 LoadMetrics are available out of the box:</p>
 </div>
 <div class="sect3">
-<h4 id="_web_container_metrics">3.6.1. Web Container metrics</h4>
+<h4 id="web-container-metrics"><a class="link" href="#web-container-metrics">3.6.1. Web Container metrics</a></h4>
 <div class="sect4">
-<h5 id="active-sessions-load-metric">Active Sessions Load Metric</h5>
+<h5 id="active-sessions-load-metric"><a class="link" href="#active-sessions-load-metric">Active Sessions Load Metric</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -2906,7 +2906,7 @@ LoadMetrics are available out of the box:</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="busy-connectors-load-metric">Busy Connectors Load Metric</h5>
+<h5 id="busy-connectors-load-metric"><a class="link" href="#busy-connectors-load-metric">Busy Connectors Load Metric</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -2945,7 +2945,7 @@ LoadMetrics are available out of the box:</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="receive-traffic-load-metric">Receive Traffic Load Metric</h5>
+<h5 id="receive-traffic-load-metric"><a class="link" href="#receive-traffic-load-metric">Receive Traffic Load Metric</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -2987,7 +2987,7 @@ LoadMetrics are available out of the box:</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="send-traffic-load-metric">Send Traffic Load Metric</h5>
+<h5 id="send-traffic-load-metric"><a class="link" href="#send-traffic-load-metric">Send Traffic Load Metric</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -3022,7 +3022,7 @@ LoadMetrics are available out of the box:</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_request_count_load_metric">Request Count Load Metric</h5>
+<h5 id="request-count-load-metric"><a class="link" href="#request-count-load-metric">Request Count Load Metric</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -3058,9 +3058,9 @@ LoadMetrics are available out of the box:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_systemjvm_metrics">3.6.2. System/JVM metrics</h4>
+<h4 id="systemjvm-metrics"><a class="link" href="#systemjvm-metrics">3.6.2. System/JVM metrics</a></h4>
 <div class="sect4">
-<h5 id="_average_system_load_metric">Average System Load Metric</h5>
+<h5 id="average-system-load-metric"><a class="link" href="#average-system-load-metric">Average System Load Metric</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -3097,7 +3097,7 @@ LoadMetrics are available out of the box:</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="heap-memory-usage-load-metric">Heap Memory Usage Load Metric</h5>
+<h5 id="heap-memory-usage-load-metric"><a class="link" href="#heap-memory-usage-load-metric">Heap Memory Usage Load Metric</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -3118,9 +3118,9 @@ LoadMetrics are available out of the box:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_other_metrics">3.6.3. Other metrics</h4>
+<h4 id="other-metrics"><a class="link" href="#other-metrics">3.6.3. Other metrics</a></h4>
 <div class="sect4">
-<h5 id="connection-pool-usage-load-metric">ConnectionPoolUsageLoadMetric</h5>
+<h5 id="connection-pool-usage-load-metric"><a class="link" href="#connection-pool-usage-load-metric">ConnectionPoolUsageLoadMetric</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -3155,7 +3155,7 @@ LoadMetrics are available out of the box:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_installing_worker_side_components">3.7. Installing Worker-side Components</h3>
+<h3 id="installing-worker-side-components"><a class="link" href="#installing-worker-side-components">3.7. Installing Worker-side Components</a></h3>
 <div class="paragraph">
 <p>First, extract the server-side binary to a temporary directory. The
 following assumes it was extracted to /tmp/mod_cluster</p>
@@ -3165,7 +3165,7 @@ following assumes it was extracted to /tmp/mod_cluster</p>
 JBossWeb/Tomcat.</p>
 </div>
 <div class="sect3">
-<h4 id="_installing_in_jboss_as_6_0_0_m1_and_up">3.7.1. Installing in JBoss AS 6.0.0.M1 and up</h4>
+<h4 id="installing-in-jboss-as-6-0-0-m1-and-up"><a class="link" href="#installing-in-jboss-as-6-0-0-m1-and-up">3.7.1. Installing in JBoss AS 6.0.0.M1 and up</a></h4>
 <div class="paragraph">
 <p>You don&#8217;t need to do anything to install the java-side binaries in AS
 6.x; it&#8217;s part of the AS distribution&#8217;s default, standard and all
@@ -3173,7 +3173,7 @@ configurations.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_installing_in_jboss_as_5_x_2">3.7.2. Installing in JBoss AS 5.x</h4>
+<h4 id="installing-in-jboss-as-5-x-2"><a class="link" href="#installing-in-jboss-as-5-x-2">3.7.2. Installing in JBoss AS 5.x</a></h4>
 <div class="paragraph">
 <p>Assuming \$JBOSS_HOME indicates the root of your JBoss AS install and
 that you want to use mod_cluster in the AS&#8217;s all config:</p>
@@ -3185,7 +3185,7 @@ that you want to use mod_cluster in the AS&#8217;s all config:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_installing_in_tomcat_2">3.7.3. Installing in Tomcat</h4>
+<h4 id="installing-in-tomcat-2"><a class="link" href="#installing-in-tomcat-2">3.7.3. Installing in Tomcat</a></h4>
 <div class="paragraph">
 <p>Assuming <code>$CATALINA_HOME</code> indicates the root of your Tomcat install:</p>
 </div>
@@ -3218,7 +3218,7 @@ cp /tmp/mod_cluster/JBossWeb-Tomcat/lib/mod_cluster-core* $CATALINA_HOME/lib/</c
 </div>
 </div>
 <div class="sect1">
-<h2 id="httpd">4. httpd configuration</h2>
+<h2 id="httpd"><a class="link" href="#httpd">4. httpd configuration</a></h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -3233,7 +3233,7 @@ cp /tmp/mod_cluster/JBossWeb-Tomcat/lib/mod_cluster-core* $CATALINA_HOME/lib/</c
 </table>
 </div>
 <div class="sect2">
-<h3 id="_apache_httpd_configuration">4.1. Apache httpd configuration</h3>
+<h3 id="apache-httpd-configuration"><a class="link" href="#apache-httpd-configuration">4.1. Apache httpd configuration</a></h3>
 <div class="paragraph">
 <p>You need to load the modules that are needed for mod_cluster for example:</p>
 </div>
@@ -3286,22 +3286,22 @@ customer wants to do.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_mod_proxy_configuration">4.2. mod_proxy configuration</h3>
+<h3 id="mod_proxy-configuration"><a class="link" href="#mod_proxy-configuration">4.2. mod_proxy configuration</a></h3>
 <div class="paragraph">
 <p>mod_proxy directives like ProxyIOBufferSize could be used to configure mod_cluster. There is no need to use ProxyPass
 directives because mod_cluster automatically configures which URLs have to be forwarded to JBossWEB.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_mod_slotmemcluster_slotmem_module_configuration">4.3. mod_slotmem/cluster_slotmem_module configuration</h3>
+<h3 id="mod_slotmemcluster_slotmem_module-configuration"><a class="link" href="#mod_slotmemcluster_slotmem_module-configuration">4.3. mod_slotmem/cluster_slotmem_module configuration</a></h3>
 <div class="paragraph">
 <p>The actual version does not require any configuration directives.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_mod_proxy_cluster">4.4. mod_proxy_cluster</h3>
+<h3 id="mod_proxy_cluster"><a class="link" href="#mod_proxy_cluster">4.4. mod_proxy_cluster</a></h3>
 <div class="sect3">
-<h4 id="_createbalancers">4.4.1. CreateBalancers</h4>
+<h4 id="createbalancers"><a class="link" href="#createbalancers">4.4.1. CreateBalancers</a></h4>
 <div class="paragraph">
 <p>CreateBalancers define how balancers are created in the httpd VirtualHosts, this is to allow directives like:</p>
 </div>
@@ -3353,7 +3353,7 @@ empty stickysession and <code>nofailover=Off</code> and the values received via 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_usealias">4.4.2. UseAlias</h4>
+<h4 id="usealias"><a class="link" href="#usealias">4.4.2. UseAlias</a></h4>
 <div class="paragraph">
 <p>Check that the Alias corresponds to the ServerName (See <a href="http://labs.jboss.com/file-access/default/members/jbossweb/freezone/docs/latest/config/host.html">Host Name Aliases</a>).</p>
 </div>
@@ -3384,7 +3384,7 @@ empty stickysession and <code>nofailover=Off</code> and the values received via 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_lbstatusrecaltime">4.4.3. LBstatusRecalTime</h4>
+<h4 id="lbstatusrecaltime"><a class="link" href="#lbstatusrecaltime">4.4.3. LBstatusRecalTime</a></h4>
 <div class="paragraph">
 <p>Time interval in seconds for loadbalancing logic to recalculate the status of a node.</p>
 </div>
@@ -3410,7 +3410,7 @@ calculation logics.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_waitforremove">4.4.4. WaitForRemove</h4>
+<h4 id="waitforremove"><a class="link" href="#waitforremove">4.4.4. WaitForRemove</a></h4>
 <div class="paragraph">
 <p>Time in seconds before a removed node is forgotten by httpd.</p>
 </div>
@@ -3419,7 +3419,7 @@ calculation logics.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_proxypassmatchproxypass">4.4.5. ProxyPassMatch/ProxyPass</h4>
+<h4 id="proxypassmatchproxypass"><a class="link" href="#proxypassmatchproxypass">4.4.5. ProxyPassMatch/ProxyPass</a></h4>
 <div class="paragraph">
 <p>ProxyPassMatch and ProxyPass are mod_proxy directives that when using <code>!</code> (instead the back-end url) prevent to
 reverse-proxy in the path. This could be used allow httpd to serve static information like images.</p>
@@ -3434,7 +3434,7 @@ reverse-proxy in the path. This could be used allow httpd to serve static inform
 </div>
 </div>
 <div class="sect3">
-<h4 id="_enableoptions">4.4.6. EnableOptions</h4>
+<h4 id="enableoptions"><a class="link" href="#enableoptions">4.4.6. EnableOptions</a></h4>
 <div class="paragraph">
 <p>Use <code>OPTIONS</code> method to periodically check the active connection. Fulfils the same role as the <code>CPING/CPONG</code> used by AJP
 but for HTTP/HTTPS connections. The endpoint needs to implement at least HTTP/1.1.</p>
@@ -3455,13 +3455,13 @@ but for HTTP/HTTPS connections. The endpoint needs to implement at least HTTP/1.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_mod_manager">4.5. mod_manager</h3>
+<h3 id="mod_manager"><a class="link" href="#mod_manager">4.5. mod_manager</a></h3>
 <div class="paragraph">
 <p>The Context of a mod_manger directive is VirtualHost except mentioned otherwise. <strong>server config</strong> means that it must be outside a
 VirtualHost configuration. If not an error message will be displayed and httpd will not start.</p>
 </div>
 <div class="sect3">
-<h4 id="_enablemcpmreceive">4.5.1. EnableMCPMReceive</h4>
+<h4 id="enablemcpmreceive"><a class="link" href="#enablemcpmreceive">4.5.1. EnableMCPMReceive</a></h4>
 <div class="paragraph">
 <p>EnableMCPMReceive &mdash; allow the VirtualHost to receive mod_cluster management protocol (MCMP) messages. You need one
 EnableMCPMReceive in your httpd configuration to allow mod_cluster to
@@ -3472,7 +3472,7 @@ work, put it in the VirtualHost where you configure advertise.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_memmanagerfile">4.5.2. MemManagerFile</h4>
+<h4 id="memmanagerfile"><a class="link" href="#memmanagerfile">4.5.2. MemManagerFile</a></h4>
 <div class="paragraph">
 <p>That is the base name for the names mod_manager will use to store configuration, generate keys for shared memory or lock
 files. That must be an absolute path name; the directories will created if needed. It is highly recommended that those
@@ -3484,7 +3484,7 @@ files are placed on a local drive and not an NFS share. (Context: <strong>server
 <script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=521:538&footer=minimal"></script>
 </div>
 <div class="sect3">
-<h4 id="_maxcontext">4.5.3. Maxcontext</h4>
+<h4 id="maxcontext"><a class="link" href="#maxcontext">4.5.3. Maxcontext</a></h4>
 <div class="paragraph">
 <p>The maximum number of application contexts supported by mod_cluster. (Context: <strong>server config</strong>)</p>
 </div>
@@ -3494,7 +3494,7 @@ files are placed on a local drive and not an NFS share. (Context: <strong>server
 <script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=55:56&footer=minimal"></script>
 </div>
 <div class="sect3">
-<h4 id="_maxnode">4.5.4. Maxnode</h4>
+<h4 id="maxnode"><a class="link" href="#maxnode">4.5.4. Maxnode</a></h4>
 <div class="paragraph">
 <p>That is the maximum number of nodes supported by mod_cluster. (Context: <strong>server config</strong>)</p>
 </div>
@@ -3504,7 +3504,7 @@ files are placed on a local drive and not an NFS share. (Context: <strong>server
 <script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=56:57&footer=minimal"></script>
 </div>
 <div class="sect3">
-<h4 id="_maxhost">4.5.5. Maxhost</h4>
+<h4 id="maxhost"><a class="link" href="#maxhost">4.5.5. Maxhost</a></h4>
 <div class="paragraph">
 <p>That is the maximum number of hosts (Aliases) supported by mod_cluster. That is also the max number of balancers. (Context: <strong>server config</strong>)</p>
 </div>
@@ -3514,7 +3514,7 @@ files are placed on a local drive and not an NFS share. (Context: <strong>server
 <script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=57:58&footer=minimal"></script>
 </div>
 <div class="sect3">
-<h4 id="_maxsessionid">4.5.6. Maxsessionid</h4>
+<h4 id="maxsessionid"><a class="link" href="#maxsessionid">4.5.6. Maxsessionid</a></h4>
 <div class="paragraph">
 <p>Maxsessionid: That is the number of active sessionid we store to give
 number of active sessions in the mod_cluster-manager handler. A session
@@ -3526,7 +3526,7 @@ session in 5 minutes. (Context: server config)</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_maxmcmpmaxmesssize">4.5.7. MaxMCMPMaxMessSize</h4>
+<h4 id="maxmcmpmaxmesssize"><a class="link" href="#maxmcmpmaxmesssize">4.5.7. MaxMCMPMaxMessSize</a></h4>
 <div class="paragraph">
 <p>MaxMCMPMaxMessSize: Maximum size of MCMP messages. from other Max
 directives.</p>
@@ -3536,7 +3536,7 @@ directives.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_managerbalancername">4.5.8. ManagerBalancerName</h4>
+<h4 id="managerbalancername"><a class="link" href="#managerbalancername">4.5.8. ManagerBalancerName</a></h4>
 <div class="paragraph">
 <p>ManagerBalancerName: That is the name of balancer to use when the JBoss
 AS/JBossWeb/Tomcat doesn&#8217;t provide a balancer name.</p>
@@ -3546,7 +3546,7 @@ AS/JBossWeb/Tomcat doesn&#8217;t provide a balancer name.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_persistslots">4.5.9. PersistSlots</h4>
+<h4 id="persistslots"><a class="link" href="#persistslots">4.5.9. PersistSlots</a></h4>
 <div class="paragraph">
 <p>PersistSlots: Tell mod_slotmem to persist the nodes, Alias and Context
 in files. (Context: server config)</p>
@@ -3556,7 +3556,7 @@ in files. (Context: server config)</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_checknonce">4.5.10. CheckNonce</h4>
+<h4 id="checknonce"><a class="link" href="#checknonce">4.5.10. CheckNonce</a></h4>
 <div class="paragraph">
 <p>CheckNonce: Switch check of nonce when using mod_cluster-manager
 handler on | off Since 1.1.0.CR1</p>
@@ -3566,7 +3566,7 @@ handler on | off Since 1.1.0.CR1</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_allowdisplay">4.5.11. AllowDisplay</h4>
+<h4 id="allowdisplay"><a class="link" href="#allowdisplay">4.5.11. AllowDisplay</a></h4>
 <div class="paragraph">
 <p>AllowDisplay: Switch additional display on mod_cluster-manager main
 page on | off Since 1.1.0.GA</p>
@@ -3576,7 +3576,7 @@ page on | off Since 1.1.0.GA</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_allowcmd">4.5.12. AllowCmd</h4>
+<h4 id="allowcmd"><a class="link" href="#allowcmd">4.5.12. AllowCmd</a></h4>
 <div class="paragraph">
 <p>AllowCmd: Allow commands using mod_cluster-manager URL on | off Since
 mod_cluster 1.1.0.GA</p>
@@ -3586,7 +3586,7 @@ mod_cluster 1.1.0.GA</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_reducedisplay">4.5.13. ReduceDisplay</h4>
+<h4 id="reducedisplay"><a class="link" href="#reducedisplay">4.5.13. ReduceDisplay</a></h4>
 <div class="paragraph">
 <p>ReduceDisplay - Reduce the information the main mod_cluster-manager
 page to allow more nodes in the page. on | off</p>
@@ -3596,7 +3596,7 @@ page to allow more nodes in the page. on | off</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_sethandler_mod_cluster_manager">4.5.14. SetHandler mod_cluster-manager</h4>
+<h4 id="sethandler-mod_cluster-manager"><a class="link" href="#sethandler-mod_cluster-manager">4.5.14. SetHandler mod_cluster-manager</a></h4>
 <div class="paragraph">
 <p>SetHandler mod_cluster-manager: That is the handler to display the node
 mod_cluster sees from the cluster. It displays the information about
@@ -3641,7 +3641,7 @@ field is not present when Maxsessionid is zero.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_mod_advertise">4.5.15. mod_advertise</h4>
+<h4 id="mod_advertise"><a class="link" href="#mod_advertise">4.5.15. mod_advertise</a></h4>
 <div class="paragraph">
 <p>mod_advertise uses multicast packets to advertise the VirtualHost where it is configured that must be the same VirtualHost
 where mod_manager is defined. Of course at least one mod_advertise must be in the VirtualHost to allow mod_cluster to find
@@ -3649,7 +3649,7 @@ the right IP and port to give to the ClusterListener.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_serveradvertise">4.5.16. ServerAdvertise</h4>
+<h4 id="serveradvertise"><a class="link" href="#serveradvertise">4.5.16. ServerAdvertise</a></h4>
 <div class="paragraph">
 <p>ServerAdvertise On: Use the advertise mechanism to tell the JBoss
 AS/JBossWeb/Tomcat to whom it should send the cluster information.</p>
@@ -3668,7 +3668,7 @@ the VirtualHost)</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_advertisegroup">4.5.17. AdvertiseGroup</h4>
+<h4 id="advertisegroup"><a class="link" href="#advertisegroup">4.5.17. AdvertiseGroup</a></h4>
 <div class="paragraph">
 <p>AdvertiseGroup IP:port: That is the multicast address to use (something like 232.0.0.2:8888 for example).
 IP should correspond to AdvertiseGroupAddress and port to AdvertisePort in the JBoss AS/JBossWeb/Tomcat configuration.
@@ -3680,7 +3680,7 @@ is the value passed via the -u. If port is missing the default port will be used
 </div>
 </div>
 <div class="sect3">
-<h4 id="_advertisefrequency">4.5.18. AdvertiseFrequency</h4>
+<h4 id="advertisefrequency"><a class="link" href="#advertisefrequency">4.5.18. AdvertiseFrequency</a></h4>
 <div class="paragraph">
 <p>AdvertiseFrequency seconds[.miliseconds]: Time between the multicast
 messages advertising the IP and port.</p>
@@ -3690,7 +3690,7 @@ messages advertising the IP and port.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_advertisesecuritykey">4.5.19. AdvertiseSecurityKey</h4>
+<h4 id="advertisesecuritykey"><a class="link" href="#advertisesecuritykey">4.5.19. AdvertiseSecurityKey</a></h4>
 <div class="paragraph">
 <p>AdvertiseSecurityKey value: key string used to verify advertisements checksums. If configured on either side the verification
 is required. Both sides must use the same security key.</p>
@@ -3700,7 +3700,7 @@ is required. Both sides must use the same security key.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_advertisemanagerurl">4.5.20. AdvertiseManagerUrl</h4>
+<h4 id="advertisemanagerurl"><a class="link" href="#advertisemanagerurl">4.5.20. AdvertiseManagerUrl</a></h4>
 <div class="paragraph">
 <p>AdvertiseManagerUrl value: Not used in this version (It is sent in the X-Manager-Url: value header). That is the URL that
 JBoss AS/JBossWeb/Tomcat should use to send information to mod_cluster</p>
@@ -3710,7 +3710,7 @@ JBoss AS/JBossWeb/Tomcat should use to send information to mod_cluster</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_advertisebindaddress">4.5.21. AdvertiseBindAddress</h4>
+<h4 id="advertisebindaddress"><a class="link" href="#advertisebindaddress">4.5.21. AdvertiseBindAddress</a></h4>
 <div class="paragraph">
 <p>AdvertiseBindAddress IP:port: That is the address and port httpd is bind to send the multicast messages.
 This allow to specify an address on multi IP address boxes.</p>
@@ -3721,13 +3721,13 @@ This allow to specify an address on multi IP address boxes.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_minimal_example">4.6. Minimal Example</h3>
+<h3 id="minimal-example"><a class="link" href="#minimal-example">4.6. Minimal Example</a></h3>
 <div class="paragraph">
 <p>Beware of the different names of <code>mod_cluster_slotmem.so</code> and <code>mod_slotmem.so</code> between mod_cluster 1.3.x and older versions.
 Last but not least, pay attention to httpd 2.2.x and httpd 2.4.x authentication configuration changes.</p>
 </div>
 <div class="sect3">
-<h4 id="_mod_cluster_1_3_x_apache_http_server_2_4_x">4.6.1. mod_cluster 1.3.x, Apache HTTP Server 2.4.x</h4>
+<h4 id="mod_cluster-1-3-x-apache-http-server-2-4-x"><a class="link" href="#mod_cluster-1-3-x-apache-http-server-2-4-x">4.6.1. mod_cluster 1.3.x, Apache HTTP Server 2.4.x</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>LoadModule proxy_module modules/mod_proxy.so
@@ -3763,7 +3763,7 @@ LoadModule advertise_module modules/mod_advertise.so
 </div>
 </div>
 <div class="sect3">
-<h4 id="_mod_cluster_1_2_x_apache_http_server_2_2_x">4.6.2. mod_cluster 1.2.x, Apache HTTP Server 2.2.x</h4>
+<h4 id="mod_cluster-1-2-x-apache-http-server-2-2-x"><a class="link" href="#mod_cluster-1-2-x-apache-http-server-2-2-x">4.6.2. mod_cluster 1.2.x, Apache HTTP Server 2.2.x</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>LoadModule proxy_module modules/mod_proxy.so
@@ -3804,7 +3804,7 @@ LoadModule advertise_module modules/mod_advertise.so
 </div>
 </div>
 <div class="sect2">
-<h3 id="_building_httpd_modules">4.7. Building httpd modules</h3>
+<h3 id="building-httpd-modules"><a class="link" href="#building-httpd-modules">4.7. Building httpd modules</a></h3>
 <div class="paragraph">
 <p>mod_cluster 1.3.x and older, both httpd modules and Tomcat/Wildfly java libraries reside in the <a href="https://github.com/modcluster/mod_cluster">mod_cluster</a> repository, branches 1.3.x and 1.2.x. New development of mod_cluster httpd modules takes place in the new repository: <a href="https://github.com/modcluster/mod_proxy_cluster">mod_proxy_cluster</a>.</p>
 </div>
@@ -3812,7 +3812,7 @@ LoadModule advertise_module modules/mod_advertise.so
 <p>See <a href="https://asciinema.org/a/7563u1eu6o5jlg3a0gk4wv69f?t=52">ASCII recorded tutorial</a> on httpd modules compilation with your own system httpd.</p>
 </div>
 <div class="sect3">
-<h4 id="_build_with_httpd_on_windows">4.7.1. Build with httpd on Windows</h4>
+<h4 id="build-with-httpd-on-windows"><a class="link" href="#build-with-httpd-on-windows">4.7.1. Build with httpd on Windows</a></h4>
 <div class="paragraph">
 <p>We assume you already have a functional Apache HTTP Server on Windows. This example works with Apache Lounge HTTP Server.
 We also assume the system has MS Visual Studio (Community Edition is ample) and CMake installed. The example operates in cmder shell, but it is not mandatory. A simple Windows cmd prompt would work too.</p>
@@ -3924,7 +3924,7 @@ cp modules/*.so C:\Users\karm\Apache24\modules\ -v
 </div>
 </div>
 <div class="sect3">
-<h4 id="_build_httpd_from_its_sources">4.7.2. Build httpd from its sources</h4>
+<h4 id="build-httpd-from-its-sources"><a class="link" href="#build-httpd-from-its-sources">4.7.2. Build httpd from its sources</a></h4>
 <div class="paragraph">
 <p>To build httpd-2.2.x from its sources see <a href="http://httpd.apache.org/docs/2.2/install.html">ASF httpd 2.2 doc</a>,
 see <a href="http://httpd.apache.org/docs/2.4/install.html">ASF httpd 2.4 doc</a> for httpd-2.4.x.</p>
@@ -3964,7 +3964,7 @@ so you can skip the patch part if you don&#8217;t want to rebuild httpd).
 </div>
 </div>
 <div class="sect3">
-<h4 id="_build_the_4_modules_of_mod_cluster">4.7.3. Build the 4 modules of mod_cluster</h4>
+<h4 id="build-the-4-modules-of-mod_cluster"><a class="link" href="#build-the-4-modules-of-mod_cluster">4.7.3. Build the 4 modules of mod_cluster</a></h4>
 <div class="paragraph">
 <p>You need an httpd installation with mod_proxy (<code>--enable-proxy</code>) and ajp
 protocol (<code>--enable-proxy-ajp</code>) enabled and with dso enabled (<code>--enable-so</code>).</p>
@@ -4016,14 +4016,14 @@ You can ignore the libtool message on most platform:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_build_the_mod_proxy_module">4.7.4. Build the mod_proxy module</h4>
+<h4 id="build-the-mod_proxy-module"><a class="link" href="#build-the-mod_proxy-module">4.7.4. Build the mod_proxy module</a></h4>
 <div class="paragraph">
 <p>It is only needed for httpd-2.2.x where x \&lt; 11. Process like the other mod_cluster modules.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_installing_httpd_modules">4.8. Installing httpd modules</h3>
+<h3 id="installing-httpd-modules"><a class="link" href="#installing-httpd-modules">4.8. Installing httpd modules</a></h3>
 <div class="paragraph">
 <p>Several bundles are available at <a href="http://www.jboss.org/mod_cluster/downloads.html">http://www.jboss.org/mod_cluster/downloads.html</a>.</p>
 </div>
@@ -4032,13 +4032,13 @@ You can ignore the libtool message on most platform:
 You need a distribution of httpd (at least 2.2.8) or (better) a source tarball of httpd and the sources of mod_cluster.</p>
 </div>
 <div class="sect3">
-<h4 id="_configuration_2">4.8.1. Configuration</h4>
+<h4 id="configuration-2"><a class="link" href="#configuration-2">4.8.1. Configuration</a></h4>
 <div class="paragraph">
 <p>A minimal configuration is needed in httpd.
 A listener must be a added in in JBossWEB conf/server.xml.</p>
 </div>
 <div class="sect4">
-<h5 id="_installing_and_using_the_bundles">Installing and using the bundles</h5>
+<h5 id="installing-and-using-the-bundles"><a class="link" href="#installing-and-using-the-bundles">Installing and using the bundles</a></h5>
 <div class="paragraph">
 <p>The bundles are tar.gz on POSIX platforms just extract them in root something like:</p>
 </div>
@@ -4078,7 +4078,7 @@ Make sure to use SSL before going in production.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_security_configuration">5. Security configuration</h2>
+<h2 id="security-configuration"><a class="link" href="#security-configuration">5. Security configuration</a></h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -4093,7 +4093,7 @@ Make sure to use SSL before going in production.
 </table>
 </div>
 <div class="sect2">
-<h3 id="_using_ssl_in_mod_cluster">5.1. Using SSL in mod_cluster</h3>
+<h3 id="using-ssl-in-mod_cluster"><a class="link" href="#using-ssl-in-mod_cluster">5.1. Using SSL in mod_cluster</a></h3>
 <div class="paragraph">
 <p>Forwarding SSL browser informations when using http/https between httpd and JBossWEB:</p>
 </div>
@@ -4103,7 +4103,7 @@ could be encrypted. That chapter describes how to encrypt both
 connections.</p>
 </div>
 <div class="sect3">
-<h4 id="_using_ssl_between_jbossweb_and_httpd">5.1.1. Using SSL between JBossWEB and httpd</h4>
+<h4 id="using-ssl-between-jbossweb-and-httpd"><a class="link" href="#using-ssl-between-jbossweb-and-httpd">5.1.1. Using SSL between JBossWEB and httpd</a></h4>
 <div class="paragraph">
 <p>As the ClusterListener allows to configure httpd it is adviced to use
 SSL for that connection. The most easy is to use a virtual host that
@@ -4111,7 +4111,7 @@ will only be used to receive information from JBossWEB. Both side need
 configuration.</p>
 </div>
 <div class="sect4">
-<h5 id="_apache_httpd_configuration_part">Apache httpd configuration part</h5>
+<h5 id="apache-httpd-configuration-part"><a class="link" href="#apache-httpd-configuration-part">Apache httpd configuration part</a></h5>
 <div class="paragraph">
 <p><a href="http://httpd.apache.org/docs/2.2/mod/mod_ssl.html">mod_ssl</a> of httpd is using to do that.
 See in one example how easy the configuration is:</p>
@@ -4148,7 +4148,7 @@ stored in the sslKeyStore of the ClusterListener parameters.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_clusterlistener_configuration_part">ClusterListener configuration part</h5>
+<h5 id="clusterlistener-configuration-part"><a class="link" href="#clusterlistener-configuration-part">ClusterListener configuration part</a></h5>
 <div class="paragraph">
 <p>There is a <a href="http://www.jboss.org/community/docs/DOC-9300">wiki</a>
 describing the SSL parameters of the ClusterListener. See in one example
@@ -4179,7 +4179,7 @@ the certificate contained in conf/server.crt file.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_mod_cluster_jboss_beans_configuration_part">mod-cluster-jboss-beans configuration part</h5>
+<h5 id="mod-cluster-jboss-beans-configuration-part"><a class="link" href="#mod-cluster-jboss-beans-configuration-part">mod-cluster-jboss-beans configuration part</a></h5>
 <div class="paragraph">
 <p>The mod-cluster-jboss-beans.xml in
 <code>$JBOSS_HOME/server/<strong>profile</strong>/deploy/mod-cluster.sar/META-INF</code> in the
@@ -4197,7 +4197,7 @@ ClusterConfig you are using you should have something like:</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_how_the_diferent_files_were_created">How the diferent files were created</h6>
+<h6 id="how-the-diferent-files-were-created"><a class="link" href="#how-the-diferent-files-were-created">How the diferent files were created</a></h6>
 <div class="paragraph">
 <p>The files were created using OpenSSL utilities see
 <a href="http://www.openssl.org/">OpenSSL</a> CA.pl (/etc/pki/tls/misc/CA for
@@ -4207,7 +4207,7 @@ requests.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="createca">Create the CA</h6>
+<h6 id="createca"><a class="link" href="#createca">Create the CA</a></h6>
 <div class="paragraph">
 <p>Create a work directory and work for there:</p>
 </div>
@@ -4247,7 +4247,7 @@ and convert it into a pkcs12 file the JVM is able to read.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="createsc">Create the server certificate</h6>
+<h6 id="createsc"><a class="link" href="#createsc">Create the server certificate</a></h6>
 <div class="paragraph">
 <p>Create a new request:</p>
 </div>
@@ -4277,7 +4277,7 @@ cacert.pem file.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_create_the_client_certificate">Create the client certificate</h6>
+<h6 id="create-the-client-certificate"><a class="link" href="#create-the-client-certificate">Create the client certificate</a></h6>
 <div class="paragraph">
 <p>Create a work directory and work for there:</p>
 </div>
@@ -4335,7 +4335,7 @@ mv key.txt.pem newkey.pem</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_using_ssl_between_httpd_and_jbossweb">Using SSL between httpd and JBossWEB</h5>
+<h5 id="using-ssl-between-httpd-and-jbossweb"><a class="link" href="#using-ssl-between-httpd-and-jbossweb">Using SSL between httpd and JBossWEB</a></h5>
 <div class="paragraph">
 <p>Using https allows to encrypt communications betwen httpd and JBossWEB.
 But due to the ressources it needs that no advised to use it in high
@@ -4372,7 +4372,7 @@ specificed by keyAlias and truststoreFile of the &lt;connector/&gt;. Of
 course the &lt;connector/&gt; must be the https one (normally on port 8443).</p>
 </div>
 <div class="sect5">
-<h6 id="_how_the_diferent_files_were_created_2">How the diferent files were created</h6>
+<h6 id="how-the-diferent-files-were-created-2"><a class="link" href="#how-the-diferent-files-were-created-2">How the diferent files were created</a></h6>
 <div class="paragraph">
 <p>The files were created using OpenSSL utilities see
 <a href="http://www.openssl.org/">OpenSSL</a> CA.pl (/etc/pki/tls/misc/CA for
@@ -4382,13 +4382,13 @@ requests.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_create_the_ca">Create the CA</h6>
+<h6 id="create-the-ca"><a class="link" href="#create-the-ca">Create the CA</a></h6>
 <div class="paragraph">
 <p>(See <a href="#createca">above</a>)</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_create_the_server_certificate">Create the server certificate</h6>
+<h6 id="create-the-server-certificate"><a class="link" href="#create-the-server-certificate">Create the server certificate</a></h6>
 <div class="paragraph">
 <p>(See <a href="#createsc">above</a>)</p>
 </div>
@@ -4455,7 +4455,7 @@ in the "Acceptable client certificate CA names".</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_forwarding_ssl_browser_informations_when_using_httphttps_between_httpd_and_jbossweb">Forwarding SSL browser informations when using http/https between httpd and JBossWEB</h5>
+<h5 id="forwarding-ssl-browser-informations-when-using-httphttps-between-httpd-and-jbossweb"><a class="link" href="#forwarding-ssl-browser-informations-when-using-httphttps-between-httpd-and-jbossweb">Forwarding SSL browser informations when using http/https between httpd and JBossWEB</a></h5>
 <div class="paragraph">
 <p>When using http or https beween httpd and JBossWEB you need to use the
 SSLValve and export the SSL variable as header in the request in httpd.
@@ -4495,7 +4495,7 @@ instructions).</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="demo">6. Load Balancing Demo Application</h2>
+<h2 id="demo"><a class="link" href="#demo">6. Load Balancing Demo Application</a></h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -4510,7 +4510,7 @@ instructions).</p>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_overview">6.1. Overview</h3>
+<h3 id="overview-2"><a class="link" href="#overview-2">6.1. Overview</a></h3>
 <div class="paragraph">
 <p>The mod_cluster distribution includes a demo application that helps
 demonstrate how different server-side scenarios affect the routing of
@@ -4557,7 +4557,7 @@ maximum load your cluster can handle.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_basic_usage">6.2. Basic Usage</h3>
+<h3 id="basic-usage"><a class="link" href="#basic-usage">6.2. Basic Usage</a></h3>
 <div class="paragraph">
 <p>To run the demo application:</p>
 </div>
@@ -4680,7 +4680,7 @@ HTTP 200 response.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_client_driver_configuration_options">6.3. Client Driver Configuration Options</h3>
+<h3 id="client-driver-configuration-options"><a class="link" href="#client-driver-configuration-options">6.3. Client Driver Configuration Options</a></h3>
 <div class="paragraph">
 <p>The configuration of the client is driver is done via the application&#8217;s
 "Clent Control" tab.</p>
@@ -4753,7 +4753,7 @@ how to route them.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_load_generation_scenarios">6.4. Load Generation Scenarios</h3>
+<h3 id="load-generation-scenarios"><a class="link" href="#load-generation-scenarios">6.4. Load Generation Scenarios</a></h3>
 <div class="paragraph">
 <p>You can use the application&#8217;s GUI to instruct individual servers to
 artificially generate various types of load, and then track how that
@@ -4921,7 +4921,7 @@ avoid re-typing this value every time you launch the demo application.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_faq">7. FAQ</h2>
+<h2 id="faq"><a class="link" href="#faq">7. FAQ</a></h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -4936,7 +4936,7 @@ avoid re-typing this value every time you launch the demo application.</p>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_what_is_advertise">7.1. What is Advertise</h3>
+<h3 id="what-is-advertise"><a class="link" href="#what-is-advertise">7.1. What is Advertise</a></h3>
 <div class="paragraph">
 <p>Advertise allows autodiscovery of httpd proxies by the cluster nodes. It is done by sending multicast messages from httpd to the cluster.
 The httpd specialized module: mod_advertise sends UDP message on a multicast group, both mod_advertise and the cluster listener joined the
@@ -4967,7 +4967,7 @@ It is the IP and port of the VirtualHost where mod_advertise is configured or UR
 </div>
 </div>
 <div class="sect2">
-<h3 id="_what_to_do_if_i_dont_want_to_use_advertise_udp_multicast">7.2. What to do if I don&#8217;t want to use Advertise (UDP multicast)</h3>
+<h3 id="what-to-do-if-i-dont-want-to-use-advertise-udp-multicast"><a class="link" href="#what-to-do-if-i-dont-want-to-use-advertise-udp-multicast">7.2. What to do if I don&#8217;t want to use Advertise (UDP multicast)</a></h3>
 <div class="paragraph">
 <p>In the VirtualHost receiving the MCPM of httpd.conf don&#8217;t use any
 Advertise directive or set explicitly:</p>
@@ -4982,7 +4982,7 @@ Advertise directive or set explicitly:</p>
 property and set advertise to false, for example:</p>
 </div>
 <div class="sect3">
-<h4 id="_jboss_as_5">7.2.1. JBoss AS 5</h4>
+<h4 id="jboss-as-5"><a class="link" href="#jboss-as-5">7.2.1. JBoss AS 5</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">proxyList</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>10.33.144.3:6666,10.33.144.1:6666<span class="tag">&lt;/property&gt;</span>
@@ -4994,7 +4994,7 @@ property and set advertise to false, for example:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_tomcat_678_and_jbossweb">7.2.2. Tomcat 6/7/8 and JBossWeb</h4>
+<h4 id="tomcat-678-and-jbossweb"><a class="link" href="#tomcat-678-and-jbossweb">7.2.2. Tomcat 6/7/8 and JBossWeb</a></h4>
 <div class="paragraph">
 <p>In <code>server.xml</code>, change</p>
 </div>
@@ -5024,7 +5024,7 @@ property and set advertise to false, for example:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_it_is_not_working_what_should_i_do">7.3. It is not working, what should I do?</h3>
+<h3 id="it-is-not-working-what-should-i-do"><a class="link" href="#it-is-not-working-what-should-i-do">7.3. It is not working, what should I do?</a></h3>
 <div class="paragraph">
 <p>Please, at first, go through the following check-list. Set Apache HTTP Server&#8217;s <code>LogLevel debug</code> in <code>httpd.conf</code> and
 read the <code>error_log</code>. If you get stuck, you are welcome to</p>
@@ -5040,7 +5040,7 @@ read the <code>error_log</code>. If you get stuck, you are welcome to</p>
 </ul>
 </div>
 <div class="sect3">
-<h4 id="_there_is_no_error_in_the_error_log">7.3.1. There is no error in the error_log</h4>
+<h4 id="there-is-no-error-in-the-error_log"><a class="link" href="#there-is-no-error-in-the-error_log">7.3.1. There is no error in the error_log</a></h4>
 <div class="paragraph">
 <p>That happens when Advertise is not working and no Proxy List is configured: The worker nodes do not get the from Apache HTTP Server.</p>
 </div>
@@ -5097,7 +5097,7 @@ X-Manager-Host: test.example.com</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_error_in_server_log_or_catalina_out">7.3.2. Error in server.log or catalina.out</h4>
+<h4 id="error-in-server-log-or-catalina-out"><a class="link" href="#error-in-server-log-or-catalina-out">7.3.2. Error in server.log or catalina.out</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -5137,7 +5137,7 @@ ServerAdvertise directive in you mod_cluster httpd configuration:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_error_in_error_log">7.3.3. Error in error_log</h4>
+<h4 id="error-in-error_log"><a class="link" href="#error-in-error_log">7.3.3. Error in error_log</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -5173,7 +5173,7 @@ ServerAdvertise directive in you mod_cluster httpd configuration:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_i_started_mod_cluster_and_it_looks_like_its_using_only_one_of_the_workers">7.4. I started mod_cluster and it looks like it&#8217;s using only one of the workers</h3>
+<h3 id="i-started-mod_cluster-and-it-looks-like-its-using-only-one-of-the-workers"><a class="link" href="#i-started-mod_cluster-and-it-looks-like-its-using-only-one-of-the-workers">7.4. I started mod_cluster and it looks like it&#8217;s using only one of the workers</a></h3>
 <div class="paragraph">
 <p>One must give the system some time, in matter of the amount of new sessions created, to settle and pick other nodes.
 An example from an actual environment: You have 3 nodes with the following Load values:</p>
@@ -5204,7 +5204,7 @@ Node jboss-6-3 served   9 requests</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_keep_seeing_http1_1_501_method_not_implemented">7.5. Keep seeing "HTTP/1.1 501 Method Not Implemented"</h3>
+<h3 id="keep-seeing-http1-1-501-method-not-implemented"><a class="link" href="#keep-seeing-http1-1-501-method-not-implemented">7.5. Keep seeing "HTTP/1.1 501 Method Not Implemented"</a></h3>
 <div class="paragraph">
 <p>One needs to configure EnableMCPMReceive in
 the VirtualHost where you received the MCMP elements in the Apache httpd configuration.
@@ -5212,7 +5212,7 @@ Something like in the aforementioned Minimal Example.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_redirect_is_not_working_tomcat_jbossweb">7.6. Redirect is not working (Tomcat, JBossWeb):</h3>
+<h3 id="redirect-is-not-working-tomcat-jbossweb"><a class="link" href="#redirect-is-not-working-tomcat-jbossweb">7.6. Redirect is not working (Tomcat, JBossWeb):</a></h3>
 <div class="paragraph">
 <p>When using http/https instead of AJP, proxyname, proxyhost and redirect must be configured in the Tomcat Connector. Something like:</p>
 </div>
@@ -5229,7 +5229,7 @@ Something like in the aforementioned Minimal Example.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_i_have_more_than_one_tomcatjbossweb_connector">7.7. I have more than one Tomcat/JBossWeb Connector</h3>
+<h3 id="i-have-more-than-one-tomcatjbossweb-connector"><a class="link" href="#i-have-more-than-one-tomcatjbossweb-connector">7.7. I have more than one Tomcat/JBossWeb Connector</a></h3>
 <div class="paragraph">
 <p>mod_cluster tries to use the first AJP connector configured. If there
 is not any AJP connector, it uses the http or https that has the biggest
@@ -5253,7 +5253,7 @@ maxthreads value. That is <code>maxThreads</code> in Tomcat 6/7/8 and JBoss AS 5
 </div>
 </div>
 <div class="sect2">
-<h3 id="_chrome_does_not_display_mod_cluster_manager_page">7.8. Chrome does not display /mod_cluster-manager page</h3>
+<h3 id="chrome-does-not-display-mod_cluster-manager-page"><a class="link" href="#chrome-does-not-display-mod_cluster-manager-page">7.8. Chrome does not display /mod_cluster-manager page</a></h3>
 <div class="paragraph">
 <p>When using Chrome with mod_cluster-manager, the page is not displayed
 and the following error is displayed instead:</p>
@@ -5276,7 +5276,7 @@ and the following error is displayed instead:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_using_mod_cluster_and_selinux">7.9. Using mod_cluster and SELinux.</h3>
+<h3 id="using-mod_cluster-and-selinux"><a class="link" href="#using-mod_cluster-and-selinux">7.9. Using mod_cluster and SELinux.</a></h3>
 <div class="paragraph">
 <p>mod_cluster needs to open port and create shared memory and files, therefore some permissions have to be added,
 you need to configure something like:</p>
@@ -5336,7 +5336,7 @@ rm tmp/mod_cluster.mod.fc tmp/mod_cluster.mod</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_system_properties_to_modify_behaviour">7.10. System properties to modify behaviour</h3>
+<h3 id="system-properties-to-modify-behaviour"><a class="link" href="#system-properties-to-modify-behaviour">7.10. System properties to modify behaviour</a></h3>
 <div class="paragraph">
 <p><strong>org.jboss.modcluster.container.catalina.status-frequency</strong> &mdash; <em>(default: 1)</em>
 makes worker to send STATUS MCMP messages only 1/n periodic event.
@@ -5346,7 +5346,7 @@ The events occur every <code>backgroundProcessorDelay</code> <em>(default 10 sec
 </div>
 </div>
 <div class="sect1">
-<h2 id="migration">8. Migration</h2>
+<h2 id="migration"><a class="link" href="#migration">8. Migration</a></h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -5361,7 +5361,7 @@ The events occur every <code>backgroundProcessorDelay</code> <em>(default 10 sec
 </table>
 </div>
 <div class="sect2">
-<h3 id="migration-from-modjk">8.1. Migration from mod_jk</h3>
+<h3 id="migration-from-modjk"><a class="link" href="#migration-from-modjk">8.1. Migration from mod_jk</a></h3>
 <div class="paragraph">
 <p>Mod_cluster only support Apache httpd, there are no plan to support IIS
 or IPlanet.</p>
@@ -5517,7 +5517,7 @@ ClusterListener parameters.</p>
 </table>
 </div>
 <div class="sect2">
-<h3 id="migration-from-modproxy">8.2. Migration from mod_proxy</h3>
+<h3 id="migration-from-modproxy"><a class="link" href="#migration-from-modproxy">8.2. Migration from mod_proxy</a></h3>
 <div class="paragraph">
 <p>As mod_cluster is a sophisticated balancer migration from mod_proxy to
 mod_cluster is strait forward. mod_cluster replaces a reverse proxy
@@ -5540,7 +5540,7 @@ like in mod_proxy, only the balancers and the workers definitions are
 slightly different.</p>
 </div>
 <div class="sect3">
-<h4 id="_workers">8.2.1. Workers</h4>
+<h4 id="workers"><a class="link" href="#workers">8.2.1. Workers</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -5649,7 +5649,7 @@ slightly different.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_balancers">8.2.2. Balancers</h4>
+<h4 id="balancers"><a class="link" href="#balancers">8.2.2. Balancers</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
