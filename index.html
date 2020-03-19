@@ -592,16 +592,16 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li><a href="#faq">7. FAQ</a>
 <ul class="sectlevel2">
-<li><a href="#what-is-advertise">7.1. What is Advertise</a></li>
+<li><a href="#what-is-advertise">7.1. What is Advertise?</a></li>
 <li><a href="#what-to-do-if-i-dont-want-to-use-advertise-udp-multicast">7.2. What to do if I don&#8217;t want to use Advertise (UDP multicast)</a></li>
 <li><a href="#it-is-not-working-what-should-i-do">7.3. It is not working, what should I do?</a></li>
-<li><a href="#i-started-mod_cluster-and-it-looks-like-its-using-only-one-of-the-workers">7.4. I started mod_cluster and it looks like it&#8217;s using only one of the workers</a></li>
+<li><a href="#i-started-mod_cluster-and-it-looks-like-its-using-only-one-of-the-workers">7.4. I started mod_cluster and it looks like it&#8217;s using only one of the workers?</a></li>
 <li><a href="#keep-seeing-http1-1-501-method-not-implemented">7.5. Keep seeing "HTTP/1.1 501 Method Not Implemented"</a></li>
 <li><a href="#redirect-is-not-working-tomcat-jbossweb">7.6. Redirect is not working (Tomcat, JBossWeb):</a></li>
 <li><a href="#i-have-more-than-one-tomcatjbossweb-connector">7.7. I have more than one Tomcat/JBossWeb Connector</a></li>
 <li><a href="#chrome-does-not-display-mod_cluster-manager-page">7.8. Chrome does not display /mod_cluster-manager page</a></li>
-<li><a href="#using-mod_cluster-and-selinux">7.9. Using mod_cluster and SELinux.</a></li>
-<li><a href="#system-properties-to-modify-behaviour">7.10. System properties to modify behaviour</a></li>
+<li><a href="#how-do-i-use-mod_cluster-with-selinux">7.9. How do I use mod_cluster with SELinux?</a></li>
+<li><a href="#how-do-i-change-status-message-frequency">7.10. How do I change STATUS message frequency?</a></li>
 </ul>
 </li>
 <li><a href="#migration-2">8. Migration</a>
@@ -4936,7 +4936,7 @@ avoid re-typing this value every time you launch the demo application.</p>
 </table>
 </div>
 <div class="sect2">
-<h3 id="what-is-advertise"><a class="link" href="#what-is-advertise">7.1. What is Advertise</a></h3>
+<h3 id="what-is-advertise"><a class="link" href="#what-is-advertise">7.1. What is Advertise?</a></h3>
 <div class="paragraph">
 <p>Advertise allows autodiscovery of httpd proxies by the cluster nodes. It is done by sending multicast messages from httpd to the cluster.
 The httpd specialized module: mod_advertise sends UDP message on a multicast group, both mod_advertise and the cluster listener joined the
@@ -5155,25 +5155,25 @@ ServerAdvertise directive in you mod_cluster httpd configuration:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"># httpd 2.4.x
+<pre class="CodeRay highlight"><code># httpd 2.4.x
 
-<span class="tag">&lt;Location</span> <span class="tag">/&gt;</span>
+&lt;Location /&gt;
     Require ip 10.33.144.3
-<span class="tag">&lt;/Location&gt;</span>
+&lt;/Location&gt;
 
 # httpd 2.2.x
 
-<span class="tag">&lt;Location</span> <span class="tag">/&gt;</span>
+&lt;Location /&gt;
     Order deny,allow
     Deny from all
     Allow from 10.33.144.3
-<span class="tag">&lt;/Location&gt;</span></code></pre>
+&lt;/Location&gt;</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="i-started-mod_cluster-and-it-looks-like-its-using-only-one-of-the-workers"><a class="link" href="#i-started-mod_cluster-and-it-looks-like-its-using-only-one-of-the-workers">7.4. I started mod_cluster and it looks like it&#8217;s using only one of the workers</a></h3>
+<h3 id="i-started-mod_cluster-and-it-looks-like-its-using-only-one-of-the-workers"><a class="link" href="#i-started-mod_cluster-and-it-looks-like-its-using-only-one-of-the-workers">7.4. I started mod_cluster and it looks like it&#8217;s using only one of the workers?</a></h3>
 <div class="paragraph">
 <p>One must give the system some time, in matter of the amount of new sessions created, to settle and pick other nodes.
 An example from an actual environment: You have 3 nodes with the following Load values:</p>
@@ -5237,18 +5237,18 @@ maxthreads value. That is <code>maxThreads</code> in Tomcat 6/7/8 and JBoss AS 5
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;Connector</span> <span class="attribute-name">port</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">8080</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">protocol</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">HTTP/1.1</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">maxThreads</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">201</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;Connector</span> <span class="attribute-name">port</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">8080</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">protocol</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">HTTP/1.1</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">maxThreads</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">201</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Or <code>max-connections</code> in JBoss AS7: (32 * processor + 1 for native and 512 * processor + 1 for JIO).</p>
+<p>Or <code>max-connections</code> in JBoss AS 7: (32 * processor + 1 for native and 512 * processor + 1 for JIO).</p>
 </div>
 <div class="paragraph">
 <p>In Web subsystem:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;connector</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">protocol</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">HTTP/1.1</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">scheme</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">socket-binding</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">max-connections</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">513</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;connector</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">protocol</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">HTTP/1.1</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">scheme</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">socket-binding</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">max-connections</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">513</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
 </div>
 </div>
 </div>
@@ -5276,7 +5276,7 @@ and the following error is displayed instead:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="using-mod_cluster-and-selinux"><a class="link" href="#using-mod_cluster-and-selinux">7.9. Using mod_cluster and SELinux.</a></h3>
+<h3 id="how-do-i-use-mod_cluster-with-selinux"><a class="link" href="#how-do-i-use-mod_cluster-with-selinux">7.9. How do I use mod_cluster with SELinux?</a></h3>
 <div class="paragraph">
 <p>mod_cluster needs to open port and create shared memory and files, therefore some permissions have to be added,
 you need to configure something like:</p>
@@ -5308,8 +5308,8 @@ allow unconfined_java_t http_port_t:udp_socket node_bind;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Put the above in a file for example mod_cluster.te and generate the
-mod_cluster.pp file (for example in Fedora 16):</p>
+<p>Put the above in a file for example <code>mod_cluster.te</code> and generate the
+<code>mod_cluster.pp</code> file (for example in Fedora 16):</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5323,7 +5323,7 @@ rm tmp/mod_cluster.mod.fc tmp/mod_cluster.mod</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The mod_cluster.pp file should be proceeded by semodule as root:</p>
+<p>The <code>mod_cluster.pp</code> file should be proceeded by semodule as root:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5332,14 +5332,15 @@ rm tmp/mod_cluster.mod.fc tmp/mod_cluster.mod</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Alternatively, one may use semanage and add ports and paths labels manually.</p>
+<p>Alternatively, one may use <code>semanage</code> and add ports and paths labels manually.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="system-properties-to-modify-behaviour"><a class="link" href="#system-properties-to-modify-behaviour">7.10. System properties to modify behaviour</a></h3>
+<h3 id="how-do-i-change-status-message-frequency"><a class="link" href="#how-do-i-change-status-message-frequency">7.10. How do I change STATUS message frequency?</a></h3>
 <div class="paragraph">
-<p><strong>org.jboss.modcluster.container.catalina.status-frequency</strong> &mdash; <em>(default: 1)</em>
-makes worker to send STATUS MCMP messages only 1/n periodic event.
+<p>In WildFly, this behavior is configurable in the mod_cluster subsystem.
+For Tomcat you can use system property to modify this behaviour.
+Setting <code>org.jboss.modcluster.container.catalina.status-frequency</code> (default: 1) makes worker to send STATUS MCMP messages only <code>1/n</code> periodic event.
 The events occur every <code>backgroundProcessorDelay</code> <em>(default 10 seconds)</em>.</p>
 </div>
 </div>
