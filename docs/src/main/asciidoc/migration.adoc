@@ -52,10 +52,12 @@ with loadbalancing. A reversed proxy is configured like:
 [source]
 ----
 ProxyRequests Off
+
 <Proxy *>
-Order deny,allow
-Allow from all
+  Order deny,allow
+  Allow from all
 </Proxy>
+
 ProxyPass /foo http://foo.example.com/bar
 ProxyPassReverse /foo http://foo.example.com/bar
 ----
