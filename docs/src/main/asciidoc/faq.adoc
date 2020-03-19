@@ -2,7 +2,7 @@
 
 NOTE: {editurl}faq.adoc[{editnote}]
 
-== What is Advertise
+== What is Advertise?
 
 Advertise allows autodiscovery of httpd proxies by the cluster nodes. It is done by sending multicast messages from httpd to the cluster.
 The httpd specialized module: mod_advertise sends UDP message on a multicast group, both mod_advertise and the cluster listener joined the
@@ -168,7 +168,7 @@ ServerAdvertise On http://localhost:6666
 
 You need to have something like the undermentioned authentication configured in the `EnableMCPMReceive` marked VirtualHost:
 
-[source,xml]
+[source]
 ----
 # httpd 2.4.x
 
@@ -185,7 +185,7 @@ You need to have something like the undermentioned authentication configured in 
 </Location>
 ----
 
-== I started mod_cluster and it looks like it's using only one of the workers
+== I started mod_cluster and it looks like it's using only one of the workers?
 
 One must give the system some time, in matter of the amount of new sessions created, to settle and pick other nodes.
 An example from an actual environment: You have 3 nodes with the following Load values:
@@ -240,16 +240,16 @@ maxthreads value. That is `maxThreads` in Tomcat 6/7/8 and JBoss AS 5/6:
 
 [source,xml]
 ----
-<Connector port="8080" protocol="HTTP/1.1" maxThreads="201" />
+<Connector port="8080" protocol="HTTP/1.1" maxThreads="201"/>
 ----
 
-Or `max-connections` in JBoss AS7: (32 * processor + 1 for native and 512 * processor + 1 for JIO).
+Or `max-connections` in JBoss AS 7: (32 * processor + 1 for native and 512 * processor + 1 for JIO).
 
 In Web subsystem:
 
 [source,xml]
 ----
-<connector name="http" protocol="HTTP/1.1" scheme="http" socket-binding="http" max-connections="513" />
+<connector name="http" protocol="HTTP/1.1" scheme="http" socket-binding="http" max-connections="513"/>
 ----
 
 == Chrome does not display /mod_cluster-manager page
@@ -271,7 +271,7 @@ you can change the port of the VirtualHost to 7777 or any value chrome accepts o
 
 to the start parameters of Chrome.
 
-== Using mod_cluster and SELinux.
+== How do I use mod_cluster with SELinux?
 
 mod_cluster needs to open port and create shared memory and files, therefore some permissions have to be added,
 you need to configure something like:
@@ -302,8 +302,8 @@ corenet_udp_bind_http_port(httpd_t)
 allow unconfined_java_t http_port_t:udp_socket node_bind;
 ----
 
-Put the above in a file for example mod_cluster.te and generate the
-mod_cluster.pp file (for example in Fedora 16):
+Put the above in a file for example `mod_cluster.te` and generate the
+`mod_cluster.pp` file (for example in Fedora 16):
 
 [source]
 ----
@@ -316,7 +316,7 @@ Creating targeted mod_cluster.pp policy package
 rm tmp/mod_cluster.mod.fc tmp/mod_cluster.mod
 ----
 
-The mod_cluster.pp file should be proceeded by semodule as root:
+The `mod_cluster.pp` file should be proceeded by semodule as root:
 
 [source]
 ----
@@ -324,11 +324,11 @@ The mod_cluster.pp file should be proceeded by semodule as root:
 [root@jfcpc docs]#
 ----
 
-Alternatively, one may use semanage and add ports and paths labels manually.
+Alternatively, one may use `semanage` and add ports and paths labels manually.
 
-== System properties to modify behaviour
+== How do I change STATUS message frequency?
 
-*org.jboss.modcluster.container.catalina.status-frequency* &mdash; _(default: 1)_
-makes worker to send STATUS MCMP messages only 1/n periodic event.
+In WildFly, this behavior is configurable in the mod_cluster subsystem. 
+For Tomcat you can use system property to modify this behaviour. 
+Setting `org.jboss.modcluster.container.catalina.status-frequency` (default: 1) makes worker to send STATUS MCMP messages only `1/n` periodic event.
 The events occur every `backgroundProcessorDelay` _(default 10 seconds)_.
-
