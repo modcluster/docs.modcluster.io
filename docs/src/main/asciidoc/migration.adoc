@@ -1,9 +1,7 @@
-[[migration]]
 = Migration
 
 NOTE: {editurl}migration.adoc[{editnote}]
 
-[[migration-from-modjk]]
 == Migration from mod_jk
 
 Mod_cluster only support Apache httpd, there are no plan to support IIS
@@ -45,7 +43,6 @@ ClusterListener parameters.
 |reply_timeout | - | Not supported. Use ProxyTimeout or server TimeOut? directive (Default 300 seconds)
 |===
 
-[[migration-from-modproxy]]
 == Migration from mod_proxy
 
 As mod_cluster is a sophisticated balancer migration from mod_proxy to
@@ -71,7 +68,7 @@ slightly different.
 
 [options="header"]
 |===
-|Mod_proxy Parameter |ClusterListener parameter | Remarks
+| mod_proxy Parameter | ClusterListener parameter | Note
 | min | - | Not supported in this version
 | max | - | mod_cluster uses mod_proxy default value
 | smax | smax | Same as mod_proxy
@@ -88,7 +85,7 @@ slightly different.
 | retry | - | ClusterListener will test when the node is back online
 | route | JVMRoute | In fact JBossWEB via the JVMRoute in the Engine will add it
 | status | - | mod_cluster has a finer status handling: by context via the ENABLE/STOP/DISABLE/REMOVE application messages. hot-standby is done by lbfactor = 0 and Error by lbfactor = 1 both values are sent in STATUS message by the ClusterListener
-| timeout | nodeTimeout | Default wait for ever (http://httpd.apache.org/docs/2.2/mod/mod_proxy.html[http://httpd.apache.org/docs/2.2/mod/mod_proxy.html] is wrong there)
+| timeout | nodeTimeout | Default wait forever (http://httpd.apache.org/docs/2.2/mod/mod_proxy.html[http://httpd.apache.org/docs/2.2/mod/mod_proxy.html] is wrong there)
 | ttl | ttl | Default 60 seconds
 |===
 
@@ -96,7 +93,7 @@ slightly different.
 
 [options="header"]
 |===
-| Mod_proxy Parameter | ClusterListener parameter | Remarks
+| mod_proxy Parameter | ClusterListener parameter | Note
 | lbmethod | - | There is only one load balancing method in mod_cluster "cluster_byrequests"
 | maxattempts | maxAttempts | Default 1
 | nofailover | stickySessionForce | Same as in mod_proxy
