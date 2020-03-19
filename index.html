@@ -604,10 +604,10 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#system-properties-to-modify-behaviour">7.10. System properties to modify behaviour</a></li>
 </ul>
 </li>
-<li><a href="#migration">8. Migration</a>
+<li><a href="#migration-2">8. Migration</a>
 <ul class="sectlevel2">
-<li><a href="#migration-from-modjk">8.1. Migration from mod_jk</a></li>
-<li><a href="#migration-from-modproxy">8.2. Migration from mod_proxy</a></li>
+<li><a href="#migration-from-mod_jk">8.1. Migration from mod_jk</a></li>
+<li><a href="#migration-from-mod_proxy">8.2. Migration from mod_proxy</a></li>
 </ul>
 </li>
 </ul>
@@ -5346,7 +5346,7 @@ The events occur every <code>backgroundProcessorDelay</code> <em>(default 10 sec
 </div>
 </div>
 <div class="sect1">
-<h2 id="migration"><a class="link" href="#migration">8. Migration</a></h2>
+<h2 id="migration-2"><a class="link" href="#migration-2">8. Migration</a></h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -5361,7 +5361,7 @@ The events occur every <code>backgroundProcessorDelay</code> <em>(default 10 sec
 </table>
 </div>
 <div class="sect2">
-<h3 id="migration-from-modjk"><a class="link" href="#migration-from-modjk">8.1. Migration from mod_jk</a></h3>
+<h3 id="migration-from-mod_jk"><a class="link" href="#migration-from-mod_jk">8.1. Migration from mod_jk</a></h3>
 <div class="paragraph">
 <p>Mod_cluster only support Apache httpd, there are no plan to support IIS
 or IPlanet.</p>
@@ -5517,7 +5517,7 @@ ClusterListener parameters.</p>
 </table>
 </div>
 <div class="sect2">
-<h3 id="migration-from-modproxy"><a class="link" href="#migration-from-modproxy">8.2. Migration from mod_proxy</a></h3>
+<h3 id="migration-from-mod_proxy"><a class="link" href="#migration-from-mod_proxy">8.2. Migration from mod_proxy</a></h3>
 <div class="paragraph">
 <p>As mod_cluster is a sophisticated balancer migration from mod_proxy to
 mod_cluster is strait forward. mod_cluster replaces a reverse proxy
@@ -5549,9 +5549,9 @@ slightly different.</p>
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Mod_proxy Parameter</th>
+<th class="tableblock halign-left valign-top">mod_proxy Parameter</th>
 <th class="tableblock halign-left valign-top">ClusterListener parameter</th>
-<th class="tableblock halign-left valign-top">Remarks</th>
+<th class="tableblock halign-left valign-top">Note</th>
 </tr>
 </thead>
 <tbody>
@@ -5638,7 +5638,7 @@ slightly different.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">timeout</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">nodeTimeout</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Default wait for ever (<a href="http://httpd.apache.org/docs/2.2/mod/mod_proxy.html">http://httpd.apache.org/docs/2.2/mod/mod_proxy.html</a> is wrong there)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default wait forever (<a href="http://httpd.apache.org/docs/2.2/mod/mod_proxy.html">http://httpd.apache.org/docs/2.2/mod/mod_proxy.html</a> is wrong there)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ttl</p></td>
@@ -5658,9 +5658,9 @@ slightly different.</p>
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Mod_proxy Parameter</th>
+<th class="tableblock halign-left valign-top">mod_proxy Parameter</th>
 <th class="tableblock halign-left valign-top">ClusterListener parameter</th>
-<th class="tableblock halign-left valign-top">Remarks</th>
+<th class="tableblock halign-left valign-top">Note</th>
 </tr>
 </thead>
 <tbody>
