@@ -5527,10 +5527,12 @@ with loadbalancing. A reversed proxy is configured like:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>ProxyRequests Off
+
 &lt;Proxy *&gt;
-Order deny,allow
-Allow from all
+  Order deny,allow
+  Allow from all
 &lt;/Proxy&gt;
+
 ProxyPass /foo http://foo.example.com/bar
 ProxyPassReverse /foo http://foo.example.com/bar</code></pre>
 </div>
