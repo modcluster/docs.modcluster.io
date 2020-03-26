@@ -5,7 +5,7 @@ NOTE: {editurl}container-integration.adoc[{editnote}]
 == JBoss AS
 
 ////
-TODO: JBoss AS 5, 7, Wildfly (Undertow)
+TODO: JBoss AS 5, 7, WildFly (Undertow)
 ////
 
 
@@ -404,7 +404,7 @@ from having to define static, environment-specific configuration values.
 
 [options="header"]
 |===
-| Tomcat attribute        | AS7/Wildfly attribute     | Default       | Location | Scope    |
+| Tomcat attribute        | AS7/WildFly attribute     | Default       | Location | Scope    |
 | sessionDrainingStrategy | session-draining-strategy | `DEFAULT`     | Worker   | Worker   |
 |===
 
@@ -423,7 +423,7 @@ Indicates the session draining strategy used during undeployment of a web applic
 |===
 
 * Tomcat/AS7: Defines a comma delimited list of httpd proxies with which this node will initially communicate. Value should be of the form: *address1*:*port1*,*address2*:*port2*. Using the default configuration, this property can by manipulated via the jboss.mod_cluster.proxyList system property.
-* WildFly: In Wildfly, the `proxy-list` attribute of the modcluster subsystem element is deprecated. Instead, one uses an output socket binding. The following example leverages `jboss-cli.sh`, e.g. :
+* WildFly: In WildFly, the `proxy-list` attribute of the modcluster subsystem element is deprecated. Instead, one uses an output socket binding. The following example leverages `jboss-cli.sh`, e.g. :
   * Add a socket binding: `/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=my-proxies:add(host=10.10.10.11, port=3333)`
   * Add the socket binding to the modcluster subsystem: `/subsystem=modcluster/mod-cluster-config=configuration:write-attribute(name=proxies, value="my-proxies")`
 
@@ -431,7 +431,7 @@ Indicates the session draining strategy used during undeployment of a web applic
 
 [options="header"]
 |===
-| Tomcat attribute | AS7/Wildfly attribute  | Wildfly Default | Tomcat/AS7 Default | Location | Scope    |
+| Tomcat attribute | AS7/WildFly attribute  | WildFly Default | Tomcat/AS7 Default | Location | Scope    |
 | excludedContexts | excluded-contexts      | None            | ROOT, admin-console, invoker, bossws, jmx-console, juddi, web-console | Worker | Worker |
 |===
 
@@ -452,7 +452,7 @@ If false the contexts are registered disabled in httpd, they need to be enabled 
 
 [options="header"]
 |===
-| Tomcat attribute   | AS7/Wildfly attribute  | Default | Location | Scope  |
+| Tomcat attribute   | AS7/WildFly attribute  | Default | Location | Scope  |
 | stopContextTimeout | stop-context-timeout   | 10 s    | Worker   | Worker |
 |===
 
@@ -462,7 +462,7 @@ The amount of time in seconds for which to wait for a clean shutdown of a contex
 
 [options="header"]
 |===
-| Tomcat attribute       | AS7/Wildfly attribute  | Default | Location | Scope  |
+| Tomcat attribute       | AS7/WildFly attribute  | Default | Location | Scope  |
 | stopContextTimeoutUnit | None                   | TimeUnit.SECONDS | Worker   | Worker |
 |===
 
@@ -472,7 +472,7 @@ Tomcat allows for configuring an arbitrary TimeUnit for Stop context timeout
 
 [options="header"]
 |===
-| Tomcat attribute  | AS7/Wildfly attribute  | Default | Location | Scope    |
+| Tomcat attribute  | AS7/WildFly attribute  | Default | Location | Scope    |
 | proxyURL          | proxy-url              | /       | Worker   | Balancer |
 |===
 
@@ -482,7 +482,7 @@ If defined, this value will be prepended to the URL of MCMP commands.
 
 [options="header"]
 |===
-| Tomcat attribute  | AS7/Wildfly attribute  | Default | Location | Scope  |
+| Tomcat attribute  | AS7/WildFly attribute  | Default | Location | Scope  |
 | socketTimeout     | socket-timeout         | 20 s    | Worker   | Worker |
 |===
 
@@ -492,7 +492,7 @@ How long to wait for a response from an httpd proxy to MCMP commands before timi
 
 [options="header"]
 |===
-| Tomcat/AS7/Wildfly attribute  | Default                | Location | Scope  |
+| Tomcat/AS7/WildFly attribute  | Default                | Location | Scope  |
 | advertise                     | true, if proxyList is undefined, false otherwise | Worker   | Worker |
 |===
 
@@ -503,7 +503,7 @@ This can be used either in concert or in place of a static proxies.
 
 [options="header"]
 |===
-| Tomcat attribute       | AS7/Wildfly attribute  | Default     | Location | Scope  |
+| Tomcat attribute       | AS7/WildFly attribute  | Default     | Location | Scope  |
 | advertiseGroupAddress  | advertise-socket       | 224.0.1.105 | Worker   | Worker |
 | advertisePort          | in advertise-socket    | 23364       | Worker   | Worker |
 |===
@@ -516,7 +516,7 @@ and https://issues.jboss.org/browse/MODCLUSTER-495[MODCLUSTER-495] for Tomcat's 
 
 [options="header"]
 |===
-| Tomcat attribute     | AS7/Wildfly attribute  | Default | Location | Scope
+| Tomcat attribute     | AS7/WildFly attribute  | Default | Location | Scope
 | advertiseSecurityKey | advertise-security-key | *None*  | Worker   | Balancer
 |===
 
@@ -537,13 +537,13 @@ The thread factory used to create the background advertisement listener.
 
 [options="header"]
 |===
-| Tomcat attribute       | AS7/Wildfly attribute  | Default | Location | Scope
+| Tomcat attribute       | AS7/WildFly attribute  | Default | Location | Scope
 | jvmRouteFactory        | None                 | new SystemPropertyJvmRouteFactory(new UUIDJvmRouteFactory(), "jboss.mod_cluster.jvmRoute") | Worker | Worker
 |===
 
 Defines the strategy for determining the jvm route of a node, if none was specified in Tomcat's server.xml.
 The default factory first consults the `jboss.mod_cluster.jvmRoute` system property. If this system property is undefined, the jvm route is assigned a UUID.
-Wildfly with Undertow web subsystem uses Undertow's `instance-id` or `jboss.mod_cluster.jvmRoute` system property or a UUID.
+WildFly with Undertow web subsystem uses Undertow's `instance-id` or `jboss.mod_cluster.jvmRoute` system property or a UUID.
 
 === Proxy Configuration
 
