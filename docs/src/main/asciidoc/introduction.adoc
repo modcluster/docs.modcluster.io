@@ -89,7 +89,7 @@ Download the latest http://mod-cluster.jboss.org/downloads[mod_cluster release].
 The release is comprised of the following artifacts:
 
 * httpd binaries for common platforms
-* Wildfly/JBoss AS/JBossWeb/Tomcat Java distribution
+* WildFly/JBoss AS/JBossWeb/Tomcat Java distribution
 
 Alternatively, you can build from source using the https://github.com/modcluster/mod_cluster[mod_cluster git repository] and https://github.com/modcluster/mod_proxy_cluster[mod_proxy_cluster git repository].
 

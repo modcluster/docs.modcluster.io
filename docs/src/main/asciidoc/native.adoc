@@ -427,7 +427,7 @@ LoadModule advertise_module modules/mod_advertise.so
 
 == Building httpd modules
 
-mod_cluster 1.3.x and older, both httpd modules and Tomcat/Wildfly java libraries reside in the https://github.com/modcluster/mod_cluster[mod_cluster] repository, branches 1.3.x and 1.2.x. New development of mod_cluster httpd modules takes place in the new repository: https://github.com/modcluster/mod_proxy_cluster[mod_proxy_cluster].
+mod_cluster 1.3.x and older, both httpd modules and Tomcat/WildFly java libraries reside in the https://github.com/modcluster/mod_cluster[mod_cluster] repository, branches 1.3.x and 1.2.x. New development of mod_cluster httpd modules takes place in the new repository: https://github.com/modcluster/mod_proxy_cluster[mod_proxy_cluster].
 
 See https://asciinema.org/a/7563u1eu6o5jlg3a0gk4wv69f?t=52[ASCII recorded tutorial] on httpd modules compilation with your own system httpd.
 
