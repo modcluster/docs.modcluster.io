@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2020-03-26</span>
+<span id="revdate">2020-03-27</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -818,7 +818,7 @@ The original concepts are described in a <a href="http://www.jboss.org/community
 <p>httpd binaries for common platforms</p>
 </li>
 <li>
-<p>Wildfly/JBoss AS/JBossWeb/Tomcat Java distribution</p>
+<p>WildFly/JBoss AS/JBossWeb/Tomcat Java distribution</p>
 </li>
 </ul>
 </div>
@@ -1098,7 +1098,7 @@ mod_cluster 1.2.x vs mod_cluster 1.3.x: Note that from mod_cluster 1.3.x on, the
 mod_cluster release. The following text assumes it is extracted to <code>/tmp/mod-cluster</code>.</p>
 </div>
 <div class="paragraph">
-<p>Your next step depends on whether your target server is JBoss AS 5.x, JBoss AS 7.x, JBoss Web/Tomcat 6, 7, 8 or Wildfly (Undertow).</p>
+<p>Your next step depends on whether your target server is JBoss AS 5.x, JBoss AS 7.x, JBoss Web/Tomcat 6, 7, 8 or WildFly (Undertow).</p>
 </div>
 <div class="sect3">
 <h4 id="installing-in-jboss-as-5-x"><a class="link" href="#installing-in-jboss-as-5-x">2.4.1. Installing in JBoss AS 5.x</a></h4>
@@ -1129,7 +1129,7 @@ that you want to use mod_cluster in the AS&#8217;s all config:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="installing-in-wildfly"><a class="link" href="#installing-in-wildfly">2.4.3. Installing in Wildfly</a></h4>
+<h4 id="installing-in-wildfly"><a class="link" href="#installing-in-wildfly">2.4.3. Installing in WildFly</a></h4>
 
 </div>
 </div>
@@ -1947,7 +1947,7 @@ from having to define static, environment-specific configuration values.</p>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Tomcat attribute</th>
-<th class="tableblock halign-left valign-top">AS7/Wildfly attribute</th>
+<th class="tableblock halign-left valign-top">AS7/WildFly attribute</th>
 <th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Location</th>
 <th class="tableblock halign-left valign-top">Scope</th>
@@ -2023,7 +2023,7 @@ from having to define static, environment-specific configuration values.</p>
 <p>Tomcat/AS7: Defines a comma delimited list of httpd proxies with which this node will initially communicate. Value should be of the form: <strong>address1</strong>:*port1*,<strong>address2</strong>:*port2*. Using the default configuration, this property can by manipulated via the jboss.mod_cluster.proxyList system property.</p>
 </li>
 <li>
-<p>WildFly: In Wildfly, the <code>proxy-list</code> attribute of the modcluster subsystem element is deprecated. Instead, one uses an output socket binding. The following example leverages <code>jboss-cli.sh</code>, e.g. :</p>
+<p>WildFly: In WildFly, the <code>proxy-list</code> attribute of the modcluster subsystem element is deprecated. Instead, one uses an output socket binding. The following example leverages <code>jboss-cli.sh</code>, e.g. :</p>
 </li>
 <li>
 <p>Add a socket binding: <code>/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=my-proxies:add(host=10.10.10.11, port=3333)</code></p>
@@ -2049,8 +2049,8 @@ from having to define static, environment-specific configuration values.</p>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Tomcat attribute</th>
-<th class="tableblock halign-left valign-top">AS7/Wildfly attribute</th>
-<th class="tableblock halign-left valign-top">Wildfly Default</th>
+<th class="tableblock halign-left valign-top">AS7/WildFly attribute</th>
+<th class="tableblock halign-left valign-top">WildFly Default</th>
 <th class="tableblock halign-left valign-top">Tomcat/AS7 Default</th>
 <th class="tableblock halign-left valign-top">Location</th>
 <th class="tableblock halign-left valign-top">Scope</th>
@@ -2124,7 +2124,7 @@ If no host is indicated, it is assumed to be the default host of the server (e.g
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Tomcat attribute</th>
-<th class="tableblock halign-left valign-top">AS7/Wildfly attribute</th>
+<th class="tableblock halign-left valign-top">AS7/WildFly attribute</th>
 <th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Location</th>
 <th class="tableblock halign-left valign-top">Scope</th>
@@ -2160,7 +2160,7 @@ If no host is indicated, it is assumed to be the default host of the server (e.g
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Tomcat attribute</th>
-<th class="tableblock halign-left valign-top">AS7/Wildfly attribute</th>
+<th class="tableblock halign-left valign-top">AS7/WildFly attribute</th>
 <th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Location</th>
 <th class="tableblock halign-left valign-top">Scope</th>
@@ -2196,7 +2196,7 @@ If no host is indicated, it is assumed to be the default host of the server (e.g
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Tomcat attribute</th>
-<th class="tableblock halign-left valign-top">AS7/Wildfly attribute</th>
+<th class="tableblock halign-left valign-top">AS7/WildFly attribute</th>
 <th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Location</th>
 <th class="tableblock halign-left valign-top">Scope</th>
@@ -2232,7 +2232,7 @@ If no host is indicated, it is assumed to be the default host of the server (e.g
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Tomcat attribute</th>
-<th class="tableblock halign-left valign-top">AS7/Wildfly attribute</th>
+<th class="tableblock halign-left valign-top">AS7/WildFly attribute</th>
 <th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Location</th>
 <th class="tableblock halign-left valign-top">Scope</th>
@@ -2266,7 +2266,7 @@ If no host is indicated, it is assumed to be the default host of the server (e.g
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Tomcat/AS7/Wildfly attribute</th>
+<th class="tableblock halign-left valign-top">Tomcat/AS7/WildFly attribute</th>
 <th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Location</th>
 <th class="tableblock halign-left valign-top">Scope</th>
@@ -2302,7 +2302,7 @@ This can be used either in concert or in place of a static proxies.</p>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Tomcat attribute</th>
-<th class="tableblock halign-left valign-top">AS7/Wildfly attribute</th>
+<th class="tableblock halign-left valign-top">AS7/WildFly attribute</th>
 <th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Location</th>
 <th class="tableblock halign-left valign-top">Scope</th>
@@ -2347,7 +2347,7 @@ and <a href="https://issues.jboss.org/browse/MODCLUSTER-495">MODCLUSTER-495</a> 
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Tomcat attribute</th>
-<th class="tableblock halign-left valign-top">AS7/Wildfly attribute</th>
+<th class="tableblock halign-left valign-top">AS7/WildFly attribute</th>
 <th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Location</th>
 <th class="tableblock halign-left valign-top">Scope</th>
@@ -2414,7 +2414,7 @@ Beware of <a href="https://issues.jboss.org/browse/MODCLUSTER-446">MODCLUSTER-44
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Tomcat attribute</th>
-<th class="tableblock halign-left valign-top">AS7/Wildfly attribute</th>
+<th class="tableblock halign-left valign-top">AS7/WildFly attribute</th>
 <th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Location</th>
 <th class="tableblock halign-left valign-top">Scope</th>
@@ -2433,7 +2433,7 @@ Beware of <a href="https://issues.jboss.org/browse/MODCLUSTER-446">MODCLUSTER-44
 <div class="paragraph">
 <p>Defines the strategy for determining the jvm route of a node, if none was specified in Tomcat&#8217;s server.xml.
 The default factory first consults the <code>jboss.mod_cluster.jvmRoute</code> system property. If this system property is undefined, the jvm route is assigned a UUID.
-Wildfly with Undertow web subsystem uses Undertow&#8217;s <code>instance-id</code> or <code>jboss.mod_cluster.jvmRoute</code> system property or a UUID.</p>
+WildFly with Undertow web subsystem uses Undertow&#8217;s <code>instance-id</code> or <code>jboss.mod_cluster.jvmRoute</code> system property or a UUID.</p>
 </div>
 </div>
 </div>
@@ -3806,7 +3806,7 @@ LoadModule advertise_module modules/mod_advertise.so
 <div class="sect2">
 <h3 id="building-httpd-modules"><a class="link" href="#building-httpd-modules">4.7. Building httpd modules</a></h3>
 <div class="paragraph">
-<p>mod_cluster 1.3.x and older, both httpd modules and Tomcat/Wildfly java libraries reside in the <a href="https://github.com/modcluster/mod_cluster">mod_cluster</a> repository, branches 1.3.x and 1.2.x. New development of mod_cluster httpd modules takes place in the new repository: <a href="https://github.com/modcluster/mod_proxy_cluster">mod_proxy_cluster</a>.</p>
+<p>mod_cluster 1.3.x and older, both httpd modules and Tomcat/WildFly java libraries reside in the <a href="https://github.com/modcluster/mod_cluster">mod_cluster</a> repository, branches 1.3.x and 1.2.x. New development of mod_cluster httpd modules takes place in the new repository: <a href="https://github.com/modcluster/mod_proxy_cluster">mod_proxy_cluster</a>.</p>
 </div>
 <div class="paragraph">
 <p>See <a href="https://asciinema.org/a/7563u1eu6o5jlg3a0gk4wv69f?t=52">ASCII recorded tutorial</a> on httpd modules compilation with your own system httpd.</p>
