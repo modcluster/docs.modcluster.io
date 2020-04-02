@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2020-03-27</span>
+<span id="revdate">2020-04-02</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -3451,6 +3451,18 @@ but for HTTP/HTTPS connections. The endpoint needs to implement at least HTTP/1.
 </div>
 <div class="paragraph">
 <p><strong>Default:</strong> On</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="ajpsecret"><a class="link" href="#ajpsecret">4.4.7. AJPSecret</a></h4>
+<div class="paragraph">
+<p>Use <code>AJPSecret your_secret</code> to provide the secret for the AJP back-end, See mod_proxy_ajp and mod_proxy docs for more information. If <code>your_secret</code> doesn&#8217;t correspond to the value configured in the back-end the back-end will return 503 to any request commit via the proxy.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="wsupgradeheader"><a class="link" href="#wsupgradeheader">4.4.8. WSUpgradeHeader</a></h4>
+<div class="paragraph">
+<p>Use <code>WSUpgradeHeader value</code> to define the value of the upgrade header mod_proxy_wstunnel is accepting. See mod_proxy_wstunnel and mod_proxy docs for more information.</p>
 </div>
 </div>
 </div>
