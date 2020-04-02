@@ -135,7 +135,7 @@ but for HTTP/HTTPS connections. The endpoint needs to implement at least HTTP/1.
 
 === AJPSecret
 
-Use `AJPSecret your_secret` to provide the secret for the AJP back-end, See mod_proxy_ajp and mod_proxy docs for more information. If `your_secret` doesn't correspond to the value configured in the back-end the back-end will return 503 to any request commit via the proxy.
+Use `AJPSecret your_secret` to provide the secret for the AJP back-end, See mod_proxy_ajp and mod_proxy docs for more information. If `your_secret` doesn't correspond to the value configured in the back-end the back-end will return 503 to any request coming through the proxy.
 
 === WSUpgradeHeader
 
