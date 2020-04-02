@@ -133,6 +133,14 @@ but for HTTP/HTTPS connections. The endpoint needs to implement at least HTTP/1.
 
 **Default:** On
 
+=== AJPSecret
+
+Use `AJPSecret your_secret` to provide the secret for the AJP back-end, See mod_proxy_ajp and mod_proxy docs for more information. If `your_secret` doesn't correspond to the value configured in the back-end the back-end will return 503 to any request commit via the proxy.
+
+=== WSUpgradeHeader
+
+Use `WSUpgradeHeader value` to define the value of the upgrade header mod_proxy_wstunnel is accepting. See mod_proxy_wstunnel and mod_proxy docs for more information.
+
 == mod_manager
 
 The Context of a mod_manger directive is VirtualHost except mentioned otherwise. **server config** means that it must be outside a
