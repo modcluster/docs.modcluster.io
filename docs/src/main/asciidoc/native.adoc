@@ -58,7 +58,7 @@ CreateBalancers define how balancers are created in the httpd VirtualHosts, this
 
 [source]
 ----
-ProxyPass / balancer://mycluster1/[balancer://mycluster1/]
+ProxyPass / balancer://mycluster1/
 ----
 
 * 0 &mdash; Create in all VirtualHosts defined in httpd.
@@ -67,12 +67,12 @@ ProxyPass / balancer://mycluster1/[balancer://mycluster1/]
 
 * 2 &mdash; Create only the main server.
 
-*Default:* 0
+*Default:* 2
 
 NOTE: *CreateBalancers 1:* When using 1 don't forget to configure the balancer in the ProxyPass directive, because the default is
 empty stickysession and `nofailover=Off` and the values received via the MCMP CONFIG message are ignored.
 
-NOTE: *Default: 0* Note https://issues.jboss.org/browse/MODCLUSTER-430[MODCLUSTER-430 &mdash; CreateBalancers behave the same with option 0 or 2]
+NOTE: *Default: 2* If you have no `ProxyPass` directive in the `VirtualHost`, the `VirtualHost` is ignored by mod_cluster. So, even if `CreateBalancers` is set to `2` (default), the main server is used instead in such configuration. See also https://issues.jboss.org/browse/MODCLUSTER-430[MODCLUSTER-430 &mdash; CreateBalancers behave the same with option 0 or 2]
 
 
 === UseAlias
