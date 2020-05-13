@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2020-04-02</span>
+<span id="revdate">2020-05-13</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -3307,7 +3307,7 @@ directives because mod_cluster automatically configures which URLs have to be fo
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>ProxyPass / balancer://mycluster1/[balancer://mycluster1/]</code></pre>
+<pre class="CodeRay highlight"><code>ProxyPass / balancer://mycluster1/</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -3324,7 +3324,7 @@ directives because mod_cluster automatically configures which URLs have to be fo
 </ul>
 </div>
 <div class="paragraph">
-<p><strong>Default:</strong> 0</p>
+<p><strong>Default:</strong> 2</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -3346,7 +3346,7 @@ empty stickysession and <code>nofailover=Off</code> and the values received via 
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<strong>Default: 0</strong> Note <a href="https://issues.jboss.org/browse/MODCLUSTER-430">MODCLUSTER-430 &mdash; CreateBalancers behave the same with option 0 or 2</a>
+<strong>Default: 2</strong> If you have no <code>ProxyPass</code> directive in the <code>VirtualHost</code>, the <code>VirtualHost</code> is ignored by mod_cluster. So, even if <code>CreateBalancers</code> is set to <code>2</code> (default), the main server is used instead in such configuration. See also <a href="https://issues.jboss.org/browse/MODCLUSTER-430">MODCLUSTER-430 &mdash; CreateBalancers behave the same with option 0 or 2</a>
 </td>
 </tr>
 </table>
