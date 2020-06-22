@@ -58,7 +58,7 @@
     </modules>
 
     <properties>
-        <version.asciidoctor-maven-plugin>1.6.0</version.asciidoctor-maven-plugin>
+        <version.asciidoctor-maven-plugin>2.0.0</version.asciidoctor-maven-plugin>
         <version.org.asciidoctor.asciidoctorj-pdf>1.5.3</version.org.asciidoctor.asciidoctorj-pdf>
     </properties>
 
