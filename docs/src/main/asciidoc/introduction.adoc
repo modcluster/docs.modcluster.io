@@ -84,7 +84,7 @@ mod_cluster uses shared memory to keep the nodes description, the shared memory 
 
 == Downloads
 
-Download the latest http://mod-cluster.jboss.org/downloads[mod_cluster release].
+Download the latest https://modcluster.io/downloads/[mod_cluster release].
 
 The release is comprised of the following artifacts:
 
