@@ -194,7 +194,7 @@ TODO: Explain better the placement for Attributes and properties in their respec
 | excluded-contexts       | excludedContexts      | none
 | auto-enable-contexts    | autoEnableContexts    | true
 | stop-context-timeout    | stopContextTimeout    | 10 (in seconds)
-| socket-timeout          | nodeTimeout           | 20000 (in milliseconds)
+| socket-timeout          | nodeTimeout           | 20 (in seconds)
 |===
 
 === Proxy Configuration
