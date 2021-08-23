@@ -17,6 +17,6 @@ matrix:
         allow-empty-commit: false
         verbose: true
         on:
-          branch: master
+          branch: main
 notifications:
   email: false

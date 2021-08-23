@@ -164,7 +164,7 @@ files are placed on a local drive and not an NFS share. (Context: **server confi
 
 **Default:** `$server_root/logs/`
 ++++
-<script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=521:538&footer=minimal"></script>
+<script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/main/native/mod_manager/mod_manager.c?slice=521:538&footer=minimal"></script>
 ++++
 
 === Maxcontext
@@ -173,7 +173,7 @@ The maximum number of application contexts supported by mod_cluster. (Context: *
 
 **Default:**
 ++++
-<script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=55:56&footer=minimal"></script>
+<script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/main/native/mod_manager/mod_manager.c?slice=55:56&footer=minimal"></script>
 ++++
 
 === Maxnode
@@ -182,7 +182,7 @@ That is the maximum number of nodes supported by mod_cluster. (Context: **server
 
 **Default:**
 ++++
-<script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=56:57&footer=minimal"></script>
+<script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/main/native/mod_manager/mod_manager.c?slice=56:57&footer=minimal"></script>
 ++++
 
 === Maxhost
@@ -191,7 +191,7 @@ That is the maximum number of hosts (Aliases) supported by mod_cluster. That is 
 
 **Default:**
 ++++
-<script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/master/native/mod_manager/mod_manager.c?slice=57:58&footer=minimal"></script>
+<script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/main/native/mod_manager/mod_manager.c?slice=57:58&footer=minimal"></script>
 ++++
 
 === Maxsessionid
@@ -463,19 +463,19 @@ httpd-2.4.23-win64-VC14/ httpd-2.4.23-win64-VC14.zip
 git clone https://github.com/modcluster/mod_proxy_cluster.git
 ----
 
-or download https://github.com/modcluster/mod_proxy_cluster/archive/master.zip[zipped master branch directly].
+or download https://github.com/modcluster/mod_proxy_cluster/archive/main.zip[zipped main branch directly].
 
 * Proceed with env vars set and CMake build directory preparation:
 
 [source]
 ----
-C:\Users\karm\mod_proxy_cluster\native (master)
+C:\Users\karm\mod_proxy_cluster\native (main)
 mkdir build
 
-C:\Users\karm\mod_proxy_cluster\native (master)
+C:\Users\karm\mod_proxy_cluster\native (main)
 cd build\
 
-C:\Users\karm\mod_proxy_cluster\native\build (master)
+C:\Users\karm\mod_proxy_cluster\native\build (main)
 vcvars64.bat
 ----
 
@@ -498,7 +498,7 @@ Let's run CMake:
 
 [source]
 ----
-C:\Users\karm\mod_proxy_cluster\native\build (master)
+C:\Users\karm\mod_proxy_cluster\native\build (main)
 cmake ../ -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DAPR_LIBRARY=C:\Users\karm\Apache24\lib\libapr-1.lib -DAPR_INCLUDE_DIR=C:\Users\karm\Apache24\include\ -DAPACHE_INCLUDE_DIR=C:\Users\karm\Apache24\include\ -DAPRUTIL_LIBRARY=C:\Users\karm\Apache24\lib\libaprutil-1.lib -DAPRUTIL_INCLUDE_DIR=C:\Users\karm\Apache24\include\ -DAPACHE_LIBRARY=C:\Users\karm\Apache24\lib\libhttpd.lib -DPROXY_LIBRARY=C:\Users\karm\Apache24\modules\mod_proxy.so
 -- Found APR: C:/Users/karm/Apache24/lib/libapr-1.lib
 -- Found APRUTIL: C:/Users/karm/Apache24/lib/libaprutil-1.lib
@@ -510,7 +510,7 @@ Compile
 
 [source]
 ----
-C:\Users\karm\mod_proxy_cluster\native\build (master)
+C:\Users\karm\mod_proxy_cluster\native\build (main)
 nmake
 ----
 
@@ -518,7 +518,7 @@ Directory modules now contains all necessary modules:
 
 [source]
 ----
-C:\Users\karm\mod_proxy_cluster\native\build (master)
+C:\Users\karm\mod_proxy_cluster\native\build (main)
 cp modules/*.so C:\Users\karm\Apache24\modules\ -v
 'modules/mod_advertise.so' -> 'C:/Users/karm/Apache24/modules/mod_advertise.so'
 'modules/mod_cluster_slotmem.so' -> 'C:/Users/karm/Apache24/modules/mod_cluster_slotmem.so'
@@ -536,7 +536,7 @@ see http://httpd.apache.org/docs/2.4/install.html[ASF httpd 2.4 doc] for httpd-2
 If needed, patch the httpd-2.2.x sources with (The patch prevents long
 waiting time when the node IP can't be resolved that should not happen
 so you can skip the patch part if you don't want to rebuild httpd).
-https://github.com/modcluster/mod_cluster/blob/master/native/mod_proxy_cluster/mod_proxy_ajp.patch[mod_proxy_ajp.patch]
+https://github.com/modcluster/mod_cluster/blob/main/native/mod_proxy_cluster/mod_proxy_ajp.patch[mod_proxy_ajp.patch]
 
     (cd modules/proxy
       patch -p0 < $location/mod_proxy_ajp.patch
