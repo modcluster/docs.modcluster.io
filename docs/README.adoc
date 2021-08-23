@@ -1,6 +1,6 @@
 = mod_cluster documentation 2.0
 
-image:https://travis-ci.org/modcluster/docs.modcluster.io.svg?branch=master["Build Status", link="https://travis-ci.org/modcluster/docs.modcluster.io"] image:https://api.dependabot.com/badges/status?host=github&repo=modcluster/docs.modcluster.io["Dependabot Status", link="https://dependabot.com"]
+image:https://travis-ci.org/modcluster/docs.modcluster.io.svg?branch=main["Build Status", link="https://travis-ci.org/modcluster/docs.modcluster.io"] image:https://api.dependabot.com/badges/status?host=github&repo=modcluster/docs.modcluster.io["Dependabot Status", link="https://dependabot.com"]
 
 Welcome to the new mod_cluster live documentation!
 
@@ -23,7 +23,7 @@ use wording similar to "Since version 1.3" to describe behavior changes across v
 * Commit messages: you can describe changes you have done
 or you could leave the default GitHub message which will just say "Update section.adoc".
 * Use shorter lines to make rebasing and editing from the web slightly easier.
-* Documentation always resides in `upstream/master` branch of this (`docs.modcluster.io`) repository.
+* Documentation always resides in `upstream/main` branch of this (`docs.modcluster.io`) repository.
 
 == Building locally
 
@@ -31,13 +31,13 @@ The build uses Apache Maven.
 
 [source]
 ----
-[rhusar@ribera docs.modcluster.io]$ mvn clean install
+[rhusar@primitivo docs.modcluster.io]$ mvn clean install
 [INFO] Scanning for projects...
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Build Order:
 [INFO]
 [INFO] mod_cluster docs (parent)                                          [pom]
-[INFO] mod_cluster: Documentation                                         [pom]
+[INFO] mod_cluster docs: Documentation                                    [pom]
 [INFO]
 [INFO] -----------< org.jboss.mod_cluster:mod_cluster-docs-parent >------------
 [INFO] Building mod_cluster docs (parent) 2.0.0.Alpha1-SNAPSHOT           [1/2]
@@ -49,11 +49,13 @@ The build uses Apache Maven.
 [INFO]
 [INFO] --- maven-enforcer-plugin:3.0.0-M2:enforce (enforce-maven-version) @ mod_cluster-docs-parent ---
 [INFO]
+[INFO] --- maven-enforcer-plugin:3.0.0-M2:enforce (enforce-https-repositories) @ mod_cluster-docs-parent ---
+[INFO]
 [INFO] --- buildnumber-maven-plugin:1.4:create (get-scm-revision) @ mod_cluster-docs-parent ---
 [INFO] Executing: /bin/sh -c cd '/Users/rhusar/git/docs.modcluster.io' && 'git' 'rev-parse' '--verify' 'HEAD'
 [INFO] Working directory: /Users/rhusar/git/docs.modcluster.io
-[INFO] Storing buildNumber: cd1648f9bcf15c0b18eb401bff899d6aff2619f8 at timestamp: 1540404397386
-[INFO] Storing buildScmBranch: master
+[INFO] Storing buildNumber: 10188dd8c277026ac08d1e6ce6d04d4316812de7 at timestamp: 1629714354686
+[INFO] Storing buildScmBranch: main
 [INFO]
 [INFO] --- maven-source-plugin:3.0.1:jar-no-fork (attach-sources) @ mod_cluster-docs-parent ---
 [INFO]
@@ -61,41 +63,42 @@ The build uses Apache Maven.
 [INFO] Installing /Users/rhusar/git/docs.modcluster.io/pom.xml to /Users/rhusar/.m2/repository/org/jboss/mod_cluster/mod_cluster-docs-parent/2.0.0.Alpha1-SNAPSHOT/mod_cluster-docs-parent-2.0.0.Alpha1-SNAPSHOT.pom
 [INFO]
 [INFO] ---------------< org.jboss.mod_cluster:mod_cluster-docs >---------------
-[INFO] Building mod_cluster: Documentation 2.0.0.Alpha1-SNAPSHOT          [2/2]
+[INFO] Building mod_cluster docs: Documentation 2.0.0.Alpha1-SNAPSHOT     [2/2]
 [INFO] --------------------------------[ pom ]---------------------------------
 [INFO]
 [INFO] --- maven-clean-plugin:3.1.0:clean (default-clean) @ mod_cluster-docs ---
-[INFO] Deleting /Users/rhusar/git/docs.modcluster.io/docs/target
 [INFO]
 [INFO] --- maven-enforcer-plugin:3.0.0-M2:enforce (enforce-java-version) @ mod_cluster-docs ---
 [INFO]
 [INFO] --- maven-enforcer-plugin:3.0.0-M2:enforce (enforce-maven-version) @ mod_cluster-docs ---
 [INFO]
+[INFO] --- maven-enforcer-plugin:3.0.0-M2:enforce (enforce-https-repositories) @ mod_cluster-docs ---
+[INFO]
 [INFO] --- buildnumber-maven-plugin:1.4:create (get-scm-revision) @ mod_cluster-docs ---
 [INFO]
-[INFO] --- asciidoctor-maven-plugin:1.5.6:process-asciidoc (pdf) @ mod_cluster-docs ---
+[INFO] --- asciidoctor-maven-plugin:1.6.0:process-asciidoc (pdf) @ mod_cluster-docs ---
 [INFO] AsciiDoc processing is skipped.
 [INFO]
 [INFO] --- maven-source-plugin:3.0.1:jar-no-fork (attach-sources) @ mod_cluster-docs ---
 [INFO]
-[INFO] --- asciidoctor-maven-plugin:1.5.6:process-asciidoc (output-html) @ mod_cluster-docs ---
+[INFO] --- asciidoctor-maven-plugin:1.6.0:process-asciidoc (output-html) @ mod_cluster-docs ---
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
 [INFO] Copying 5 resources to images
-[INFO] Copying 1 resource to .
+[INFO] Copying 1140 resources to .
 [INFO] Rendered /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/index.adoc
 [INFO]
 [INFO] --- maven-install-plugin:2.5.2:install (default-install) @ mod_cluster-docs ---
 [INFO] Installing /Users/rhusar/git/docs.modcluster.io/docs/pom.xml to /Users/rhusar/.m2/repository/org/jboss/mod_cluster/mod_cluster-docs/2.0.0.Alpha1-SNAPSHOT/mod_cluster-docs-2.0.0.Alpha1-SNAPSHOT.pom
 [INFO] ------------------------------------------------------------------------
-[INFO] Reactor Summary:
+[INFO] Reactor Summary for mod_cluster docs (parent) 2.0.0.Alpha1-SNAPSHOT:
 [INFO]
-[INFO] mod_cluster docs (parent) 2.0.0.Alpha1-SNAPSHOT .... SUCCESS [  1.035 s]
-[INFO] mod_cluster: Documentation 2.0.0.Alpha1-SNAPSHOT ... SUCCESS [  3.612 s]
+[INFO] mod_cluster docs (parent) .......................... SUCCESS [  0.783 s]
+[INFO] mod_cluster docs: Documentation .................... SUCCESS [  4.150 s]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 4.798 s
-[INFO] Finished at: 2018-10-24T20:06:41+02:00
+[INFO] Total time:  5.044 s
+[INFO] Finished at: 2021-08-23T12:25:59+02:00
 [INFO] ------------------------------------------------------------------------
 ----
 
@@ -106,10 +109,10 @@ Resulting files are located in the `docs/target/generated-docs/` directory.
 ==== How does it work?
 
 . Changes are proposed in a pull request for `docs.modcluster.io` repository.
-. Changes are committed (merged) by a mod_cluster committer to the master branch.
+. Changes are committed (merged) by a mod_cluster committer to the `main` branch.
 . CI is notified by GitHub webhooks of the new HEAD revision.
 . CI builds (and tests, e.g. whether links can be followed) the documentation.
-. The job for master branch https://docs.travis-ci.com/user/deployment/pages/[deploys] the documentation.
+. The job for `main` branch https://docs.travis-ci.com/user/deployment/pages/[deploys] the documentation.
 . CI is https://docs.travis-ci.com/user/environment-variables#Defining-Variables-in-Repository-Settings[configured] with `$GITHUB_TOKEN` to authenticate as a docs bot with permissions for `modcluster/docs.modcluster.io` repository. Only the changes are committed.
 . GitHub Pages picks up the changes and deploys the website.
 
@@ -139,7 +142,7 @@ matrix:
         allow-empty-commit: false
         verbose: true
         on:
-          branch: master
+          branch: main
 ----
 
 ==== Permissions/Token Setup

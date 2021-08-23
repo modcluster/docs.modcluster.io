@@ -736,7 +736,7 @@ e.g., with JBoss AS 5:
 * Returns the percentage of connector threads from the thread pool that are busy servicing requests
 * Uses `ThreadPoolLoadMetricSource` to query connector thread
 * Analogous to `method=B` in mod_jk
-* https://github.com/modcluster/mod_cluster/blob/master/core/src/main/java/org/jboss/modcluster/load/metric/impl/BusyConnectorsLoadMetric.java[BusyConnectorsLoadMetric.java]
+* https://github.com/modcluster/mod_cluster/blob/main/core/src/main/java/org/jboss/modcluster/load/metric/impl/BusyConnectorsLoadMetric.java[BusyConnectorsLoadMetric.java]
 
 e.g., with JBoss AS 5:
 
@@ -840,7 +840,7 @@ e.g., with JBoss AS 5:
 * Requires Java 1.6+
 * Uses `OperatingSystemLoadMetricSource` to generically read attributes
 * Is not available on Windows
-* https://github.com/modcluster/mod_cluster/blob/master/core/src/main/java/org/jboss/modcluster/load/metric/impl/AverageSystemLoadMetric.java[AverageSystemLoadMetric.java]
+* https://github.com/modcluster/mod_cluster/blob/main/core/src/main/java/org/jboss/modcluster/load/metric/impl/AverageSystemLoadMetric.java[AverageSystemLoadMetric.java]
 
 e.g., with JBoss AS 5:
 
