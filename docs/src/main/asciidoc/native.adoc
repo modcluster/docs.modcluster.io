@@ -145,7 +145,7 @@ Use `WSUpgradeHeader value` to define the value of the upgrade header mod_proxy_
 
 === ResponseFieldSize
 
-Size in bytes of the HTTP/1.1 buffers of the workers, the default size is 8192, that limits the header size a webapp can use (Note: In Tomcat there is  maxHttpHeaderSize than also limits it in the Connector).
+Size in bytes of the HTTP/1.1 buffers of the workers, the default size is 8192, that limits the header size a webapp can use (Note: In Tomcat there is  maxHttpHeaderSize that also limits it in the Connector).
 
 == mod_manager
 
