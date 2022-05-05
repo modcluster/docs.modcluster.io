@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2022-03-29</span>
+<span id="revdate">2022-05-05</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -667,23 +667,10 @@ mod_proxy_ajp provides all the AJP logic needed by mod_cluster.</p>
 <div class="sect2">
 <h3 id="platforms"><a class="link" href="#platforms">1.1. Platforms</a></h3>
 <div class="paragraph">
-<p>JBoss already prepares <a href="https://github.com/modcluster/mod_cluster/releases">binary
-packages</a> with httpd
-and mod_cluster so you can quickly try mod_cluster on the following
-platforms:</p>
+<p>The binary packages of the modules needed to use with Apache httpd server are present in most ditribution.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>Linux x86, x64, ia64</p>
-</li>
-<li>
-<p>Solaris x86, SPARC</p>
-</li>
-<li>
-<p>Windows x86, x64, ia64</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>If your distribution doesn&#8217;t have mod_cluster or mod_proxy_cluster pick the latest 1.3.x released tar.gz and follow the building instructions.</p>
 </div>
 </div>
 <div class="sect2">
@@ -740,7 +727,7 @@ The original concepts are described in a <a href="http://www.jboss.org/community
 <div class="ulist">
 <ul>
 <li>
-<p>Apache HTTP Server 2.2.15+ (legacy 2.2.8+)</p>
+<p>Apache HTTP Server 2.4.37+</p>
 </li>
 </ul>
 </div>
@@ -814,17 +801,18 @@ The original concepts are described in a <a href="http://www.jboss.org/community
 <p>Download the latest <a href="https://modcluster.io/downloads/">mod_cluster release</a>.</p>
 </div>
 <div class="paragraph">
-<p>The release is comprised of the following artifacts:</p>
+<p>The release contains the source to build the following:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>httpd binaries for common platforms</p>
-</li>
-<li>
-<p>WildFly/JBoss AS/JBossWeb/Tomcat Java distribution</p>
+<p>WildFly/JBoss AS/Tomcat Java distributions</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>The native part is developed in <a href="https://github.com/modcluster/mod_proxy_cluster" class="bare">https://github.com/modcluster/mod_proxy_cluster</a> and <a href="https://github.com/modcluster/mod_cluster/tree/1.3.x" class="bare">https://github.com/modcluster/mod_cluster/tree/1.3.x</a>
+The native part is compatible with the 2.0.x and 1.4.x branches of mod_cluster</p>
 </div>
 <div class="paragraph">
 <p>Alternatively, you can build from source using the <a href="https://github.com/modcluster/mod_cluster">mod_cluster git repository</a> and <a href="https://github.com/modcluster/mod_proxy_cluster">mod_proxy_cluster git repository</a>.</p>
