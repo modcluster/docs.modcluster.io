@@ -910,7 +910,7 @@ for example <a href="#UsingSSL">using SSL to secure access</a> to the httpd-side
 <div class="paragraph">
 <p>Download the latest httpd and java release bundles.
 If there is no pre-built httpd bundle appropriate for your OS or system architecture,
-you can <a href="#nativebuilding">build the binary from source</a>.</p>
+you can <a href="#building-httpd-modules">build the Apache httpd binary from source</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -918,40 +918,35 @@ you can <a href="#nativebuilding">build the binary from source</a>.</p>
 <div class="sect3">
 <h4 id="install-the-whole-httpd"><a class="link" href="#install-the-whole-httpd">2.2.1. Install the whole httpd</a></h4>
 <div class="paragraph">
-<p>The httpd-side bundles are zipped and include a full httpd installation. As they contain already an Apache httpd installation
-you do not need to download Apache httpd. Just extract them in root, e.g.</p>
+<p>Most of the standard distribution contains Apache httpd server. Use your platform specific install tools to install.
+For example in fedora. Just install as in root, e.g.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">cd /
-unzip mod_cluster-1.3.1.Final-linux2-x64-ssl.zip</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">cd /tmp
+yum install httpd</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>That will give you a full httpd install in your <code>/opt/jboss</code> directory with all mod_cluster modules.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="install-only-the-mod_cluster-modules"><a class="link" href="#install-only-the-mod_cluster-modules">2.2.2. Install only the mod_cluster modules</a></h4>
 <div class="paragraph">
 <p>If you already have a working httpd install that you would prefer to
-use, you&#8217;ll need to download the bundle named mod_cluster httpd dynamic
-libraries corresponding to you plaform, extract the modules and copy
-them directory to your httpd install&#8217;s module directory.</p>
+use and your distribution contains mod_cluster or mod_proxy_cluster just install it.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash">cd /tmp
-tar xvf mod_cluster-1.x.y.Final-linux2-x86-so.tar.gz</code></pre>
+yum install mod_cluster</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>And then you have to copy the files below to your module directory:</p>
+<p>And then you have the files below to your module directory:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>mod_slotmem.so</p>
+<p>mod_cluster_slotmem.so</p>
 </li>
 <li>
 <p>mod_manager.so</p>
@@ -967,30 +962,14 @@ tar xvf mod_cluster-1.x.y.Final-linux2-x86-so.tar.gz</code></pre>
 <div class="paragraph">
 <p><strong>httpd version mismatch:</strong> <code>[warn] httpd version mismatch detected</code> Please, beware that one cannot simply load the aforementioned modules into an arbitrary httpd installation.
 These modules were built with a particular minor httpd version and they cannot be used with an older one.
-For instance, mod_cluster modules built with httpd 2.4.x cannot be loaded into httpd 2.2.x.
-Always check the release notes as to which version was used during the build: mod_cluster release.</p>
+For instance, mod_cluster modules built with httpd 2.4.x cannot be loaded into httpd 2.2.x.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="install-in-an-arbitrary-directory"><a class="link" href="#install-in-an-arbitrary-directory">2.2.3. Install in an arbitrary directory</a></h4>
-<div class="paragraph">
-<p>There is a script <code>opt/jboss/httpd/sbin/installhome.sh</code> in the httpd bundle distribution that allows reconfiguration of the
-bundle installation so that it can run in user&#8217;s home directory. To do that, simply extract the bundle in your home directory
-and run the script. Once that done, httpd will run on port 8000 and will accept MCMP messages on localhost:6666 and offer
-<code>/mod_cluster-manager</code> on the same host and port.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="install-in-windows"><a class="link" href="#install-in-windows">2.2.4. Install in Windows</a></h4>
+<h4 id="install-in-windows"><a class="link" href="#install-in-windows">2.2.3. Install in Windows</a></h4>
 <div class="paragraph">
 <p>Unzip the bundle corresponding to your architecture.
-Change to the bin directory of the subfolder <code>httpd-*</code> where you unzipped the bundle and run the installconf.bat shell script.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>cd httpd-2.4\bin
-installconf.bat</code></pre>
-</div>
+Change to the bin directory of the subfolder <code>Apache24</code> where you unzipped the bundle.</p>
 </div>
 <div class="paragraph">
 <p>You may run httpd directly by using:</p>
@@ -1024,17 +1003,12 @@ installconf.bat</code></pre>
 <pre class="CodeRay highlight"><code>httpd.exe -k start</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Note that on windows bundles have a flat directory structure, so you have <em>httpd-2.4/modules/</em> instead of <code>opt/jboss/httpd/lib/httpd/modules</code>.</p>
-</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="configure-httpd"><a class="link" href="#configure-httpd">2.3. Configure httpd</a></h3>
 <div class="paragraph">
-<p>httpd.conf is preconfigured with the Quick Start values. You should adapt the default values to your configuration.]
-There follows an example configuration. If you extracted the download bundle to root as shown above and you are using that
-extract as your httpd install, httpd.conf is located in <code>/opt/jboss/httpd/httpd/conf</code>.</p>
+<p>httpd.conf might need to be configured to use mod_cluster.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1070,58 +1044,48 @@ LoadModule advertise_module /opt/jboss/httpd/lib/httpd/modules/mod_advertise.so
 &lt;/IfModule&gt;</code></pre>
 </div>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-mod_cluster 1.2.x vs mod_cluster 1.3.x: Note that from mod_cluster 1.3.x on, the slotmem module is called
-</td>
-</tr>
-</table>
-</div>
 </div>
 <div class="sect2">
 <h3 id="install-the-worker-side-binaries"><a class="link" href="#install-the-worker-side-binaries">2.4. Install the worker-side binaries</a></h3>
 <div class="paragraph">
-<p>First, extract the java libraries distribution to a temporary directory. One can grab the <code>mod_cluster-java-libs-*-bin.zip</code> from
-mod_cluster release. The following text assumes it is extracted to <code>/tmp/mod-cluster</code>.</p>
-</div>
-<div class="paragraph">
-<p>Your next step depends on whether your target server is JBoss AS 5.x, JBoss AS 7.x, JBoss Web/Tomcat 6, 7, 8 or WildFly (Undertow).</p>
-</div>
-<div class="sect3">
-<h4 id="installing-in-jboss-as-5-x"><a class="link" href="#installing-in-jboss-as-5-x">2.4.1. Installing in JBoss AS 5.x</a></h4>
-<div class="paragraph">
-<p>Assuming \$JBOSS_HOME indicates the root of your JBoss AS install and
-that you want to use mod_cluster in the AS&#8217;s all config:</p>
+<p>Build the jar file using maven</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>cp -r /tmp/mod-cluster/mod-cluster.sar $JBOSS_HOME/server/all/deploy</code></pre>
+<pre class="CodeRay highlight"><code>mvn install</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Your next step depends on whether your target server is JBoss AS 7.x, Tomcat 8, 8.5/9.0 or 10.x or WildFly (Undertow).</p>
 </div>
 <div class="sect3">
-<h4 id="installing-in-tomcat"><a class="link" href="#installing-in-tomcat">2.4.2. Installing in Tomcat</a></h4>
+<h4 id="installing-in-tomcat"><a class="link" href="#installing-in-tomcat">2.4.1. Installing in Tomcat</a></h4>
 <div class="paragraph">
 <p>Assuming $CATALINA_HOME indicates the root of your Tomcat install:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">cp -r /tmp/mod-cluster/JBossWeb-Tomcat/lib/* $CATALINA_HOME/lib/</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">cp container/tomcat/target/* $CATALINA_HOME/lib/
+cp container/tomcat[10,85,8]/target/* $CATALINA_HOME/lib/
+cp container/spi/target/* $CATALINA_HOME/lib/
+cp dist/target/dependency/jboss-logging* $CATALINA_HOME/lib/</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Note that you should remove in the <code>$CATALINA_HOME/lib/</code> directory the
-<code>mod_cluster-container-tomcat6*</code> file in Tomcat7 and the
-<code>mod_cluster-container-tomcat7*</code> in Tomcat 6.</p>
+<p>Note that you should copy only the tomcat files corresponding to your tomcat installation.</p>
+</div>
+<div class="paragraph">
+<p>tomcat10 for tomcat 10.0.x and 10.1.x</p>
+</div>
+<div class="paragraph">
+<p>tomcat85 for tomcat 8.5.x and 9.0.x</p>
+</div>
+<div class="paragraph">
+<p>tomcat8 for tomcat8</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="installing-in-wildfly"><a class="link" href="#installing-in-wildfly">2.4.3. Installing in WildFly</a></h4>
+<h4 id="installing-in-wildfly"><a class="link" href="#installing-in-wildfly">2.4.2. Installing in WildFly</a></h4>
 
 </div>
 </div>
@@ -3165,7 +3129,7 @@ configurations.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="installing-in-jboss-as-5-x-2"><a class="link" href="#installing-in-jboss-as-5-x-2">3.7.2. Installing in JBoss AS 5.x</a></h4>
+<h4 id="installing-in-jboss-as-5-x"><a class="link" href="#installing-in-jboss-as-5-x">3.7.2. Installing in JBoss AS 5.x</a></h4>
 <div class="paragraph">
 <p>Assuming \$JBOSS_HOME indicates the root of your JBoss AS install and
 that you want to use mod_cluster in the AS&#8217;s all config:</p>
