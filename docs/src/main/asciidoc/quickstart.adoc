@@ -16,39 +16,35 @@ link:#worker_config[worker-side] configuration documentation for the full set of
 
 Download the latest httpd and java release bundles.
 If there is no pre-built httpd bundle appropriate for your OS or system architecture,
-you can link:#nativebuilding[build the binary from source].
+you can link:#building-httpd-modules[build the Apache httpd binary from source].
 
 == Install the httpd binary
 
 === Install the whole httpd
 
-The httpd-side bundles are zipped and include a full httpd installation. As they contain already an Apache httpd installation
-you do not need to download Apache httpd. Just extract them in root, e.g.
-
-[source,bash]
-----
-cd /
-unzip mod_cluster-1.3.1.Final-linux2-x64-ssl.zip
-----
-
-That will give you a full httpd install in your `/opt/jboss` directory with all mod_cluster modules.
-
-=== Install only the mod_cluster modules
-
-If you already have a working httpd install that you would prefer to
-use, you'll need to download the bundle named mod_cluster httpd dynamic
-libraries corresponding to you plaform, extract the modules and copy
-them directory to your httpd install's module directory.
+Most of the standard distribution contains Apache httpd server. Use your platform specific install tools to install.
+For example in fedora. Just install as in root, e.g.
 
 [source,bash]
 ----
 cd /tmp
-tar xvf mod_cluster-1.x.y.Final-linux2-x86-so.tar.gz
+yum install httpd
 ----
 
-And then you have to copy the files below to your module directory:
+=== Install only the mod_cluster modules
 
-* mod_slotmem.so
+If you already have a working httpd install that you would prefer to
+use and your distribution contains mod_cluster or mod_proxy_cluster just install it.
+
+[source,bash]
+----
+cd /tmp
+yum install mod_cluster
+----
+
+And then you have the files below to your module directory:
+
+* mod_cluster_slotmem.so
 * mod_manager.so
 * mod_proxy_cluster.so
 * mod_advertise.so
@@ -56,25 +52,11 @@ And then you have to copy the files below to your module directory:
 *httpd version mismatch:* `[warn] httpd version mismatch detected` Please, beware that one cannot simply load the aforementioned modules into an arbitrary httpd installation.
 These modules were built with a particular minor httpd version and they cannot be used with an older one.
 For instance, mod_cluster modules built with httpd 2.4.x cannot be loaded into httpd 2.2.x.
-Always check the release notes as to which version was used during the build: mod_cluster release.
-
-=== Install in an arbitrary directory
-
-There is a script `opt/jboss/httpd/sbin/installhome.sh` in the httpd bundle distribution that allows reconfiguration of the
-bundle installation so that it can run in user's home directory. To do that, simply extract the bundle in your home directory
-and run the script. Once that done, httpd will run on port 8000 and will accept MCMP messages on localhost:6666 and offer
-`/mod_cluster-manager` on the same host and port.
 
 === Install in Windows
 
 Unzip the bundle corresponding to your architecture.
-Change to the bin directory of the subfolder `httpd-*` where you unzipped the bundle and run the installconf.bat shell script.
-
-[source]
-----
-cd httpd-2.4\bin
-installconf.bat
-----
+Change to the bin directory of the subfolder `Apache24` where you unzipped the bundle.
 
 You may run httpd directly by using:
 
@@ -104,13 +86,9 @@ or
 httpd.exe -k start
 ----
 
-Note that on windows bundles have a flat directory structure, so you have _httpd-2.4/modules/_ instead of `opt/jboss/httpd/lib/httpd/modules`.
-
 == Configure httpd
 
-httpd.conf is preconfigured with the Quick Start values. You should adapt the default values to your configuration.]
-There follows an example configuration. If you extracted the download bundle to root as shown above and you are using that
-extract as your httpd install, httpd.conf is located in `/opt/jboss/httpd/httpd/conf`.
+httpd.conf might need to be configured to use mod_cluster.
 
 [source]
 ----
@@ -146,25 +124,15 @@ LoadModule advertise_module /opt/jboss/httpd/lib/httpd/modules/mod_advertise.so
 </IfModule>
 ----
 
-NOTE: mod_cluster 1.2.x vs mod_cluster 1.3.x: Note that from mod_cluster 1.3.x on, the slotmem module is called
-
 == Install the worker-side binaries
 
-First, extract the java libraries distribution to a temporary directory. One can grab the `mod_cluster-java-libs-*-bin.zip` from
-mod_cluster release. The following text assumes it is extracted to `/tmp/mod-cluster`.
-
-Your next step depends on whether your target server is JBoss AS 5.x, JBoss AS 7.x, JBoss Web/Tomcat 6, 7, 8 or WildFly (Undertow).
-
-=== Installing in JBoss AS 5.x
-
-Assuming \$JBOSS_HOME indicates the root of your JBoss AS install and
-that you want to use mod_cluster in the AS's all config:
-
-
+Build the jar file using maven
 [source]
 ----
-cp -r /tmp/mod-cluster/mod-cluster.sar $JBOSS_HOME/server/all/deploy
+mvn install
 ----
+
+Your next step depends on whether your target server is JBoss AS 7.x, Tomcat 8, 8.5/9.0 or 10.x or WildFly (Undertow).
 
 === Installing in Tomcat
 
@@ -172,12 +140,19 @@ Assuming $CATALINA_HOME indicates the root of your Tomcat install:
 
 [source,bash]
 ----
-cp -r /tmp/mod-cluster/JBossWeb-Tomcat/lib/* $CATALINA_HOME/lib/
+cp container/tomcat/target/* $CATALINA_HOME/lib/
+cp container/tomcat[10,85,8]/target/* $CATALINA_HOME/lib/
+cp container/spi/target/* $CATALINA_HOME/lib/
+cp dist/target/dependency/jboss-logging* $CATALINA_HOME/lib/
 ----
 
-Note that you should remove in the `$CATALINA_HOME/lib/` directory the
-`mod_cluster-container-tomcat6*` file in Tomcat7 and the
-`mod_cluster-container-tomcat7*` in Tomcat 6.
+Note that you should copy only the tomcat files corresponding to your tomcat installation.
+
+tomcat10 for tomcat 10.0.x and 10.1.x
+
+tomcat85 for tomcat 8.5.x and 9.0.x
+
+tomcat8 for tomcat8
 
 === Installing in WildFly
 
