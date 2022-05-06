@@ -132,8 +132,7 @@ Build the jar file using maven
 mvn install
 ----
 
-Your next step depends on whether your target server is JBoss AS 7.x, Tomcat 8, 8.5/9.0 or 10.x or 
-(Undertow).
+Your next step depends on whether your target server is JBoss AS 7.x, Tomcat 8, 8.5/9.0 or 10.x or WildFly (Undertow).
 
 === Installing in Tomcat
 
