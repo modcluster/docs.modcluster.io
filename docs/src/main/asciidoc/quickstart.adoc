@@ -132,7 +132,8 @@ Build the jar file using maven
 mvn install
 ----
 
-Your next step depends on whether your target server is JBoss AS 7.x, Tomcat 8, 8.5/9.0 or 10.x or WildFly (Undertow).
+Your next step depends on whether your target server is JBoss AS 7.x, Tomcat 8, 8.5/9.0 or 10.x or 
+(Undertow).
 
 === Installing in Tomcat
 
@@ -156,9 +157,9 @@ tomcat8 for tomcat8
 
 === Installing in WildFly
 
-////
-TODO
-////
+WildFly already includes mod_cluster integration so no extra installation steps are necessary. 
+The mod_cluster subsystem is pre-configured in the HA configurations.
+For WildFly-specific configuration refer to https://docs.wildfly.org/[WildFly documentation].
 
 == Configuring the server-side
 
