@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2022-05-05</span>
+<span id="revdate">2022-05-06</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -1056,7 +1056,8 @@ LoadModule advertise_module /opt/jboss/httpd/lib/httpd/modules/mod_advertise.so
 </div>
 </div>
 <div class="paragraph">
-<p>Your next step depends on whether your target server is JBoss AS 7.x, Tomcat 8, 8.5/9.0 or 10.x or WildFly (Undertow).</p>
+<p>Your next step depends on whether your target server is JBoss AS 7.x, Tomcat 8, 8.5/9.0 or 10.x or
+(Undertow).</p>
 </div>
 <div class="sect3">
 <h4 id="installing-in-tomcat"><a class="link" href="#installing-in-tomcat">2.4.1. Installing in Tomcat</a></h4>
@@ -1086,7 +1087,11 @@ cp dist/target/dependency/jboss-logging* $CATALINA_HOME/lib/</code></pre>
 </div>
 <div class="sect3">
 <h4 id="installing-in-wildfly"><a class="link" href="#installing-in-wildfly">2.4.2. Installing in WildFly</a></h4>
-
+<div class="paragraph">
+<p>WildFly already includes mod_cluster integration so no extra installation steps are necessary.
+The mod_cluster subsystem is pre-configured in the HA configurations.
+For WildFly-specific configuration refer to <a href="https://docs.wildfly.org/">WildFly documentation</a>.</p>
+</div>
 </div>
 </div>
 <div class="sect2">
