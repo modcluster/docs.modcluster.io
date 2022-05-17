@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2022-05-16</span>
+<span id="revdate">2022-05-17</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -1066,8 +1066,10 @@ LoadModule advertise_module /opt/jboss/httpd/lib/httpd/modules/mod_advertise.so
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash">cp container/tomcat/target/* $CATALINA_HOME/lib/
-cp container/tomcat[10,85,8]/target/* $CATALINA_HOME/lib/
+cp container/tomcat[100,85,8]/target/* $CATALINA_HOME/lib/
 cp container/spi/target/* $CATALINA_HOME/lib/
+cp load-spi/target/* $CATALINA_HOME/lib/
+cp core/target/* $CATALINA_HOME/lib/
 cp dist/target/dependency/jboss-logging* $CATALINA_HOME/lib/</code></pre>
 </div>
 </div>
