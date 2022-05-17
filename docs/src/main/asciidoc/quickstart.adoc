@@ -141,8 +141,10 @@ Assuming $CATALINA_HOME indicates the root of your Tomcat install:
 [source,bash]
 ----
 cp container/tomcat/target/* $CATALINA_HOME/lib/
-cp container/tomcat[10,85,8]/target/* $CATALINA_HOME/lib/
+cp container/tomcat[100,85,8]/target/* $CATALINA_HOME/lib/
 cp container/spi/target/* $CATALINA_HOME/lib/
+cp load-spi/target/* $CATALINA_HOME/lib/
+cp core/target/* $CATALINA_HOME/lib/
 cp dist/target/dependency/jboss-logging* $CATALINA_HOME/lib/
 ----
 
