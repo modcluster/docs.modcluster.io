@@ -24,7 +24,7 @@ jobs:
       - name: Build with Maven
         run: mvn -B package
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.3.4
+        uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
           branch: gh-pages
           folder: docs/target/generated-docs/
