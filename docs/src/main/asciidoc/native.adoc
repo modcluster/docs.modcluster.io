@@ -147,6 +147,10 @@ Use `WSUpgradeHeader value` to define the value of the upgrade header mod_proxy_
 
 Size in bytes of the HTTP/1.1 buffers of the workers, the default size is 8192, that limits the header size a webapp can use (Note: In Tomcat there is  maxHttpHeaderSize that also limits it in the Connector).
 
+=== CacheShareFor
+
+Time to cache the shared memory information in seconds, the default is 0: no-caching.
+
 == mod_manager
 
 The Context of a mod_manger directive is VirtualHost except mentioned otherwise. **server config** means that it must be outside a
