@@ -100,7 +100,7 @@ mod_cluster's entire configuration for JBoss Web or Tomcat resides entirely with
 This limits the adds the following constraints to mod_cluster's feature set:
 
 * Only non-clustered mode is supported
-* Only one load metric] can be used to calculate a load factor.
+* Only a single load metric can be used to calculate the load factor.
 
 === Lifecycle Listener
 
