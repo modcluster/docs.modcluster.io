@@ -2,56 +2,58 @@
 
 NOTE: {editurl}quickstart.adoc[{editnote}]
 
-The following are the steps to set up a minimal working installation of
+Following are the steps to set up a minimal working installation of
 mod_cluster on a single httpd server and a single back end server,
 either JBoss AS, JBossWeb, Undertow or Tomcat. The steps can be repeated to add as
-many httpd servers or back end servers to your cluster as is desired.
+many httpd servers or back end servers to your cluster as desired.
 
-The steps shown here are not intended to demonstrate how to set up a production install of mod_cluster;
-for example link:#UsingSSL[using SSL to secure access] to the httpd-side mod_manager component is not covered. See the
-link:#balancer_config[balancer-side] and
-link:#worker_config[worker-side] configuration documentation for the full set of configuration options.
+The steps shown here are not intended to demonstrate how to set up a production
+install of mod_proxy_cluster; for example, link:#UsingSSL[using SSL to secure
+access] to the httpd-side mod_manager component is not covered. See the
+link:#balancer_config[balancer-side] and link:#worker_config[worker-side]
+configuration documentation for the full set of configuration options.
 
 == Download mod_cluster components
 
 Download the latest httpd and java release bundles.
 If there is no pre-built httpd bundle appropriate for your OS or system architecture,
-you can link:#building-httpd-modules[build the Apache httpd binary from source].
+you can link:#building-httpd-modules[build the Apache httpd binary from the source].
 
 == Install the httpd binary
 
 === Install the whole httpd
 
-Most of the standard distribution contains Apache httpd server. Use your platform specific install tools to install.
-For example in fedora. Just install as in root, e.g.
+Most of the standard distributions contain Apache httpd server. Use your platform's
+specific install tools to install. For example, in Fedora, just install as a root:
 
 [source,bash]
 ----
-cd /tmp
-yum install httpd
+dnf install httpd
 ----
 
 === Install only the mod_cluster modules
 
 If you already have a working httpd install that you would prefer to
-use and your distribution contains mod_cluster or mod_proxy_cluster just install it.
+use and your distribution contains mod_cluster/mod_proxy_cluster just install it:
 
 [source,bash]
 ----
-cd /tmp
-yum install mod_cluster
+dnf install mod_cluster
 ----
 
-And then you have the files below to your module directory:
+And then you have the files below in your module directory:
 
 * mod_cluster_slotmem.so
 * mod_manager.so
 * mod_proxy_cluster.so
 * mod_advertise.so
 
-*httpd version mismatch:* `[warn] httpd version mismatch detected` Please, beware that one cannot simply load the aforementioned modules into an arbitrary httpd installation.
-These modules were built with a particular minor httpd version and they cannot be used with an older one.
-For instance, mod_cluster modules built with httpd 2.4.x cannot be loaded into httpd 2.2.x.
+*httpd version mismatch:* `[warn] httpd version mismatch detected` Please,
+beware that one cannot simply load the aforementioned modules into an arbitrary
+httpd installation. These modules were built with a particular minor httpd
+version, and they cannot be used with an older one. For instance,
+mod_proxy_cluster modules built with httpd 2.4.x cannot be loaded into httpd
+2.2.x.
 
 === Install in Windows
 

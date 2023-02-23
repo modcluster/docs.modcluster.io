@@ -5,7 +5,7 @@ NOTE: {editurl}native.adoc[{editnote}]
 
 == Apache httpd configuration
 
-You need to load the modules that are needed for mod_cluster for example:
+You need to load the modules that are needed for mod_proxy_cluster for example:
 
 [source]
 ----
@@ -17,24 +17,25 @@ LoadModule proxy_cluster_module modules/mod_proxy_cluster.so
 LoadModule advertise_module modules/mod_advertise.so
 ----
 
-NOTE: *mod_cluster 1.2.x vs mod_cluster 1.3.x:* Note that from mod_cluster 1.3.x on, the slotmem module is called
-`LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so` instead of former `LoadModule slotmem_module modules/mod_slotmem.so`.
+NOTE: *mod_cluster 1.2.x and older:* Note that mod_cluster 1.2.x and older used different
+name for the slotmem module (`LoadModule slotmem_module modules/mod_slotmem.so` instead of
+the current `LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so`).
 
-mod_proxy and mod_proxy_ajp are standard httpd modules. mod_slotmem is a shared slotmem memory provider.
-mod_manager is the module that reads information from JBoss AS/JBossWeb/Tomcat and updates the shared memory
-information. mod_proxy_cluster is the module that contains the balancer for mod_proxy. mod_advertise is an
-additional module that allows httpd to advertise via multicast packets the IP and port where the mod_cluster
-is listening. This multi-module architecture allows the modules to easily be changed depending on what the
-customer wants to do.
+mod_proxy and mod_proxy_ajp are standard httpd modules. mod_cluster_slotmem is a shared slotmem
+memory provider. mod_manager is the module that reads information from JBoss AS/JBossWeb/Tomcat
+and updates the shared memory information. mod_proxy_cluster is the module that contains the
+balancer for mod_proxy. mod_advertise is an additional module that allows httpd to advertise via
+multicast packets the IP and port where the mod_proxy_cluster is listening. This multi-module
+architecture allows the modules to easily be changed depending on what the customer wants to do.
 
-For example when using http instead of AJP, only
+For example when using http instead of AJP, only:
 
 [source]
 ----
 LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
 ----
 
-needs to be changed to:
+has to be changed to:
 
 [source]
 ----
@@ -43,18 +44,18 @@ LoadModule proxy_http_module modules/mod_proxy_http.so
 
 == mod_proxy configuration
 
-mod_proxy directives like ProxyIOBufferSize could be used to configure mod_cluster. There is no need to use ProxyPass
-directives because mod_cluster automatically configures which URLs have to be forwarded to JBossWEB.
+mod_proxy directives like ProxyIOBufferSize could be used to configure mod_proxy_cluster. There is no need to use ProxyPass
+directives because mod_proxy_cluster automatically configures which URLs have to be forwarded to JBossWEB.
 
-== mod_slotmem/cluster_slotmem_module configuration
+== mod_slotmem/mod_cluster_slotmem configuration
 
-The actual version does not require any configuration directives.
+The current version does not require any configuration directives.
 
 == mod_proxy_cluster
 
 === CreateBalancers
 
-CreateBalancers define how balancers are created in the httpd VirtualHosts, this is to allow directives like:
+CreateBalancers define how balancers are created in the httpd VirtualHosts. This is to allow directives like:
 
 [source]
 ----
@@ -72,7 +73,10 @@ ProxyPass / balancer://mycluster1/
 NOTE: *CreateBalancers 1:* When using 1 don't forget to configure the balancer in the ProxyPass directive, because the default is
 empty stickysession and `nofailover=Off` and the values received via the MCMP CONFIG message are ignored.
 
-NOTE: *Default: 2* If you have no `ProxyPass` directive in the `VirtualHost`, the `VirtualHost` is ignored by mod_cluster. So, even if `CreateBalancers` is set to `2` (default), the main server is used instead in such configuration. See also https://issues.jboss.org/browse/MODCLUSTER-430[MODCLUSTER-430 &mdash; CreateBalancers behave the same with option 0 or 2]
+NOTE: *Default: 2* If you have no `ProxyPass` directive in the `VirtualHost`, the `VirtualHost` is ignored
+by mod_proxy_cluster. So, even if `CreateBalancers` is set to `2` (default), the main server is used instead
+in such configuration.
+See also https://issues.jboss.org/browse/MODCLUSTER-430[MODCLUSTER-430 &mdash; CreateBalancers behave the same with option 0 or 2]
 
 
 === UseAlias
@@ -97,15 +101,14 @@ The actual formula to recalculate the status of a node is:
 
 [source]
 ----
-status = lbstatus + (elected - oldelected) * 1000)/lbfactor;
+status = lbstatus + (elected - oldelected) * 1000) / lbfactor;
 ----
 
 lbfactor is received for the node via STATUS messages.lbstatus is recalculated every LBstatusRecalTime seconds using the formula:
-`lbstatus = (elected - oldelected) * 1000)/lbfactor`
+`lbstatus = (elected - oldelected) * 1000) / lbfactor`
 
-elected is the amount of time the worker has been elected. `oldelected` is `elected` last time the `lbstatus`
-was recalculated. The node with the lowest `status` is selected. Nodes with `lbfactor ≤ 0` are skipped by the both
-calculation logics.
+where `elected` is the amount of time the worker has been elected. `oldelected` is `elected` from the last time the `lbstatus`
+was recalculated. The node with the lowest `status` is selected. Nodes with `lbfactor ≤ 0` are skipped by the both calculation logics.
 
 === WaitForRemove
 
@@ -137,15 +140,19 @@ but for HTTP/HTTPS connections. The endpoint needs to implement at least HTTP/1.
 
 === AJPSecret
 
-Use `AJPSecret your_secret` to provide the secret for the AJP back-end, See mod_proxy_ajp and mod_proxy docs for more information. If `your_secret` doesn't correspond to the value configured in the back-end the back-end will return 503 to any request coming through the proxy.
+Use `AJPSecret your_secret` to provide the secret for the AJP back-end, See mod_proxy_ajp and mod_proxy docs for more
+information. If `your_secret` doesn't correspond to the value configured in the back-end the back-end will return 503
+to any request coming through the proxy.
 
 === WSUpgradeHeader
 
-Use `WSUpgradeHeader value` to define the value of the upgrade header mod_proxy_wstunnel is accepting. See mod_proxy_wstunnel and mod_proxy docs for more information.
+Use `WSUpgradeHeader value` to define the value of the upgrade header mod_proxy_wstunnel is accepting. See
+mod_proxy_wstunnel and mod_proxy docs for more information.
 
 === ResponseFieldSize
 
-Size in bytes of the HTTP/1.1 buffers of the workers, the default size is 8192, that limits the header size a webapp can use (Note: In Tomcat there is  maxHttpHeaderSize that also limits it in the Connector).
+Size in bytes of the HTTP/1.1 buffers of the workers, the default size is 8192, that limits the header size a webapp
+can use (Note: In Tomcat there is  maxHttpHeaderSize that also limits it in the Connector).
 
 === CacheShareFor
 
@@ -158,11 +165,12 @@ VirtualHost configuration. If not an error message will be displayed and httpd w
 
 === EnableMCPMReceive
 
-EnableMCPMReceive &mdash; allow the VirtualHost to receive mod_cluster management protocol (MCMP) messages. You need one
-EnableMCPMReceive in your httpd configuration to allow mod_cluster to
-work, put it in the VirtualHost where you configure advertise.
+EnableMCPMReceive &mdash; allow the VirtualHost to receive Mod-Cluster Management Protocol (MCMP) messages. You need one
+EnableMCPMReceive in your httpd configuration to allow mod_proxy_cluster to work, put it in the VirtualHost where you
+configure advertise.
 
-This directive was added so as to address the issue of receiving MCMP on arbitrary VirtualHosts which was problematic due to accepting messages on insecure, unintended VirtualHosts.
+This directive was added so as to address the issue of receiving MCMP on arbitrary VirtualHosts which was problematic
+due to accepting messages on insecure, unintended VirtualHosts.
 
 === MemManagerFile
 
@@ -177,7 +185,7 @@ files are placed on a local drive and not an NFS share. (Context: **server confi
 
 === Maxcontext
 
-The maximum number of application contexts supported by mod_cluster. (Context: **server config**)
+The maximum number of application contexts supported by mod_proxy_cluster. (Context: **server config**)
 
 **Default:**
 ++++
@@ -186,7 +194,7 @@ The maximum number of application contexts supported by mod_cluster. (Context: *
 
 === Maxnode
 
-That is the maximum number of nodes supported by mod_cluster. (Context: **server config**)
+That is the maximum number of nodes supported by mod_proxy_cluster. (Context: **server config**)
 
 **Default:**
 ++++
@@ -195,7 +203,8 @@ That is the maximum number of nodes supported by mod_cluster. (Context: **server
 
 === Maxhost
 
-That is the maximum number of hosts (Aliases) supported by mod_cluster. That is also the max number of balancers. (Context: **server config**)
+That is the maximum number of hosts (Aliases) supported by mod_proxy_cluster. That is also the max number of balancers.
+(Context: **server config**)
 
 **Default:**
 ++++
@@ -231,7 +240,7 @@ Default: mycluster
 
 === PersistSlots
 
-PersistSlots: Tell mod_slotmem to persist the nodes, Alias and Context
+PersistSlots: Tell mod_cluster_slotmem to persist the nodes, Alias and Context
 in files. (Context: server config)
 
 Default: Off
@@ -267,7 +276,7 @@ Default: off Full information displayed
 === SetHandler mod_cluster-manager
 
 SetHandler mod_cluster-manager: That is the handler to display the node
-mod_cluster sees from the cluster. It displays the information about
+mod_proxy_cluster sees from the cluster. It displays the information about
 the nodes like INFO and additionally counts the number of active
 sessions.
 
@@ -301,26 +310,28 @@ Note that:
 Transferred: Corresponds to the POST data send to the back-end server.
 
 Connected: Corresponds to the number of requests been processed when the
-mod_cluster status page was requested.
+mod_proxy_cluster status page was requested.
 
-sessions: Corresponds to the number of sessions mod_cluster report as
+sessions: Corresponds to the number of sessions mod_proxy_cluster report as
 active (on which there was a request during the past 5 minutes). That
 field is not present when Maxsessionid is zero.
 
 === mod_advertise
 
-mod_advertise uses multicast packets to advertise the VirtualHost where it is configured that must be the same VirtualHost
-where mod_manager is defined. Of course at least one mod_advertise must be in the VirtualHost to allow mod_cluster to find
-the right IP and port to give to the ClusterListener.
+mod_advertise uses multicast packets to advertise the VirtualHost where it is
+configured that must be the same VirtualHost where mod_manager is defined. Of
+course at least one mod_advertise must be in the VirtualHost to allow
+mod_proxy_cluster to find the right IP and port to give to the ClusterListener.
 
 === ServerAdvertise
 
 ServerAdvertise On: Use the advertise mechanism to tell the JBoss
 AS/JBossWeb/Tomcat to whom it should send the cluster information.
 
-ServerAdvertise On http://hostname:port: Tell the hostname and port to use. Only needed if the VirtualHost is not defined
-correctly, if the VirtualHost is a http://httpd.apache.org/docs/2.2/vhosts/name-based.html[Name-based Virtual Host] or when
-VirtualHost is not used.
+ServerAdvertise On http://hostname:port: Tell the hostname and port to use.
+Only needed if the VirtualHost is not defined correctly, if the VirtualHost is
+a http://httpd.apache.org/docs/2.2/vhosts/name-based.html[Name-based Virtual Host]
+or when VirtualHost is not used.
 
 ServerAdvertise Off: Don't use the advertise mechanism.
 
@@ -369,7 +380,7 @@ Default: 0.0.0.0:23364
 Beware of the different names of `mod_cluster_slotmem.so` and `mod_slotmem.so` between mod_cluster 1.3.x and older versions.
 Last but not least, pay attention to httpd 2.2.x and httpd 2.4.x authentication configuration changes.
 
-=== mod_cluster 1.3.x, Apache HTTP Server 2.4.x
+=== mod_cluster 1.3.x and newer, Apache HTTP Server 2.4.x
 
 [source]
 ----
@@ -445,23 +456,30 @@ LoadModule advertise_module modules/mod_advertise.so
 
 == Building httpd modules
 
-mod_cluster 1.3.x and older, both httpd modules and Tomcat/WildFly java libraries reside in the https://github.com/modcluster/mod_cluster[mod_cluster] repository, branches 1.3.x and 1.2.x. New development of mod_cluster httpd modules takes place in the new repository: https://github.com/modcluster/mod_proxy_cluster[mod_proxy_cluster].
+mod_cluster 1.3.x and older, both httpd modules and Tomcat/WildFly java libraries reside in the
+https://github.com/modcluster/mod_cluster[mod_cluster] repository, branches 1.3.x and 1.2.x. New
+development of mod_cluster httpd modules takes place under a new name mod_proxy_cluster in the
+new repository https://github.com/modcluster/mod_proxy_cluster[mod_proxy_cluster].
 
-See https://asciinema.org/a/7563u1eu6o5jlg3a0gk4wv69f?t=52[ASCII recorded tutorial] on httpd modules compilation with your own system httpd.
+See https://asciinema.org/a/7563u1eu6o5jlg3a0gk4wv69f?t=52[ASCII recorded tutorial] on httpd modules
+compilation with your own system's httpd.
 
 === Build with httpd on Windows
 
-We assume you already have a functional Apache HTTP Server on Windows. This example works with Apache Lounge HTTP Server.
-We also assume the system has MS Visual Studio (Community Edition is ample) and CMake installed. The example operates in cmder shell, but it is not mandatory. A simple Windows cmd prompt would work too.
+We assume you already have a functional Apache HTTP Server on Windows. This example works with
+Apache Lounge HTTP Server.
+We also assume the system has MS Visual Studio (Community Edition is ample) and CMake installed.
+The example operates in cmder shell, but it is not mandatory. A simple Windows cmd prompt would work too.
 
- * Download the http://www.apachelounge.com/download/[Apache Lounge distribution]. Our example uses http://www.apachelounge.com/download/VC14/binaries/httpd-2.4.23-win64-VC14.zip[httpd-2.4.23-win64-VC14.zip].
+ * Download the https://www.apachelounge.com/download/[Apache Lounge distribution]. Our example uses
+   https://www.apachelounge.com/download/VS17/binaries/httpd-2.4.55-win64-VS17.zip[httpd-2.4.55-win64-VS17.zip].
  * unzipped:
 
 [source]
 ----
 C:\Users\karm
 ls
-httpd-2.4.23-win64-VC14/ httpd-2.4.23-win64-VC14.zip
+httpd-2.4.55-win64-VS17/ httpd-2.4.55-win64-VS17.zip
 ----
 
  * Clone mod_proxy_cluster sources git:
@@ -487,7 +505,8 @@ C:\Users\karm\mod_proxy_cluster\native\build (main)
 vcvars64.bat
 ----
 
-Here comes the only slightly tricky part: Apache Lounge httpd ships all necessary *.lib files with exported symbols but for mod_proxy. Since mod_proxy is our dependency, we have to generate these exported symbols from mod_proxy dll.
+Here comes the only slightly tricky part: Apache Lounge httpd ships all necessary *.lib files with exported symbols but
+for mod_proxy. Since mod_proxy is our dependency, we have to generate these exported symbols from mod_proxy dll.
 
 [source]
 ----
@@ -570,12 +589,13 @@ Rebuild (make) and reinstall (make install) after that.
 You need an httpd installation with mod_proxy (`--enable-proxy`) and ajp
 protocol (`--enable-proxy-ajp`) enabled and with dso enabled (`--enable-so`).
 
-Download the mod_cluster sources:
+Download the mod_proxy_cluster sources:
 
-    git clone git://github.com/modcluster/mod_cluster.git
+    git clone git://github.com/modcluster/mod_proxy_cluster.git
 
-Build the mod_cluster modules components, for each subdirectory
-advertise, mod_manager, mod_proxy_cluster and mod_slotmem do
+Build the mod_proxy_cluster's modules components, for each subdirectory
+advertise, mod_manager, mod_proxy_cluster and mod_cluster_slotmem (mod_slotmem
+for version 1.2 or older) do
 something like:
 
 [source,bash]
@@ -596,11 +616,11 @@ NOTE: You can ignore the libtool message on most platform:
 libtool: install: warning: remember to run `libtool --finish apache_installation_directory/modules'
 ----
 
-Once that is done use Apache httpd configuration to configure mod_cluster.
+Once that is done use Apache httpd configuration to configure mod_proxy_cluster.
 
 === Build the mod_proxy module
 
-It is only needed for httpd-2.2.x where x \< 11. Process like the other mod_cluster modules.
+It is only needed for httpd-2.2.x where x \< 11. Process like the other mod_proxy_cluster modules.
 
 == Installing httpd modules
 

@@ -673,7 +673,7 @@ Each load metric contributes a value to the overall load factor of a
 node. The load factors from each metric are aggregated according to
 their weights.
 
-In general, the load factor contribution of given metric is: `(load /
+In general, the load factor contribution of a given metric is: `(load /
 capacity) \* weight / total weight`.
 
 The DynamicLoadBalanceFactorProvider applies a time decay function to
