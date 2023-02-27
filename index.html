@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2023-02-22</span>
+<span id="revdate">2023-02-27</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -573,7 +573,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel2">
 <li><a href="#apache-httpd-configuration">4.1. Apache httpd configuration</a></li>
 <li><a href="#mod_proxy-configuration">4.2. mod_proxy configuration</a></li>
-<li><a href="#mod_slotmemcluster_slotmem_module-configuration">4.3. mod_slotmem/cluster_slotmem_module configuration</a></li>
+<li><a href="#mod_slotmemmod_cluster_slotmem-configuration">4.3. mod_slotmem/mod_cluster_slotmem configuration</a></li>
 <li><a href="#mod_proxy_cluster">4.4. mod_proxy_cluster</a></li>
 <li><a href="#mod_manager">4.5. mod_manager</a></li>
 <li><a href="#minimal-example">4.6. Minimal Example</a></li>
@@ -647,36 +647,52 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </table>
 </div>
 <div class="paragraph">
-<p>mod_cluster is an httpd-based load balancer. Like mod_jk and
+<p>Project mod_cluster is an intelligent load balancer. Like mod_jk and
 mod_proxy, mod_cluster uses a communication channel to forward
 requests from httpd to one of a set of application server nodes. Unlike
-mod_jk and mod_proxy, mod_cluster leverages an additional connection
+mod_jk and mod_proxy, mod_proxy_cluster leverages an additional connection
 between the application server nodes and httpd. The application server
 nodes use this connection to transmit server-side load balance factors
 and lifecycle events back to httpd via a custom set of HTTP methods,
 affectionately called the Mod-Cluster Management Protocol (MCMP). This
-additional feedback channel allows mod_cluster to offer a level of
+additional feedback channel allows mod_proxy_cluster to offer a level of
 intelligence and granularity not found in other load balancing
 solutions.</p>
 </div>
 <div class="paragraph">
-<p>Within httpd, mod_cluster is implemented as a set of modules for httpd
+<p>Within httpd, mod_proxy_cluster is implemented as a set of modules for httpd
 with mod_proxy enabled. Much of the logic comes from mod_proxy, e.g.
-mod_proxy_ajp provides all the AJP logic needed by mod_cluster.</p>
+mod_proxy_ajp provides all the AJP logic needed by mod_proxy_cluster.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In the past, mod_proxy_cluster was known as mod_cluster (version 1.3.x and older),
+consisting of native and container implementations. The repositories of the two
+implementations were separated, and the native part got the name mod_proxy_cluster, while
+the former name mod_cluster is currently used for container implementation.
+</td>
+</tr>
+</table>
 </div>
 <div class="sect2">
 <h3 id="platforms"><a class="link" href="#platforms">1.1. Platforms</a></h3>
 <div class="paragraph">
-<p>The binary packages of the modules needed to use with Apache httpd server are present in most ditribution.</p>
+<p>The binary packages of the modules needed to use with Apache httpd server are present in most distributions.</p>
 </div>
 <div class="paragraph">
-<p>If your distribution doesn&#8217;t have mod_cluster or mod_proxy_cluster pick the latest 1.3.x released tar.gz and follow the building instructions.</p>
+<p>If your distribution doesn&#8217;t provide mod_proxy_cluster, pick the latest version from the source and follow
+the building instructions.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="advantages"><a class="link" href="#advantages">1.2. Advantages</a></h3>
 <div class="paragraph">
-<p>mod_cluster boasts the following advantages over other httpd-based load balancers:</p>
+<p>mod_proxy_cluster boasts the following advantages over other httpd-based load balancers:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -686,7 +702,12 @@ mod_proxy_ajp provides all the AJP logic needed by mod_cluster.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Traditional httpd-based load balancers require explicit configuration of the workers available to a proxy. In mod_cluster, the bulk of the proxy&#8217;s configuration resides on the application servers. The set of proxies to which an application server will communicate is determined either by a static list or using dynamic discovery via the advertise mechanism. The application server relays lifecycle events (e.g. server startup/shutdown) to the proxies allowing them to effectively auto-configure themselves. Notably, the graceful shutdown of a server will not result in a failover response by a proxy, as is the case with traditional httpd-based load balancers.</p>
+<p>Traditional httpd-based load balancers require explicit configuration of the workers available to a proxy.
+In mod_proxy_cluster, the bulk of the proxy&#8217;s configuration resides on the application servers. The set of
+proxies to which an application server will communicate is determined either by a static list or using dynamic
+discovery via the advertising mechanism. The application server relays lifecycle events (e.g. server startup/shutdown)
+to the proxies allowing them to effectively auto-configure themselves. Notably, the graceful shutdown of a server
+will not result in a failover response by a proxy, as is the case with traditional httpd-based load balancers.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -696,7 +717,9 @@ mod_proxy_ajp provides all the AJP logic needed by mod_cluster.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>In contrast with traditional httpd-based load balancers, mod_cluster uses load balance factors calculated and provided by the application servers, rather than computing these in the proxy. Consequently, mod_cluster offers a more robust and accurate set of load metrics than is available from the proxy (see Load Metrics for more).</p>
+<p>In contrast with traditional httpd-based load balancers, mod_proxy_cluster uses load balance factors calculated and
+provided by the application servers rather than computing these in the proxy. Consequently, mod_proxy_cluster offers
+a more robust and accurate set of load metrics than is available from the proxy (see Load Metrics for more).</p>
 </div>
 <div class="ulist">
 <ul>
@@ -706,7 +729,11 @@ mod_proxy_ajp provides all the AJP logic needed by mod_cluster.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Traditional httpd-based load balancers do not handle web application undeployments particularly well. From the proxy&#8217;s perspective requests to an undeployed web application are indistinguishable from a request for an non-existent resource, and will result in 404 errors. In mod_cluster, each server forwards any web application context lifecycle events (e.g. web-app deploy/undeploy) to the proxy informing it to start/stop routing requests for a given context to that server.</p>
+<p>Traditional httpd-based load balancers do not handle web application undeployments particularly well. From the proxy&#8217;s
+perspective, requests to an undeployed web application are indistinguishable from a request for a non-existent
+resource and will result in 404 errors. In mod_cluster, each server forwards any web application context lifecycle
+events (e.g. web-app deploy/undeploy) to the proxy, informing it to start/stop routing requests for a given context to
+that server.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -716,7 +743,7 @@ mod_proxy_ajp provides all the AJP logic needed by mod_cluster.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Unlike mod_jk, mod_cluster does not require AJP. httpd connections to application server nodes can use HTTP, HTTPS, or AJP.
+<p>Unlike mod_jk, mod_proxy_cluster does not require AJP. httpd connections to application server nodes can use HTTP, HTTPS, or AJP.
 The original concepts are described in a <a href="http://www.jboss.org/community/docs/DOC-11431">wiki</a>.</p>
 </div>
 </div>
@@ -755,7 +782,8 @@ The original concepts are described in a <a href="http://www.jboss.org/community
 <div class="sect2">
 <h3 id="limitations"><a class="link" href="#limitations">1.4. Limitations</a></h3>
 <div class="paragraph">
-<p>mod_cluster uses shared memory to keep the nodes description, the shared memory is created at the start of httpd and the structure of each item is fixed. The following cannot be changed by configuration directives.</p>
+<p>mod_proxy_cluster uses shared memory to keep the nodes description, the shared memory is created at the start of httpd and
+the structure of each item is fixed. The following cannot be changed by configuration directives.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -811,11 +839,13 @@ The original concepts are described in a <a href="http://www.jboss.org/community
 </ul>
 </div>
 <div class="paragraph">
-<p>The native part is developed in <a href="https://github.com/modcluster/mod_proxy_cluster" class="bare">https://github.com/modcluster/mod_proxy_cluster</a> and <a href="https://github.com/modcluster/mod_cluster/tree/1.3.x" class="bare">https://github.com/modcluster/mod_cluster/tree/1.3.x</a>
+<p>The native part is developed in <a href="https://github.com/modcluster/mod_proxy_cluster" class="bare">https://github.com/modcluster/mod_proxy_cluster</a> (with 1.3.x version and older
+available in the original repository <a href="https://github.com/modcluster/mod_cluster/tree/1.3.x" class="bare">https://github.com/modcluster/mod_cluster/tree/1.3.x</a>).
 The native part is compatible with the 2.0.x and 1.4.x branches of mod_cluster</p>
 </div>
 <div class="paragraph">
-<p>Alternatively, you can build from source using the <a href="https://github.com/modcluster/mod_cluster">mod_cluster git repository</a> and <a href="https://github.com/modcluster/mod_proxy_cluster">mod_proxy_cluster git repository</a>.</p>
+<p>Alternatively, you can build from source using the <a href="https://github.com/modcluster/mod_cluster">mod_cluster git repository</a>
+and <a href="https://github.com/modcluster/mod_proxy_cluster">mod_proxy_cluster git repository</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -870,7 +900,12 @@ and a corresponding ssl-enabled HTTP connector in JBoss Web or Undertow. The lat
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-Strong cryptography: Please remember that export/import and/or use of strong cryptography software, providing cryptography hooks, or even just communicating technical details about cryptography software is illegal in some parts of the world. So when you import this package to your country, re-distribute it from there or even just email technical suggestions or even source patches to the authors or other people you are strongly advised to pay close attention to any laws or regulations which apply to you. The authors of openssl are not liable for any violations you make here. So be careful, it is your responsibility.
+Strong cryptography: Please remember that export/import and/or use of strong cryptography software, providing
+cryptography hooks, or even just communicating technical details about cryptography software is illegal in some parts
+of the world. So when you import this package to your country, re-distribute it from there or even just email technical
+suggestions or even source patches to the authors or other people you are strongly advised to pay close attention to
+any laws or regulations which apply to you. The authors of openssl are not liable for any violations you make here. So
+be careful, it is your responsibility.
 </td>
 </tr>
 </table>
@@ -894,23 +929,24 @@ Strong cryptography: Please remember that export/import and/or use of strong cry
 </table>
 </div>
 <div class="paragraph">
-<p>The following are the steps to set up a minimal working installation of
+<p>Following are the steps to set up a minimal working installation of
 mod_cluster on a single httpd server and a single back end server,
 either JBoss AS, JBossWeb, Undertow or Tomcat. The steps can be repeated to add as
-many httpd servers or back end servers to your cluster as is desired.</p>
+many httpd servers or back end servers to your cluster as desired.</p>
 </div>
 <div class="paragraph">
-<p>The steps shown here are not intended to demonstrate how to set up a production install of mod_cluster;
-for example <a href="#UsingSSL">using SSL to secure access</a> to the httpd-side mod_manager component is not covered. See the
-<a href="#balancer_config">balancer-side</a> and
-<a href="#worker_config">worker-side</a> configuration documentation for the full set of configuration options.</p>
+<p>The steps shown here are not intended to demonstrate how to set up a production
+install of mod_proxy_cluster; for example, <a href="#UsingSSL">using SSL to secure
+access</a> to the httpd-side mod_manager component is not covered. See the
+<a href="#balancer_config">balancer-side</a> and <a href="#worker_config">worker-side</a>
+configuration documentation for the full set of configuration options.</p>
 </div>
 <div class="sect2">
 <h3 id="download-mod_cluster-components"><a class="link" href="#download-mod_cluster-components">2.1. Download mod_cluster components</a></h3>
 <div class="paragraph">
 <p>Download the latest httpd and java release bundles.
 If there is no pre-built httpd bundle appropriate for your OS or system architecture,
-you can <a href="#building-httpd-modules">build the Apache httpd binary from source</a>.</p>
+you can <a href="#building-httpd-modules">build the Apache httpd binary from the source</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -918,13 +954,12 @@ you can <a href="#building-httpd-modules">build the Apache httpd binary from sou
 <div class="sect3">
 <h4 id="install-the-whole-httpd"><a class="link" href="#install-the-whole-httpd">2.2.1. Install the whole httpd</a></h4>
 <div class="paragraph">
-<p>Most of the standard distribution contains Apache httpd server. Use your platform specific install tools to install.
-For example in fedora. Just install as in root, e.g.</p>
+<p>Most of the standard distributions contain Apache httpd server. Use your platform&#8217;s
+specific install tools to install. For example, in Fedora, just install as a root:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">cd /tmp
-yum install httpd</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">dnf install httpd</code></pre>
 </div>
 </div>
 </div>
@@ -932,16 +967,15 @@ yum install httpd</code></pre>
 <h4 id="install-only-the-mod_cluster-modules"><a class="link" href="#install-only-the-mod_cluster-modules">2.2.2. Install only the mod_cluster modules</a></h4>
 <div class="paragraph">
 <p>If you already have a working httpd install that you would prefer to
-use and your distribution contains mod_cluster or mod_proxy_cluster just install it.</p>
+use and your distribution contains mod_cluster/mod_proxy_cluster just install it:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">cd /tmp
-yum install mod_cluster</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">dnf install mod_cluster</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>And then you have the files below to your module directory:</p>
+<p>And then you have the files below in your module directory:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -960,9 +994,12 @@ yum install mod_cluster</code></pre>
 </ul>
 </div>
 <div class="paragraph">
-<p><strong>httpd version mismatch:</strong> <code>[warn] httpd version mismatch detected</code> Please, beware that one cannot simply load the aforementioned modules into an arbitrary httpd installation.
-These modules were built with a particular minor httpd version and they cannot be used with an older one.
-For instance, mod_cluster modules built with httpd 2.4.x cannot be loaded into httpd 2.2.x.</p>
+<p><strong>httpd version mismatch:</strong> <code>[warn] httpd version mismatch detected</code> Please,
+beware that one cannot simply load the aforementioned modules into an arbitrary
+httpd installation. These modules were built with a particular minor httpd
+version, and they cannot be used with an older one. For instance,
+mod_proxy_cluster modules built with httpd 2.4.x cannot be loaded into httpd
+2.2.x.</p>
 </div>
 </div>
 <div class="sect3">
@@ -2783,7 +2820,7 @@ node. The load factors from each metric are aggregated according to
 their weights.</p>
 </div>
 <div class="paragraph">
-<p>In general, the load factor contribution of given metric is: <code>(load /
+<p>In general, the load factor contribution of a given metric is: <code>(load /
 capacity) \* weight / total weight</code>.</p>
 </div>
 <div class="paragraph">
@@ -3197,7 +3234,7 @@ cp /tmp/mod_cluster/JBossWeb-Tomcat/lib/mod_cluster-core* $CATALINA_HOME/lib/</c
 <div class="sect2">
 <h3 id="apache-httpd-configuration"><a class="link" href="#apache-httpd-configuration">4.1. Apache httpd configuration</a></h3>
 <div class="paragraph">
-<p>You need to load the modules that are needed for mod_cluster for example:</p>
+<p>You need to load the modules that are needed for mod_proxy_cluster for example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3216,22 +3253,23 @@ LoadModule advertise_module modules/mod_advertise.so</code></pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<strong>mod_cluster 1.2.x vs mod_cluster 1.3.x:</strong> Note that from mod_cluster 1.3.x on, the slotmem module is called
-<code>LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so</code> instead of former <code>LoadModule slotmem_module modules/mod_slotmem.so</code>.
+<strong>mod_cluster 1.2.x and older:</strong> Note that mod_cluster 1.2.x and older used different
+name for the slotmem module (<code>LoadModule slotmem_module modules/mod_slotmem.so</code> instead of
+the current <code>LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so</code>).
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>mod_proxy and mod_proxy_ajp are standard httpd modules. mod_slotmem is a shared slotmem memory provider.
-mod_manager is the module that reads information from JBoss AS/JBossWeb/Tomcat and updates the shared memory
-information. mod_proxy_cluster is the module that contains the balancer for mod_proxy. mod_advertise is an
-additional module that allows httpd to advertise via multicast packets the IP and port where the mod_cluster
-is listening. This multi-module architecture allows the modules to easily be changed depending on what the
-customer wants to do.</p>
+<p>mod_proxy and mod_proxy_ajp are standard httpd modules. mod_cluster_slotmem is a shared slotmem
+memory provider. mod_manager is the module that reads information from JBoss AS/JBossWeb/Tomcat
+and updates the shared memory information. mod_proxy_cluster is the module that contains the
+balancer for mod_proxy. mod_advertise is an additional module that allows httpd to advertise via
+multicast packets the IP and port where the mod_proxy_cluster is listening. This multi-module
+architecture allows the modules to easily be changed depending on what the customer wants to do.</p>
 </div>
 <div class="paragraph">
-<p>For example when using http instead of AJP, only</p>
+<p>For example when using http instead of AJP, only:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3239,7 +3277,7 @@ customer wants to do.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>needs to be changed to:</p>
+<p>has to be changed to:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3250,14 +3288,14 @@ customer wants to do.</p>
 <div class="sect2">
 <h3 id="mod_proxy-configuration"><a class="link" href="#mod_proxy-configuration">4.2. mod_proxy configuration</a></h3>
 <div class="paragraph">
-<p>mod_proxy directives like ProxyIOBufferSize could be used to configure mod_cluster. There is no need to use ProxyPass
-directives because mod_cluster automatically configures which URLs have to be forwarded to JBossWEB.</p>
+<p>mod_proxy directives like ProxyIOBufferSize could be used to configure mod_proxy_cluster. There is no need to use ProxyPass
+directives because mod_proxy_cluster automatically configures which URLs have to be forwarded to JBossWEB.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="mod_slotmemcluster_slotmem_module-configuration"><a class="link" href="#mod_slotmemcluster_slotmem_module-configuration">4.3. mod_slotmem/cluster_slotmem_module configuration</a></h3>
+<h3 id="mod_slotmemmod_cluster_slotmem-configuration"><a class="link" href="#mod_slotmemmod_cluster_slotmem-configuration">4.3. mod_slotmem/mod_cluster_slotmem configuration</a></h3>
 <div class="paragraph">
-<p>The actual version does not require any configuration directives.</p>
+<p>The current version does not require any configuration directives.</p>
 </div>
 </div>
 <div class="sect2">
@@ -3265,7 +3303,7 @@ directives because mod_cluster automatically configures which URLs have to be fo
 <div class="sect3">
 <h4 id="createbalancers"><a class="link" href="#createbalancers">4.4.1. CreateBalancers</a></h4>
 <div class="paragraph">
-<p>CreateBalancers define how balancers are created in the httpd VirtualHosts, this is to allow directives like:</p>
+<p>CreateBalancers define how balancers are created in the httpd VirtualHosts. This is to allow directives like:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3308,7 +3346,10 @@ empty stickysession and <code>nofailover=Off</code> and the values received via 
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<strong>Default: 2</strong> If you have no <code>ProxyPass</code> directive in the <code>VirtualHost</code>, the <code>VirtualHost</code> is ignored by mod_cluster. So, even if <code>CreateBalancers</code> is set to <code>2</code> (default), the main server is used instead in such configuration. See also <a href="https://issues.jboss.org/browse/MODCLUSTER-430">MODCLUSTER-430 &mdash; CreateBalancers behave the same with option 0 or 2</a>
+<strong>Default: 2</strong> If you have no <code>ProxyPass</code> directive in the <code>VirtualHost</code>, the <code>VirtualHost</code> is ignored
+by mod_proxy_cluster. So, even if <code>CreateBalancers</code> is set to <code>2</code> (default), the main server is used instead
+in such configuration.
+See also <a href="https://issues.jboss.org/browse/MODCLUSTER-430">MODCLUSTER-430 &mdash; CreateBalancers behave the same with option 0 or 2</a>
 </td>
 </tr>
 </table>
@@ -3370,17 +3411,16 @@ UseAlias should be used with <code>ProxyPreserveHost On</code> to work propertly
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>status = lbstatus + (elected - oldelected) * 1000)/lbfactor;</code></pre>
+<pre class="CodeRay highlight"><code>status = lbstatus + (elected - oldelected) * 1000) / lbfactor;</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>lbfactor is received for the node via STATUS messages.lbstatus is recalculated every LBstatusRecalTime seconds using the formula:
-<code>lbstatus = (elected - oldelected) * 1000)/lbfactor</code></p>
+<code>lbstatus = (elected - oldelected) * 1000) / lbfactor</code></p>
 </div>
 <div class="paragraph">
-<p>elected is the amount of time the worker has been elected. <code>oldelected</code> is <code>elected</code> last time the <code>lbstatus</code>
-was recalculated. The node with the lowest <code>status</code> is selected. Nodes with <code>lbfactor ≤ 0</code> are skipped by the both
-calculation logics.</p>
+<p>where <code>elected</code> is the amount of time the worker has been elected. <code>oldelected</code> is <code>elected</code> from the last time the <code>lbstatus</code>
+was recalculated. The node with the lowest <code>status</code> is selected. Nodes with <code>lbfactor ≤ 0</code> are skipped by the both calculation logics.</p>
 </div>
 </div>
 <div class="sect3">
@@ -3430,19 +3470,23 @@ but for HTTP/HTTPS connections. The endpoint needs to implement at least HTTP/1.
 <div class="sect3">
 <h4 id="ajpsecret"><a class="link" href="#ajpsecret">4.4.7. AJPSecret</a></h4>
 <div class="paragraph">
-<p>Use <code>AJPSecret your_secret</code> to provide the secret for the AJP back-end, See mod_proxy_ajp and mod_proxy docs for more information. If <code>your_secret</code> doesn&#8217;t correspond to the value configured in the back-end the back-end will return 503 to any request coming through the proxy.</p>
+<p>Use <code>AJPSecret your_secret</code> to provide the secret for the AJP back-end, See mod_proxy_ajp and mod_proxy docs for more
+information. If <code>your_secret</code> doesn&#8217;t correspond to the value configured in the back-end the back-end will return 503
+to any request coming through the proxy.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="wsupgradeheader"><a class="link" href="#wsupgradeheader">4.4.8. WSUpgradeHeader</a></h4>
 <div class="paragraph">
-<p>Use <code>WSUpgradeHeader value</code> to define the value of the upgrade header mod_proxy_wstunnel is accepting. See mod_proxy_wstunnel and mod_proxy docs for more information.</p>
+<p>Use <code>WSUpgradeHeader value</code> to define the value of the upgrade header mod_proxy_wstunnel is accepting. See
+mod_proxy_wstunnel and mod_proxy docs for more information.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="responsefieldsize"><a class="link" href="#responsefieldsize">4.4.9. ResponseFieldSize</a></h4>
 <div class="paragraph">
-<p>Size in bytes of the HTTP/1.1 buffers of the workers, the default size is 8192, that limits the header size a webapp can use (Note: In Tomcat there is  maxHttpHeaderSize that also limits it in the Connector).</p>
+<p>Size in bytes of the HTTP/1.1 buffers of the workers, the default size is 8192, that limits the header size a webapp
+can use (Note: In Tomcat there is  maxHttpHeaderSize that also limits it in the Connector).</p>
 </div>
 </div>
 <div class="sect3">
@@ -3461,12 +3505,13 @@ VirtualHost configuration. If not an error message will be displayed and httpd w
 <div class="sect3">
 <h4 id="enablemcpmreceive"><a class="link" href="#enablemcpmreceive">4.5.1. EnableMCPMReceive</a></h4>
 <div class="paragraph">
-<p>EnableMCPMReceive &mdash; allow the VirtualHost to receive mod_cluster management protocol (MCMP) messages. You need one
-EnableMCPMReceive in your httpd configuration to allow mod_cluster to
-work, put it in the VirtualHost where you configure advertise.</p>
+<p>EnableMCPMReceive &mdash; allow the VirtualHost to receive Mod-Cluster Management Protocol (MCMP) messages. You need one
+EnableMCPMReceive in your httpd configuration to allow mod_proxy_cluster to work, put it in the VirtualHost where you
+configure advertise.</p>
 </div>
 <div class="paragraph">
-<p>This directive was added so as to address the issue of receiving MCMP on arbitrary VirtualHosts which was problematic due to accepting messages on insecure, unintended VirtualHosts.</p>
+<p>This directive was added so as to address the issue of receiving MCMP on arbitrary VirtualHosts which was problematic
+due to accepting messages on insecure, unintended VirtualHosts.</p>
 </div>
 </div>
 <div class="sect3">
@@ -3484,7 +3529,7 @@ files are placed on a local drive and not an NFS share. (Context: <strong>server
 <div class="sect3">
 <h4 id="maxcontext"><a class="link" href="#maxcontext">4.5.3. Maxcontext</a></h4>
 <div class="paragraph">
-<p>The maximum number of application contexts supported by mod_cluster. (Context: <strong>server config</strong>)</p>
+<p>The maximum number of application contexts supported by mod_proxy_cluster. (Context: <strong>server config</strong>)</p>
 </div>
 <div class="paragraph">
 <p><strong>Default:</strong></p>
@@ -3494,7 +3539,7 @@ files are placed on a local drive and not an NFS share. (Context: <strong>server
 <div class="sect3">
 <h4 id="maxnode"><a class="link" href="#maxnode">4.5.4. Maxnode</a></h4>
 <div class="paragraph">
-<p>That is the maximum number of nodes supported by mod_cluster. (Context: <strong>server config</strong>)</p>
+<p>That is the maximum number of nodes supported by mod_proxy_cluster. (Context: <strong>server config</strong>)</p>
 </div>
 <div class="paragraph">
 <p><strong>Default:</strong></p>
@@ -3504,7 +3549,8 @@ files are placed on a local drive and not an NFS share. (Context: <strong>server
 <div class="sect3">
 <h4 id="maxhost"><a class="link" href="#maxhost">4.5.5. Maxhost</a></h4>
 <div class="paragraph">
-<p>That is the maximum number of hosts (Aliases) supported by mod_cluster. That is also the max number of balancers. (Context: <strong>server config</strong>)</p>
+<p>That is the maximum number of hosts (Aliases) supported by mod_proxy_cluster. That is also the max number of balancers.
+(Context: <strong>server config</strong>)</p>
 </div>
 <div class="paragraph">
 <p><strong>Default:</strong></p>
@@ -3546,7 +3592,7 @@ AS/JBossWeb/Tomcat doesn&#8217;t provide a balancer name.</p>
 <div class="sect3">
 <h4 id="persistslots"><a class="link" href="#persistslots">4.5.9. PersistSlots</a></h4>
 <div class="paragraph">
-<p>PersistSlots: Tell mod_slotmem to persist the nodes, Alias and Context
+<p>PersistSlots: Tell mod_cluster_slotmem to persist the nodes, Alias and Context
 in files. (Context: server config)</p>
 </div>
 <div class="paragraph">
@@ -3597,7 +3643,7 @@ page to allow more nodes in the page. on | off</p>
 <h4 id="sethandler-mod_cluster-manager"><a class="link" href="#sethandler-mod_cluster-manager">4.5.14. SetHandler mod_cluster-manager</a></h4>
 <div class="paragraph">
 <p>SetHandler mod_cluster-manager: That is the handler to display the node
-mod_cluster sees from the cluster. It displays the information about
+mod_proxy_cluster sees from the cluster. It displays the information about
 the nodes like INFO and additionally counts the number of active
 sessions.</p>
 </div>
@@ -3630,10 +3676,10 @@ like:</p>
 </div>
 <div class="paragraph">
 <p>Connected: Corresponds to the number of requests been processed when the
-mod_cluster status page was requested.</p>
+mod_proxy_cluster status page was requested.</p>
 </div>
 <div class="paragraph">
-<p>sessions: Corresponds to the number of sessions mod_cluster report as
+<p>sessions: Corresponds to the number of sessions mod_proxy_cluster report as
 active (on which there was a request during the past 5 minutes). That
 field is not present when Maxsessionid is zero.</p>
 </div>
@@ -3641,9 +3687,10 @@ field is not present when Maxsessionid is zero.</p>
 <div class="sect3">
 <h4 id="mod_advertise"><a class="link" href="#mod_advertise">4.5.15. mod_advertise</a></h4>
 <div class="paragraph">
-<p>mod_advertise uses multicast packets to advertise the VirtualHost where it is configured that must be the same VirtualHost
-where mod_manager is defined. Of course at least one mod_advertise must be in the VirtualHost to allow mod_cluster to find
-the right IP and port to give to the ClusterListener.</p>
+<p>mod_advertise uses multicast packets to advertise the VirtualHost where it is
+configured that must be the same VirtualHost where mod_manager is defined. Of
+course at least one mod_advertise must be in the VirtualHost to allow
+mod_proxy_cluster to find the right IP and port to give to the ClusterListener.</p>
 </div>
 </div>
 <div class="sect3">
@@ -3653,9 +3700,10 @@ the right IP and port to give to the ClusterListener.</p>
 AS/JBossWeb/Tomcat to whom it should send the cluster information.</p>
 </div>
 <div class="paragraph">
-<p>ServerAdvertise On <a href="http://hostname:port" class="bare">http://hostname:port</a>: Tell the hostname and port to use. Only needed if the VirtualHost is not defined
-correctly, if the VirtualHost is a <a href="http://httpd.apache.org/docs/2.2/vhosts/name-based.html">Name-based Virtual Host</a> or when
-VirtualHost is not used.</p>
+<p>ServerAdvertise On <a href="http://hostname:port" class="bare">http://hostname:port</a>: Tell the hostname and port to use.
+Only needed if the VirtualHost is not defined correctly, if the VirtualHost is
+a <a href="http://httpd.apache.org/docs/2.2/vhosts/name-based.html">Name-based Virtual Host</a>
+or when VirtualHost is not used.</p>
 </div>
 <div class="paragraph">
 <p>ServerAdvertise Off: Don&#8217;t use the advertise mechanism.</p>
@@ -3725,7 +3773,7 @@ This allow to specify an address on multi IP address boxes.</p>
 Last but not least, pay attention to httpd 2.2.x and httpd 2.4.x authentication configuration changes.</p>
 </div>
 <div class="sect3">
-<h4 id="mod_cluster-1-3-x-apache-http-server-2-4-x"><a class="link" href="#mod_cluster-1-3-x-apache-http-server-2-4-x">4.6.1. mod_cluster 1.3.x, Apache HTTP Server 2.4.x</a></h4>
+<h4 id="mod_cluster-1-3-x-and-newer-apache-http-server-2-4-x"><a class="link" href="#mod_cluster-1-3-x-and-newer-apache-http-server-2-4-x">4.6.1. mod_cluster 1.3.x and newer, Apache HTTP Server 2.4.x</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>LoadModule proxy_module modules/mod_proxy.so
@@ -3804,21 +3852,28 @@ LoadModule advertise_module modules/mod_advertise.so
 <div class="sect2">
 <h3 id="building-httpd-modules"><a class="link" href="#building-httpd-modules">4.7. Building httpd modules</a></h3>
 <div class="paragraph">
-<p>mod_cluster 1.3.x and older, both httpd modules and Tomcat/WildFly java libraries reside in the <a href="https://github.com/modcluster/mod_cluster">mod_cluster</a> repository, branches 1.3.x and 1.2.x. New development of mod_cluster httpd modules takes place in the new repository: <a href="https://github.com/modcluster/mod_proxy_cluster">mod_proxy_cluster</a>.</p>
+<p>mod_cluster 1.3.x and older, both httpd modules and Tomcat/WildFly java libraries reside in the
+<a href="https://github.com/modcluster/mod_cluster">mod_cluster</a> repository, branches 1.3.x and 1.2.x. New
+development of mod_cluster httpd modules takes place under a new name mod_proxy_cluster in the
+new repository <a href="https://github.com/modcluster/mod_proxy_cluster">mod_proxy_cluster</a>.</p>
 </div>
 <div class="paragraph">
-<p>See <a href="https://asciinema.org/a/7563u1eu6o5jlg3a0gk4wv69f?t=52">ASCII recorded tutorial</a> on httpd modules compilation with your own system httpd.</p>
+<p>See <a href="https://asciinema.org/a/7563u1eu6o5jlg3a0gk4wv69f?t=52">ASCII recorded tutorial</a> on httpd modules
+compilation with your own system&#8217;s httpd.</p>
 </div>
 <div class="sect3">
 <h4 id="build-with-httpd-on-windows"><a class="link" href="#build-with-httpd-on-windows">4.7.1. Build with httpd on Windows</a></h4>
 <div class="paragraph">
-<p>We assume you already have a functional Apache HTTP Server on Windows. This example works with Apache Lounge HTTP Server.
-We also assume the system has MS Visual Studio (Community Edition is ample) and CMake installed. The example operates in cmder shell, but it is not mandatory. A simple Windows cmd prompt would work too.</p>
+<p>We assume you already have a functional Apache HTTP Server on Windows. This example works with
+Apache Lounge HTTP Server.
+We also assume the system has MS Visual Studio (Community Edition is ample) and CMake installed.
+The example operates in cmder shell, but it is not mandatory. A simple Windows cmd prompt would work too.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Download the <a href="http://www.apachelounge.com/download/">Apache Lounge distribution</a>. Our example uses <a href="http://www.apachelounge.com/download/VC14/binaries/httpd-2.4.23-win64-VC14.zip">httpd-2.4.23-win64-VC14.zip</a>.</p>
+<p>Download the <a href="https://www.apachelounge.com/download/">Apache Lounge distribution</a>. Our example uses
+<a href="https://www.apachelounge.com/download/VS17/binaries/httpd-2.4.55-win64-VS17.zip">httpd-2.4.55-win64-VS17.zip</a>.</p>
 </li>
 <li>
 <p>unzipped:</p>
@@ -3829,7 +3884,7 @@ We also assume the system has MS Visual Studio (Community Edition is ample) and 
 <div class="content">
 <pre class="CodeRay highlight"><code>C:\Users\karm
 ls
-httpd-2.4.23-win64-VC14/ httpd-2.4.23-win64-VC14.zip</code></pre>
+httpd-2.4.55-win64-VS17/ httpd-2.4.55-win64-VS17.zip</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -3867,7 +3922,8 @@ vcvars64.bat</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Here comes the only slightly tricky part: Apache Lounge httpd ships all necessary *.lib files with exported symbols but for mod_proxy. Since mod_proxy is our dependency, we have to generate these exported symbols from mod_proxy dll.</p>
+<p>Here comes the only slightly tricky part: Apache Lounge httpd ships all necessary *.lib files with exported symbols but
+for mod_proxy. Since mod_proxy is our dependency, we have to generate these exported symbols from mod_proxy dll.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3968,16 +4024,17 @@ so you can skip the patch part if you don&#8217;t want to rebuild httpd).
 protocol (<code>--enable-proxy-ajp</code>) enabled and with dso enabled (<code>--enable-so</code>).</p>
 </div>
 <div class="paragraph">
-<p>Download the mod_cluster sources:</p>
+<p>Download the mod_proxy_cluster sources:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>git clone git://github.com/modcluster/mod_cluster.git</pre>
+<pre>git clone git://github.com/modcluster/mod_proxy_cluster.git</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Build the mod_cluster modules components, for each subdirectory
-advertise, mod_manager, mod_proxy_cluster and mod_slotmem do
+<p>Build the mod_proxy_cluster&#8217;s modules components, for each subdirectory
+advertise, mod_manager, mod_proxy_cluster and mod_cluster_slotmem (mod_slotmem
+for version 1.2 or older) do
 something like:</p>
 </div>
 <div class="listingblock">
@@ -4010,13 +4067,13 @@ You can ignore the libtool message on most platform:
 </div>
 </div>
 <div class="paragraph">
-<p>Once that is done use Apache httpd configuration to configure mod_cluster.</p>
+<p>Once that is done use Apache httpd configuration to configure mod_proxy_cluster.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="build-the-mod_proxy-module"><a class="link" href="#build-the-mod_proxy-module">4.7.4. Build the mod_proxy module</a></h4>
 <div class="paragraph">
-<p>It is only needed for httpd-2.2.x where x \&lt; 11. Process like the other mod_cluster modules.</p>
+<p>It is only needed for httpd-2.2.x where x \&lt; 11. Process like the other mod_proxy_cluster modules.</p>
 </div>
 </div>
 </div>
