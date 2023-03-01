@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2023-02-27</span>
+<span id="revdate">2023-03-01</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -1045,7 +1045,7 @@ Change to the bin directory of the subfolder <code>Apache24</code> where you unz
 <div class="sect2">
 <h3 id="configure-httpd"><a class="link" href="#configure-httpd">2.3. Configure httpd</a></h3>
 <div class="paragraph">
-<p>httpd.conf might need to be configured to use mod_cluster.</p>
+<p>httpd.conf might need to be configured to use mod_proxy_cluster.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4047,7 +4047,9 @@ something like:</p>
 </div>
 <div class="paragraph">
 <p>Where apache_installation_directory is the location of an installed
-version of httpd-2-2.x.</p>
+version of httpd-2-2.x or newer.
+The <a href="https://httpd.apache.org/docs/trunk/programs/apxs.html">apxs</a> file can be
+found in your apache_installation_directory/bin directory.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -4073,7 +4075,7 @@ You can ignore the libtool message on most platform:
 <div class="sect3">
 <h4 id="build-the-mod_proxy-module"><a class="link" href="#build-the-mod_proxy-module">4.7.4. Build the mod_proxy module</a></h4>
 <div class="paragraph">
-<p>It is only needed for httpd-2.2.x where x \&lt; 11. Process like the other mod_proxy_cluster modules.</p>
+<p>It is only needed for httpd-2.2.x where x ≤ 11. Process like the other mod_proxy_cluster modules.</p>
 </div>
 </div>
 </div>
