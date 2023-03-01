@@ -607,7 +607,9 @@ sh buildconf
 ----
 
 Where apache_installation_directory is the location of an installed
-version of httpd-2-2.x.
+version of httpd-2-2.x or newer.
+The https://httpd.apache.org/docs/trunk/programs/apxs.html[apxs] file can be
+found in your apache_installation_directory/bin directory.
 
 NOTE: You can ignore the libtool message on most platform:
 
@@ -620,7 +622,7 @@ Once that is done use Apache httpd configuration to configure mod_proxy_cluster.
 
 === Build the mod_proxy module
 
-It is only needed for httpd-2.2.x where x \< 11. Process like the other mod_proxy_cluster modules.
+It is only needed for httpd-2.2.x where x ≤ 11. Process like the other mod_proxy_cluster modules.
 
 == Installing httpd modules
 
