@@ -90,7 +90,7 @@ httpd.exe -k start
 
 == Configure httpd
 
-httpd.conf might need to be configured to use mod_cluster.
+httpd.conf might need to be configured to use mod_proxy_cluster.
 
 [source]
 ----
