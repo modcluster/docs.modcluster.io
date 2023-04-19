@@ -158,6 +158,12 @@ can use (Note: In Tomcat there is  maxHttpHeaderSize that also limits it in the 
 
 Time to cache the shared memory information in seconds, the default is 0: no-caching.
 
+=== ModProxyClusterThreadCount
+
+Number of threads that should be created for watchdog logic. Must be positive. (Since 2.0)
+
+**Default:** 16
+
 == mod_manager
 
 The Context of a mod_manger directive is VirtualHost except mentioned otherwise. **server config** means that it must be outside a
