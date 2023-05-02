@@ -78,11 +78,11 @@ the certificate contained in conf/server.crt file.
 
 ==== mod-cluster-jboss-beans configuration part
 
-The mod-cluster-jboss-beans.xml in
+The `mod-cluster-jboss-beans.xml` in
 `$JBOSS_HOME/server/*profile*/deploy/mod-cluster.sar/META-INF` in the
 ClusterConfig you are using you should have something like:
 
-[source]
+[source,xml]
 ----
 <property name="ssl">true</property>
 <property name="sslKeyStorePass">changeit</property>
@@ -125,7 +125,7 @@ conf/server-ca.crt described above.
 
 Export the CA certificate to a .p12 file:
 
-[source]
+[source,bash]
 ----
 openssl pkcs12 -export -nokeys -in ../../CA/cacert.pem -out ca.p12
 ----
@@ -140,7 +140,7 @@ That is the ca.p12 file used in the _sslTrustStore_ parameter above.
 
 Create a new request:
 
-[source]
+[source,bash]
 ----
 /etc/pki/tls/misc/CA -newreq
 ----
@@ -150,9 +150,9 @@ the file conf/server.key described above.
 
 Sign the request:
 
-[source]
+[source,bash]
 ----
- /etc/pki/tls/misc/CA -signreq
+/etc/pki/tls/misc/CA -signreq
 ----
 
 That creates a file named newcert.pem. newcert.pem is the file
@@ -165,7 +165,7 @@ cacert.pem file.
 
 Create a work directory and work for there:
 
-[source]
+[source,bash]
 ----
 mkdir -p CERTS/Client
 cd CERTS/Client
@@ -173,7 +173,7 @@ cd CERTS/Client
 
 Create request and key for the JBossWEB part.
 
-[source]
+[source,bash]
 ----
 /etc/pki/tls/misc/CA -newreq
 ----
@@ -183,7 +183,7 @@ newkey.pem
 
 Sign the request.
 
-[source]
+[source,bash]
 ----
 /etc/pki/tls/misc/CA -signreq
 ----
@@ -193,7 +193,7 @@ That creates a file: newcert.pem
 Don't use a passphrase when creating the client certicate or remove
 it before exporting:
 
-[source]
+[source,bash]
 ----
 openssl rsa -in newkey.pem -out key.txt.pem
 mv key.txt.pem newkey.pem
@@ -201,7 +201,7 @@ mv key.txt.pem newkey.pem
 
 Export the client certificate and key into a p12 file.
 
-[source]
+[source,bash]
 ----
 openssl pkcs12 -export -inkey newkey.pem -in newcert.pem -out test.p12
 ----
@@ -215,9 +215,7 @@ Using https allows to encrypt communications betwen httpd and JBossWEB.
 But due to the ressources it needs that no advised to use it in high
 load configuration.
 
-(See http://www.jboss.org/community/docs/DOC-9701[Encrypting connection between httpd and
-TC] for detailed
-instructions).
+(See http://www.jboss.org/community/docs/DOC-9701[Encrypting connection between httpd and TC] for detailed instructions).
 
 httpd is configured to be a client for AS/TC so it should provide a
 certificate AS/TC will accept and have a private key to encrypt the
@@ -265,7 +263,7 @@ the file when done)
 
 Convert the key and certificate to p12 file:
 
-[source]
+[source,bash]
 ----
 openssl pkcs12 -export -inkey key.pem -in newcert.pem -out test.p12
 ----
@@ -274,17 +272,16 @@ make sure you use the keystore password as Export passphrase.
 
 Import the contents of the p12 file in the keystore:
 
-[source]
+[source,bash]
 ----
 keytool -importkeystore -srckeystore test.p12 -srcstoretype PKCS12
 ----
 
 Import the CA certificate in the java trustore: (Fedora13 example).
 
-[source]
+[source,bash]
 ----
-keytool -import -trustcacerts -alias "caname" \
--file  ../../CA/cacert.pem -keystore /etc/pki/java/cacerts
+keytool -import -trustcacerts -alias "caname" -file  ../../CA/cacert.pem -keystore /etc/pki/java/cacerts
 ----
 
 Edit server.xml to have a &lt;connector/&gt; similar to:
