@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2023-04-21</span>
+<span id="revdate">2023-05-03</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -4247,19 +4247,19 @@ the certificate contained in conf/server.crt file.</p>
 <div class="sect4">
 <h5 id="mod-cluster-jboss-beans-configuration-part"><a class="link" href="#mod-cluster-jboss-beans-configuration-part">mod-cluster-jboss-beans configuration part</a></h5>
 <div class="paragraph">
-<p>The mod-cluster-jboss-beans.xml in
+<p>The <code>mod-cluster-jboss-beans.xml</code> in
 <code>$JBOSS_HOME/server/<strong>profile</strong>/deploy/mod-cluster.sar/META-INF</code> in the
 ClusterConfig you are using you should have something like:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>&lt;property name=&quot;ssl&quot;&gt;true&lt;/property&gt;
-&lt;property name=&quot;sslKeyStorePass&quot;&gt;changeit&lt;/property&gt;
-&lt;property name=&quot;sslKeyStore&quot;&gt;/home/jfclere/CERTS/test.p12&lt;/property&gt;
-&lt;property name=&quot;sslKeyStoreType&quot;&gt;pkcs12&lt;/property&gt;
-&lt;property name=&quot;sslTrustStore&quot;&gt;/home/jfclere/CERTS/ca.p12&lt;/property&gt;
-&lt;property name=&quot;sslTrustStoreType&quot;&gt;pkcs12&lt;/property&gt;
-&lt;property name=&quot;sslTrustStorePassword&quot;&gt;changeit&lt;/property&gt;</code></pre>
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ssl</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>true<span class="tag">&lt;/property&gt;</span>
+<span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">sslKeyStorePass</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>changeit<span class="tag">&lt;/property&gt;</span>
+<span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">sslKeyStore</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>/home/jfclere/CERTS/test.p12<span class="tag">&lt;/property&gt;</span>
+<span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">sslKeyStoreType</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>pkcs12<span class="tag">&lt;/property&gt;</span>
+<span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">sslTrustStore</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>/home/jfclere/CERTS/ca.p12<span class="tag">&lt;/property&gt;</span>
+<span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">sslTrustStoreType</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>pkcs12<span class="tag">&lt;/property&gt;</span>
+<span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">sslTrustStorePassword</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>changeit<span class="tag">&lt;/property&gt;</span></code></pre>
 </div>
 </div>
 <div class="sect5">
@@ -4301,7 +4301,7 @@ conf/server-ca.crt described above.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>openssl pkcs12 -export -nokeys -in ../../CA/cacert.pem -out ca.p12</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">openssl pkcs12 -export -nokeys -in ../../CA/cacert.pem -out ca.p12</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4319,7 +4319,7 @@ and convert it into a pkcs12 file the JVM is able to read.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>/etc/pki/tls/misc/CA -newreq</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">/etc/pki/tls/misc/CA -newreq</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4331,7 +4331,7 @@ the file conf/server.key described above.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code> /etc/pki/tls/misc/CA -signreq</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">/etc/pki/tls/misc/CA -signreq</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4349,7 +4349,7 @@ cacert.pem file.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>mkdir -p CERTS/Client
+<pre class="CodeRay highlight"><code data-lang="bash">mkdir -p CERTS/Client
 cd CERTS/Client</code></pre>
 </div>
 </div>
@@ -4358,7 +4358,7 @@ cd CERTS/Client</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>/etc/pki/tls/misc/CA -newreq</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">/etc/pki/tls/misc/CA -newreq</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4370,7 +4370,7 @@ newkey.pem</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>/etc/pki/tls/misc/CA -signreq</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">/etc/pki/tls/misc/CA -signreq</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4382,7 +4382,7 @@ it before exporting:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>openssl rsa -in newkey.pem -out key.txt.pem
+<pre class="CodeRay highlight"><code data-lang="bash">openssl rsa -in newkey.pem -out key.txt.pem
 mv key.txt.pem newkey.pem</code></pre>
 </div>
 </div>
@@ -4391,7 +4391,7 @@ mv key.txt.pem newkey.pem</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>openssl pkcs12 -export -inkey newkey.pem -in newcert.pem -out test.p12</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">openssl pkcs12 -export -inkey newkey.pem -in newcert.pem -out test.p12</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4408,9 +4408,7 @@ But due to the ressources it needs that no advised to use it in high
 load configuration.</p>
 </div>
 <div class="paragraph">
-<p>(See <a href="http://www.jboss.org/community/docs/DOC-9701">Encrypting connection between httpd and
-TC</a> for detailed
-instructions).</p>
+<p>(See <a href="http://www.jboss.org/community/docs/DOC-9701">Encrypting connection between httpd and TC</a> for detailed instructions).</p>
 </div>
 <div class="paragraph">
 <p>httpd is configured to be a client for AS/TC so it should provide a
@@ -4471,7 +4469,7 @@ the file when done)</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>openssl pkcs12 -export -inkey key.pem -in newcert.pem -out test.p12</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">openssl pkcs12 -export -inkey key.pem -in newcert.pem -out test.p12</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4482,7 +4480,7 @@ the file when done)</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>keytool -importkeystore -srckeystore test.p12 -srcstoretype PKCS12</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">keytool -importkeystore -srckeystore test.p12 -srcstoretype PKCS12</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4490,8 +4488,7 @@ the file when done)</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>keytool -import -trustcacerts -alias &quot;caname&quot; \
--file  ../../CA/cacert.pem -keystore /etc/pki/java/cacerts</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">keytool -import -trustcacerts -alias &quot;caname&quot; -file  ../../CA/cacert.pem -keystore /etc/pki/java/cacerts</code></pre>
 </div>
 </div>
 <div class="paragraph">
