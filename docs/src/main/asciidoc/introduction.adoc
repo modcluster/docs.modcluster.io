@@ -70,7 +70,7 @@ The original concepts are described in a http://www.jboss.org/community/docs/DOC
 
 === Balancer side
 
-* Apache HTTP Server 2.4.37+
+* Apache HTTP Server 2.4.53 and newer
 
 === Worker side
 
