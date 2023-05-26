@@ -4,7 +4,7 @@ NOTE: {editurl}security.adoc[{editnote}]
 
 == Using SSL in mod_cluster
 
-Forwarding SSL browser informations when using http/https between httpd and JBossWEB:
+Forwarding SSL browser information when using http/https between httpd and JBossWEB:
 
 There are 2 connections between the cluster and the front-end. Both
 could be encrypted. That chapter describes how to encrypt both
@@ -12,7 +12,7 @@ connections.
 
 === Using SSL between JBossWEB and httpd
 
-As the ClusterListener allows to configure httpd it is adviced to use
+As the ClusterListener allows to configure httpd it is advised to use
 SSL for that connection. The most easy is to use a virtual host that
 will only be used to receive information from JBossWEB. Both side need
 configuration.
@@ -44,7 +44,7 @@ parameter.
 
 The conf/server.key file is the file containing the private key.
 
-The conf/server-ca.crt file is the file containing the certicate of the
+The conf/server-ca.crt file is the file containing the certificate of the
 CA that have signed the client certificate JBossWEB is using. That is
 the CA that have signed the certificate corresponding to the sslKeyAlias
 stored in the sslKeyStore of the ClusterListener parameters.
@@ -57,20 +57,20 @@ how easy the configuration is:
 
 [source,xml]
 ----
- <Listener className="org.jboss.web.cluster.ClusterListener"
-           ssl="true"
-           sslKeyStorePass="changeit"
-           sslKeyStore="/home/jfclere/CERTS/CA/test.p12"
-           sslKeyStoreType="PKCS12"
-           sslTrustStore="/home/jfclere/CERTS/CA/ca.p12"
-           sslTrustStoreType="PKCS12"
-           sslTrustStorePassword="changeit"
-           />
+<Listener className="org.jboss.web.cluster.ClusterListener"
+          ssl="true"
+          sslKeyStorePass="changeit"
+          sslKeyStore="/home/jfclere/CERTS/CA/test.p12"
+          sslKeyStoreType="PKCS12"
+          sslTrustStore="/home/jfclere/CERTS/CA/ca.p12"
+          sslTrustStoreType="PKCS12"
+          sslTrustStorePassword="changeit"
+          />
 ----
 
 The sslKeyStore file contains the private key and the signed certificate
 of the client certificate JBossWEB uses to connect to httpd. The
-certificate must be signed by a Cerficate Authority (CA) who certificate
+certificate must be signed by a Certificate Authority (CA) who certificate
 is in the conf/server-ca.crt file of the httpd
 
 The sslTrustStore file contains the CA certificate of the CA that signed
@@ -93,12 +93,12 @@ ClusterConfig you are using you should have something like:
 <property name="sslTrustStorePassword">changeit</property>
 ----
 
-===== How the diferent files were created
+===== How the different files were created
 
 The files were created using OpenSSL utilities see
 http://www.openssl.org/[OpenSSL] CA.pl (/etc/pki/tls/misc/CA for
 example) has been used to create the test Certificate authority, the
-certicate requests and private keys as well as signing the certicate
+certificate requests and private keys as well as signing the certificate
 requests.
 
 [[createca]]
@@ -190,7 +190,7 @@ Sign the request.
 
 That creates a file: newcert.pem
 
-Don't use a passphrase when creating the client certicate or remove
+Don't use a passphrase when creating the client certificate or remove
 it before exporting:
 
 [source,bash]
@@ -211,13 +211,13 @@ That is the sslKeyStore file described above
 
 ==== Using SSL between httpd and JBossWEB
 
-Using https allows to encrypt communications betwen httpd and JBossWEB.
-But due to the ressources it needs that no advised to use it in high
+Using https allows to encrypt communications between httpd and JBossWEB.
+But due to the resources it needs that no advised to use it in high
 load configuration.
 
 (See http://www.jboss.org/community/docs/DOC-9701[Encrypting connection between httpd and TC] for detailed instructions).
 
-httpd is configured to be a client for AS/TC so it should provide a
+httpd is configured to be a client for AS/TC, so it should provide a
 certificate AS/TC will accept and have a private key to encrypt the
 data, it also needs a CA certificate to valid the certificate AS/TC will
 use for the connection.
@@ -234,17 +234,17 @@ conf/proxy.pem should contain both key and certificate. The certificate
 must be trusted by Tomcat via the CA in truststoreFile of
 &lt;connector/&gt;.
 
-conf/cacert.pem must contain the certificat of the CA that signed the
+conf/cacert.pem must contain the certificate of the CA that signed the
 AS/TC certificate. The correspond key and certificate are the pair
-specificed by keyAlias and truststoreFile of the &lt;connector/&gt;. Of
+specified by keyAlias and truststoreFile of the &lt;connector/&gt;. Of
 course the &lt;connector/&gt; must be the https one (normally on port 8443).
 
-===== How the diferent files were created
+===== How the different files were created
 
 The files were created using OpenSSL utilities see
 http://www.openssl.org/[OpenSSL] CA.pl (/etc/pki/tls/misc/CA for
 example) has been used to create the test Certificate authority, the
-certicate requests and private keys as well as signing the certicate
+certificate requests and private keys as well as signing the certificate
 requests.
 
 ===== Create the CA
@@ -258,7 +258,7 @@ requests.
 The certificate and key need to be imported into the java keystore using
 keytool
 
-make sure you don't use a passphare for the key (don't forget to clean
+make sure you don't use a passphrase for the key (don't forget to clean
 the file when done)
 
 Convert the key and certificate to p12 file:
@@ -277,7 +277,7 @@ Import the contents of the p12 file in the keystore:
 keytool -importkeystore -srckeystore test.p12 -srcstoretype PKCS12
 ----
 
-Import the CA certificate in the java trustore: (Fedora13 example).
+Import the CA certificate in the java trust store: (Fedora 13 example).
 
 [source,bash]
 ----
@@ -302,15 +302,15 @@ Start TC/AS and use openssl s_client to test the connection:
 openssl s_client -CAfile /home/jfclere/CA/cacert.pem -cert newcert.pem -key newkey.pem -host localhost -port 8443
 ----
 
-There shouldn't be any error and you should be able to see your CA
+There shouldn't be any error, and you should be able to see your CA
 in the "Acceptable client certificate CA names".
 
-==== Forwarding SSL browser informations when using http/https between httpd and JBossWEB
+==== Forwarding SSL browser information when using http/https between httpd and JBossWEB
 
-When using http or https beween httpd and JBossWEB you need to use the
+When using http or https between httpd and JBossWEB you need to use the
 SSLValve and export the SSL variable as header in the request in httpd.
 If you are using AJP, mod_proxy_ajp will read the SSL variables and
-forward them to JBossWEB automaticaly.
+forward them to JBossWEB automatically.
 
 (See http://www.jboss.org/community/docs/DOC-11988[Forwarding SSL environment when using http/https
 proxy] for detailed
@@ -318,10 +318,10 @@ instructions).
 
 The SSL variable used by mod_proxy_ajp are the following:
 
-. "HTTPS" SSL indicateur.
+. "HTTPS" SSL indicator.
 . "SSL_CLIENT_CERT" Chain of client certificates.
-. "SSL_CIPHER" Cipher used.
-. "SSL_SESSION_ID" Id of the session.
+. "SSL_CIPHER" The cipher used.
+. "SSL_SESSION_ID" The ID of the session.
 . "SSL_CIPHER_USEKEYSIZE" Size of the key used.
 
 
