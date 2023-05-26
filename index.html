@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2023-05-25</span>
+<span id="revdate">2023-05-26</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -4161,7 +4161,7 @@ Make sure to use SSL before going in production.
 <div class="sect2">
 <h3 id="using-ssl-in-mod_cluster"><a class="link" href="#using-ssl-in-mod_cluster">5.1. Using SSL in mod_cluster</a></h3>
 <div class="paragraph">
-<p>Forwarding SSL browser informations when using http/https between httpd and JBossWEB:</p>
+<p>Forwarding SSL browser information when using http/https between httpd and JBossWEB:</p>
 </div>
 <div class="paragraph">
 <p>There are 2 connections between the cluster and the front-end. Both
@@ -4171,7 +4171,7 @@ connections.</p>
 <div class="sect3">
 <h4 id="using-ssl-between-jbossweb-and-httpd"><a class="link" href="#using-ssl-between-jbossweb-and-httpd">5.1.1. Using SSL between JBossWEB and httpd</a></h4>
 <div class="paragraph">
-<p>As the ClusterListener allows to configure httpd it is adviced to use
+<p>As the ClusterListener allows to configure httpd it is advised to use
 SSL for that connection. The most easy is to use a virtual host that
 will only be used to receive information from JBossWEB. Both side need
 configuration.</p>
@@ -4207,7 +4207,7 @@ parameter.</p>
 <p>The conf/server.key file is the file containing the private key.</p>
 </div>
 <div class="paragraph">
-<p>The conf/server-ca.crt file is the file containing the certicate of the
+<p>The conf/server-ca.crt file is the file containing the certificate of the
 CA that have signed the client certificate JBossWEB is using. That is
 the CA that have signed the certificate corresponding to the sslKeyAlias
 stored in the sslKeyStore of the ClusterListener parameters.</p>
@@ -4222,21 +4222,21 @@ how easy the configuration is:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"> <span class="tag">&lt;Listener</span> <span class="attribute-name">className</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">org.jboss.web.cluster.ClusterListener</span><span class="delimiter">&quot;</span></span>
-           <span class="attribute-name">ssl</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span>
-           <span class="attribute-name">sslKeyStorePass</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">changeit</span><span class="delimiter">&quot;</span></span>
-           <span class="attribute-name">sslKeyStore</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">/home/jfclere/CERTS/CA/test.p12</span><span class="delimiter">&quot;</span></span>
-           <span class="attribute-name">sslKeyStoreType</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">PKCS12</span><span class="delimiter">&quot;</span></span>
-           <span class="attribute-name">sslTrustStore</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">/home/jfclere/CERTS/CA/ca.p12</span><span class="delimiter">&quot;</span></span>
-           <span class="attribute-name">sslTrustStoreType</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">PKCS12</span><span class="delimiter">&quot;</span></span>
-           <span class="attribute-name">sslTrustStorePassword</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">changeit</span><span class="delimiter">&quot;</span></span>
-           <span class="tag">/&gt;</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;Listener</span> <span class="attribute-name">className</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">org.jboss.web.cluster.ClusterListener</span><span class="delimiter">&quot;</span></span>
+          <span class="attribute-name">ssl</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span>
+          <span class="attribute-name">sslKeyStorePass</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">changeit</span><span class="delimiter">&quot;</span></span>
+          <span class="attribute-name">sslKeyStore</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">/home/jfclere/CERTS/CA/test.p12</span><span class="delimiter">&quot;</span></span>
+          <span class="attribute-name">sslKeyStoreType</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">PKCS12</span><span class="delimiter">&quot;</span></span>
+          <span class="attribute-name">sslTrustStore</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">/home/jfclere/CERTS/CA/ca.p12</span><span class="delimiter">&quot;</span></span>
+          <span class="attribute-name">sslTrustStoreType</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">PKCS12</span><span class="delimiter">&quot;</span></span>
+          <span class="attribute-name">sslTrustStorePassword</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">changeit</span><span class="delimiter">&quot;</span></span>
+          <span class="tag">/&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>The sslKeyStore file contains the private key and the signed certificate
 of the client certificate JBossWEB uses to connect to httpd. The
-certificate must be signed by a Cerficate Authority (CA) who certificate
+certificate must be signed by a Certificate Authority (CA) who certificate
 is in the conf/server-ca.crt file of the httpd</p>
 </div>
 <div class="paragraph">
@@ -4263,12 +4263,12 @@ ClusterConfig you are using you should have something like:</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="how-the-diferent-files-were-created"><a class="link" href="#how-the-diferent-files-were-created">How the diferent files were created</a></h6>
+<h6 id="how-the-different-files-were-created"><a class="link" href="#how-the-different-files-were-created">How the different files were created</a></h6>
 <div class="paragraph">
 <p>The files were created using OpenSSL utilities see
 <a href="http://www.openssl.org/">OpenSSL</a> CA.pl (/etc/pki/tls/misc/CA for
 example) has been used to create the test Certificate authority, the
-certicate requests and private keys as well as signing the certicate
+certificate requests and private keys as well as signing the certificate
 requests.</p>
 </div>
 </div>
@@ -4377,7 +4377,7 @@ newkey.pem</p>
 <p>That creates a file: newcert.pem</p>
 </div>
 <div class="paragraph">
-<p>Don&#8217;t use a passphrase when creating the client certicate or remove
+<p>Don&#8217;t use a passphrase when creating the client certificate or remove
 it before exporting:</p>
 </div>
 <div class="listingblock">
@@ -4403,15 +4403,15 @@ mv key.txt.pem newkey.pem</code></pre>
 <div class="sect4">
 <h5 id="using-ssl-between-httpd-and-jbossweb"><a class="link" href="#using-ssl-between-httpd-and-jbossweb">Using SSL between httpd and JBossWEB</a></h5>
 <div class="paragraph">
-<p>Using https allows to encrypt communications betwen httpd and JBossWEB.
-But due to the ressources it needs that no advised to use it in high
+<p>Using https allows to encrypt communications between httpd and JBossWEB.
+But due to the resources it needs that no advised to use it in high
 load configuration.</p>
 </div>
 <div class="paragraph">
 <p>(See <a href="http://www.jboss.org/community/docs/DOC-9701">Encrypting connection between httpd and TC</a> for detailed instructions).</p>
 </div>
 <div class="paragraph">
-<p>httpd is configured to be a client for AS/TC so it should provide a
+<p>httpd is configured to be a client for AS/TC, so it should provide a
 certificate AS/TC will accept and have a private key to encrypt the
 data, it also needs a CA certificate to valid the certificate AS/TC will
 use for the connection.</p>
@@ -4430,18 +4430,18 @@ must be trusted by Tomcat via the CA in truststoreFile of
 &lt;connector/&gt;.</p>
 </div>
 <div class="paragraph">
-<p>conf/cacert.pem must contain the certificat of the CA that signed the
+<p>conf/cacert.pem must contain the certificate of the CA that signed the
 AS/TC certificate. The correspond key and certificate are the pair
-specificed by keyAlias and truststoreFile of the &lt;connector/&gt;. Of
+specified by keyAlias and truststoreFile of the &lt;connector/&gt;. Of
 course the &lt;connector/&gt; must be the https one (normally on port 8443).</p>
 </div>
 <div class="sect5">
-<h6 id="how-the-diferent-files-were-created-2"><a class="link" href="#how-the-diferent-files-were-created-2">How the diferent files were created</a></h6>
+<h6 id="how-the-different-files-were-created-2"><a class="link" href="#how-the-different-files-were-created-2">How the different files were created</a></h6>
 <div class="paragraph">
 <p>The files were created using OpenSSL utilities see
 <a href="http://www.openssl.org/">OpenSSL</a> CA.pl (/etc/pki/tls/misc/CA for
 example) has been used to create the test Certificate authority, the
-certicate requests and private keys as well as signing the certicate
+certificate requests and private keys as well as signing the certificate
 requests.</p>
 </div>
 </div>
@@ -4461,7 +4461,7 @@ requests.</p>
 keytool</p>
 </div>
 <div class="paragraph">
-<p>make sure you don&#8217;t use a passphare for the key (don&#8217;t forget to clean
+<p>make sure you don&#8217;t use a passphrase for the key (don&#8217;t forget to clean
 the file when done)</p>
 </div>
 <div class="paragraph">
@@ -4484,7 +4484,7 @@ the file when done)</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Import the CA certificate in the java trustore: (Fedora13 example).</p>
+<p>Import the CA certificate in the java trust store: (Fedora 13 example).</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4512,18 +4512,18 @@ the file when done)</p>
 </div>
 </div>
 <div class="paragraph">
-<p>There shouldn&#8217;t be any error and you should be able to see your CA
+<p>There shouldn&#8217;t be any error, and you should be able to see your CA
 in the "Acceptable client certificate CA names".</p>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="forwarding-ssl-browser-informations-when-using-httphttps-between-httpd-and-jbossweb"><a class="link" href="#forwarding-ssl-browser-informations-when-using-httphttps-between-httpd-and-jbossweb">Forwarding SSL browser informations when using http/https between httpd and JBossWEB</a></h5>
+<h5 id="forwarding-ssl-browser-information-when-using-httphttps-between-httpd-and-jbossweb"><a class="link" href="#forwarding-ssl-browser-information-when-using-httphttps-between-httpd-and-jbossweb">Forwarding SSL browser information when using http/https between httpd and JBossWEB</a></h5>
 <div class="paragraph">
-<p>When using http or https beween httpd and JBossWEB you need to use the
+<p>When using http or https between httpd and JBossWEB you need to use the
 SSLValve and export the SSL variable as header in the request in httpd.
 If you are using AJP, mod_proxy_ajp will read the SSL variables and
-forward them to JBossWEB automaticaly.</p>
+forward them to JBossWEB automatically.</p>
 </div>
 <div class="paragraph">
 <p>(See <a href="http://www.jboss.org/community/docs/DOC-11988">Forwarding SSL environment when using http/https
@@ -4536,16 +4536,16 @@ instructions).</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>"HTTPS" SSL indicateur.</p>
+<p>"HTTPS" SSL indicator.</p>
 </li>
 <li>
 <p>"SSL_CLIENT_CERT" Chain of client certificates.</p>
 </li>
 <li>
-<p>"SSL_CIPHER" Cipher used.</p>
+<p>"SSL_CIPHER" The cipher used.</p>
 </li>
 <li>
-<p>"SSL_SESSION_ID" Id of the session.</p>
+<p>"SSL_SESSION_ID" The ID of the session.</p>
 </li>
 <li>
 <p>"SSL_CIPHER_USEKEYSIZE" Size of the key used.</p>
