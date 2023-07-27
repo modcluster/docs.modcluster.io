@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2023-07-17</span>
+<span id="revdate">2023-07-27</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -3485,14 +3485,20 @@ mod_proxy_wstunnel and mod_proxy docs for more information.</p>
 <div class="sect3">
 <h4 id="responsefieldsize"><a class="link" href="#responsefieldsize">4.4.9. ResponseFieldSize</a></h4>
 <div class="paragraph">
-<p>Size in bytes of the HTTP/1.1 buffers of the workers, the default size is 8192, that limits the header size a webapp
+<p>Size in bytes of the HTTP/1.1 buffers of the workers, that limits the header size a webapp
 can use (Note: In Tomcat there is  maxHttpHeaderSize that also limits it in the Connector).</p>
+</div>
+<div class="paragraph">
+<p><strong>Default:</strong> 8192</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="cachesharefor"><a class="link" href="#cachesharefor">4.4.10. CacheShareFor</a></h4>
 <div class="paragraph">
-<p>Time to cache the shared memory information in seconds, the default is 0: no-caching.</p>
+<p>Time to cache the shared memory information in seconds.</p>
+</div>
+<div class="paragraph">
+<p><strong>Default:</strong> 0 (no-caching)</p>
 </div>
 </div>
 <div class="sect3">
@@ -3522,6 +3528,9 @@ configure advertise.</p>
 <p>This directive was added so as to address the issue of receiving MCMP on arbitrary VirtualHosts which was problematic
 due to accepting messages on insecure, unintended VirtualHosts.</p>
 </div>
+<div class="paragraph">
+<p><strong>Default:</strong> disabled (presence of the directive enables this funcitonality)</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="memmanagerfile"><a class="link" href="#memmanagerfile">4.5.2. MemManagerFile</a></h4>
@@ -3541,7 +3550,7 @@ files are placed on a local drive and not an NFS share. (Context: <strong>server
 <p>The maximum number of application contexts supported by mod_proxy_cluster. (Context: <strong>server config</strong>)</p>
 </div>
 <div class="paragraph">
-<p><strong>Default:</strong></p>
+<p><strong>Default:</strong> 100</p>
 </div>
 <script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/main/native/mod_manager/mod_manager.c?slice=55:56&footer=minimal"></script>
 </div>
@@ -3551,7 +3560,7 @@ files are placed on a local drive and not an NFS share. (Context: <strong>server
 <p>That is the maximum number of nodes supported by mod_proxy_cluster. (Context: <strong>server config</strong>)</p>
 </div>
 <div class="paragraph">
-<p><strong>Default:</strong></p>
+<p><strong>Default:</strong> 20</p>
 </div>
 <script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/main/native/mod_manager/mod_manager.c?slice=56:57&footer=minimal"></script>
 </div>
@@ -3562,7 +3571,7 @@ files are placed on a local drive and not an NFS share. (Context: <strong>server
 (Context: <strong>server config</strong>)</p>
 </div>
 <div class="paragraph">
-<p><strong>Default:</strong></p>
+<p><strong>Default:</strong> 20</p>
 </div>
 <script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/main/native/mod_manager/mod_manager.c?slice=57:58&footer=minimal"></script>
 </div>
@@ -3575,7 +3584,7 @@ is inactive when mod_cluster doesn&#8217;t receive any information from the
 session in 5 minutes. (Context: server config)</p>
 </div>
 <div class="paragraph">
-<p>Default: 0 (the logic is not activated).</p>
+<p><strong>Default:</strong> 0 (the logic is not activated).</p>
 </div>
 </div>
 <div class="sect3">
@@ -3585,7 +3594,7 @@ session in 5 minutes. (Context: server config)</p>
 directives.</p>
 </div>
 <div class="paragraph">
-<p>Default: calculated from other Max directives. Min: 1024</p>
+<p><strong>Default:</strong> calculated from other Max directives. Min: 1024</p>
 </div>
 </div>
 <div class="sect3">
@@ -3595,7 +3604,7 @@ directives.</p>
 AS/JBossWeb/Tomcat doesn&#8217;t provide a balancer name.</p>
 </div>
 <div class="paragraph">
-<p>Default: mycluster</p>
+<p><strong>Default:</strong> mycluster</p>
 </div>
 </div>
 <div class="sect3">
@@ -3605,7 +3614,7 @@ AS/JBossWeb/Tomcat doesn&#8217;t provide a balancer name.</p>
 in files. (Context: server config)</p>
 </div>
 <div class="paragraph">
-<p>Default: Off</p>
+<p><strong>Default:</strong> Off</p>
 </div>
 </div>
 <div class="sect3">
@@ -3615,7 +3624,7 @@ in files. (Context: server config)</p>
 handler on | off Since 1.1.0.CR1</p>
 </div>
 <div class="paragraph">
-<p>Default: on Nonce checked</p>
+<p><strong>Default:</strong> on (Nonce checked)</p>
 </div>
 </div>
 <div class="sect3">
@@ -3625,7 +3634,7 @@ handler on | off Since 1.1.0.CR1</p>
 page on | off Since 1.1.0.GA</p>
 </div>
 <div class="paragraph">
-<p>Default: off Only version displayed</p>
+<p><strong>Default:</strong> off (Only version displayed)</p>
 </div>
 </div>
 <div class="sect3">
@@ -3635,7 +3644,7 @@ page on | off Since 1.1.0.GA</p>
 mod_cluster 1.1.0.GA</p>
 </div>
 <div class="paragraph">
-<p>Default: on Commands allowed</p>
+<p><strong>Default:</strong> on (Commands allowed)</p>
 </div>
 </div>
 <div class="sect3">
@@ -3645,7 +3654,7 @@ mod_cluster 1.1.0.GA</p>
 page to allow more nodes in the page. on | off</p>
 </div>
 <div class="paragraph">
-<p>Default: off Full information displayed</p>
+<p><strong>Default:</strong> off (Full information displayed)</p>
 </div>
 </div>
 <div class="sect3">
@@ -3680,17 +3689,21 @@ like:</p>
 <div class="paragraph">
 <p>Note that:</p>
 </div>
-<div class="paragraph">
-<p>Transferred: Corresponds to the POST data send to the back-end server.</p>
-</div>
-<div class="paragraph">
-<p>Connected: Corresponds to the number of requests been processed when the
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Transferred</strong>: Corresponds to the POST data send to the back-end server.</p>
+</li>
+<li>
+<p><strong>Connected</strong>: Corresponds to the number of requests been processed when the
 mod_proxy_cluster status page was requested.</p>
-</div>
-<div class="paragraph">
-<p>sessions: Corresponds to the number of sessions mod_proxy_cluster report as
+</li>
+<li>
+<p><strong>sessions</strong>: Corresponds to the number of sessions mod_proxy_cluster report as
 active (on which there was a request during the past 5 minutes). That
 field is not present when Maxsessionid is zero.</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
@@ -3718,7 +3731,7 @@ or when VirtualHost is not used.</p>
 <p>ServerAdvertise Off: Don&#8217;t use the advertise mechanism.</p>
 </div>
 <div class="paragraph">
-<p>Default: Off. (Any Advertise directive in a VirtualHost sets it to On in
+<p><strong>Default:</strong> Off. (Any Advertise directive in a VirtualHost sets it to On in
 the VirtualHost)</p>
 </div>
 </div>
@@ -3731,7 +3744,7 @@ Note that if JBoss AS is used and the -u startup switch is included in the AS st
 is the value passed via the -u. If port is missing the default port will be used: 23364.</p>
 </div>
 <div class="paragraph">
-<p>Default: 224.0.1.105:23364.</p>
+<p><strong>Default:</strong> 224.0.1.105:23364.</p>
 </div>
 </div>
 <div class="sect3">
@@ -3741,7 +3754,7 @@ is the value passed via the -u. If port is missing the default port will be used
 messages advertising the IP and port.</p>
 </div>
 <div class="paragraph">
-<p>Default: 10 Ten seconds.</p>
+<p><strong>Default:</strong> 10</p>
 </div>
 </div>
 <div class="sect3">
@@ -3751,7 +3764,7 @@ messages advertising the IP and port.</p>
 is required. Both sides must use the same security key.</p>
 </div>
 <div class="paragraph">
-<p>Default: No default value.</p>
+<p><strong>Default:</strong> No default value.</p>
 </div>
 </div>
 <div class="sect3">
@@ -3761,7 +3774,7 @@ is required. Both sides must use the same security key.</p>
 JBoss AS/JBossWeb/Tomcat should use to send information to mod_cluster</p>
 </div>
 <div class="paragraph">
-<p>Default: No default value. Information not sent.</p>
+<p><strong>Default:</strong> No default value. Information not sent.</p>
 </div>
 </div>
 <div class="sect3">
@@ -3771,7 +3784,7 @@ JBoss AS/JBossWeb/Tomcat should use to send information to mod_cluster</p>
 This allow to specify an address on multi IP address boxes.</p>
 </div>
 <div class="paragraph">
-<p>Default: 0.0.0.0:23364</p>
+<p><strong>Default:</strong> 0.0.0.0:23364</p>
 </div>
 </div>
 </div>
