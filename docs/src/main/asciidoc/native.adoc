@@ -151,12 +151,16 @@ mod_proxy_wstunnel and mod_proxy docs for more information.
 
 === ResponseFieldSize
 
-Size in bytes of the HTTP/1.1 buffers of the workers, the default size is 8192, that limits the header size a webapp
+Size in bytes of the HTTP/1.1 buffers of the workers, that limits the header size a webapp
 can use (Note: In Tomcat there is  maxHttpHeaderSize that also limits it in the Connector).
+
+**Default:** 8192
 
 === CacheShareFor
 
-Time to cache the shared memory information in seconds, the default is 0: no-caching.
+Time to cache the shared memory information in seconds.
+
+**Default:** 0 (no-caching)
 
 === ModProxyClusterThreadCount
 
@@ -178,6 +182,8 @@ configure advertise.
 This directive was added so as to address the issue of receiving MCMP on arbitrary VirtualHosts which was problematic
 due to accepting messages on insecure, unintended VirtualHosts.
 
+**Default:** disabled (presence of the directive enables this funcitonality)
+
 === MemManagerFile
 
 That is the base name for the names mod_manager will use to store configuration, generate keys for shared memory or lock
@@ -193,7 +199,8 @@ files are placed on a local drive and not an NFS share. (Context: **server confi
 
 The maximum number of application contexts supported by mod_proxy_cluster. (Context: **server config**)
 
-**Default:**
+**Default:** 100
+
 ++++
 <script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/main/native/mod_manager/mod_manager.c?slice=55:56&footer=minimal"></script>
 ++++
@@ -202,7 +209,8 @@ The maximum number of application contexts supported by mod_proxy_cluster. (Cont
 
 That is the maximum number of nodes supported by mod_proxy_cluster. (Context: **server config**)
 
-**Default:**
+**Default:** 20
+
 ++++
 <script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/main/native/mod_manager/mod_manager.c?slice=56:57&footer=minimal"></script>
 ++++
@@ -212,7 +220,8 @@ That is the maximum number of nodes supported by mod_proxy_cluster. (Context: **
 That is the maximum number of hosts (Aliases) supported by mod_proxy_cluster. That is also the max number of balancers.
 (Context: **server config**)
 
-**Default:**
+**Default:** 20
+
 ++++
 <script src="https://gist-it.appspot.com/github/modcluster/mod_proxy_cluster/blob/main/native/mod_manager/mod_manager.c?slice=57:58&footer=minimal"></script>
 ++++
@@ -228,56 +237,56 @@ number of active sessions in the mod_cluster-manager handler. A session
 is inactive when mod_cluster doesn't receive any information from the
 session in 5 minutes. (Context: server config)
 
-Default: 0 (the logic is not activated).
+**Default:** 0 (the logic is not activated).
 
 === MaxMCMPMaxMessSize
 
 MaxMCMPMaxMessSize: Maximum size of MCMP messages. from other Max
 directives.
 
-Default: calculated from other Max directives. Min: 1024
+**Default:** calculated from other Max directives. Min: 1024
 
 === ManagerBalancerName
 
 ManagerBalancerName: That is the name of balancer to use when the JBoss
 AS/JBossWeb/Tomcat doesn't provide a balancer name.
 
-Default: mycluster
+**Default:** mycluster
 
 === PersistSlots
 
 PersistSlots: Tell mod_cluster_slotmem to persist the nodes, Alias and Context
 in files. (Context: server config)
 
-Default: Off
+**Default:** Off
 
 === CheckNonce
 
 CheckNonce: Switch check of nonce when using mod_cluster-manager
 handler on | off Since 1.1.0.CR1
 
-Default: on Nonce checked
+**Default:** on (Nonce checked)
 
 === AllowDisplay
 
 AllowDisplay: Switch additional display on mod_cluster-manager main
 page on | off Since 1.1.0.GA
 
-Default: off Only version displayed
+**Default:** off (Only version displayed)
 
 === AllowCmd
 
 AllowCmd: Allow commands using mod_cluster-manager URL on | off Since
 mod_cluster 1.1.0.GA
 
-Default: on Commands allowed
+**Default:** on (Commands allowed)
 
 === ReduceDisplay
 
 ReduceDisplay - Reduce the information the main mod_cluster-manager
 page to allow more nodes in the page. on | off
 
-Default: off Full information displayed
+**Default:** off (Full information displayed)
 
 === SetHandler mod_cluster-manager
 
@@ -313,12 +322,12 @@ TODO: Add pic
 
 Note that:
 
-Transferred: Corresponds to the POST data send to the back-end server.
+* **Transferred**: Corresponds to the POST data send to the back-end server.
 
-Connected: Corresponds to the number of requests been processed when the
+* **Connected**: Corresponds to the number of requests been processed when the
 mod_proxy_cluster status page was requested.
 
-sessions: Corresponds to the number of sessions mod_proxy_cluster report as
+* **sessions**: Corresponds to the number of sessions mod_proxy_cluster report as
 active (on which there was a request during the past 5 minutes). That
 field is not present when Maxsessionid is zero.
 
@@ -341,7 +350,7 @@ or when VirtualHost is not used.
 
 ServerAdvertise Off: Don't use the advertise mechanism.
 
-Default: Off. (Any Advertise directive in a VirtualHost sets it to On in
+**Default:** Off. (Any Advertise directive in a VirtualHost sets it to On in
 the VirtualHost)
 
 === AdvertiseGroup
@@ -351,35 +360,35 @@ IP should correspond to AdvertiseGroupAddress and port to AdvertisePort in the J
 Note that if JBoss AS is used and the -u startup switch is included in the AS startup command, the default AdvertiseGroupAddress
 is the value passed via the -u. If port is missing the default port will be used: 23364.
 
-Default: 224.0.1.105:23364.
+**Default:** 224.0.1.105:23364.
 
 === AdvertiseFrequency
 
 AdvertiseFrequency seconds[.miliseconds]: Time between the multicast
 messages advertising the IP and port.
 
-Default: 10 Ten seconds.
+**Default:** 10
 
 === AdvertiseSecurityKey
 
 AdvertiseSecurityKey value: key string used to verify advertisements checksums. If configured on either side the verification
 is required. Both sides must use the same security key.
 
-Default: No default value.
+**Default:** No default value.
 
 === AdvertiseManagerUrl
 
 AdvertiseManagerUrl value: Not used in this version (It is sent in the X-Manager-Url: value header). That is the URL that
 JBoss AS/JBossWeb/Tomcat should use to send information to mod_cluster
 
-Default: No default value. Information not sent.
+**Default:** No default value. Information not sent.
 
 === AdvertiseBindAddress
 
 AdvertiseBindAddress IP:port: That is the address and port httpd is bind to send the multicast messages.
 This allow to specify an address on multi IP address boxes.
 
-Default: 0.0.0.0:23364
+**Default:** 0.0.0.0:23364
 
 == Minimal Example
 
