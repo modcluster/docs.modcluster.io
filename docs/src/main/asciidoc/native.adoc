@@ -315,10 +315,7 @@ sessions.
 When accessing the location you define in httpd.conf you get something
 like:
 
-////
-TODO: Add pic
-////
-
+image::native-mod-cluster-manager.jpg[]
 
 Note that:
 
