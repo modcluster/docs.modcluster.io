@@ -4,50 +4,48 @@ NOTE: {editurl}migration.adoc[{editnote}]
 
 == Migration from mod_jk
 
-Mod_cluster only support Apache httpd, there are no plan to support IIS
-or IPlanet.
+The mod_cluster only support Apache httpd, there are no plans to support IIS nor IPlanet.
 
-The migration from mod_jk to mod_cluster is not very complex. Only
-very few worker properties can't be mapped to mod_cluster parameters.
+The migration from mod_jk to mod_cluster is not very complex.
+Only very few worker properties can't be mapped to mod_cluster parameters.
 
-Here is the table of worker properties and how to transfer them in the
-ClusterListener parameters.
+Here is the table of worker properties and how to transfer them in the ClusterListener parameters.
 
 [options="header"]
 |===
-|mod_jk worker property |ClusterListener parameter |Remarks
-|host | - | It is read from the &lt;Connector/&gt; Address information
-|port | - | It is read from the &lt;Connector/&gt; Port information
-|type | - | It is read from the &lt;Connector/&gt; Protocol information
-|route | - | It is read from the &lt;Engine/&gt; JVMRoute information
-|domain | domain | That is not supported in this version
-|redirect | - | The nodes with loadfactor = 0 are standby nodes they will be used no other nodes are available
-|socket_timeout | nodeTimeout | Default 10 seconds
-|socket_keepalive | - | KEEP_ALIVE os is always on in mod_cluster
-|connection_pool_size | - | The max size is calculated to be AP_MPMQ_MAX_THREADS+1 (max)
-|connection_pool_minsize | smax | The defaut is max
-|connection_pool_timeout | ttl | Time to live when over smax connections. The defaut is 60 seconds
-|- | workerTimeout | Max time to wait for a free worker default 1 second
-|retries | maxAttempts | Max retries before returning an error Default: 3
-|recovery_options | - | mod_cluster behave like mod_jk with value 7
-|fail_on_status | - | Not supported
-|max_packet_size | iobuffersize/receivebuffersize| Not supported in this version. Use ProxyIOBufferSize
-|max_reply_timeouts | - | Not supported
-|recovert_time | - | The ClusterListener will tell (via a STATUS message) mod_cluster that the node is up again
-|activation | - | mod_cluster receives this information via ENABLE/DISABLE/STOP messages
-|distance | - | mod_cluster handles this via the loadfactor logic
-|mount | - | The context "mounted" automaticly via the ENABLE-APP messages. ProxyPass could be used too
-|secret | - | Not supported
-|connect_timeout | - | Not supported. Use ProxyTimeout or server TimeOut (Default 300 seconds)
-|prepost_timeout | ping | Default 10 seconds
-|reply_timeout | - | Not supported. Use ProxyTimeout or server TimeOut? directive (Default 300 seconds)
+| mod_jk worker property | ClusterListener parameter | Remarks
+| host | - | It is read from the &lt;Connector/&gt; Address information
+| port | - | It is read from the &lt;Connector/&gt; Port information
+| type | - | It is read from the &lt;Connector/&gt; Protocol information
+| route | - | It is read from the &lt;Engine/&gt; JVMRoute information
+| domain | domain | That is not supported in this version
+| redirect | - | The nodes with loadfactor = 0 are standby nodes they will be used no other nodes are available
+| socket_timeout | nodeTimeout | Default 10 seconds
+| socket_keepalive | - | KEEP_ALIVE os is always on in mod_cluster
+| connection_pool_size | - | The max size is calculated to be AP_MPMQ_MAX_THREADS+1 (max)
+| connection_pool_minsize | smax | The default is max
+| connection_pool_timeout | ttl | Time to live when over smax connections. The default is 60 seconds
+| - | workerTimeout | Max time to wait for a free worker default 1 second
+| retries | maxAttempts | Max retries before returning an error Default: 3
+| recovery_options | - | mod_cluster behave like mod_jk with value 7
+| fail_on_status | - | Not supported
+| max_packet_size | iobuffersize/receivebuffersize | Not supported in this version. Use ProxyIOBufferSize
+| max_reply_timeouts | - | Not supported
+| recovery_time | - | The ClusterListener will tell (via a STATUS message) mod_cluster that the node is up again
+| activation | - | mod_cluster receives this information via ENABLE/DISABLE/STOP messages
+| distance | - | mod_cluster handles this via the loadfactor logic
+| mount | - | The context "mounted" automatically via the ENABLE-APP messages. ProxyPass could be used too
+| secret | - | Not supported
+| connect_timeout | - | Not supported. Use ProxyTimeout or server TimeOut (Default 300 seconds)
+| prepost_timeout | ping | Default 10 seconds
+| reply_timeout | - | Not supported. Use ProxyTimeout or server TimeOut? directive (Default 300 seconds)
 |===
 
 == Migration from mod_proxy
 
-As mod_cluster is a sophisticated balancer migration from mod_proxy to
-mod_cluster is strait forward. mod_cluster replaces a reverse proxy
-with loadbalancing. A reversed proxy is configured like:
+As `mod_cluster` is a sophisticated balancer, migration from `mod_proxy` to `mod_cluster` is straightforward.
+The `mod_cluster` replaces a reverse proxy with load-balancing.
+A reverse proxy is configured such as:
 
 [source]
 ----
@@ -62,9 +60,8 @@ ProxyPass /foo http://foo.example.com/bar
 ProxyPassReverse /foo http://foo.example.com/bar
 ----
 
-All the general proxy parameters could be used in mod_cluster they work
-like in mod_proxy, only the balancers and the workers definitions are
-slightly different.
+All the general proxy parameters could be used in `mod_cluster` they work like in `mod_proxy`,
+only the balancers and the workers definitions are slightly different.
 
 === Workers
 
