@@ -80,7 +80,7 @@ The mod_cluster container integration module (implemented in Java) is provided f
 * JBoss AS 7
 * Tomcat 6 and newer
 
-// TODO: add a support matrix version/containers/etc
+// TODO: add a support matrix version/containers/etc - https://github.com/modcluster/docs.modcluster.io/issues/115
 
 == Limitations
 
