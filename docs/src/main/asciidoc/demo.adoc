@@ -1,7 +1,9 @@
 [[demo]]
 = Load Balancing Demo Application
 
-NOTE: {editurl}demo.adoc[{editnote}]
+TIP: {editurl}demo.adoc[{editnote}]
+
+WARNING: The demo application has not been recently updated and might not work with newer software versions as described below!
 
 == Overview
 
