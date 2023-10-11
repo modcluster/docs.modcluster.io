@@ -117,10 +117,10 @@ and https://github.com/modcluster/mod_proxy_cluster[mod_proxy_cluster git reposi
 == Configuration
 
 If you want to skip the details and just set up a minimal working
-installation of mod_cluster, see the link:#Quick_Start_Guide[Quick Start Guide].
+installation of mod_cluster, see the link:#quick-start-guide[Quick Start Guide].
 
-* Configuring link:#balancer_config[balancer]
-* Configuring link:#worker_config[workers]
+* Configuring link:#httpd[balancer]
+* Configuring link:#container-integration-configuration[workers]
 
 [[migration]]
 == Migration from mod_jk or mod_proxy
@@ -128,15 +128,15 @@ installation of mod_cluster, see the link:#Quick_Start_Guide[Quick Start Guide].
 Migrating from mod_jk or mod_proxy is fairly straightforward. In general, much of the configuration previously
 found in `httpd.conf` is now defined in the application server worker nodes.
 
-* Migrating from link:#migration-from-modjk[mod_jk]
-* Migrating from link:#migration-from-modproxy[mod_proxy]
+* Migrating from link:#migration-from-mod_jk[mod_jk]
+* Migrating from link:#migration-from-mod_proxy[mod_proxy]
 
 == SSL support
 
 Both the request connections between httpd and the application server nodes, and the feedback channel
-between the nodes and httpd can be secured. The former is achieved via the link:#mod_proxy_https[mod_proxy_https module]
-and a corresponding ssl-enabled HTTP connector in JBoss Web or Undertow. The latter requires the
-link:#UsingSSL[mod_ssl module] and link:#worker_config[explicit configuration in WildFly/JBoss AS/Web/Undertow].
+between the nodes and httpd can be secured. The former is achieved via the mod_proxy_https module and a corresponding
+ssl-enabled HTTP connector in JBoss Web or Undertow. The latter requires the link:#using-ssl-in-mod_cluster[mod_ssl
+module] and link:#ssl-configuration[explicit configuration in WildFly/JBoss AS/Web/Undertow].
 
 mod_cluster contains mod_ssl, therefore the warning (copied from OpenSSL https://www.openssl.org/[web site]).
 

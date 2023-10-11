@@ -293,10 +293,12 @@ The load-metric are the "classes" collecting information to allow computation of
 === Out-of-box load metric types
 
 [options="header"]
+
 |===
 | Type             | Corresponding Server-Side Load Metric
 | cpu              | link:#average-system-load-metric[AverageSystem]
-| mem              | link:#system-memory-usage-load-metric[SystemMemoryUsage] See https://issues.jboss.org/browse/MODCLUSTER-288[MODCLUSTER-288]
+| mem              | SystemMemoryUsageSee +
+                     (Only 1.2.x and older – see https://issues.jboss.org/browse/MODCLUSTER-288[MODCLUSTER-288])
 | heap             | link:#heap-memory-usage-load-metric[HeapMemoryUsage]
 | sessions         | link:#active-sessions-load-metric[ActiveSessions]
 | requests         | link:#request-count-load-metric[RequestCount]

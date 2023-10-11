@@ -27,9 +27,10 @@ The application can also send separate requests to the demo war's
 load generation servlets, allowing the user to see how different
 load conditions affect the balancing of requests.
 
+[#fn1link]
 Note that the demo application does not actually depend on mod_cluster
 in any way. Its only dependency is on JBossWeb/Tomcat.
-^[link:#ftn.d0e3653[1]]^ Consequently, the demo can be used to demonstrate
+ <<fn1,^[1]^>>Consequently, the demo can be used to demonstrate
 the effect of different server-side scenarios on the routing decisions
 made by any load balancer, including mod_jk, mod_proxy or the various
 hardware load balancers.
@@ -50,7 +51,7 @@ assume it has been unzipped to ~/mod_cluster or C:\mod_cluster.
 . Install mod_cluster into your httpd server as described at Installation of the httpd part
 
 . Install mod_cluster into your JBossAS/JBossWeb/Tomcat servers as
-described at link:#java.install[Installation on the Java
+described at link:#install-the-worker-side-binaries[Installation on the Java
 side]
 
 . In AS7 you have to set org.apache.tomcat.util.ENABLE_MODELER to
@@ -89,17 +90,16 @@ C:\mod_cluster\demo\client> run-demo
 image::demo-client-control.jpg[]
 
 . Configure the hostname and address of the httpd server, the number
-of client threads, etc and click the "Start" button. See link:#client-config[Client
-Driver Configuration
-Options]
+of client threads, etc and click the "Start" button. See
+link:#client-driver-configuration-options[Client Driver Configuration Options]
 for details on the configuration options.
 
 . Switch to the "Request Balancing" tab to see how many requests are
 going to each of your JBossAS/JBossWeb/Tomcat servers.
 
-. Switch to the "Session Balancing" tab to see how many active
-sessions link:#[^link:#[^]link:#ftn.d0e3726[2][^]^] are being hosted by each
-of your JBossAS/JBossWeb/Tomcat servers.
+[#fn2link]
+. Switch to the "Session Balancing" tab to see how many active sessions<<fn2,^[2]^>>
+are being hosted by each of your JBossAS/JBossWeb/Tomcat servers.
 
 . Stop some of your JBossAS/JBossWeb/Tomcat servers and/or undeploy
 the load-demo.war from some of the servers and see the effect this
@@ -110,9 +110,8 @@ re-deploy the load-demo.war to some of the servers and see the
 effect this has on load balancing.
 
 . Experiment with adding artificial load to one or more servers to see
-what effect that has on load balancing. See link:#load-generation[Load Generation
-Scenarios] for
-details.
+what effect that has on load balancing. See link:#load-generation-scenarios[Load
+Generation Scenarios] for details.
 
 Most of the various panels in application interface also present
 information on the current status on any client threads. "Total Clients"
@@ -131,11 +130,13 @@ image::demo-client-control.jpg[]
 
 The panel includes the following options:
 
+[#fn3link]
 * Proxy Hostname: Hostname of the load balancer or the IP address on
-which it is listening for requests ^[link:#ftn.d0e3759[3]]^
+which it is listening for requests<<fn3,^[3]^>>
 
+[#fn4link]
 * Proxy Port: Port on which the load balancer is listening for
-requests ^[link:#ftn.d0e3772[4]]^
+requests<<fn4,^[4]^>>
 
 * Context Path: Portion of the request URL that specifies the request
 is for the load-demo.war
@@ -251,13 +252,12 @@ Request Count::
     Generates server load by making numerous requests, increasing
 the request count on the target server
 
-
 '''
 
-^[link:#d0e3653[1]]^The demo's "Datasource Use" load generation scenario
+[[fn1]]^link:#fn1link[[1]]^:: The demo's "Datasource Use" load generation scenario
 requires the use of JBoss Application Server.
 
-^[link:#d0e3726[2]]^ For purposes of this chart, a session is considered
+[[fn2]]^link:#fn2link[[2]]^:: For purposes of this chart, a session is considered
 "active" if a client thread will ever again send a request associated
 with the session. When client threads stop using a session, they can
 either send a request to invalidate it or just abandon it by no longer
@@ -266,15 +266,16 @@ it will not be reflected in the "Session Balancing" chart, but it will
 continue to exist on the JBossWeb/Tomcat/JBoss AS server until it is
 removed due to timeout.
 
-^[link:#d0e3759[3]]^ The default value for this field is controlled by the
+[[fn3]]^link:#fn3link[[3]]^:: The default value for this field is controlled by the
 `mod_cluster.proxy.host` system property, or localhost if not
 set. Editing the run-demo.sh or run-demo.bat file to change the
 `-Dmod_cluster.proxy.host=localhost` passed to java will allow
 you to avoid re-typing this value every time you launch the demo
 application.
 
-^[link:#d0e3772[4]]^ The default value for this field is controlled by the
+[[fn4]]^link:#fn4link[[4]]^:: The default value for this field is controlled by the
 `mod_cluster.proxy.port` system property, or 8000 if not set.
 Editing the run-demo.sh or run-demo.bat file to change the
 `-Dmod_cluster.proxy.port=8000` passed to java will allow you to
 avoid re-typing this value every time you launch the demo application.
+
