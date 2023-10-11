@@ -290,15 +290,12 @@ The load-metric are the "classes" collecting information to allow computation of
 | capacity   | capacity                   | 512
 |===
 
-=== Out-of-box load metric types
+=== Built-in Load Metric Types
 
 [options="header"]
-
 |===
 | Type             | Corresponding Server-Side Load Metric
 | cpu              | link:#average-system-load-metric[AverageSystem]
-| mem              | SystemMemoryUsageSee +
-                     (Only 1.2.x and older – see https://issues.jboss.org/browse/MODCLUSTER-288[MODCLUSTER-288])
 | heap             | link:#heap-memory-usage-load-metric[HeapMemoryUsage]
 | sessions         | link:#active-sessions-load-metric[ActiveSessions]
 | requests         | link:#request-count-load-metric[RequestCount]
@@ -307,6 +304,8 @@ The load-metric are the "classes" collecting information to allow computation of
 | busyness         | link:#busy-connectors-load-metric[BusyConnectors]
 | connection-pool  | link:#connection-pool-usage-load-metric[ConnectionPoolUsage]
 |===
+
+NOTE: The `mem` (`SystemMemoryUsage`) load metric has been removed since version 1.3, see https://issues.jboss.org/browse/MODCLUSTER-288[MODCLUSTER-288] for more context.
 
 === custom-load-metric Configuration
 
