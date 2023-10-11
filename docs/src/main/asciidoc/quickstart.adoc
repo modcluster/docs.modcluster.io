@@ -8,9 +8,9 @@ either JBoss AS, JBossWeb, Undertow or Tomcat. The steps can be repeated to add 
 many httpd servers or back end servers to your cluster as desired.
 
 The steps shown here are not intended to demonstrate how to set up a production
-install of mod_proxy_cluster; for example, link:#UsingSSL[using SSL to secure
-access] to the httpd-side mod_manager component is not covered. See the
-link:#balancer_config[balancer-side] and link:#worker_config[worker-side]
+install of mod_proxy_cluster; for example, link:#using-ssl-in-mod_cluster[using SSL
+to secure access] to the httpd-side mod_manager component is not covered. See the
+link:#httpd[balancer-side] and link:#container-integration-configuration[worker-side]
 configuration documentation for the full set of configuration options.
 
 == Download mod_cluster components
