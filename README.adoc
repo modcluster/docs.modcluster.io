@@ -1,4 +1,4 @@
-= mod_cluster documentation 2.0
+= The mod_cluster Project Documentation
 
 Welcome to the new mod_cluster live documentation!
 
