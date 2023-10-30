@@ -17,7 +17,7 @@ How can I contribute?
 
 * Documentation changes infrequently. To minimize the maintenance cost of multiple documentation versions, use wording similar to "Since version 1.3" to describe behavior changes across versions.
 * Commit messages: you can describe changes you have done, or you could leave the default GitHub message which will just say "Update section.adoc".
-* Use shorter lines to make rebasing and editing from the web slightly easier.
+* Use shorter lines to make rebasing and editing from the web slightly easier (typically a single sentence per line).
 * Documentation always resides in `main` branch of the upstream (`modcluster/docs.modcluster.io`) repository.
 
 == Building locally
