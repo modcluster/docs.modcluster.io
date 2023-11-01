@@ -168,6 +168,12 @@ Number of threads that should be created for watchdog logic. Must be positive. (
 
 **Default:** 16
 
+=== DeterministicFailover
+
+Controls whether a node upon failover is chosen deterministically.
+
+**Default:** Off
+
 == mod_manager
 
 The Context of a mod_manger directive is VirtualHost except mentioned otherwise. **server config** means that it must be outside a
