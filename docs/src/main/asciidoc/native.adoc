@@ -131,7 +131,7 @@ The above for example will allow httpd to server directly the .gif files.
 === EnableOptions
 
 Use `OPTIONS` method to periodically check the active connection. Fulfils the same role as the `CPING/CPONG` used by AJP
-but for HTTP/HTTPS connections. The endpoint needs to implement at least HTTP/1.1.
+but for HTTP/HTTPS connections. The endpoint needs to implement HTTP/1.0.
 
  * On (or no value) &mdash; Use OPTIONS
  * Off &mdash; Don't use OPTIONS
