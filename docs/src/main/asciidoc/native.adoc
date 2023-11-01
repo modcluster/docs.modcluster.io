@@ -110,7 +110,7 @@ lbfactor is received for the node via STATUS messages.lbstatus is recalculated e
 where `elected` is the amount of time the worker has been elected. `oldelected` is `elected` from the last time the `lbstatus`
 was recalculated. The node with the lowest `status` is selected. Nodes with `lbfactor ≤ 0` are skipped by the both calculation logics.
 
-=== WaitForRemove
+=== WaitBeforeRemove
 
 Time in seconds before a removed node is forgotten by httpd.
 
