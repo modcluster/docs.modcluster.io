@@ -144,10 +144,14 @@ Use `AJPSecret your_secret` to provide the secret for the AJP back-end, See mod_
 information. If `your_secret` doesn't correspond to the value configured in the back-end the back-end will return 503
 to any request coming through the proxy.
 
+=== EnableWsTunnel
+
+Use ws or wss instead of http or https when creating nodes (allows WebSocket proxying).
+
 === WSUpgradeHeader
 
-Use `WSUpgradeHeader value` to define the value of the upgrade header mod_proxy_wstunnel is accepting. See
-mod_proxy_wstunnel and mod_proxy docs for more information.
+Use `WSUpgradeHeader value` to define the value of the upgrade header that is accepted. See
+mod_proxy_wstunnel (1.3.x and older) and mod_proxy_http (2.x) docs for more information.
 
 === ResponseFieldSize
 
