@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2023-11-01</span>
+<span id="revdate">2023-11-06</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -3541,14 +3541,20 @@ to any request coming through the proxy.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="wsupgradeheader"><a class="link" href="#wsupgradeheader">4.4.8. WSUpgradeHeader</a></h4>
+<h4 id="enablewstunnel"><a class="link" href="#enablewstunnel">4.4.8. EnableWsTunnel</a></h4>
 <div class="paragraph">
-<p>Use <code>WSUpgradeHeader value</code> to define the value of the upgrade header mod_proxy_wstunnel is accepting. See
-mod_proxy_wstunnel and mod_proxy docs for more information.</p>
+<p>Use ws or wss instead of http or https when creating nodes (allows WebSocket proxying).</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="responsefieldsize"><a class="link" href="#responsefieldsize">4.4.9. ResponseFieldSize</a></h4>
+<h4 id="wsupgradeheader"><a class="link" href="#wsupgradeheader">4.4.9. WSUpgradeHeader</a></h4>
+<div class="paragraph">
+<p>Use <code>WSUpgradeHeader value</code> to define the value of the upgrade header that is accepted. See
+mod_proxy_wstunnel (1.3.x and older) and mod_proxy_http (2.x) docs for more information.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="responsefieldsize"><a class="link" href="#responsefieldsize">4.4.10. ResponseFieldSize</a></h4>
 <div class="paragraph">
 <p>Size in bytes of the HTTP/1.1 buffers of the workers, that limits the header size a webapp
 can use (Note: In Tomcat there is  maxHttpHeaderSize that also limits it in the Connector).</p>
@@ -3558,7 +3564,7 @@ can use (Note: In Tomcat there is  maxHttpHeaderSize that also limits it in the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="cachesharefor"><a class="link" href="#cachesharefor">4.4.10. CacheShareFor</a></h4>
+<h4 id="cachesharefor"><a class="link" href="#cachesharefor">4.4.11. CacheShareFor</a></h4>
 <div class="paragraph">
 <p>Time to cache the shared memory information in seconds.</p>
 </div>
@@ -3567,7 +3573,7 @@ can use (Note: In Tomcat there is  maxHttpHeaderSize that also limits it in the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="modproxyclusterthreadcount"><a class="link" href="#modproxyclusterthreadcount">4.4.11. ModProxyClusterThreadCount</a></h4>
+<h4 id="modproxyclusterthreadcount"><a class="link" href="#modproxyclusterthreadcount">4.4.12. ModProxyClusterThreadCount</a></h4>
 <div class="paragraph">
 <p>Number of threads that should be created for watchdog logic. Must be positive. (Since 2.0)</p>
 </div>
@@ -3576,7 +3582,7 @@ can use (Note: In Tomcat there is  maxHttpHeaderSize that also limits it in the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="deterministicfailover"><a class="link" href="#deterministicfailover">4.4.12. DeterministicFailover</a></h4>
+<h4 id="deterministicfailover"><a class="link" href="#deterministicfailover">4.4.13. DeterministicFailover</a></h4>
 <div class="paragraph">
 <p>Controls whether a node upon failover is chosen deterministically.</p>
 </div>
