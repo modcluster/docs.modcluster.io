@@ -32,7 +32,7 @@ the former name mod_cluster is currently used for container implementation.
 |===
 | Release | Tomcat versions | Links
 
-| `1.4` | `7` (EOL), `8`, `8.5`, `9` | https://github.com/modcluster/mod_cluster/tree/1.4.x[SCM Branch] https://docs.modcluster.io/apidocs/1.4/[Javadoc]
+| `1.4` | `7` (EOL), `8` (EOL), `8.5`, `9` | https://github.com/modcluster/mod_cluster/tree/1.4.x[SCM Branch] https://docs.modcluster.io/apidocs/1.4/[Javadoc]
 | `2.0` | `8.5`, `9.0`, `10.1` | https://github.com/modcluster/mod_cluster/tree/main[SCM Branch] https://docs.modcluster.io/apidocs/2.0/[Javadoc]
 |===
 
