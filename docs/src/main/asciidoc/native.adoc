@@ -150,8 +150,18 @@ Use ws or wss instead of http or https when creating nodes (allows WebSocket pro
 
 === WSUpgradeHeader
 
-Use `WSUpgradeHeader value` to define the value of the upgrade header that is accepted. See
-mod_proxy_wstunnel (1.3.x and older) and mod_proxy_http (2.x) docs for more information.
+Use `WSUpgradeHeader value` to define the value of the upgrade header that is accepted (corresponds to
+ProxyPass upgrade=value). Accepted values are following:
+
+|===
+| 2.0 (in development) | 1.3 with httpd >= 2.4.47 | 1.3 with httpd < 2.4.47 | Description
+
+| value                | value                    | value                   | protocol name to check before using the WS tunnel
+| *                    | *                        | ANY                     | read the header value from request
+|                      |                          | NONE                    | bypass the header check
+|===
+
+See mod_proxy_wstunnel (1.3.x and older with httpd 2.4.46 and older) and mod_proxy_http (2.x) docs for more information.
 
 === ResponseFieldSize
 
