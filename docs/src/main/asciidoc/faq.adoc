@@ -170,18 +170,8 @@ You need to have something like the undermentioned authentication configured in 
 
 [source]
 ----
-# httpd 2.4.x
-
 <Location />
     Require ip 10.33.144.3
-</Location>
-
-# httpd 2.2.x
-
-<Location />
-    Order deny,allow
-    Deny from all
-    Allow from 10.33.144.3
 </Location>
 ----
 

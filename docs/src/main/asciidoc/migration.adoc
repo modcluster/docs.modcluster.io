@@ -84,7 +84,7 @@ only the balancers and the workers definitions are slightly different.
 | retry | - | ClusterListener will test when the node is back online
 | route | JVMRoute | In fact JBossWEB via the JVMRoute in the Engine will add it
 | status | - | mod_cluster has a finer status handling: by context via the ENABLE/STOP/DISABLE/REMOVE application messages. hot-standby is done by lbfactor = 0 and Error by lbfactor = 1 both values are sent in STATUS message by the ClusterListener
-| timeout | nodeTimeout | Default wait forever (http://httpd.apache.org/docs/2.2/mod/mod_proxy.html[http://httpd.apache.org/docs/2.2/mod/mod_proxy.html] is wrong there)
+| timeout | nodeTimeout | Default wait forever (http://httpd.apache.org/docs/2.4/mod/mod_proxy.html[http://httpd.apache.org/docs/2.4/mod/mod_proxy.html] is wrong there)
 | ttl | ttl | Default 60 seconds
 |===
 

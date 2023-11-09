@@ -39,10 +39,10 @@ the former name mod_cluster is currently used for container implementation.
 === Apache HTTP modules
 
 |===
-| Release | Links
+| Release | httpd versions | Links
 
-| `1.3` | https://github.com/modcluster/mod_cluster/tree/1.3.x[SCM Branch]
-| `2.0` (in development) | https://github.com/modcluster/mod_proxy_cluster/tree/main[SCM Branch] https://docs.modcluster.io/apidocs/mpc-2.0/[Doxygen]
+| `1.3` | 2.4.49 and newer | https://github.com/modcluster/mod_cluster/tree/1.3.x[SCM Branch]
+| `2.0` (in development) | 2.4.53 and newer | https://github.com/modcluster/mod_proxy_cluster/tree/main[SCM Branch] https://docs.modcluster.io/apidocs/mpc-2.0/[Doxygen]
 |===
 
 Complete documentation for legacy versions is archived at https://docs.modcluster.io/legacy/.
@@ -93,7 +93,8 @@ The original concepts are described in a http://www.jboss.org/community/docs/DOC
 
 === Balancer side
 
-* Apache HTTP Server 2.4.53 and newer
+* Apache HTTP Server 2.4.53 and newer for mod_proxy_cluster 2.x
+* Apache HTTP Server 2.4.49 and newer for mod_proxy_cluster/mod_cluster 1.3.x
 
 === Worker side
 
