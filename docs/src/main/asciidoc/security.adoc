@@ -19,7 +19,7 @@ configuration.
 
 ==== Apache httpd configuration part
 
-http://httpd.apache.org/docs/2.2/mod/mod_ssl.html[mod_ssl] of httpd is using to do that.
+http://httpd.apache.org/docs/2.4/mod/mod_ssl.html[mod_ssl] of httpd is using to do that.
 See in one example how easy the configuration is:
 
 [source]

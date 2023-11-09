@@ -154,14 +154,14 @@ Use `WSUpgradeHeader value` to define the value of the upgrade header that is ac
 ProxyPass upgrade=value). Accepted values are following:
 
 |===
-| 2.0 (in development) | 1.3 with httpd >= 2.4.47 | 1.3 with httpd < 2.4.47 | Description
+| 2.0 (in development) | 1.3 | mod_proxy_wstunnel (used in the past) | Description
 
-| value                | value                    | value                   | protocol name to check before using the WS tunnel
-| *                    | *                        | ANY                     | read the header value from request
-|                      |                          | NONE                    | bypass the header check
+| value                | value | value                               | protocol name to check before using the WS tunnel
+| *                    | *     | ANY                                 | read the header value from request
+|                      |       | NONE                                | bypass the header check
 |===
 
-See mod_proxy_wstunnel (1.3.x and older with httpd 2.4.46 and older) and mod_proxy_http (2.x) docs for more information.
+See mod_proxy_http docs for more information.
 
 === ResponseFieldSize
 
@@ -317,15 +317,6 @@ sessions.
 
 [source]
 ----
-# httpd 2.2.x or older
-<Location /mod_cluster-manager>
-   SetHandler mod_cluster-manager
-   Order deny,allow
-   Deny from all
-   Allow from 127.0.0.1
-</Location>
-
-# httpd 2.4.x or later
 <Location /mod_cluster-manager>
    SetHandler mod_cluster-manager
    Require ip 127.0.0
@@ -362,7 +353,7 @@ AS/JBossWeb/Tomcat to whom it should send the cluster information.
 
 ServerAdvertise On http://hostname:port: Tell the hostname and port to use.
 Only needed if the VirtualHost is not defined correctly, if the VirtualHost is
-a http://httpd.apache.org/docs/2.2/vhosts/name-based.html[Name-based Virtual Host]
+a http://httpd.apache.org/docs/2.4/vhosts/name-based.html[Name-based Virtual Host]
 or when VirtualHost is not used.
 
 ServerAdvertise Off: Don't use the advertise mechanism.
@@ -410,7 +401,7 @@ This allow to specify an address on multi IP address boxes.
 == Minimal Example
 
 Beware of the different names of `mod_cluster_slotmem.so` and `mod_slotmem.so` between mod_cluster 1.3.x and older versions.
-Last but not least, pay attention to httpd 2.2.x and httpd 2.4.x authentication configuration changes.
+The 2.x version uses Apache HTTP Server's `mod_slotmem_shm.so`.
 
 === mod_cluster 1.3.x and newer, Apache HTTP Server 2.4.x
 
@@ -441,45 +432,6 @@ LoadModule advertise_module modules/mod_advertise.so
   <Location /mod_cluster-manager>
      SetHandler mod_cluster-manager
      Require ip 127.0.0
-  </Location>
-
-  </VirtualHost>
-</IfModule>
-----
-
-=== mod_cluster 1.2.x, Apache HTTP Server 2.2.x
-
-[source]
-----
-LoadModule proxy_module modules/mod_proxy.so
-LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
-
-LoadModule slotmem_module modules/mod_slotmem.so
-
-LoadModule manager_module modules/mod_manager.so
-LoadModule proxy_cluster_module modules/mod_proxy_cluster.so
-LoadModule advertise_module modules/mod_advertise.so
-
-<IfModule manager_module>
-  Listen 10.33.144.3:6666
-  <VirtualHost 10.33.144.3:6666>
-
-  # Where your worker nodes connect from
-  <Location />
-     Order deny,allow
-     Deny from all
-     Allow from 127.0.0.
-  </Location>
-
-  ServerAdvertise On
-  EnableMCPMReceive
-
-  # Where administrator reads the console from
-  <Location /mod_cluster-manager>
-     SetHandler mod_cluster-manager
-     Order deny,allow
-     Deny from all
-     Allow from 127.0.0.
   </Location>
 
   </VirtualHost>
@@ -589,17 +541,7 @@ Done.
 
 === Build httpd from its sources
 
-To build httpd-2.2.x from its sources see http://httpd.apache.org/docs/2.2/install.html[ASF httpd 2.2 doc],
-see http://httpd.apache.org/docs/2.4/install.html[ASF httpd 2.4 doc] for httpd-2.4.x.
-
-If needed, patch the httpd-2.2.x sources with (The patch prevents long
-waiting time when the node IP can't be resolved that should not happen
-so you can skip the patch part if you don't want to rebuild httpd).
-https://github.com/modcluster/mod_cluster/blob/main/native/mod_proxy_cluster/mod_proxy_ajp.patch[mod_proxy_ajp.patch]
-
-    (cd modules/proxy
-      patch -p0 < $location/mod_proxy_ajp.patch
-    )
+To build httpd-2.4.x from its sources see http://httpd.apache.org/docs/2.4/install.html[ASF httpd 2.4 doc].
 
 Configure httpd with something like:
 
@@ -626,8 +568,7 @@ Download the mod_proxy_cluster sources:
     git clone git://github.com/modcluster/mod_proxy_cluster.git
 
 Build the mod_proxy_cluster's modules components, for each subdirectory
-advertise, mod_manager, mod_proxy_cluster and mod_cluster_slotmem (mod_slotmem
-for version 1.2 or older) do
+advertise, mod_manager, mod_proxy_cluster and mod_cluster_slotmem do
 something like:
 
 [source,bash]
@@ -639,7 +580,7 @@ sh buildconf
 ----
 
 Where apache_installation_directory is the location of an installed
-version of httpd-2-2.x or newer.
+version of httpd-2.4.x or newer.
 The https://httpd.apache.org/docs/trunk/programs/apxs.html[apxs] file can be
 found in your apache_installation_directory/bin directory.
 
@@ -652,10 +593,6 @@ libtool: install: warning: remember to run `libtool --finish apache_installation
 
 Once that is done use Apache httpd configuration to configure mod_proxy_cluster.
 
-=== Build the mod_proxy module
-
-It is only needed for httpd-2.2.x where x ≤ 11. Process like the other mod_proxy_cluster modules.
-
 == Installing httpd modules
 
 Several bundles are available at http://www.jboss.org/mod_cluster/downloads.html[http://www.jboss.org/mod_cluster/downloads.html].
@@ -665,8 +602,9 @@ TODO: Amend links. The following article is dated.
 ////
 
 
-In case you can't find a prepared package of mod_cluster in the download area, it is possible to build mod_cluster for the sources.
-You need a distribution of httpd (at least 2.2.8) or (better) a source tarball of httpd and the sources of mod_cluster.
+In case you can't find a prepared package of mod_cluster in the download area, it is possible to build mod_cluster/mod_proxy_cluster
+from the sources. You need a distribution of httpd (at least 2.4.49 for 1.3.x, 2.4.53 for 2.x respectively)) or (better) a source
+tarball of httpd and the sources of mod_cluster. You can find those at https://dlcdn.apache.org/httpd/[https://dlcdn.apache.org/httpd/].
 
 === Configuration
 
