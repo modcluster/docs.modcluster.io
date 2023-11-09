@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2023-11-08</span>
+<span id="revdate">2023-11-09</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -715,22 +715,26 @@ the former name mod_cluster is currently used for container implementation.
 <h4 id="apache-http-modules"><a class="link" href="#apache-http-modules">1.1.2. Apache HTTP modules</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Release</th>
+<th class="tableblock halign-left valign-top">httpd versions</th>
 <th class="tableblock halign-left valign-top">Links</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>1.3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.4.49 and newer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/modcluster/mod_cluster/tree/1.3.x">SCM Branch</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0</code> (in development)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.4.53 and newer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/modcluster/mod_proxy_cluster/tree/main">SCM Branch</a> <a href="https://docs.modcluster.io/apidocs/mpc-2.0/">Doxygen</a></p></td>
 </tr>
 </tbody>
@@ -815,7 +819,10 @@ The original concepts are described in a <a href="http://www.jboss.org/community
 <div class="ulist">
 <ul>
 <li>
-<p>Apache HTTP Server 2.4.53 and newer</p>
+<p>Apache HTTP Server 2.4.53 and newer for mod_proxy_cluster 2.x</p>
+</li>
+<li>
+<p>Apache HTTP Server 2.4.49 and newer for mod_proxy_cluster/mod_cluster 1.3.x</p>
 </li>
 </ul>
 </div>
@@ -1112,7 +1119,6 @@ Change to the bin directory of the subfolder <code>Apache24</code> where you unz
 <div class="content">
 <pre class="CodeRay highlight"><code>LoadModule proxy_module /opt/jboss/httpd/lib/httpd/modules/mod_proxy.so
 LoadModule proxy_ajp_module /opt/jboss/httpd/lib/httpd/modules/mod_proxy_ajp.so
-LoadModule cluster_slotmem_module /opt/jboss/httpd/lib/httpd/modules/mod_cluster_slotmem.so
 LoadModule manager_module /opt/jboss/httpd/lib/httpd/modules/mod_manager.so
 LoadModule proxy_cluster_module /opt/jboss/httpd/lib/httpd/modules/mod_proxy_cluster.so
 LoadModule advertise_module /opt/jboss/httpd/lib/httpd/modules/mod_advertise.so
@@ -3566,8 +3572,8 @@ ProxyPass upgrade=value). Accepted values are following:</p>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">2.0 (in development)</th>
-<th class="tableblock halign-left valign-top">1.3 with httpd &gt;= 2.4.47</th>
-<th class="tableblock halign-left valign-top">1.3 with httpd &lt; 2.4.47</th>
+<th class="tableblock halign-left valign-top">1.3</th>
+<th class="tableblock halign-left valign-top">mod_proxy_wstunnel (used in the past)</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
@@ -3593,7 +3599,7 @@ ProxyPass upgrade=value). Accepted values are following:</p>
 </tbody>
 </table>
 <div class="paragraph">
-<p>See mod_proxy_wstunnel (1.3.x and older with httpd 2.4.46 and older) and mod_proxy_http (2.x) docs for more information.</p>
+<p>See mod_proxy_http docs for more information.</p>
 </div>
 </div>
 <div class="sect3">
@@ -3790,16 +3796,7 @@ sessions.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code># httpd 2.2.x or older
-&lt;Location /mod_cluster-manager&gt;
-   SetHandler mod_cluster-manager
-   Order deny,allow
-   Deny from all
-   Allow from 127.0.0.1
-&lt;/Location&gt;
-
-# httpd 2.4.x or later
-&lt;Location /mod_cluster-manager&gt;
+<pre class="CodeRay highlight"><code>&lt;Location /mod_cluster-manager&gt;
    SetHandler mod_cluster-manager
    Require ip 127.0.0
 &lt;/Location&gt;</code></pre>
@@ -3852,7 +3849,7 @@ AS/JBossWeb/Tomcat to whom it should send the cluster information.</p>
 <div class="paragraph">
 <p>ServerAdvertise On <a href="http://hostname:port" class="bare">http://hostname:port</a>: Tell the hostname and port to use.
 Only needed if the VirtualHost is not defined correctly, if the VirtualHost is
-a <a href="http://httpd.apache.org/docs/2.2/vhosts/name-based.html">Name-based Virtual Host</a>
+a <a href="http://httpd.apache.org/docs/2.4/vhosts/name-based.html">Name-based Virtual Host</a>
 or when VirtualHost is not used.</p>
 </div>
 <div class="paragraph">
@@ -3920,7 +3917,7 @@ This allow to specify an address on multi IP address boxes.</p>
 <h3 id="minimal-example"><a class="link" href="#minimal-example">4.6. Minimal Example</a></h3>
 <div class="paragraph">
 <p>Beware of the different names of <code>mod_cluster_slotmem.so</code> and <code>mod_slotmem.so</code> between mod_cluster 1.3.x and older versions.
-Last but not least, pay attention to httpd 2.2.x and httpd 2.4.x authentication configuration changes.</p>
+The 2.x version uses Apache HTTP Server&#8217;s <code>mod_slotmem_shm.so</code>.</p>
 </div>
 <div class="sect3">
 <h4 id="mod_cluster-1-3-x-and-newer-apache-http-server-2-4-x"><a class="link" href="#mod_cluster-1-3-x-and-newer-apache-http-server-2-4-x">4.6.1. mod_cluster 1.3.x and newer, Apache HTTP Server 2.4.x</a></h4>
@@ -3951,46 +3948,6 @@ LoadModule advertise_module modules/mod_advertise.so
   &lt;Location /mod_cluster-manager&gt;
      SetHandler mod_cluster-manager
      Require ip 127.0.0
-  &lt;/Location&gt;
-
-  &lt;/VirtualHost&gt;
-&lt;/IfModule&gt;</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="mod_cluster-1-2-x-apache-http-server-2-2-x"><a class="link" href="#mod_cluster-1-2-x-apache-http-server-2-2-x">4.6.2. mod_cluster 1.2.x, Apache HTTP Server 2.2.x</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>LoadModule proxy_module modules/mod_proxy.so
-LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
-
-LoadModule slotmem_module modules/mod_slotmem.so
-
-LoadModule manager_module modules/mod_manager.so
-LoadModule proxy_cluster_module modules/mod_proxy_cluster.so
-LoadModule advertise_module modules/mod_advertise.so
-
-&lt;IfModule manager_module&gt;
-  Listen 10.33.144.3:6666
-  &lt;VirtualHost 10.33.144.3:6666&gt;
-
-  # Where your worker nodes connect from
-  &lt;Location /&gt;
-     Order deny,allow
-     Deny from all
-     Allow from 127.0.0.
-  &lt;/Location&gt;
-
-  ServerAdvertise On
-  EnableMCPMReceive
-
-  # Where administrator reads the console from
-  &lt;Location /mod_cluster-manager&gt;
-     SetHandler mod_cluster-manager
-     Order deny,allow
-     Deny from all
-     Allow from 127.0.0.
   &lt;/Location&gt;
 
   &lt;/VirtualHost&gt;
@@ -4130,21 +4087,7 @@ cp modules/*.so C:\Users\karm\Apache24\modules\ -v
 <div class="sect3">
 <h4 id="build-httpd-from-its-sources"><a class="link" href="#build-httpd-from-its-sources">4.7.2. Build httpd from its sources</a></h4>
 <div class="paragraph">
-<p>To build httpd-2.2.x from its sources see <a href="http://httpd.apache.org/docs/2.2/install.html">ASF httpd 2.2 doc</a>,
-see <a href="http://httpd.apache.org/docs/2.4/install.html">ASF httpd 2.4 doc</a> for httpd-2.4.x.</p>
-</div>
-<div class="paragraph">
-<p>If needed, patch the httpd-2.2.x sources with (The patch prevents long
-waiting time when the node IP can&#8217;t be resolved that should not happen
-so you can skip the patch part if you don&#8217;t want to rebuild httpd).
-<a href="https://github.com/modcluster/mod_cluster/blob/main/native/mod_proxy_cluster/mod_proxy_ajp.patch">mod_proxy_ajp.patch</a></p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>(cd modules/proxy
-  patch -p0 &lt; $location/mod_proxy_ajp.patch
-)</pre>
-</div>
+<p>To build httpd-2.4.x from its sources see <a href="http://httpd.apache.org/docs/2.4/install.html">ASF httpd 2.4 doc</a>.</p>
 </div>
 <div class="paragraph">
 <p>Configure httpd with something like:</p>
@@ -4183,8 +4126,7 @@ protocol (<code>--enable-proxy-ajp</code>) enabled and with dso enabled (<code>-
 </div>
 <div class="paragraph">
 <p>Build the mod_proxy_cluster&#8217;s modules components, for each subdirectory
-advertise, mod_manager, mod_proxy_cluster and mod_cluster_slotmem (mod_slotmem
-for version 1.2 or older) do
+advertise, mod_manager, mod_proxy_cluster and mod_cluster_slotmem do
 something like:</p>
 </div>
 <div class="listingblock">
@@ -4197,7 +4139,7 @@ something like:</p>
 </div>
 <div class="paragraph">
 <p>Where apache_installation_directory is the location of an installed
-version of httpd-2-2.x or newer.
+version of httpd-2.4.x or newer.
 The <a href="https://httpd.apache.org/docs/trunk/programs/apxs.html">apxs</a> file can be
 found in your apache_installation_directory/bin directory.</p>
 </div>
@@ -4222,12 +4164,6 @@ You can ignore the libtool message on most platform:
 <p>Once that is done use Apache httpd configuration to configure mod_proxy_cluster.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="build-the-mod_proxy-module"><a class="link" href="#build-the-mod_proxy-module">4.7.4. Build the mod_proxy module</a></h4>
-<div class="paragraph">
-<p>It is only needed for httpd-2.2.x where x ≤ 11. Process like the other mod_proxy_cluster modules.</p>
-</div>
-</div>
 </div>
 <div class="sect2">
 <h3 id="installing-httpd-modules"><a class="link" href="#installing-httpd-modules">4.8. Installing httpd modules</a></h3>
@@ -4235,8 +4171,9 @@ You can ignore the libtool message on most platform:
 <p>Several bundles are available at <a href="http://www.jboss.org/mod_cluster/downloads.html">http://www.jboss.org/mod_cluster/downloads.html</a>.</p>
 </div>
 <div class="paragraph">
-<p>In case you can&#8217;t find a prepared package of mod_cluster in the download area, it is possible to build mod_cluster for the sources.
-You need a distribution of httpd (at least 2.2.8) or (better) a source tarball of httpd and the sources of mod_cluster.</p>
+<p>In case you can&#8217;t find a prepared package of mod_cluster in the download area, it is possible to build mod_cluster/mod_proxy_cluster
+from the sources. You need a distribution of httpd (at least 2.4.49 for 1.3.x, 2.4.53 for 2.x respectively)) or (better) a source
+tarball of httpd and the sources of mod_cluster. You can find those at <a href="https://dlcdn.apache.org/httpd/">https://dlcdn.apache.org/httpd/</a>.</p>
 </div>
 <div class="sect3">
 <h4 id="configuration-2"><a class="link" href="#configuration-2">4.8.1. Configuration</a></h4>
@@ -4320,7 +4257,7 @@ configuration.</p>
 <div class="sect4">
 <h5 id="apache-httpd-configuration-part"><a class="link" href="#apache-httpd-configuration-part">Apache httpd configuration part</a></h5>
 <div class="paragraph">
-<p><a href="http://httpd.apache.org/docs/2.2/mod/mod_ssl.html">mod_ssl</a> of httpd is using to do that.
+<p><a href="http://httpd.apache.org/docs/2.4/mod/mod_ssl.html">mod_ssl</a> of httpd is using to do that.
 See in one example how easy the configuration is:</p>
 </div>
 <div class="listingblock">
@@ -5384,18 +5321,8 @@ ServerAdvertise directive in you mod_cluster httpd configuration:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code># httpd 2.4.x
-
-&lt;Location /&gt;
+<pre class="CodeRay highlight"><code>&lt;Location /&gt;
     Require ip 10.33.144.3
-&lt;/Location&gt;
-
-# httpd 2.2.x
-
-&lt;Location /&gt;
-    Order deny,allow
-    Deny from all
-    Allow from 10.33.144.3
 &lt;/Location&gt;</code></pre>
 </div>
 </div>
@@ -5867,7 +5794,7 @@ only the balancers and the workers definitions are slightly different.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">timeout</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">nodeTimeout</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Default wait forever (<a href="http://httpd.apache.org/docs/2.2/mod/mod_proxy.html">http://httpd.apache.org/docs/2.2/mod/mod_proxy.html</a> is wrong there)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default wait forever (<a href="http://httpd.apache.org/docs/2.4/mod/mod_proxy.html">http://httpd.apache.org/docs/2.4/mod/mod_proxy.html</a> is wrong there)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ttl</p></td>
