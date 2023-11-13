@@ -57,11 +57,7 @@ In `server.xml`, change
 
 [source,xml]
 ----
-<Listener className="org.jboss.modcluster.container.catalina.standalone.ModClusterListener"
-          stickySession="true"
-          stickySessionForce="false"
-          stickySessionRemove="true"
-/>
+<Listener className="org.jboss.modcluster.container.catalina.standalone.ModClusterListener" />
 ----
 
 to
@@ -69,9 +65,6 @@ to
 [source,xml]
 ----
 <Listener className="org.jboss.modcluster.container.catalina.standalone.ModClusterListener"
-          stickySession="true"
-          stickySessionForce="false"
-          stickySessionRemove="true"
           advertise="false"
           proxyList="10.33.144.3:6666,10.33.144.1:6666"
 />
@@ -123,12 +116,16 @@ X-Manager-Protocol: http
 X-Manager-Host: test.example.com
 ----
 
-* If there are no Advertise messages, check the firewall. Advertise uses UDP port 23364 and multicast address 224.0.1.105 by default. Furthermore, *do not bind to localhost/127.0.0.1*, use a non-localhost IP address for your balancer &mdash; workers UDP advertisement test.
+* If there are no Advertise messages, check the firewall. Advertise uses UDP port 23364 and multicast address 224.0.1.105 by default.
+  Furthermore, *do not bind to localhost/127.0.0.1*, use a non-localhost IP address for your balancer &mdash; workers UDP
+  advertisement test.
+
 * If you are unable to get the Advertisement to work, try it first without it, with a static configuration without UDP multicast).
 
 === Error in server.log or catalina.out
 
-* `IO error sending command`:  Check the firewall and error_log, if there is nothing in the error_log then it is a firewall problem. If you have something like:
+* `IO error sending command`:  Check the firewall and error_log, if there is nothing in the error_log then it is a firewall problem.
+  If you have something like:
 
 [source]
 ----

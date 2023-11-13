@@ -675,7 +675,7 @@ node. The load factors from each metric are aggregated according to
 their weights.
 
 In general, the load factor contribution of a given metric is: `(load /
-capacity) \* weight / total weight`.
+capacity) * weight / total weight`.
 
 The DynamicLoadBalanceFactorProvider applies a time decay function to
 the loads returned by each metric. The aggregate load, with respect to
@@ -697,7 +697,7 @@ The mod_cluster load balancer expects the load factor to be an integer
 between 0 and 100, where 0 indicates max load and 100 indicates zero
 load. Therefore, the final load factor sent to the load balancer
 
-+++L<sub>Final</sub> = 100 - (L \* 100)+++
++++L<sub>Final</sub> = 100 - (L * 100)+++
 
 While you are free to write your own load metrics, the following
 LoadMetrics are available out of the box:
