@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
-        <version>40</version>
+        <version>41</version>
     </parent>
     <groupId>org.jboss.mod_cluster</groupId>
     <artifactId>mod_cluster-docs-parent</artifactId>
