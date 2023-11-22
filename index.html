@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2023-11-14</span>
+<span id="revdate">2023-11-22</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -4747,8 +4747,9 @@ true, Something like:</p>
 <p>Start httpd and your JBossAS/JBossWeb/Tomcat servers</p>
 </li>
 <li>
-<p>Deploy the load-demo.war found in the distribution&#8217;s demo/server
-folder to your JBossAS/JBossWeb/Tomcat servers.</p>
+<p>Deploy the application war file that you can find in demo/server/target/ and the name will
+be mod_cluster-demo-server-&lt;mod_cluster-version&gt;-SNAPSHOT.war where you substitute the
+mod_cluster&#8217;s version according to your distribution.</p>
 </li>
 <li>
 <p>Start the demo application:</p>
@@ -4764,7 +4765,7 @@ folder to your JBossAS/JBossWeb/Tomcat servers.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>cd ~/mod_cluster/demo/client
+<pre class="CodeRay highlight"><code>cd ~/mod_cluster/demo/client/target/classes
 ./run-demo.sh</code></pre>
 </div>
 </div>
@@ -4777,7 +4778,7 @@ folder to your JBossAS/JBossWeb/Tomcat servers.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>C:\&gt; cd mod_cluster\demo\client
+<pre class="CodeRay highlight"><code>C:\&gt; cd mod_cluster\demo\client\target\classes
 C:\mod_cluster\demo\client&gt; run-demo</code></pre>
 </div>
 </div>
@@ -4813,7 +4814,7 @@ has on load balancing.</p>
 </li>
 <li>
 <p>Restart some of your JBossAS/JBossWeb/Tomcat servers and/or
-re-deploy the load-demo.war to some of the servers and see the
+re-deploy the demo application to some of the servers and see the
 effect this has on load balancing.</p>
 </li>
 <li>
