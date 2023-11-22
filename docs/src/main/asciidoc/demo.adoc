@@ -66,8 +66,9 @@ true, Something like:
 
 . Start httpd and your JBossAS/JBossWeb/Tomcat servers
 
-. Deploy the load-demo.war found in the distribution's demo/server
-folder to your JBossAS/JBossWeb/Tomcat servers.
+. Deploy the application war file that you can find in demo/server/target/ and the name will
+  be mod_cluster-demo-server-<mod_cluster-version>-SNAPSHOT.war where you substitute the
+  mod_cluster's version according to your distribution.
 
 . Start the demo application:
 
@@ -75,7 +76,7 @@ folder to your JBossAS/JBossWeb/Tomcat servers.
 
 [source]
 ----
-cd ~/mod_cluster/demo/client
+cd ~/mod_cluster/demo/client/target/classes
 ./run-demo.sh
 ----
 
@@ -83,7 +84,7 @@ cd ~/mod_cluster/demo/client
 
 [source]
 ----
-C:\> cd mod_cluster\demo\client
+C:\> cd mod_cluster\demo\client\target\classes
 C:\mod_cluster\demo\client> run-demo
 ----
 
@@ -106,7 +107,7 @@ the load-demo.war from some of the servers and see the effect this
 has on load balancing.
 
 . Restart some of your JBossAS/JBossWeb/Tomcat servers and/or
-re-deploy the load-demo.war to some of the servers and see the
+re-deploy the demo application to some of the servers and see the
 effect this has on load balancing.
 
 . Experiment with adding artificial load to one or more servers to see
