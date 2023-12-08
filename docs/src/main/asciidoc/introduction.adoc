@@ -127,9 +127,7 @@ the structure of each item is fixed. The following cannot be changed by configur
 
 Download the latest https://modcluster.io/downloads/[mod_cluster release].
 
-The release contains the source to build the following:
-
-* WildFly/JBoss AS/Tomcat Java distributions
+The release contains the source to build the WildFly/JBoss AS/Tomcat Java distributions
 
 The native part is developed in https://github.com/modcluster/mod_proxy_cluster (with 1.3.x version and older
 available in the original repository https://github.com/modcluster/mod_cluster/tree/1.3.x).

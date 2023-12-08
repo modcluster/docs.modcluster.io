@@ -10,16 +10,18 @@ You need to load the modules that are needed for mod_proxy_cluster for example:
 [source]
 ----
 LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
 LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
-LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so
+LoadModule slotmem_shm_module modules/mod_slotmem_shm.so
 LoadModule manager_module modules/mod_manager.so
 LoadModule proxy_cluster_module modules/mod_proxy_cluster.so
 LoadModule advertise_module modules/mod_advertise.so
 ----
 
-NOTE: *mod_cluster 1.2.x and older:* Note that mod_cluster 1.2.x and older used different
-name for the slotmem module (`LoadModule slotmem_module modules/mod_slotmem.so` instead of
-the current `LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so`).
+NOTE: *mod_cluster 1.3.x* Note that mod_cluster 1.3.x has its own implementation of
+a slotmem module. You have to change the appropriate line to
+`LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so` to use it instead
+of httpd's implementation version 2.x uses.
 
 mod_proxy and mod_proxy_ajp are standard httpd modules. mod_cluster_slotmem is a shared slotmem
 memory provider. mod_manager is the module that reads information from JBoss AS/JBossWeb/Tomcat
@@ -28,14 +30,14 @@ balancer for mod_proxy. mod_advertise is an additional module that allows httpd 
 multicast packets the IP and port where the mod_proxy_cluster is listening. This multi-module
 architecture allows the modules to easily be changed depending on what the customer wants to do.
 
-For example when using http instead of AJP, only:
+For example when using http instead of AJP, only remove the following line:
 
 [source]
 ----
 LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
 ----
 
-has to be changed to:
+Alternatively, if you want to use AJP only, remove the correspoing http line:
 
 [source]
 ----
@@ -49,7 +51,8 @@ directives because mod_proxy_cluster automatically configures which URLs have to
 
 == mod_slotmem/mod_cluster_slotmem configuration
 
-The current version does not require any configuration directives.
+The current version does not require any configuration directives. Make sure you are using the correct module
+according to your mod_proxy_cluster's version.
 
 == mod_proxy_cluster
 
@@ -90,7 +93,7 @@ Check that the Alias corresponds to the ServerName (See http://labs.jboss.com/fi
 
 NOTE: *Older mod_cluster versions:* Versions older than 1.3.1.Final only accept values 0 and 1 respectively.
 
-NOTE: UseAlias should be used with `ProxyPreserveHost On` to work propertly.
+NOTE: UseAlias should be used with `ProxyPreserveHost On` to work properly.
 
 === LBstatusRecalTime
 Time interval in seconds for loadbalancing logic to recalculate the status of a node.
@@ -140,7 +143,7 @@ but for HTTP/HTTPS connections. The endpoint needs to implement HTTP/1.0.
 
 === AJPSecret
 
-Use `AJPSecret your_secret` to provide the secret for the AJP back-end, See mod_proxy_ajp and mod_proxy docs for more
+Use `AJPSecret your_secret` to provide the secret for the AJP back-end. See mod_proxy_ajp and mod_proxy docs for more
 information. If `your_secret` doesn't correspond to the value configured in the back-end the back-end will return 503
 to any request coming through the proxy.
 
@@ -283,21 +286,21 @@ in files. (Context: server config)
 === CheckNonce
 
 CheckNonce: Switch check of nonce when using mod_cluster-manager
-handler on | off Since 1.1.0.CR1
+handler on | off
 
 **Default:** on (Nonce checked)
 
 === AllowDisplay
 
 AllowDisplay: Switch additional display on mod_cluster-manager main
-page on | off Since 1.1.0.GA
+page on | off
 
 **Default:** off (Only version displayed)
 
 === AllowCmd
 
-AllowCmd: Allow commands using mod_cluster-manager URL on | off Since
-mod_cluster 1.1.0.GA
+AllowCmd: Allow commands using mod_cluster-manager URL on | off
+
 
 **Default:** on (Commands allowed)
 
@@ -348,15 +351,15 @@ mod_proxy_cluster to find the right IP and port to give to the ClusterListener.
 
 === ServerAdvertise
 
-ServerAdvertise On: Use the advertise mechanism to tell the JBoss
+* ServerAdvertise On – Use the advertise mechanism to tell the JBoss
 AS/JBossWeb/Tomcat to whom it should send the cluster information.
 
-ServerAdvertise On http://hostname:port: Tell the hostname and port to use.
+* ServerAdvertise On http://hostname:port – Tell the hostname and port to use.
 Only needed if the VirtualHost is not defined correctly, if the VirtualHost is
 a http://httpd.apache.org/docs/2.4/vhosts/name-based.html[Name-based Virtual Host]
 or when VirtualHost is not used.
 
-ServerAdvertise Off: Don't use the advertise mechanism.
+* ServerAdvertise Off – Don't use the advertise mechanism.
 
 **Default:** Off. (Any Advertise directive in a VirtualHost sets it to On in
 the VirtualHost)
@@ -403,22 +406,24 @@ This allow to specify an address on multi IP address boxes.
 Beware of the different names of `mod_cluster_slotmem.so` and `mod_slotmem.so` between mod_cluster 1.3.x and older versions.
 The 2.x version uses Apache HTTP Server's `mod_slotmem_shm.so`.
 
-=== mod_cluster 1.3.x and newer, Apache HTTP Server 2.4.x
+=== mod_proxy_cluster 2.x with Apache HTTP Server 2.4.x
 
 [source]
 ----
-LoadModule proxy_module modules/mod_proxy.so
-LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
+LoadModule proxy_module       modules/mod_proxy.so
+LoadModule proxy_http_module  modules/mod_proxy_http.so
+LoadModule proxy_ajp_module   modules/mod_proxy_ajp.so
+LoadModule slotmem_shm_module modules/mod_slotmem_shm.so
 
-LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so
-
-LoadModule manager_module modules/mod_manager.so
+LoadModule manager_module       modules/mod_manager.so
 LoadModule proxy_cluster_module modules/mod_proxy_cluster.so
-LoadModule advertise_module modules/mod_advertise.so
+LoadModule advertise_module     modules/mod_advertise.so
+LoadModule watchdog_module      modules/mod_watchdog.so
 
 <IfModule manager_module>
-  Listen 10.33.144.3:6666
-  <VirtualHost 10.33.144.3:6666>
+  Listen 6666
+  ServerName localhost
+  <VirtualHost *:6666>
 
   # Where your worker nodes connect from
   <Location />
@@ -438,17 +443,24 @@ LoadModule advertise_module modules/mod_advertise.so
 </IfModule>
 ----
 
+For mod_proxy_cluster 1.3.x you have to change the slotmem module to:
+
+[source]
+----
+LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so
+----
+
 == Building httpd modules
 
 mod_cluster 1.3.x and older, both httpd modules and Tomcat/WildFly java libraries reside in the
-https://github.com/modcluster/mod_cluster[mod_cluster] repository, branches 1.3.x and 1.2.x. New
+https://github.com/modcluster/mod_cluster[mod_cluster] repository, see appropriate branches. New
 development of mod_cluster httpd modules takes place under a new name mod_proxy_cluster in the
 new repository https://github.com/modcluster/mod_proxy_cluster[mod_proxy_cluster].
 
 See https://asciinema.org/a/7563u1eu6o5jlg3a0gk4wv69f?t=52[ASCII recorded tutorial] on httpd modules
 compilation with your own system's httpd.
 
-=== Build with httpd on Windows
+=== Build from sources on Windows
 
 We assume you already have a functional Apache HTTP Server on Windows. This example works with
 Apache Lounge HTTP Server.
@@ -456,14 +468,14 @@ We also assume the system has MS Visual Studio (Community Edition is ample) and 
 The example operates in cmder shell, but it is not mandatory. A simple Windows cmd prompt would work too.
 
  * Download the https://www.apachelounge.com/download/[Apache Lounge distribution]. Our example uses
-   https://www.apachelounge.com/download/VS17/binaries/httpd-2.4.55-win64-VS17.zip[httpd-2.4.55-win64-VS17.zip].
+   https://www.apachelounge.com/download/VS17/binaries/httpd-2.4.58-win64-VS17.zip[httpd-2.4.58-win64-VS17.zip].
  * unzipped:
 
 [source]
 ----
 C:\Users\karm
 ls
-httpd-2.4.55-win64-VS17/ httpd-2.4.55-win64-VS17.zip
+httpd-2.4.58-win64-VS17/ httpd-2.4.58-win64-VS17.zip
 ----
 
  * Clone mod_proxy_cluster sources git:
@@ -532,79 +544,90 @@ Directory modules now contains all necessary modules:
 C:\Users\karm\mod_proxy_cluster\native\build (main)
 cp modules/*.so C:\Users\karm\Apache24\modules\ -v
 'modules/mod_advertise.so' -> 'C:/Users/karm/Apache24/modules/mod_advertise.so'
-'modules/mod_cluster_slotmem.so' -> 'C:/Users/karm/Apache24/modules/mod_cluster_slotmem.so'
-'modules/mod_manager.so' -> 'C:/Users/karm/Apache24/modules/mod_manager.so'
+'odules/mod_manager.so' -> 'C:/Users/karm/Apache24/modules/mod_manager.so'
 'modules/mod_proxy_cluster.so' -> 'C:/Users/karm/Apache24/modules/mod_proxy_cluster.so'
 ----
 
 Done.
 
-=== Build httpd from its sources
+=== Build from sources on Linux/Unix
+
+As for Windows, you can download the httpd bundle as well from https://dlcdn.apache.org/httpd/[here].
+Alternatively, you can use your distribution's repositories (on Fedora, you can install httpd simply
+by executing `dnf install httpd`), or you can build httpd from sources.
 
 To build httpd-2.4.x from its sources see http://httpd.apache.org/docs/2.4/install.html[ASF httpd 2.4 doc].
 
-Configure httpd with something like:
+Download the sources and configure httpd with following:
 
+[source, bash]
+----
     ./configure  --prefix=apache_installation_directory \
-                 --with-mpm=worker \
-                 --enable-mods-shared=most \
-                 --enable-maintainer-mode \
-                 --with-expat=builtin \
-                 --enable-ssl \
+                 --with-included-apr \
+                 --enable-proxy-ajp \
+                 --enable-so \
                  --enable-proxy \
                  --enable-proxy-http \
-                 --enable-proxy-ajp \
-                 --disable-proxy-balancer
+                 --enable-proxy-hcheck \
+                 --with-port=8000 \
+                 --with-libxml2
+----
 
-Rebuild (make) and reinstall (make install) after that.
+NOTE: Please bear in mind that the exact arguments/flags might differ based on your library choosing. Always
+consult the documentation.
 
-=== Build the 4 modules of mod_cluster
+NOTE: In case you want to use httpd for development purposes, you might find useful adding
+`--enable-maintainer-mode` flag.
+
+Build (`make`) and install (`make install`) httpd as configured.
+
+=== Build the modules of mod_proxy_cluster
 
 You need an httpd installation with mod_proxy (`--enable-proxy`) and ajp
 protocol (`--enable-proxy-ajp`) enabled and with dso enabled (`--enable-so`).
 
 Download the mod_proxy_cluster sources:
+----
+git clone git://github.com/modcluster/mod_proxy_cluster.git
+----
 
-    git clone git://github.com/modcluster/mod_proxy_cluster.git
+or download https://github.com/modcluster/mod_proxy_cluster/archive/main.zip[zipped main branch directly].
 
 Build the mod_proxy_cluster's modules components, for each subdirectory
-advertise, mod_manager, mod_proxy_cluster and mod_cluster_slotmem do
-something like:
+advertise, mod_manager and mod_proxy_cluster do following:
 
 [source,bash]
 ----
 sh buildconf
  ./configure --with-apxs=apxs_file_location
+ make clean
  make
- cp *.so apache_installation_directory/modules
+ cp *.so $APACHE_DIR/modules
 ----
 
-Where apache_installation_directory is the location of an installed
-version of httpd-2.4.x or newer.
-The https://httpd.apache.org/docs/trunk/programs/apxs.html[apxs] file can be
-found in your apache_installation_directory/bin directory.
-
-NOTE: You can ignore the libtool message on most platform:
+or alternatively using CMake:
 
 [source,bash]
 ----
-libtool: install: warning: remember to run `libtool --finish apache_installation_directory/modules'
+# create a new subdirectory within native/ directory
+mkdir build
+cd build
+cmake ..
+make
+cp modules/*so $APACHE_DIR/modules
 ----
 
+Where `$APACHE_DIR` is the location of the installed httpd.
+
+The https://httpd.apache.org/docs/trunk/programs/apxs.html[apxs] file can be
+found in your $APACHE_DIR/bin directory.
+
+NOTE: You can ignore the libtool message on most platforms
+(`libtool: install: warning: remember to run `libtool --finish $APACHE_DIR/modules'`).
+
+NOTE: For mod_proxy_cluster 1.3.x you have to build mod_cluster_slotmem with the rest of modules.
+
 Once that is done use Apache httpd configuration to configure mod_proxy_cluster.
-
-== Installing httpd modules
-
-Several bundles are available at http://www.jboss.org/mod_cluster/downloads.html[http://www.jboss.org/mod_cluster/downloads.html].
-
-////
-TODO: Amend links. The following article is dated.
-////
-
-
-In case you can't find a prepared package of mod_cluster in the download area, it is possible to build mod_cluster/mod_proxy_cluster
-from the sources. You need a distribution of httpd (at least 2.4.49 for 1.3.x, 2.4.53 for 2.x respectively)) or (better) a source
-tarball of httpd and the sources of mod_cluster. You can find those at https://dlcdn.apache.org/httpd/[https://dlcdn.apache.org/httpd/].
 
 === Configuration
 
@@ -613,26 +636,18 @@ TODO
 ////
 
 
-A minimal configuration is needed in httpd.
-A listener must be a added in in JBossWEB conf/server.xml.
+A minimal configuration for mod_proxy_cluster to work is needed in httpd.
+A listener must be added in JWS/Tomcat's conf/server.xml.
 
-==== Installing and using the bundles
-
-The bundles are tar.gz on POSIX platforms just extract them in root something like:
-
-[source,bash]
-----
-cd /
-tar xvf mod-cluster-1.x.y-linux2-x86-ssl.tar.gz
-----
-
-The httpd.conf is located in */opt/jboss/httpd/httpd/conf* to quick test
-just add something like in the minimal example.
+The httpd.conf is located in *httpd/conf/* directory. To quickly test that
+everything is in place, add the configuration from
+link:#mod_proxy_cluster-2-x-with-apache-http-server-2-4-x[the minimal example].
 
 To start httpd do the following:
 
-    httpd/sbin/apachectl start
+----
+httpd/sbin/apachectl start
+----
 
 NOTE: Make sure to use SSL before going in production.
-
 

@@ -43,17 +43,15 @@ dnf install mod_cluster
 
 And then you have the files below in your module directory:
 
-* mod_cluster_slotmem.so
 * mod_manager.so
 * mod_proxy_cluster.so
 * mod_advertise.so
+* mod_cluster_slotmem.so (only 1.3.x version)
 
 *httpd version mismatch:* `[warn] httpd version mismatch detected` Please,
 beware that one cannot simply load the aforementioned modules into an arbitrary
 httpd installation. These modules were built with a particular minor httpd
-version, and they cannot be used with an older one. For instance,
-mod_proxy_cluster modules built with httpd 2.4.x cannot be loaded into httpd
-2.2.x.
+version, and they cannot be used with an older one.
 
 === Install in Windows
 
@@ -94,11 +92,14 @@ httpd.conf might need to be configured to use mod_proxy_cluster.
 
 [source]
 ----
-LoadModule proxy_module /opt/jboss/httpd/lib/httpd/modules/mod_proxy.so
-LoadModule proxy_ajp_module /opt/jboss/httpd/lib/httpd/modules/mod_proxy_ajp.so
-LoadModule manager_module /opt/jboss/httpd/lib/httpd/modules/mod_manager.so
-LoadModule proxy_cluster_module /opt/jboss/httpd/lib/httpd/modules/mod_proxy_cluster.so
-LoadModule advertise_module /opt/jboss/httpd/lib/httpd/modules/mod_advertise.so
+LoadModule proxy_module         modules/mod_proxy.so
+LoadModule proxy_http_module    modules/mod_proxy_http.so
+LoadModule proxy_ajp_module     modules/mod_proxy_ajp.so
+LoadModule manager_module       modules/mod_manager.so
+LoadModule proxy_cluster_module modules/mod_proxy_cluster.so
+LoadModule advertise_module     modules/mod_advertise.so
+LoadModule watchdog_module      modules/mod_watchdog.so
+LoadModule slotmem_shm_module   modules/mod_slotmem_shm.so
 
 <IfModule manager_module>
   Listen 127.0.0.1:6666
@@ -108,21 +109,22 @@ LoadModule advertise_module /opt/jboss/httpd/lib/httpd/modules/mod_advertise.so
      Require ip 127.0.0
     </Location>
 
-    KeepAliveTimeout 5
-    MaxKeepAliveRequests 0
-    #ServerAdvertise on http://@IP@:6666
-    AdvertiseFrequency 5
-    #AdvertiseSecurityKey secret
-    #AdvertiseGroup @ADVIP@:23364
     EnableMCPMReceive
-
-    <Location /mod_cluster-manager>
+    <Location /mod_cluster_manager>
        SetHandler mod_cluster-manager
        Require ip 127.0.0
     </Location>
 
   </VirtualHost>
 </IfModule>
+----
+
+For mod_proxy_cluster/mod_cluster 1.3.x you must load mod_cluster_slotmem module instead
+of the httpd's one. Simply change the line with `slotmem_shm_module` to following:
+
+[source]
+----
+LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so
 ----
 
 == Install the worker-side binaries
@@ -141,21 +143,20 @@ Assuming $CATALINA_HOME indicates the root of your Tomcat install:
 
 [source,bash]
 ----
-cp container/tomcat/target/* $CATALINA_HOME/lib/
-cp container/tomcat[100,85,8]/target/* $CATALINA_HOME/lib/
-cp container/spi/target/* $CATALINA_HOME/lib/
-cp load-spi/target/* $CATALINA_HOME/lib/
-cp core/target/* $CATALINA_HOME/lib/
+cp container/tomcat-[8.5,9.0,10.1]/target/*.jar $CATALINA_HOME/lib/
+cp container/spi/target/*.jar $CATALINA_HOME/lib/
+cp load-spi/target/*.jar $CATALINA_HOME/lib/
+cp core/target/*.jar $CATALINA_HOME/lib/
 cp dist/target/dependency/jboss-logging* $CATALINA_HOME/lib/
 ----
 
 Note that you should copy only the tomcat files corresponding to your tomcat installation.
 
-tomcat10 for tomcat 10.0.x and 10.1.x
+* tomcat-8.5 for tomcat 8.5.x
 
-tomcat85 for tomcat 8.5.x and 9.0.x
+* tomcat-9.0 for tomcat 9.0.x
 
-tomcat8 for tomcat8
+* tomcat-10.1 for tomcat 10.0.x and 10.1.x
 
 === Installing in WildFly
 
@@ -175,7 +176,7 @@ Edit the `$CATALINA_HOME/conf/server.xml` file, adding the following next to the
 
 [source,xml]
 ----
-<Listener className="org.jboss.modcluster.container.catalina.standalone.ModClusterListener" advertise="true"/>
+<Listener className="org.jboss.modcluster.container.catalina.standalone.ModClusterListener" proxyList="127.0.0.1:6666"/>
 ----
 
 === Start httpd
