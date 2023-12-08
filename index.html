@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2023-11-30</span>
+<span id="revdate">2023-12-08</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -579,7 +579,6 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#mod_manager">4.5. mod_manager</a></li>
 <li><a href="#minimal-example">4.6. Minimal Example</a></li>
 <li><a href="#building-httpd-modules">4.7. Building httpd modules</a></li>
-<li><a href="#installing-httpd-modules">4.8. Installing httpd modules</a></li>
 </ul>
 </li>
 <li><a href="#security-configuration">5. Security configuration</a>
@@ -897,14 +896,7 @@ the structure of each item is fixed. The following cannot be changed by configur
 <p>Download the latest <a href="https://modcluster.io/downloads/">mod_cluster release</a>.</p>
 </div>
 <div class="paragraph">
-<p>The release contains the source to build the following:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>WildFly/JBoss AS/Tomcat Java distributions</p>
-</li>
-</ul>
+<p>The release contains the source to build the WildFly/JBoss AS/Tomcat Java distributions</p>
 </div>
 <div class="paragraph">
 <p>The native part is developed in <a href="https://github.com/modcluster/mod_proxy_cluster" class="bare">https://github.com/modcluster/mod_proxy_cluster</a> (with 1.3.x version and older
@@ -1048,9 +1040,6 @@ use and your distribution contains mod_cluster/mod_proxy_cluster just install it
 <div class="ulist">
 <ul>
 <li>
-<p>mod_cluster_slotmem.so</p>
-</li>
-<li>
 <p>mod_manager.so</p>
 </li>
 <li>
@@ -1059,15 +1048,16 @@ use and your distribution contains mod_cluster/mod_proxy_cluster just install it
 <li>
 <p>mod_advertise.so</p>
 </li>
+<li>
+<p>mod_cluster_slotmem.so (only 1.3.x version)</p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
 <p><strong>httpd version mismatch:</strong> <code>[warn] httpd version mismatch detected</code> Please,
 beware that one cannot simply load the aforementioned modules into an arbitrary
 httpd installation. These modules were built with a particular minor httpd
-version, and they cannot be used with an older one. For instance,
-mod_proxy_cluster modules built with httpd 2.4.x cannot be loaded into httpd
-2.2.x.</p>
+version, and they cannot be used with an older one.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1117,11 +1107,14 @@ Change to the bin directory of the subfolder <code>Apache24</code> where you unz
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>LoadModule proxy_module /opt/jboss/httpd/lib/httpd/modules/mod_proxy.so
-LoadModule proxy_ajp_module /opt/jboss/httpd/lib/httpd/modules/mod_proxy_ajp.so
-LoadModule manager_module /opt/jboss/httpd/lib/httpd/modules/mod_manager.so
-LoadModule proxy_cluster_module /opt/jboss/httpd/lib/httpd/modules/mod_proxy_cluster.so
-LoadModule advertise_module /opt/jboss/httpd/lib/httpd/modules/mod_advertise.so
+<pre class="CodeRay highlight"><code>LoadModule proxy_module         modules/mod_proxy.so
+LoadModule proxy_http_module    modules/mod_proxy_http.so
+LoadModule proxy_ajp_module     modules/mod_proxy_ajp.so
+LoadModule manager_module       modules/mod_manager.so
+LoadModule proxy_cluster_module modules/mod_proxy_cluster.so
+LoadModule advertise_module     modules/mod_advertise.so
+LoadModule watchdog_module      modules/mod_watchdog.so
+LoadModule slotmem_shm_module   modules/mod_slotmem_shm.so
 
 &lt;IfModule manager_module&gt;
   Listen 127.0.0.1:6666
@@ -1131,21 +1124,23 @@ LoadModule advertise_module /opt/jboss/httpd/lib/httpd/modules/mod_advertise.so
      Require ip 127.0.0
     &lt;/Location&gt;
 
-    KeepAliveTimeout 5
-    MaxKeepAliveRequests 0
-    #ServerAdvertise on http://@IP@:6666
-    AdvertiseFrequency 5
-    #AdvertiseSecurityKey secret
-    #AdvertiseGroup @ADVIP@:23364
     EnableMCPMReceive
-
-    &lt;Location /mod_cluster-manager&gt;
+    &lt;Location /mod_cluster_manager&gt;
        SetHandler mod_cluster-manager
        Require ip 127.0.0
     &lt;/Location&gt;
 
   &lt;/VirtualHost&gt;
 &lt;/IfModule&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For mod_proxy_cluster/mod_cluster 1.3.x you must load mod_cluster_slotmem module instead
+of the httpd&#8217;s one. Simply change the line with <code>slotmem_shm_module</code> to following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so</code></pre>
 </div>
 </div>
 </div>
@@ -1169,25 +1164,28 @@ LoadModule advertise_module /opt/jboss/httpd/lib/httpd/modules/mod_advertise.so
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">cp container/tomcat/target/* $CATALINA_HOME/lib/
-cp container/tomcat[100,85,8]/target/* $CATALINA_HOME/lib/
-cp container/spi/target/* $CATALINA_HOME/lib/
-cp load-spi/target/* $CATALINA_HOME/lib/
-cp core/target/* $CATALINA_HOME/lib/
+<pre class="CodeRay highlight"><code data-lang="bash">cp container/tomcat-[8.5,9.0,10.1]/target/*.jar $CATALINA_HOME/lib/
+cp container/spi/target/*.jar $CATALINA_HOME/lib/
+cp load-spi/target/*.jar $CATALINA_HOME/lib/
+cp core/target/*.jar $CATALINA_HOME/lib/
 cp dist/target/dependency/jboss-logging* $CATALINA_HOME/lib/</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Note that you should copy only the tomcat files corresponding to your tomcat installation.</p>
 </div>
-<div class="paragraph">
-<p>tomcat10 for tomcat 10.0.x and 10.1.x</p>
-</div>
-<div class="paragraph">
-<p>tomcat85 for tomcat 8.5.x and 9.0.x</p>
-</div>
-<div class="paragraph">
-<p>tomcat8 for tomcat8</p>
+<div class="ulist">
+<ul>
+<li>
+<p>tomcat-8.5 for tomcat 8.5.x</p>
+</li>
+<li>
+<p>tomcat-9.0 for tomcat 9.0.x</p>
+</li>
+<li>
+<p>tomcat-10.1 for tomcat 10.0.x and 10.1.x</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
@@ -1214,7 +1212,7 @@ For WildFly-specific configuration refer to <a href="https://docs.wildfly.org/">
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;Listener</span> <span class="attribute-name">className</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">org.jboss.modcluster.container.catalina.standalone.ModClusterListener</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">advertise</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;Listener</span> <span class="attribute-name">className</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">org.jboss.modcluster.container.catalina.standalone.ModClusterListener</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">proxyList</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">127.0.0.1:6666</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
 </div>
 </div>
 </div>
@@ -2896,7 +2894,7 @@ their weights.</p>
 </div>
 <div class="paragraph">
 <p>In general, the load factor contribution of a given metric is: <code>(load /
-capacity) \* weight / total weight</code>.</p>
+capacity) * weight / total weight</code>.</p>
 </div>
 <div class="paragraph">
 <p>The DynamicLoadBalanceFactorProvider applies a time decay function to
@@ -2934,7 +2932,7 @@ between 0 and 100, where 0 indicates max load and 100 indicates zero
 load. Therefore, the final load factor sent to the load balancer</p>
 </div>
 <div class="paragraph">
-<p>L<sub>Final</sub> = 100 - (L \* 100)</p>
+<p>L<sub>Final</sub> = 100 - (L * 100)</p>
 </div>
 <div class="paragraph">
 <p>While you are free to write your own load metrics, the following
@@ -3314,8 +3312,9 @@ cp /tmp/mod_cluster/JBossWeb-Tomcat/lib/mod_cluster-core* $CATALINA_HOME/lib/</c
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
 LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
-LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so
+LoadModule slotmem_shm_module modules/mod_slotmem_shm.so
 LoadModule manager_module modules/mod_manager.so
 LoadModule proxy_cluster_module modules/mod_proxy_cluster.so
 LoadModule advertise_module modules/mod_advertise.so</code></pre>
@@ -3328,9 +3327,10 @@ LoadModule advertise_module modules/mod_advertise.so</code></pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<strong>mod_cluster 1.2.x and older:</strong> Note that mod_cluster 1.2.x and older used different
-name for the slotmem module (<code>LoadModule slotmem_module modules/mod_slotmem.so</code> instead of
-the current <code>LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so</code>).
+<strong>mod_cluster 1.3.x</strong> Note that mod_cluster 1.3.x has its own implementation of
+a slotmem module. You have to change the appropriate line to
+<code>LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so</code> to use it instead
+of httpd&#8217;s implementation version 2.x uses.
 </td>
 </tr>
 </table>
@@ -3344,7 +3344,7 @@ multicast packets the IP and port where the mod_proxy_cluster is listening. This
 architecture allows the modules to easily be changed depending on what the customer wants to do.</p>
 </div>
 <div class="paragraph">
-<p>For example when using http instead of AJP, only:</p>
+<p>For example when using http instead of AJP, only remove the following line:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3352,7 +3352,7 @@ architecture allows the modules to easily be changed depending on what the custo
 </div>
 </div>
 <div class="paragraph">
-<p>has to be changed to:</p>
+<p>Alternatively, if you want to use AJP only, remove the correspoing http line:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3370,7 +3370,8 @@ directives because mod_proxy_cluster automatically configures which URLs have to
 <div class="sect2">
 <h3 id="mod_slotmemmod_cluster_slotmem-configuration"><a class="link" href="#mod_slotmemmod_cluster_slotmem-configuration">4.3. mod_slotmem/mod_cluster_slotmem configuration</a></h3>
 <div class="paragraph">
-<p>The current version does not require any configuration directives.</p>
+<p>The current version does not require any configuration directives. Make sure you are using the correct module
+according to your mod_proxy_cluster&#8217;s version.</p>
 </div>
 </div>
 <div class="sect2">
@@ -3467,7 +3468,7 @@ See also <a href="https://issues.jboss.org/browse/MODCLUSTER-430">MODCLUSTER-430
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-UseAlias should be used with <code>ProxyPreserveHost On</code> to work propertly.
+UseAlias should be used with <code>ProxyPreserveHost On</code> to work properly.
 </td>
 </tr>
 </table>
@@ -3545,7 +3546,7 @@ but for HTTP/HTTPS connections. The endpoint needs to implement HTTP/1.0.</p>
 <div class="sect3">
 <h4 id="ajpsecret"><a class="link" href="#ajpsecret">4.4.7. AJPSecret</a></h4>
 <div class="paragraph">
-<p>Use <code>AJPSecret your_secret</code> to provide the secret for the AJP back-end, See mod_proxy_ajp and mod_proxy docs for more
+<p>Use <code>AJPSecret your_secret</code> to provide the secret for the AJP back-end. See mod_proxy_ajp and mod_proxy docs for more
 information. If <code>your_secret</code> doesn&#8217;t correspond to the value configured in the back-end the back-end will return 503
 to any request coming through the proxy.</p>
 </div>
@@ -3750,7 +3751,7 @@ in files. (Context: server config)</p>
 <h4 id="checknonce"><a class="link" href="#checknonce">4.5.10. CheckNonce</a></h4>
 <div class="paragraph">
 <p>CheckNonce: Switch check of nonce when using mod_cluster-manager
-handler on | off Since 1.1.0.CR1</p>
+handler on | off</p>
 </div>
 <div class="paragraph">
 <p><strong>Default:</strong> on (Nonce checked)</p>
@@ -3760,7 +3761,7 @@ handler on | off Since 1.1.0.CR1</p>
 <h4 id="allowdisplay"><a class="link" href="#allowdisplay">4.5.11. AllowDisplay</a></h4>
 <div class="paragraph">
 <p>AllowDisplay: Switch additional display on mod_cluster-manager main
-page on | off Since 1.1.0.GA</p>
+page on | off</p>
 </div>
 <div class="paragraph">
 <p><strong>Default:</strong> off (Only version displayed)</p>
@@ -3769,8 +3770,7 @@ page on | off Since 1.1.0.GA</p>
 <div class="sect3">
 <h4 id="allowcmd"><a class="link" href="#allowcmd">4.5.12. AllowCmd</a></h4>
 <div class="paragraph">
-<p>AllowCmd: Allow commands using mod_cluster-manager URL on | off Since
-mod_cluster 1.1.0.GA</p>
+<p>AllowCmd: Allow commands using mod_cluster-manager URL on | off</p>
 </div>
 <div class="paragraph">
 <p><strong>Default:</strong> on (Commands allowed)</p>
@@ -3842,18 +3842,22 @@ mod_proxy_cluster to find the right IP and port to give to the ClusterListener.<
 </div>
 <div class="sect3">
 <h4 id="serveradvertise"><a class="link" href="#serveradvertise">4.5.16. ServerAdvertise</a></h4>
-<div class="paragraph">
-<p>ServerAdvertise On: Use the advertise mechanism to tell the JBoss
+<div class="ulist">
+<ul>
+<li>
+<p>ServerAdvertise On – Use the advertise mechanism to tell the JBoss
 AS/JBossWeb/Tomcat to whom it should send the cluster information.</p>
-</div>
-<div class="paragraph">
-<p>ServerAdvertise On <a href="http://hostname:port" class="bare">http://hostname:port</a>: Tell the hostname and port to use.
+</li>
+<li>
+<p>ServerAdvertise On <a href="http://hostname:port" class="bare">http://hostname:port</a> – Tell the hostname and port to use.
 Only needed if the VirtualHost is not defined correctly, if the VirtualHost is
 a <a href="http://httpd.apache.org/docs/2.4/vhosts/name-based.html">Name-based Virtual Host</a>
 or when VirtualHost is not used.</p>
-</div>
-<div class="paragraph">
-<p>ServerAdvertise Off: Don&#8217;t use the advertise mechanism.</p>
+</li>
+<li>
+<p>ServerAdvertise Off – Don&#8217;t use the advertise mechanism.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p><strong>Default:</strong> Off. (Any Advertise directive in a VirtualHost sets it to On in
@@ -3920,21 +3924,23 @@ This allow to specify an address on multi IP address boxes.</p>
 The 2.x version uses Apache HTTP Server&#8217;s <code>mod_slotmem_shm.so</code>.</p>
 </div>
 <div class="sect3">
-<h4 id="mod_cluster-1-3-x-and-newer-apache-http-server-2-4-x"><a class="link" href="#mod_cluster-1-3-x-and-newer-apache-http-server-2-4-x">4.6.1. mod_cluster 1.3.x and newer, Apache HTTP Server 2.4.x</a></h4>
+<h4 id="mod_proxy_cluster-2-x-with-apache-http-server-2-4-x"><a class="link" href="#mod_proxy_cluster-2-x-with-apache-http-server-2-4-x">4.6.1. mod_proxy_cluster 2.x with Apache HTTP Server 2.4.x</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>LoadModule proxy_module modules/mod_proxy.so
-LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
+<pre class="CodeRay highlight"><code>LoadModule proxy_module       modules/mod_proxy.so
+LoadModule proxy_http_module  modules/mod_proxy_http.so
+LoadModule proxy_ajp_module   modules/mod_proxy_ajp.so
+LoadModule slotmem_shm_module modules/mod_slotmem_shm.so
 
-LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so
-
-LoadModule manager_module modules/mod_manager.so
+LoadModule manager_module       modules/mod_manager.so
 LoadModule proxy_cluster_module modules/mod_proxy_cluster.so
-LoadModule advertise_module modules/mod_advertise.so
+LoadModule advertise_module     modules/mod_advertise.so
+LoadModule watchdog_module      modules/mod_watchdog.so
 
 &lt;IfModule manager_module&gt;
-  Listen 10.33.144.3:6666
-  &lt;VirtualHost 10.33.144.3:6666&gt;
+  Listen 6666
+  ServerName localhost
+  &lt;VirtualHost *:6666&gt;
 
   # Where your worker nodes connect from
   &lt;Location /&gt;
@@ -3954,13 +3960,21 @@ LoadModule advertise_module modules/mod_advertise.so
 &lt;/IfModule&gt;</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>For mod_proxy_cluster 1.3.x you have to change the slotmem module to:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="building-httpd-modules"><a class="link" href="#building-httpd-modules">4.7. Building httpd modules</a></h3>
 <div class="paragraph">
 <p>mod_cluster 1.3.x and older, both httpd modules and Tomcat/WildFly java libraries reside in the
-<a href="https://github.com/modcluster/mod_cluster">mod_cluster</a> repository, branches 1.3.x and 1.2.x. New
+<a href="https://github.com/modcluster/mod_cluster">mod_cluster</a> repository, see appropriate branches. New
 development of mod_cluster httpd modules takes place under a new name mod_proxy_cluster in the
 new repository <a href="https://github.com/modcluster/mod_proxy_cluster">mod_proxy_cluster</a>.</p>
 </div>
@@ -3969,7 +3983,7 @@ new repository <a href="https://github.com/modcluster/mod_proxy_cluster">mod_pro
 compilation with your own system&#8217;s httpd.</p>
 </div>
 <div class="sect3">
-<h4 id="build-with-httpd-on-windows"><a class="link" href="#build-with-httpd-on-windows">4.7.1. Build with httpd on Windows</a></h4>
+<h4 id="build-from-sources-on-windows"><a class="link" href="#build-from-sources-on-windows">4.7.1. Build from sources on Windows</a></h4>
 <div class="paragraph">
 <p>We assume you already have a functional Apache HTTP Server on Windows. This example works with
 Apache Lounge HTTP Server.
@@ -3980,7 +3994,7 @@ The example operates in cmder shell, but it is not mandatory. A simple Windows c
 <ul>
 <li>
 <p>Download the <a href="https://www.apachelounge.com/download/">Apache Lounge distribution</a>. Our example uses
-<a href="https://www.apachelounge.com/download/VS17/binaries/httpd-2.4.55-win64-VS17.zip">httpd-2.4.55-win64-VS17.zip</a>.</p>
+<a href="https://www.apachelounge.com/download/VS17/binaries/httpd-2.4.58-win64-VS17.zip">httpd-2.4.58-win64-VS17.zip</a>.</p>
 </li>
 <li>
 <p>unzipped:</p>
@@ -3991,7 +4005,7 @@ The example operates in cmder shell, but it is not mandatory. A simple Windows c
 <div class="content">
 <pre class="CodeRay highlight"><code>C:\Users\karm
 ls
-httpd-2.4.55-win64-VS17/ httpd-2.4.55-win64-VS17.zip</code></pre>
+httpd-2.4.58-win64-VS17/ httpd-2.4.58-win64-VS17.zip</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -4075,8 +4089,7 @@ nmake</code></pre>
 <pre class="CodeRay highlight"><code>C:\Users\karm\mod_proxy_cluster\native\build (main)
 cp modules/*.so C:\Users\karm\Apache24\modules\ -v
 'modules/mod_advertise.so' -&gt; 'C:/Users/karm/Apache24/modules/mod_advertise.so'
-'modules/mod_cluster_slotmem.so' -&gt; 'C:/Users/karm/Apache24/modules/mod_cluster_slotmem.so'
-'modules/mod_manager.so' -&gt; 'C:/Users/karm/Apache24/modules/mod_manager.so'
+'odules/mod_manager.so' -&gt; 'C:/Users/karm/Apache24/modules/mod_manager.so'
 'modules/mod_proxy_cluster.so' -&gt; 'C:/Users/karm/Apache24/modules/mod_proxy_cluster.so'</code></pre>
 </div>
 </div>
@@ -4085,63 +4098,30 @@ cp modules/*.so C:\Users\karm\Apache24\modules\ -v
 </div>
 </div>
 <div class="sect3">
-<h4 id="build-httpd-from-its-sources"><a class="link" href="#build-httpd-from-its-sources">4.7.2. Build httpd from its sources</a></h4>
+<h4 id="build-from-sources-on-linuxunix"><a class="link" href="#build-from-sources-on-linuxunix">4.7.2. Build from sources on Linux/Unix</a></h4>
+<div class="paragraph">
+<p>As for Windows, you can download the httpd bundle as well from <a href="https://dlcdn.apache.org/httpd/">here</a>.
+Alternatively, you can use your distribution&#8217;s repositories (on Fedora, you can install httpd simply
+by executing <code>dnf install httpd</code>), or you can build httpd from sources.</p>
+</div>
 <div class="paragraph">
 <p>To build httpd-2.4.x from its sources see <a href="http://httpd.apache.org/docs/2.4/install.html">ASF httpd 2.4 doc</a>.</p>
 </div>
 <div class="paragraph">
-<p>Configure httpd with something like:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>./configure  --prefix=apache_installation_directory \
-             --with-mpm=worker \
-             --enable-mods-shared=most \
-             --enable-maintainer-mode \
-             --with-expat=builtin \
-             --enable-ssl \
-             --enable-proxy \
-             --enable-proxy-http \
-             --enable-proxy-ajp \
-             --disable-proxy-balancer</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Rebuild (make) and reinstall (make install) after that.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="build-the-4-modules-of-mod_cluster"><a class="link" href="#build-the-4-modules-of-mod_cluster">4.7.3. Build the 4 modules of mod_cluster</a></h4>
-<div class="paragraph">
-<p>You need an httpd installation with mod_proxy (<code>--enable-proxy</code>) and ajp
-protocol (<code>--enable-proxy-ajp</code>) enabled and with dso enabled (<code>--enable-so</code>).</p>
-</div>
-<div class="paragraph">
-<p>Download the mod_proxy_cluster sources:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>git clone git://github.com/modcluster/mod_proxy_cluster.git</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Build the mod_proxy_cluster&#8217;s modules components, for each subdirectory
-advertise, mod_manager, mod_proxy_cluster and mod_cluster_slotmem do
-something like:</p>
+<p>Download the sources and configure httpd with following:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">sh buildconf
- ./configure --with-apxs=apxs_file_location
- make
- cp *.so apache_installation_directory/modules</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">    ./configure  --prefix=apache_installation_directory \
+                 --with-included-apr \
+                 --enable-proxy-ajp \
+                 --enable-so \
+                 --enable-proxy \
+                 --enable-proxy-http \
+                 --enable-proxy-hcheck \
+                 --with-port=8000 \
+                 --with-libxml2</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>Where apache_installation_directory is the location of an installed
-version of httpd-2.4.x or newer.
-The <a href="https://httpd.apache.org/docs/trunk/programs/apxs.html">apxs</a> file can be
-found in your apache_installation_directory/bin directory.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -4150,56 +4130,123 @@ found in your apache_installation_directory/bin directory.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-You can ignore the libtool message on most platform:
+Please bear in mind that the exact arguments/flags might differ based on your library choosing. Always
+consult the documentation.
 </td>
 </tr>
 </table>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In case you want to use httpd for development purposes, you might find useful adding
+<code>--enable-maintainer-mode</code> flag.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Build (<code>make</code>) and install (<code>make install</code>) httpd as configured.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="build-the-modules-of-mod_proxy_cluster"><a class="link" href="#build-the-modules-of-mod_proxy_cluster">4.7.3. Build the modules of mod_proxy_cluster</a></h4>
+<div class="paragraph">
+<p>You need an httpd installation with mod_proxy (<code>--enable-proxy</code>) and ajp
+protocol (<code>--enable-proxy-ajp</code>) enabled and with dso enabled (<code>--enable-so</code>).</p>
+</div>
+<div class="paragraph">
+<p>Download the mod_proxy_cluster sources:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">libtool: install: warning: remember to run `libtool --finish apache_installation_directory/modules'</code></pre>
+<pre>git clone git://github.com/modcluster/mod_proxy_cluster.git</pre>
 </div>
+</div>
+<div class="paragraph">
+<p>or download <a href="https://github.com/modcluster/mod_proxy_cluster/archive/main.zip">zipped main branch directly</a>.</p>
+</div>
+<div class="paragraph">
+<p>Build the mod_proxy_cluster&#8217;s modules components, for each subdirectory
+advertise, mod_manager and mod_proxy_cluster do following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">sh buildconf
+ ./configure --with-apxs=apxs_file_location
+ make clean
+ make
+ cp *.so $APACHE_DIR/modules</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or alternatively using CMake:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash"># create a new subdirectory within native/ directory
+mkdir build
+cd build
+cmake ..
+make
+cp modules/*so $APACHE_DIR/modules</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Where <code>$APACHE_DIR</code> is the location of the installed httpd.</p>
+</div>
+<div class="paragraph">
+<p>The <a href="https://httpd.apache.org/docs/trunk/programs/apxs.html">apxs</a> file can be
+found in your $APACHE_DIR/bin directory.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You can ignore the libtool message on most platforms
+(<code>libtool: install: warning: remember to run `libtool --finish $APACHE_DIR/modules'</code>).
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For mod_proxy_cluster 1.3.x you have to build mod_cluster_slotmem with the rest of modules.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Once that is done use Apache httpd configuration to configure mod_proxy_cluster.</p>
 </div>
 </div>
-</div>
-<div class="sect2">
-<h3 id="installing-httpd-modules"><a class="link" href="#installing-httpd-modules">4.8. Installing httpd modules</a></h3>
-<div class="paragraph">
-<p>Several bundles are available at <a href="http://www.jboss.org/mod_cluster/downloads.html">http://www.jboss.org/mod_cluster/downloads.html</a>.</p>
-</div>
-<div class="paragraph">
-<p>In case you can&#8217;t find a prepared package of mod_cluster in the download area, it is possible to build mod_cluster/mod_proxy_cluster
-from the sources. You need a distribution of httpd (at least 2.4.49 for 1.3.x, 2.4.53 for 2.x respectively)) or (better) a source
-tarball of httpd and the sources of mod_cluster. You can find those at <a href="https://dlcdn.apache.org/httpd/">https://dlcdn.apache.org/httpd/</a>.</p>
-</div>
 <div class="sect3">
-<h4 id="configuration-2"><a class="link" href="#configuration-2">4.8.1. Configuration</a></h4>
+<h4 id="configuration-2"><a class="link" href="#configuration-2">4.7.4. Configuration</a></h4>
 <div class="paragraph">
-<p>A minimal configuration is needed in httpd.
-A listener must be a added in in JBossWEB conf/server.xml.</p>
-</div>
-<div class="sect4">
-<h5 id="installing-and-using-the-bundles"><a class="link" href="#installing-and-using-the-bundles">Installing and using the bundles</a></h5>
-<div class="paragraph">
-<p>The bundles are tar.gz on POSIX platforms just extract them in root something like:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">cd /
-tar xvf mod-cluster-1.x.y-linux2-x86-ssl.tar.gz</code></pre>
-</div>
+<p>A minimal configuration for mod_proxy_cluster to work is needed in httpd.
+A listener must be added in JWS/Tomcat&#8217;s conf/server.xml.</p>
 </div>
 <div class="paragraph">
-<p>The httpd.conf is located in <strong>/opt/jboss/httpd/httpd/conf</strong> to quick test
-just add something like in the minimal example.</p>
+<p>The httpd.conf is located in <strong>httpd/conf/</strong> directory. To quickly test that
+everything is in place, add the configuration from
+<a href="#mod_proxy_cluster-2-x-with-apache-http-server-2-4-x">the minimal example</a>.</p>
 </div>
 <div class="paragraph">
 <p>To start httpd do the following:</p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
 <pre>httpd/sbin/apachectl start</pre>
 </div>
@@ -4215,7 +4262,6 @@ Make sure to use SSL before going in production.
 </td>
 </tr>
 </table>
-</div>
 </div>
 </div>
 </div>
@@ -5167,11 +5213,7 @@ property and set advertise to false, for example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;Listener</span> <span class="attribute-name">className</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">org.jboss.modcluster.container.catalina.standalone.ModClusterListener</span><span class="delimiter">&quot;</span></span>
-          <span class="attribute-name">stickySession</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span>
-          <span class="attribute-name">stickySessionForce</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span>
-          <span class="attribute-name">stickySessionRemove</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span>
-<span class="tag">/&gt;</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;Listener</span> <span class="attribute-name">className</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">org.jboss.modcluster.container.catalina.standalone.ModClusterListener</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -5180,9 +5222,6 @@ property and set advertise to false, for example:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;Listener</span> <span class="attribute-name">className</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">org.jboss.modcluster.container.catalina.standalone.ModClusterListener</span><span class="delimiter">&quot;</span></span>
-          <span class="attribute-name">stickySession</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span>
-          <span class="attribute-name">stickySessionForce</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span>
-          <span class="attribute-name">stickySessionRemove</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span>
           <span class="attribute-name">advertise</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span>
           <span class="attribute-name">proxyList</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10.33.144.3:6666,10.33.144.1:6666</span><span class="delimiter">&quot;</span></span>
 <span class="tag">/&gt;</span></code></pre>
@@ -5255,7 +5294,9 @@ X-Manager-Host: test.example.com</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>If there are no Advertise messages, check the firewall. Advertise uses UDP port 23364 and multicast address 224.0.1.105 by default. Furthermore, <strong>do not bind to localhost/127.0.0.1</strong>, use a non-localhost IP address for your balancer &mdash; workers UDP advertisement test.</p>
+<p>If there are no Advertise messages, check the firewall. Advertise uses UDP port 23364 and multicast address 224.0.1.105 by default.
+Furthermore, <strong>do not bind to localhost/127.0.0.1</strong>, use a non-localhost IP address for your balancer &mdash; workers UDP
+advertisement test.</p>
 </li>
 <li>
 <p>If you are unable to get the Advertisement to work, try it first without it, with a static configuration without UDP multicast).</p>
@@ -5268,7 +5309,8 @@ X-Manager-Host: test.example.com</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p><code>IO error sending command</code>:  Check the firewall and error_log, if there is nothing in the error_log then it is a firewall problem. If you have something like:</p>
+<p><code>IO error sending command</code>:  Check the firewall and error_log, if there is nothing in the error_log then it is a firewall problem.
+If you have something like:</p>
 </li>
 </ul>
 </div>
