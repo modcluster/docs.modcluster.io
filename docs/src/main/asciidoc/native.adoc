@@ -179,6 +179,16 @@ Time to cache the shared memory information in seconds.
 
 **Default:** 0 (no-caching)
 
+=== ModProxyClusterHCTemplate
+
+Set of health check parameters to use with mod_proxy_cluster workers.
+
+=== UseNocanon
+
+When no ProxyPass or ProxyMatch match the URL, pass the raw URL path to the backend.
+
+**Default:** Off
+
 === ModProxyClusterThreadCount
 
 Number of threads that should be created for watchdog logic. Must be positive. (Since 2.0)
