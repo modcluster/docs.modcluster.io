@@ -90,11 +90,11 @@
                                     <goal>process-asciidoc</goal>
                                 </goals>
                                 <configuration>
-                                    <!-- Remove the following line to generate PDF -->
-                                    <skip>true</skip>
                                     <backend>pdf</backend>
                                     <doctype>book</doctype>
                                     <sourceDocumentName>index.adoc</sourceDocumentName>
+                                    <enableVerbose>true</enableVerbose>
+                                    <outputFile>mod_cluster-v2-user-guide.pdf</outputFile>
                                 </configuration>
                             </execution>
                         </executions>

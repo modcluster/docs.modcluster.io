@@ -1,3 +1,5 @@
+NOTE: This document is also available as a link:mod_cluster-v2-user-guide.pdf[PDF to download].
+
 [[overview]]
 = Overview
 
