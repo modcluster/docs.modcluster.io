@@ -76,6 +76,9 @@ mod_cluster uses the following algorithm to choose between them:
 . If an AJP connector is available, use it.
 . Otherwise, choose the HTTP connector with the highest max threads.
 
+NOTE: In case you are using `portOffset` on any connector you want to register with balancer, set `connectorPort` to the value of its `port` attribute.
+Since 2.0.4.Final, the mod_cluster will handle the offset on its own.
+
 === Node Identity
 
 Like mod_jk and mod_proxy_balancer, mod_cluster identifies each node via a unique
