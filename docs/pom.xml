@@ -34,6 +34,10 @@
                                 <directory>src/main/asciidoc/static</directory>
                                 <targetPath>.</targetPath>
                             </resource>
+                            <resource>
+                                <directory>src/main/asciidoc/wiki/images</directory>
+                                <targetPath>images</targetPath>
+                            </resource>
                         </resources>
                     </configuration>
                 </plugin>
@@ -61,6 +65,7 @@
                             </dependency>
                         </dependencies>
                         <executions>
+                            <!-- Main documentation -->
                             <execution>
                                 <id>output-html</id>
                                 <phase>package</phase>
@@ -83,7 +88,31 @@
                                     <enableVerbose>true</enableVerbose>
                                 </configuration>
                             </execution>
+                            <!-- Migrated wiki docs -->
                             <execution>
+                                <id>output-html-wiki</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>process-asciidoc</goal>
+                                </goals>
+                                <configuration>
+                                    <backend>html5</backend>
+                                    <attributes>
+                                        <toc>left</toc>
+                                        <linkcss>false</linkcss>
+                                        <attribute-missing>warn</attribute-missing>
+                                    </attributes>
+                                    <sourceDirectory>src/main/asciidoc/wiki</sourceDirectory>
+                                    <outputDirectory>target/generated-docs/wiki</outputDirectory>
+                                    <logHandler>
+                                        <failIf>
+                                            <severity>WARN</severity>
+                                        </failIf>
+                                    </logHandler>
+                                    <enableVerbose>true</enableVerbose>
+                                </configuration>
+                            </execution>
+                           <execution>
                                 <id>pdf</id>
                                 <phase>generate-resources</phase>
                                 <goals>

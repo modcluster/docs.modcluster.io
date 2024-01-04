@@ -1,0 +1,80 @@
+= ModCluster ReverseExtension
+
+There is a "Reverse Connection Function in JBoss AS" feature request.
+The concept to get the AJP/http/https connections created in Tomcat instead in
+httpd.
+
+The first idea is to implement it is to add a feature in mod_cluster to fill
+the worker connection pool with the sockets resulting of an accept() on the
+httpd side.
+
+Of course the Tomcat connector needs to be modified too.
+
+== How does that work?
+
+When a CONFIG containing "Reversed" = "yes" is received the mod_cluster logic
+will listen to a connection from Tomcat instead try to connect to it.
+
+Due to multiprocess logic in httpd a range of port needs to be use. It is the
+responsibility of the node configuration to provide a port number that won't
+collide with any other listener in the httpd box. The port and local address
+are provided in the CONFIG message by the ModClusterService. (via Host: and
+Port:)
+
+This will work only with not (or limited) forked httpd mpm models.
+
+== Trying to work-around the multi-process problems:
+
+Problem several processes. Use a range of port: (start to start+n where is
+properties -D global.bla=n (n number) in AprEndpoint.Acceptor:
+
+[source]
+----
+Socket.connect(socket, serverAddress);
+----
+
+Well just change the serverAddress to use different port. (easy no?).
+
+The IP and starting port come from the Connector in server.xml:
+
+[source]
+----
+port="$" address="$"
+----
+
+Let's see how it works:
+
+* when a worker is created it binds on one available port in the range. It
+stays binded for all its live time.
+
+On the TC side the poller notes it is running of connections so it will open
+new connections to httpd.
+
+* TC logic should distribute the connections on all the ports.
+
+Notes:
+
+* the connections are created with keep-alive to prevent firewall problems
+
+
+* the socket timeout is also set to a reasonable value.
+
+* size of receive buffer (APR_SO_RCVBUF) is set.
+
+* APR_TCP_NODELAY is also set (like the best connection parameters mod_proxy is
+normaly using).
+
+* when httpd process finishes the connections are closed... So the poller in
+
+TC will note it. It will try to connect and will reach the newly created httpd
+process.
+
+NOTE: In the proxy_worker struct there is an:
+
+[source]
+----
+void            opaque;    / per scheme worker data /
+----
+
+The local socket we are bind to is stored there. The accept() is done using it.
+

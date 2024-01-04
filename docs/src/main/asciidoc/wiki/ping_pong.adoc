@@ -1,0 +1,72 @@
+= ModCluster ping pong
+
+The ping/pong is AJP feature that allows to check the availability of a node
+quickly. It would be possible to add the same feature to the http/https
+(There already some work done in the ASF httpd dev-list).
+
+It is possible to have 2 kind of ping/pong:
+
+* a synchronous ping/pong that corresponds to a user request.
+
+* a asynchronous one that corresponds to a health-check mecanism.
+
+A synchronous prevents broken connection due to timeout bad firewall etc.
+An asynchronous checks if a node is up at the time of the check.
+
+== Why do we need an asynchronous ping/pong.
+
+If a node is connected to 2 Ethernet boards it could happen that the connection
+between httpd and the node is broken but not the connection to the rest of the
+cluster.
+
+So a STATUS message from the cluster would put the node back in the UP state
+with a good load factor (as it is not used). So all the new incoming requests
+will go to that node and the connection will fail and mod_cluster will have to
+fail over to another node. That is very bad for the quality of service.
+
+If we do a ping/pong before setting the node to the UP state we could easy
+prevent this.
+
+== Other way to get the feature:
+
+There are some other way to get the feature.
+
+=== Using a STATUS message from the node to httpd:
+
+To check for a broken connection it is possible to send a STATUS message from
+the node to httpd. If httpd answers the connection is back.
+
+If not the cluster should think that the node is still DOWN.
+
+=== Using mod_rewrite and http Connect:
+
+It needs some configuration in httpd something like:
+
+[source]
+----
+ProxyPass / balancer://cluster stickysession=;jsessionid
+
+NameVirtualHost *:8000
+
+# Virtual host for the cluster manager
+<VirtualHost *:8000>
+  RewriteEngine On
+  RewriteRule /ping/(.*) /*;jsessionid=0.$1 [PT]
+</VirtualHost>
+
+A simple request on the http for node like:
+
+GET ping/node1 HTTP/1.0
+Ping: On
+
+----
+
+"Ping: On" is custom header from administrator app that will cause balancer to
+select node1 and create a request and 200 if the request to node1 is successful
+in this case the administrator application can then inform the cluster that
+node1 state can be changed to ENABLE
+
+=== Using 'OPTIONS ' and internal redirect:
+
+(ADD SOMETHING HERE).
+

@@ -1,0 +1,365 @@
+= Questions and Answers on mod_cluster webinar
+
+Want to know more, explained by the developper see:
+http://www.vimeo.com/13180921 and read the resulting QA:
+
+Q: Is the demo application available? +
+A: Yes, it's part of the mod-cluster download (under demo/client). The
+   SessionDemo itself is not available, but it's a simple demo
+   adding data to an HTTP session. I can make it available if
+   necessary...
+
+Q: Are the slides available? +
+A: www.jboss.org/webinars
+
+Q: Is this a direct competition to Terracotta's offering? +
+A: No; mod-cluster is about (1) dynamic discovery of workers, (2) web
+   applications, and (3) intelligent load balancing. Clustering is an
+   orthogonal aspect; as a matter of fact, clustering could be used
+   among a number of workers which are not clustered.
+
+Q: Is the clustering between jboss instances within a domain done @ JVM level? +
+A: No; we use JGroups (www.jgroups.org) and JBossCache
+   (jboss.org/jbosscache) to replicate sessions. In JBoss 6, we've
+   replaced JBossCache with Infinispan (infinispan.org) to replicate
+   and/or distribute sessions among a cluster.
+
+Q: Why should the deployment topology use httpd? Can't the tomcat (bundled in
+JBoss) use APR. +
+A: Yes, JBossWeb can use APR, and as a matter of fact does use it if
+   the shared APR lib is found on the library path. However, using APR
+   and httpd are orthogonal issues; while the mod-cluster module could
+   theoretically be used in JBossWeb directly, we haven't tried it
+   out, as many deployments still use httpd in production.
+   Note that JBossWen cannot be used as a reverse proxy.
+
+Q: What are the steps involved to migrate a setup which is on mod_jk to
+mod_cluster? +
+A: There are only a few steps involved (more details can be found on
+   jboss.org/mod_cluster):
+   - Use the httpd modules downloadable from jboss.org/mod_cluster
+   - Configure httpd.conf accordingly
+   - Drop workers.properties and uriworkermap.properties
+   - Configure JBoss AS to include the addresses of the httpd
+     daemon(s) running
+   - (Optional) Configure the domain for the JBoss AS instance
+   The steps are described in detail in
+   http://docs.jboss.org/mod_cluster/1.1.0/html/mod_jk.html
+
+Q: Are there seperate logging mechanism for mod_cluster like we use to have
+for mod_jk +
+A: No; mod-cluster uses the normal httpd log, and this is configured in
+httpd.conf (similar
+   to mod-jk / mod-proxy). On the JBoss AS side, the normal AS logging
+   is used (e.g. conf/log4j.xml)
+
+Q: Is the mod_cluster the same as mod_proxy_balancer? +
+A: No; mod_proxy_balancer requires manual configuration
+   (e.g. hosts to be balanced over). Also, web applications have to be
+   present on all hosts, and don't register themselves
+   automatically. Plus, mod_proxy_balancer doesn't have any notion of
+   load balance factors sent to it by the workers.
+
+Q: I have an application that uses an HASingleton(ejbtimer). In case of a
+multidomains architecture, my application would fail because I would have an
+ejbtimer in each domain. How would you get a large cluster work in this
+scenario. +
+A: If one singleton timer per domain is not desired, then one could
+   place the singleton timer into a separate cluster, which spans
+   multiple domains. Note that an HASingleton ejb timer and
+   distributed cache will use separate channels by default.
+
+Q: Is it not efficient to avoid sticky-sessions? If we avoided sticky sessions,
+then We could use hardware based load-balancers which did load balancing @
+Transport (TCP/IP) layer rather than Application layer. +
+A: Making sessions non-sticky means that access to sessions can be random, ie.
+requests for an HTTP session can go to any node within a domain. However, this
+means that we should not use asynchronous replication, as a write to an
+attribute followed by an immediate read of the same attribute but on a
+different node might lead to the reading of stale data. However, using
+synchronous replication is slower because every write incurs a round trip to
+the cluster, and the caller blocks until all responses have been received. Our
+recommendation is to use sticky sessions and asynchronous replication, for the
+best performance.
+
+Q: Is it possible to configure mod_cluster or mod_jk in a way that certain IPs
+requests go to just a particular domain +
+A: Not easily. One could configure virtual hosts in httpd.conf, and
+   workers connect to certain virtual hosts only, but there is no
+   enforcement of which domains are hit from the httpd side.
+
+Q: We used appliance for loadbalancing. Can we use mod-cluster for dynamic
+configuration instead of using static properties? +
+A: No, mod-cluster requires the httpd to run. We intend to talk to load
+balancer vendors and get them to implement the MCMP protocol, so that their
+balancers could be used with mod-cluster enabled workers.
+
+Q: Is mod_cluster delivered as a native module in Apache just as mod_proxy? +
+A: Yes, on the httpd side. On the JBoss AS side, we use a service archive
+(mod_cluster.sar), in /deploy
+
+Q: A little more general clustering question. What about distributing jboss
+servers across datacenters but that belong to the same cluster? +
+A: This is possible, however, in most cases IP multicasting would not be
+available over a WAN. Therefore, the configuration of JBoss AS should use a
+TCP based stack rather than a UDP based stack.
+
+Q: Can you suggest the pattern to cluster the Apache server for Fail over when
+acting as Load balancer for Jboss Cluster +
+A: This is very simple: just start multiple httpds and add them to JBoss AS,
+   e.g. mod_cluster.proxyList=host1:8000,Host2:8000 etc
+   Workers (JBoss instances) will then register themselves and their
+   applications with all httpds in the list.
+
+Q: Is mod_cluster available with JBoss AS (community) or JBoss Enterprise
+Application Platform from Red Hat? +
+A: Currently, mod-cluster 1.1.0.CR3 will ship as part of JBoss AS 6. The
+mod-cluster functionality is part of EAP 5.0.1 and will also be part of JBoss EAP 5.1.
+
+Q: Can the worker nodes be configured from JON? +
+A: Not yet (with respect to mod-cluster configuration). This is on the roadmap. 
+
+Q: What is the configuration for dynamically adding nodes as load increases? +
+A: This feature is not available. It might be available as part of our
+Deltacloud product. Currently, third party vendor's products, such as
+RightScale, could be used to do this.
+
+Q: Which version of mod_cluster do you use ? in my version i cannot see the
+sessions +
+A: To see sessions in mod_cluster_manager, the following entry has to be added
+to httpd.conf:
+
+[source]
+----
+<IfModule mod_manager.c>
+    MaxsessionId 50
+</IfModule>
+----
+ 
+Note that sessions are by default not shown in mod_cluster_manager.
+Refer to the documentation at jboss.org/mod_cluster for details.
+
+Q: can you show config quickly how mod_cluster automatically detect new hosts? +
+A: When a new JBoss instance is started, as soon as the mod_cluster.sar service
+is deployed, the host and all of its applications will be registered with all
+httpds, so this happens immediately.
+
+Q: What do you advice in a multi-datacenter setup? Can we use mod_cluster and
+won't this cause a event-storm when one of the datacenters goes down? +
+A: When you have domains across multiple data centers, and one data center goes
+down, then the other data center has to accommodate the traffic from the data
+center which is down. This causes more traffic to the surviving data center, so
+when doing capacity planning this should be taken into account. If the nodes in
+a domain run in the cloud, then one could envisage automatically starting new
+virtualized instances to accommodate the handling of this increased traffic.
+
+Q: Are there seperate logging mechanism for mod_cluster like we use to have for
+mod_jk +
+A: mod-cluster is configured through the usual mechanism in httpd.conf
+
+Q: Do we need a mod_cluster manager on all nodes [in the cluster]? +
+A: Note that mod_cluster_manager is only available on the httpd side
+
+Q: Is gossiprouter high available? +
+A: Yes, multiple GossipRouters can be started. Note that, if running only on
+EC2, then a protocol called S3_PING can be used as an alternative. It uses an
+S3 bucket to store cluster topology information.
+
+Q: For the group of HTTP daemons in front of the clusters, I assume those can
+be round robin'd DNS, or any other method of load balancing them? +
+A: No, DNS round robin (or a hardware load balancer fronting the httpds) works.
+When using sticky sessions, the jsessionid is sent with each request (cookie or
+URL rewriting) and it is suffixed with the jvmRoute of the node which hosts a
+given session.
+
+Q: Does JBoss support UNICAST messaging? +
+A: Yes; JGroups would have to be configured appropriately to do that. When
+using TCP, this is done automatically. When using UDP, ip_mcast="false" would
+have to be set.
+
+Q: Is there support for mount point exclusions like JkUnMount in mod-jk? +
+A: Yes, use
+`<property name="excludedContexts">jmx-console,web-admin,ROOT</property>` in
+`/deploy/mod_cluster.sar/META-INF/mod_cluster-jboss-beans.xml`
+
+Q: What are the steps involved to migrate a setup which is on mod_jk to
+mod_cluster? +
+A: See the previous answer above
+(http://docs.jboss.org/mod_cluster/1.1.0/html/mod_jk.html)
+
+Q: There is implicit, a concept, of starting connections from the jboss
+"backend" to the frontend" ,this seems odd to me? +
+A: This is only conceptual; workers will *not* create a socket connection to
+   httpd. Instead httpd connects to the workers (ie. JBoss AS instances) and
+   the workers use the same channel to send status updates, registration of web
+   applications etc.
+
+Q: Can you use buddy list to replicate session accross domains? +
+A: Yes, that can be done, as a domain doesn't need to have the same scope as a
+   cluster; a cluster can span multiple domains. However, for scalability
+   purposes, we recommend to restrict a cluster to a domain
+
+Q: How does full replication in each domain compare to using buddy replication
+   and just one cluster/domain? +
+A: The scalability of full replication is a function of cluster size and
+   average data size, so if we have many nodes and/or large data sets, then we
+   hit a scalability ceiling.
+   If DATA_SIZE * NUMBER_OF_HOSTS is smaller than the memory available to each
+   host, the full replication is preferred, as reads are always local. If this
+   is not the case, then we can use multiple domains, or we can use one single
+   cluster, but switch from full replication to either buddy replication
+   (JBossCache) or distribution (Infinispan). Distribution only stores N copies
+   of a session, therefore scales much better than full replication.
+
+Q: Is there any turorial provided? +
+A: There's a quick start guide available at jboss.org/mod_cluster
+
+Q: Is it possible to limit which hosts are allowed to join the cluster easily? +
+A: Yes. This can be done at the JGroups level, by using a protocol called AUTH
+   (http://community.jboss.org/wiki/JGroupsAUTH). It provides passwords, X.509
+   certificates, host lists and simple MD5 hashes as authentication, but it is
+   pluggable, so other mechanisms can be included. Post questions on AUTH to
+   the JGroups mailing list (jgroups.org).
+
+Q: to uprade without downtime you have to have at least two domains for each
+application, right? +
+A: Yes
+
+Q: Is there any method/workaround to avail Session Replication across Domains? +
+A: A cluster isn't restricted in scope to a domain, it can span multiple
+   domains. However, that defeats the purpose of a domain (divide-and-conquer),
+   and makes rolling upgrade more difficult. For instance, if a cluster spans 2
+   domains, then it is better to club the 2 domains together into one.
+
+Q: I missed some of the demo - I saw the session replication/migration in the
+demo, but wanted to know if I have 2 apache servers in front of the jboss
+cluster and a network load balancer doing round robins will mod_cluster
+maintain the session across them? +
+A: Yes. The jvmRoute is appended to the jsessionid and identifies the node in a
+given domain uniquely. See also the question above on DNS round robin.
+
+Q: on apache side, which is required versions? 2.2 or also 2.0? +
+A: 2.2.8 or higher
+
+Q: Im using JBoss 4.2.2 GA.. Should I migrate to JBoss6? +
+A: JBoss 5 or higher. You *can* use mod_cluster with JBoss 4.2.2 - but
+   you'd need to configure it as you would for JBoss Web standalone
+   (or Tomcat) - and consequently has slightly limited functionality,
+   e.g. no HA-mode, limited to 1 load metric.
+
+Q: UDP broadcast? +
+A: The ability to send a packet to all hosts on a given subnet. IP multicasting
+   is more efficient because a packet is only sent to subscribed hosts. IP
+   multicasting is more efficient than TCP is large clusters, because the
+   switch copies the packet to all recipients, whereas with TCP a packet has to
+   be sent N-1 times (where N is the cluster size)
+
+Q: Normally how much time it takes for new node to be detected by
+   mod_cluster..is it configurable? +
+A: No, it is not configurable. As soon as the JBoss instance is started, it
+   (and its webapps) will get registered.
+   The time required to do this depends on how the node finds out
+   about the proxy. If you've configured mod_cluster with a static
+   proxy list, then it registers with the httpd proxy upon startup. If
+   you configured mod_cluster server-side to use an HASingleton (via
+   HAModClusterService), then it knows about the proxy upon joining
+   the cluster - also upon startup. Otherwise, you are relying on the
+   advertise mechanism - so the time required to register with the
+   proxy is a product of the advertise interval (AdvertiseFrequency,
+   configured in httpd.conf), and the status interval
+   (Engine.backgroundProcessorDelay, configured in server.xml)
+
+Q: how the new servers got added pick up the sessions? are they new or existing
+   sessions? +
+A: The new servers use a mechanism provided by JGroups called state transfer
+   (see http://www.jgroups.org/manual/html/user-channel.html#GetState), which
+   copies the existing sessions into a new server. This way, the new server can
+   be failed over to should an existing server crash.
+   Note that state transfer is not needed if we use distribution instead of
+   replication (see above).
+
+Q: When performing rolling upgrades, how do you mitigate issues where the
+   database schema changes? So certain domains may be using JNDI to hook into
+   one core db - if another domain is upgraded in a roll out then hibernate
+   will update / alter those tables? +
+A: Schema migration is a difficult topic, outside the scope of mod-cluster. One
+   possible way could be to have a separate DB in the new domain, drain the old
+   domain, and - when the old domain is shut down - transfer the data from the
+   old to the new DB. But, again, this is very application dependent, and
+   generic advise moot.
+
+Q: Is mod_cluster also wokring with JBoss 5.1 with the same power, or does it
+   require Jboss 6? +
+A: mod-cluster works with 5.1, but is already integrated into AS 6 out
+   of the box.
+   The latest mod_cluster 1.1.0.CR3 release will work with JBoss 5.1
+   with no configuration changes - just drop in the mod_cluster.sar
+   into the $JBOSS_HOME/server/all/deploy directory.
+
+Q: How do nodes identify other nodes within their cluster?  In other words how
+   do EC2 nodes only cluster with EC2 nodes etc.? +
+A: Nodes find other nodes through JGroups (www.jgroups.org). On EC2, we can
+   either use a GossipRouter, which is a separate lookup process, or S3_PING
+   which is based on S3 buckets.
+   A cluster is defined via (a) the same configuration and (b) the same cluster
+   name. All nodes which have (a) and (b) form a cluster. Nodes which have (a)
+   but a different cluster name for a different cluster.
+
+Q: Is it possible to shutdown and drain a single web app? +
+A: Yes. The steps are:
+   - Disable the app
+   - Wait until the sessions for the app have drained
+   - Undeploy the app
+   - Deploy the new app
+   Note that the old and new webapp needs to be compatible, ie. classes
+   cannot change between redeployments.
+   If there is an incompatible change, I recommend to drain all webapps of the same type
+   (context) in a domain. 
+
+Note that undeploy of a web application will perform the above operations
+automatically! Use the stopContextTimeout/stopContextTimeoutUnit config
+properties to control the default drain timeout. If you're using session
+replication, then you don't need to wait for all sessions to drain - just all
+current requests to complete, since those session will be available elsewhere.
+The method of draining is determined by whether or not the target web
+application is distributable or not. Additionally, the sessionDrainingStrategy
+config property can be used to always force session draining, even for
+distributable web applications.
+
+Alternatively, you can stop a single context manually in once step via the
+stopContext(...) JMX operation.
+
+Q: Is mod_cluster delivered as a native module in Apache, just as mod_proxy? +
+A: Yes
+
+Q: Does the "load balancer demo app" come with mod_cluster? +
+A: Yes, under /demo/client
+
+Q: Can you configure the jboss nodes to announce themselves to the httpd
+servers over a local/private network keeping that communication private and
+seperate from the public access to the application? +
+A: Yes. You can - since a separate connection is used, provided these
+   routes exist. This private network address/port would be provided by
+   the advertise mechanism or via the server-side proxyList.
+   The private and public network could be created in httpd.conf,
+   using virtual hosts.
+
+Q: When a new version of a web app is deployed, how does JBoss/mod_cluster
+   know how to replicate between old versions and new versions? +
+A: The webapp needs to be compatible to existing versions. If it isn't, deploy
+   it into a new domain, or redeploy all existing webapps of the same type.
+
+Q: Can mod_clustered enabled when v use configure Elastic Load Balance? +
+A: Yes, but this doesn't make much sense. Compared to ELB, mod-cluster is (1)
+   cloud independent (ELB only exists in EC2), (2) allows for dynamic
+   registration of workers (this is static in ELB), (3) allows for dynamic
+   registration/de-registration of webapps (ELB doesn't) and (4) sends dynamic
+   load balancer information back to httpd (ELB has some built-in LB
+   functionality, but it is not extensible).
+
+Q: what about the performance when we divide one large cluster in to small
+   clusters? +
+A: Performance is probably better, for various reasons. For example, if we use
+   TCP, cluster wide calls (RPCs) have a cost of N-1. With smaller N's, these
+   calls become less costly.
+

@@ -1,0 +1,339 @@
+= ModCluster Management Protocol
+
+The document describes the protocol elements of the
+xref:design.adoc[mod_cluster] protocol between a container (AS) and a load
+balancer (Apache httpd).
+
+== Messages
+
+|===
+| Message type | Description
+| CONFIG       | Send configuration information for a node or set of nodes.
+| ENABLE-APP   | Send requests and assign new sessions to the specified app. Use of to identify the app means enable all apps on the given node.
+| DISABLE-APP  | apache should not create new session for this webapp, but still continue serving existing session on this node. Use of to identify the app means disable all apps on the given node.
+| STOP-APP     | New requests for this webapp should not be sent to this node. Use of to identify the app means stop all apps on the given node.
+| STOP-APP-RSP | Response to STOP-APP (since version 0.2.0)
+| REMOVE-APP   | Remove the information about this webapp from mod_cluster tables.
+| STATUS       | Send the current load balance factor for this node (or a set of nodes). Periodically sent.
+| STATUS-RSP   | mod_cluster_manager response to a STATUS.
+| INFO         | Request configuration info from mod_cluster-manager.
+| INFO-RSP     | Response to INFO virtual host and listen address/port.
+| DUMP         | Request a text dump of the current configuration seen by mod_cluster_manager.
+| DUMP-RSP     | Response to DUMP.
+| PING         | Request a ping to httpd or node. The node could defined by JVMRoute or Scheme, Host, and Port (since version 0.1.0).
+| PING-RSP     | Response to PING
+|===
+
+=== Message payload:
+
+The information is in ASCII and URL encoded if needed.
+
+All numbers are integer and a string representation is used.
+
+The command is string it is the first part of a message it is followed by
+a / HTTP/1.0<CR><LF>
+
+Example:
+
+----
+DISABLE-APP / HTTP/1.0<CR><LF>
+----
+
+All parameters are send as <PARAMETER_NAME>=<VALUE> and the separator between
+their pairs is <&>
+
+<SPACE> in value is escaped as <+>
+
+<&> in value is escaped as &26
+
+<=> in value is escaped %3D
+
+<CR><LF> means end of <COMMAND>
+
+Example:
+
+----
+DISABLE / HTTP/1.0<CR><LF>
+
+Content-length: 44<CR><LF>
+
+<CR><LF>
+
+Jvmroute=node1&Context=myapp&Context=ourapp<CR><LF>
+----
+
+To make the document more readable the " / HTTP/1.0" is not added a the end of
+the commands.
+
+== CONFIG
+
+|===
+| Key      | Description                                                                                                                        | Default   | Max size
+| Alias    | List of virtual hosts like host1,host2 (See http://tomcat.apache.org/tomcat-6.0-doc/config/host.html#Host%20Name%20Aliases[Alias]) |           | 
+| Balancer | is the name of the balancer in httpd (for example mycluster in ProxyPass /myapp balancer://mycluster/)                             | mycluster | 40
+| Context  | List the context the virtual host list supports like (Ex. "/myapp,/ourapp")                                                        |           | 
+| Domain   | is the domain corresponding to the node                                                                                            | NULL      | 20
+| Host     | is the IP address (or hostname) where the node is going to receive requests from httpd                                             |           |
+| JvmRoute | Is what is after the . in the JSESSIONID cookie or the parameter jsessionid                                                        |           | 80
+| Port     | is the port on which the node except to receive requests                                                                           | 8009      | 7
+| Type     | http/https/ajp The protocol to use between httpd and AS to process requests                                                        | ajp       | 6
+|===
+
+For node and balancer configuration keys refer to
+xref:node_balancers.adoc[ModCluster Node and Balancer].
+
+== ENABLE-APP
+
+|===
+| Key      | Description
+| JvmRoute | See CONFIG
+| Alias    | See CONFIG
+| Context  | That is the context of the application
+|===
+
+== DISABLE-APP
+
+Like ENABLE-APP.
+
+
+== STOP-APP
+
+Like ENABLE-APP.
+
+== REMOVE-APP
+
+Like ENABLE-APP.
+
+== STOP-APP-RSP
+
+That is a reponse to STOP-APP, like a http reponse it starts with
+HTTP/1.1 200 OK<CR><LF> and it has the format:
+
+|===
+| Key      | Description
+| Type     | STOP-APP-RSP
+| JvmRoute | See CONFIG
+| Alias    | See CONFIG
+| Context  | See CONFIG
+| Requests | That the number of requests active on the context at the time of STOP-APP command
+|===
+
+Note that a Wildcard STOP-APP won't cause a STOP-APP-RSP but just a 200 or 500.
+
+== STATUS
+
+|===
+| Key | Description | Default | Max size
+| JvmRoute | See CONFIG | | 
+| Load | number between 1 and 100 and defines the normalized weighted load applied to the worker. Only possible values are real load factor."0": node is on standby. +
+"-1": node is broken (The cluster can't connect to it). +
+"-2": just do a cping/cpong. | 0 | 3
+|===
+
+== STATUS-RSP
+
+That is a reponse, like a http reponse it starts with HTTP/1.1 200 OK<CR><LF>
+and it has the format:
+
+|===
+| Key      | Description
+| Type     | STATUS-RSP
+| JvmRoute | See CONFIG
+| State    | That is the state httpd see for the node at the time of the processing (value from shared memory).
+| id       | That is the generation id of process in httpd if it changes (increases) when httpd has been restarted and its view of the cluster configuration could be incorrect. In this case ModClusterService should send a new CONFIG ASAP so the information could be updated.
+|===
+
+== INFO
+
+Empty request.
+
+== INFO-RSP
+
+"readable" description of the mod_cluster configuration corresponding to the
+messages the cluster has sent to mod_cluster.
+
+== DUMP
+
+Empty request.
+
+== DUMP-RSP
+
+"readable" description of the mod_cluster configuration corresponding to the
+messages the cluster has sent to mod_cluster.
+
+== PING
+
+There are 3 different pings: (for version 0.1.0 on).
+
+|===
+| Combination          | Description
+| Empty=?              | check that the proxy is alive.
+| JvmRoute=?           | check if a node is alive.
+| Type=?&Host=?&Port=? | check that httpd can connect to a possible node defined by Type://Host:Port/
+|===
+
+|===
+| Key      | Description
+| JvmRoute | See CONFIG
+| Type     | See CONFIG
+| Host     | See CONFIG
+| Port     | See CONFIG
+|===
+
+== PING-RSP
+
+|===
+| Key   | Description
+| Type  | PING-RSP
+| State | See STATUS_RSP
+| id    | See STATUS_RSP
+|===
+
+== Using -APP command with wildcard
+
+In case a -APP command with wildcard is sent by ModClusterManager to
+mod_cluster only the JVMRoute is going to be relevant in the payload message.
+
+For example:
+
+----
+DISABLE  HTTP/1.0
+
+<CR><LF>
+
+Content-length: 44<CR><LF>
+
+<CR><LF>
+
+Jvmroute=node1&Context=myapp&Context=ourapp<CR><LF>
+----
+
+will be handled like:
+
+----
+DISABLE  HTTP/1.0<CR><LF>
+
+Content-length: 15<CR><LF>
+
+<CR><LF>
+
+Jvmroute=node1<CR><LF>
+----
+
+Other values between the command and HTTP/1.0 (or 1.1) are ignored in the actual version of the protocol.
+
+A shutdown of a node will cause the following events:
+
+* DISABLE-APP / for each application.
+
+* STOP-APP / for each application.
+
+* DISABLE-APP
+
+* STOP-APP
+
+(xref:design.adoc[ModCluster Design] suggests that
+ModClusterManager should wait until all sessions have been finished but that
+requires a to be written tool. The idea is that an administrator initiated
+step; similar to what people do now by changing workers.properties to quiesce a
+node in mod_jk, but it could be initiated from the JBoss side via a management
+tool). If a request arrives for a context corresponding to this node 500 will
+be returned to the client.
+
+An additional utility could be written to send a REMOVE-APP once the JBoss node
+is stopped REMOTE-APP will remove all the node information from mod_cluster
+table and any socket between httpd and the node will be closed. (For a more
+complete description see xref:internals.adoc[ModCluster Internals].) If
+a request arrives for a context corresponding to this node 404 will be returned
+to the client: in fact the mod_proxy will not be called for the request and an
+httpd page could be displayed. A REMOVE-APP / for example will just clean the
+mod_cluster table corresponding to the application defined in the payload.
+
+== Error handling
+
+Once a error occurs in mod_cluster 500 is returned and the status line tells
+the version of protocol mod_cluster is using and a short description of the
+error.
+
+The error response status line will be something like:
+
+----
+HTTP/1.1 500 ERROR
+
+Version: version_supported
+
+Type: type
+
+Mess: "error_string"
+----
+
+Where version_supported is the version of the protocol mod_cluster is able to
+support.
+
+Where type is the type of error, for example: MEM to tell the message contains
+syntax errors (SYNTAX) or the data can't be updated to update the shared memory
+(MEM).
+
+The "error_string" should help to understand what was wrong and the n.p.n
+VERSION information tells which highest version of the protocol mod_cluster
+understands.
+
+The first part of the error_string should help to make a decision how to go on:
+
+SYNTAX: mod_cluster can't understand the message or part of the message.
+Another version of the protocol should used or ModClusterService should be
+fixed.
+
+MEM: mod_cluster can't update the shared memory. If that is the answer to
+a -APP messages or a STATUS message new CONFIG message should be send. If it is
+the answer to a CONFIG message the configuration of the cluster in
+ModCusterService should be checked or/and the CONFIG message should be resend
+to mod_cluster.
+
+Example:
+
+----
+HTTP/1.1 500 ERROR
+Date: Fri, 16 May 2008 09:55:21 GMT
+Server: Apache/2.2.9-dev (Unix) mod_ssl/2.2.9-dev OpenSSL/0.9.8b DAV/2
+Content-Length: 557
+Connection: close
+Version: 0.0.0
+Type: SYNTAX
+Mess: "Command is not supported"
+Content-Type: text/html; charset=iso-8859-1
+
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+----
+
+== mod_cluster-manager handler
+
+The mod_cluster-manager handler allows to do operation like
+ENABLE_APP/DISABLE_APP through a web interface. The format of the request
+string is the following:
+
+----
+Nonce:<nonce>&Cmd:<cmd>&Range:<range>&<MCMP String>
+----
+
+where:
+
+* <nonce> Is a string like e17066b4-0cb1-4e58-93e3-cdc9efb6be9 corresponding to
+a unique id of httpd.
+
+* <cmd> Is the command: one of ENABLE_APP, DISABLE_APP etc.
+
+* <range> Is a "NODE" or "CONTEXT". "NODE" means that the _APP command is a
+wildcard command.
+
+* <MCMP String> is a string containing a command described above.
+
+Example
+
+----
+http://localhost:8000/mod_cluster-manager?nonce=e17066b4-0cb1-4e58-93e3-cdc9efb6be9c&Cmd=DISABLE-APP&Range=CONTEXT&JVMRoute=jvm1&Alias=
+----
+
+
+
+

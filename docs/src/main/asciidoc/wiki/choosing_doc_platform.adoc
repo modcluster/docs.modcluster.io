@@ -1,0 +1,112 @@
+= Choosing Documentation Platform for mod_cluster
+
+== Motivation / Goals
+
+* provide upstream project with reliable documentation
+
+* enable easy community and internal contributions
+
+* minimal management overhead
+
+== Requirements
+
+* up to date "real-time" documentation (no pushing, merging, rebuilding)
+
+* reliable documentation hosting, high uptime
+
+* changelog of changes
+
+* vendor independent documentation
+
+* ability to link document sections (use to direct people in community to
+particular sections)
+
+* maintain 1.1.x, 1.2.x, etc versions of the documentation (patch/cherry-pick
+changes)
+
+== Candidates
+
+=== DocBook (XML) in Project Repository (current)
+
+**+**
+
+* easy to create other formats / generating PDFs
+
+**-**
+
+* stale documentation, needs manual rebuilding and publishing
+
+* need to maintain private infrastructure to host and push to
+
+* too complex for everyone (and chatty XML)
+
+* no community contributions (made better with subversion to git migration)
+
+=== GitHub Wiki
+
+**+**
+
+* out of box markdown
+
+* easy to setup
+
+* easy (actually too easy) to contibute
+
+**-**
+
+* anybody can edit, no review process!
+
+* needs a github account to contribute
+
+* slight dependency on github
+
+* unable to reasonably structure documentation
+
+=== GitHub Pages
+
+**+**
+
+* can contribute directly from github (no setup required at all!)
+
+* review changes with pull request process
+
+* little github depedency, repo could be moved elsewhere
+
+**-**
+
+* github pages don't support jekyll plugins
+(https://help.github.com/articles/using-jekyll-plugins-with-github-pages[see])
+– unable to automatically generate TOC besides using JavaScript. use travis CI
+and/or awestruct to generate and push automatically?
+(http://awestruct.org/auto-deploy-to-github-pages/[see])
+
+* needs a github account to contribute
+
+* need to use Jekyll to use markdown format
+
+=== Confluence
+
+**+**
+
+* needs jboss.org community account
+
+* WYSIWYG
+
+* changes are immediately published
+
+* comments
+
+**-**
+
+* vendor lock-in, documentation cannot be reasonably moved elsewhere
+
+* unable to see whole documentation in single page (verify)
+
+* comments can take more space than the actual content and cannot be deleted
+
+* fixes to 1.1.x, 1.2.x, etc have to be done manually
+
+* poor WYSIWYG
+
+* jboss.org reliablity
+

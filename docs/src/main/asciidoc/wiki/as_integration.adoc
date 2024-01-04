@@ -1,0 +1,220 @@
+= ModCluster AS Integration
+
+== ModCluster Integration in JBoss AS6
+
+Overall container JIRA for this:
+http://jira.jboss.com/jira/browse/JBAS-5658[JBAS-5658]. A number of child
+issues are defined below; several of these child issues also have subtasks.
+
+=== Discussion Links
+
+* http://www.jboss.com/index.html?module=bb&op=viewtopic&t=139268[Election of HASingleton master]
+
+=== Elements
+
+* Configuration
+
+    - Things to configure
+        *** Node
+        *** Balancer
+        *** HASingleton election
+        *** load balance policy (what metrics drive the decision)
+
+    - ClusterListener handles the first 2 of these; is that how we want it?
+
+    - Doing the rest requires MC-based config
+
+* Lifecycle/Deployment events
+(http://jira.jboss.com/jira/browse/JBAS-5669[JBAS-5669])
+    - ClusterListener handles this well
+
+* Periodic events
+
+    - ClusterListener uses JBossWeb background thread from Engine
+
+* Communication with httpd side
+
+    - ClusterListener has good code for this; would be very nice to re-use
+(http://jira.jboss.com/jira/browse/JBNATIVE-60[JBNATIVE-60])
+
+        *** Extract from the ClusterListener class into a separate class?
+
+        *** Use an interface so the HASingleton-based version can add behavior
+
+* mod_cluster advertisement
+
+    - JBossWeb has code for this
+
+* HASingleton (http://jira.jboss.com/jira/browse/JBAS-5659[JBAS-5659])
+
+    - HASingletonSupport subclass
+
+    - Primary task is polling nodes for load information, aggregating, feeding
+to mod_cluster
+
+    - Also detects intra-cluster comm failures, alternate mechanism to notify
+mod_cluster
+
+    - Gateway to mod_cluster for all other messages (lifecycle/deployment)?
+
+    - When not functioning as singleton master, it acts as RPC handler for
+requests from master
+
+* HASingleton master election policy
+(http://jira.jboss.com/jira/browse/JBAS-5660[JBAS-5660])
+
+    - Allow a master per domain
+
+    - Node that can't reach mod_cluster shouldn't be master
+
+    - Handle the above by putting a small data object in DRM instead of simple
+string
+
+* Load Manager (http://jira.jboss.com/jira/browse/JBAS-5661[JBAS-5661])
+
+    - Gathers information from various sources of metrics
+
+    - Aggregates into an overall metric
+
+    - Includes a time decay function
+
+* Load metrics (http://jira.jboss.com/jira/browse/JBAS-5664[JBAS-5664])
+
+    - Interface; impl's plug into the load manager
+
+    - Each impl handles a metric or set of related metrics (e.g. web requests,
+web sessions, VM/machine metrics, transactions)
+
+    - Need to figure how to integrate into various subsystems that provide data
+
+=== Questions
+
+* Individual nodes communicate lifecycle/deployments events directly to
+mod_cluster, or via HASingleton?
+
+    - We want all nodes to be able confirm their ability to communicate with
+mod_cluster, so even with HASingleton nodes need to be able to contact
+mod_cluster themselves
+
+    - **Answer:** A STATUS message sent by the HASingleton can trigger a
+ping/pong check of a different node, so there is no need for each node to
+communicate with mod_cluster. So, route all messages through the singleton.
+
+
+=== High Level Design
+
+image::standaloneoverview.gif[]
+
+Explanation:
+
+* The four XXXConfiguration interfaces basically package the getters of all the
+configuration properties exposed by the JBoss Web ClusterListener class.
+NodeConfiguration is the info about a particular node that gets passed to
+mod_cluster; BalancerConfiguration is non-node specific stuff like sticky
+session configuration that gets passed to mod_cluster. SSLConfiguration
+configures any JSSESocketFactory; subinterface MCMPHandlerConfiguration
+includes the other properties that govern how to discover (via static config or
+an AdvertiseListener and communicate with mod_cluster. I've divided these into
+different interfaces so different clients (e.g. JSSESocketFactory only see the
+necessary properties. Use interfaces so different classes can implement (e.g.
+ModClusterService here but possibly the standalone ClusterListener). See
+xref:cluster_listener.adoc[ModCluster Listener] for a description of the relevant
+configuration properties.
+
+* ModClusterService forms the core. It's function is pretty simple:
+
+    - Expose the 4 XXXConfiguration interfaces; expose setters to allow
+centralized configuration via a -beans.xml file.
+
+    - Create (or have dependency injected) the other components; wire them
+together as needed.
+
+    - Expose the main management interface (JMX, embedded console)
+
+* BasicClusterListener implements the Tomcat LifecycleListener and
+ContainerListener interfaces.  The core event listener code from the JBoss Web
+ClusterListener class.  When it receives events it calls into
+
+* JBossWebEventHandler exposes the various operations that are implemented as
+protected methods in the JBoss Web ClusterListener class. I make this an
+interface to support different implementations in a clustered, non-clustered or
+standalone environment.
+
+* ClusterCoordinator is the HASingleton. It implements JBossWebEventHandler so
+it receives events from BasicClusterListener.  When it receives events it
+either makes RPC calls to whichever of its peers is the coordinator, or if its
+the coordinator it drives the process of gathering load data from around the
+cluster and sending status messages to mod_cluster. Not shown on the diagram is
+the expectation that ClusterCoordinator is a subclass of the HASingletonSupport
+class and has injected into it an HASingletonElectionPolicy impl and an
+HAPartition.
+
+* Each node's ClusterCoordinator gets the current load balance factor from a
+LoadBalanceFactorProvider.  The implementation of that interface is a whole
+subsystem.
+
+* If a ClusterCoordinator is the HASingleton master, it needs to communicate
+with the http side.  It does this through an implementation of the MCMPHandler
+interface.
+
+* DefaultMCMPHandler is the standard implementation of MCMPHandler. It
+basically encapsulates the proxy management and request sending code in the
+JBoss Web ClusterListener.  If so configured, it creates an AdvertiseListener
+to listen for multicast service advertisements by mod_cluster instances.
+
+* MCMPRequest (not shown except as a param or return type) is a simple data
+object that encapsulates an enum identifying the request type (CONFIG,
+ENABLE-APP, STATUS, etc), the wildcard boolean, and the Map<String, String> of
+parameters.
+
+* ResetRequestSource is a bit of an oddity that came with factoring the proxy
+management code in DefaultMCMPHandler out of ClusterListener. The proxy mgmt
+code during periodic status checks checks to see if any of its proxies to
+mod_cluster were in error state; if so it would tell the listener
+(via `reset(int pos)` to send a set of messages to that mod_cluster instances
+to reestablish configuration state. That reset(int pos) call was problematic in
+decoupling the proxy mgmt code, as it exposes internal details of the proxy
+manager (the pos).  So, instead I created an interface ResetRequestSource an
+instance of which is injected into an MCMPHandler.  When the MCMPHandler
+discovers it needs to reset a proxy, it asks the ResetRequestSource to provide
+a List<MCMPRequest> of commands that need to be invoked on mod_cluster to reset
+the node's state.  Any class with access to the Tomcat Server object and to the
+NodeConfiguration and BalancerConfiguration could play this role.
+
+===  Other Uses of the Same Abstractions?
+
+The following shows how many of the same abstractions can be used in standalone
+JBoss Web. Not surprising since they mostly came from JBoss Web's
+ClusterListener. This diagram basically represents a possible factoring of the
+current ClusterListener into separate classes to allow code reuse in the AS.
+Ignore the package names below; they can be changed:
+
+image::modclusterserviceoverview.gif[]
+
+* The XXXConfiguration interfaces are same as described above. Here they are
+implemented by ClusterListener instead of ModClusterService.
+
+* ClusterListener plays the role played by ModClusterService in the AS, since
+there is no -beans.xml.
+
+    - Expose the 4 XXXConfiguration interfaces; expose setters to allow
+centralized configuration, here via the Listener element in server.xml.
+
+    - Create the other components; wire them together as needed.
+
+    - Expose any management interface (JMX)
+
+* ClusterListener is actually a subclass of BasicClusterListener (discussed
+above), which contains the actual event listener implementation.
+
+* ClusterListener provides to its BasicClusterListener superclass the
+JBossWebEventHandler impl to use. Here it is DefaultJBossWebEventHandler which
+basically just encapsulates the relevant methods that are in the current
+ClusterListener impl.
+
+* MCMPHandler interface and DefaultMCMPHandler impl are the same as is used in
+the AS cluster discussion above.
+
+* Here the ClusterListener acts as the ResetRequestSource.
+
+

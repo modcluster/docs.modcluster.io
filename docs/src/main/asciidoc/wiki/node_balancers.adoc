@@ -1,0 +1,147 @@
+= ModCluster node balancer
+
+The page describes the node and balancer part of the CONFIG message.
+
+== Node
+
+|===
+| Key          | Description                                                                                                        | Default | Max size
+| JvmRoute     | See CONFIG in xref:management_protocol.adoc[ModCluster Management Protocol]                                        |         | 
+| Domain       | See CONFIG in xref:management_protocol.adoc[ModCluster Management Protocol]                                        |         | 
+| Port         | See CONFIG in xref:management_protocol.adoc[ModCluster Management Protocol]                                        |         | 
+| Type         | See CONFIG in xref:management_protocol.adoc[ModCluster Management Protocol]                                        |         |
+| flushpackets | Tell how to flush the packets. On: Send immediately, Auto wait for flushwait time before sending, Off don't flush. | Off     |
+| flushwait    | Time in milliseconds to wait before flushing.                                                                      | 10      | 
+| ping         | Time in seconds to wait for a pong answer to a ping. 0 means we don't try to ping before sending.                  | 10      | 
+| smax         | soft max inactive connection over that limit after ttl are closed.                                                 | MPM configuration | 
+| ttl          | max time in seconds to life for connection above smax.                                                             | 60      | 
+| Timeout      | Max time in seconds httpd will wait for the backend connection.                                                    | 0       | 
+|===
+
+When a field is not present in the CONFIG message the default value is used
+in mod_cluster.
+
+== BALANCER
+
+|===
+| Key                 | Description                                                                                                                    | Default    | Max size
+| Balancer            | See CONFIG in xref:management_protocol.adoc[ModCluster Management Protocol]                                                    |            |
+| StickySession       | **Yes**: use JVMRoute to stick a request to a node; **No**: ignore JVMRoute                                                    | Yes        | 3
+| StickySessionCookie | Name of the cookie containing the "sessionid"                                                                                  | JSESSIONID | 30
+| StickySessionPath   | Name of the parameter containing the "sessionid"                                                                               | jsessionid | 30
+| StickySessionRemove | **Yes**: remove the sessionid (cookie or parameter) when the request can't be routed to the right node; **No**: send it anyway | No         | 3
+| StickySessionForce  | **Yes**: Return an error if the request can't be routed according to JVMRoute; **No**: Route it to another node                | Yes        | 3
+| WaitWorker          | time in seconds to wait for an available worker. ("0" means no wait)                                                           | 0          | 
+| Maxattempts         | number of attempts to send the request to the backend server.                                                                  | 1          | 
+|===
+
+When a field is not present in the CONFIG message the default value is used
+in mod_cluster.
+
+=== Notes on node in httpd internals
+
+The Notes describe how the httpd internal tables are filled with the above node
+description.
+
+==== reslist parameters
+
+|===
+| Parameter | Description                                                                   | Default
+| hmax      | size of the connection pool (hard max). Use ap_mpm_query(AP_MPMQ_MAX_THREADS) | 
+| smax      | soft max inactive connection over that limit after ttl are closed             | hmax
+| min       | min number of connections to have available. Use 0                            | 
+| acquire   | time in milliseconds to wait for an available connection. Use 0 no wait return error | 
+| ttl       | max time in seconds to life for connection above smax                         | 60
+|===
+
+Those are parameters to the apr_reslist_create() that handles the pool of
+connections.
+
+==== keepalive behavior
+
+We force keepalive on.
+
+=== Others
+
+Other field of the proxy_worker structure will be filled with the default
+values from mod_proxy.
+
+
+=== proxy_worker_stat parameters
+
+|===
+| Parameter   | Updated by mod_proxy_cluster | Updated by mod_manager
+| status      | yes                          | yes
+| error_time  | yes                          | no
+| retries     | yes                          | no
+| lbstatus    | no                           | no
+| lbfactor    | no                           | yes
+| transferred | yes                          | no
+| read        | yes                          | no
+| elected     | yes                          | no
+| route       | no                           | no
+| redirect    | no                           | yes
+| busy        | no                           | no
+| lbset       | no                           | no
+|===
+
+status is filled by STATUS commands.
+
+route is JVMRoute it is filled by CONFIG commands.
+
+This information is in shared memory and the proxy_worker_stat uses a part of
+this shared memory:
+
+[source]
+----
+/* proxy_worker_stat structure: */
+    int             status;
+    apr_time_t      error_time; /* time of the last error */
+    int             retries;    /* number of retries on this worker */
+    int             lbstatus;   /* Current lbstatus */
+    int             lbfactor;   /* dynamic lbfactor */
+    apr_off_t       transferred;/* Number of bytes transferred to remote */
+    apr_off_t       read;       /* Number of bytes read from remote */
+    apr_size_t      elected;    /* Number of times the worker was elected */
+    char            route[PROXY_WORKER_MAX_ROUTE_SIZ+1];
+    char            redirect[PROXY_WORKER_MAX_ROUTE_SIZ+1];
+    void            *context;   /* general purpose storage */
+    apr_size_t      busy;       /* busyness factor *
+    int             lbset;      /* load balancer cluster set */
+----
+
+== Notes on balancer in httpd internals
+
+The Notes describe how the httpd internal tables are filled with the above
+balancer description.
+
+The information from the CONFIG message is packed in the shared memory:
+
+StickySessionCookie and StickySessionPath are stored in sticky and separed by
+a '|'
+
+StickySession, StickySessionRemove and StickySessionForce are stored in
+sticky_force
+
+The StickySessionForce forces only to the domain (to node belonging to the same
+domain) when the node corresponding to the sessionid belongs to a domain.
+
+max_attempts_set: is set if Maxattemps is in the CONFIG message and its value
+different from 1.
+
+----
+sticky sticky_force timeout max_attempts max_attempts_set
+----
+
+That is what is needed to create the balancer to be able to use it.
+
+[source]
+----
+/* proxy_balancer structure extract: */
+    const char *sticky;          /* sticky session identifier */
+    int         sticky_force;    /* Disable failover for sticky sessions */
+    apr_interval_time_t timeout; /* Timeout for waiting on free connection */
+    int                 max_attempts; /* Number of attempts before failing */
+    char                max_attempts_set;
+----
+
