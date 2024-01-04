@@ -65,11 +65,11 @@ CreateBalancers define how balancers are created in the httpd VirtualHosts. This
 ProxyPass / balancer://mycluster1/
 ----
 
-* 0 &mdash; Create in all VirtualHosts defined in httpd.
+* 0 – Create in all VirtualHosts defined in httpd.
 
-* 1 &mdash; Don't create balancers (requires at least one ProxyPass/ProxyPassMatch to define the balancer names).
+* 1 – Don't create balancers (requires at least one ProxyPass/ProxyPassMatch to define the balancer names).
 
-* 2 &mdash; Create only the main server.
+* 2 – Create only the main server.
 
 *Default:* 2
 
@@ -79,15 +79,15 @@ empty stickysession and `nofailover=Off` and the values received via the MCMP CO
 NOTE: *Default: 2* If you have no `ProxyPass` directive in the `VirtualHost`, the `VirtualHost` is ignored
 by mod_proxy_cluster. So, even if `CreateBalancers` is set to `2` (default), the main server is used instead
 in such configuration.
-See also https://issues.jboss.org/browse/MODCLUSTER-430[MODCLUSTER-430 &mdash; CreateBalancers behave the same with option 0 or 2]
+See also https://issues.jboss.org/browse/MODCLUSTER-430[MODCLUSTER-430 – CreateBalancers behave the same with option 0 or 2]
 
 
 === UseAlias
 
 Check that the Alias corresponds to the ServerName (See http://labs.jboss.com/file-access/default/members/jbossweb/freezone/docs/latest/config/host.html[Host Name Aliases]).
 
-* Off &mdash; Don't check (ignore Aliases)
-* On &mdash; Check aliases
+* Off – Don't check (ignore Aliases)
+* On – Check aliases
 
 *Default:* Off Ignore the Alias information from the nodes.
 
@@ -136,8 +136,8 @@ The above for example will allow httpd to server directly the .gif files.
 Use `OPTIONS` method to periodically check the active connection. Fulfils the same role as the `CPING/CPONG` used by AJP
 but for HTTP/HTTPS connections. The endpoint needs to implement HTTP/1.0.
 
- * On (or no value) &mdash; Use OPTIONS
- * Off &mdash; Don't use OPTIONS
+ * On (or no value) – Use OPTIONS
+ * Off – Don't use OPTIONS
 
 **Default:** On
 
@@ -208,7 +208,7 @@ VirtualHost configuration. If not an error message will be displayed and httpd w
 
 === EnableMCPMReceive
 
-EnableMCPMReceive &mdash; allow the VirtualHost to receive Mod-Cluster Management Protocol (MCMP) messages. You need one
+EnableMCPMReceive – allow the VirtualHost to receive Mod-Cluster Management Protocol (MCMP) messages. You need one
 EnableMCPMReceive in your httpd configuration to allow mod_proxy_cluster to work, put it in the VirtualHost where you
 configure advertise.
 
