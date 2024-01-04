@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2024-01-03</span>
+<span id="revdate">2024-01-04</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -3414,13 +3414,13 @@ according to your mod_proxy_cluster&#8217;s version.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>0 &mdash; Create in all VirtualHosts defined in httpd.</p>
+<p>0 – Create in all VirtualHosts defined in httpd.</p>
 </li>
 <li>
-<p>1 &mdash; Don&#8217;t create balancers (requires at least one ProxyPass/ProxyPassMatch to define the balancer names).</p>
+<p>1 – Don&#8217;t create balancers (requires at least one ProxyPass/ProxyPassMatch to define the balancer names).</p>
 </li>
 <li>
-<p>2 &mdash; Create only the main server.</p>
+<p>2 – Create only the main server.</p>
 </li>
 </ul>
 </div>
@@ -3450,7 +3450,7 @@ empty stickysession and <code>nofailover=Off</code> and the values received via 
 <strong>Default: 2</strong> If you have no <code>ProxyPass</code> directive in the <code>VirtualHost</code>, the <code>VirtualHost</code> is ignored
 by mod_proxy_cluster. So, even if <code>CreateBalancers</code> is set to <code>2</code> (default), the main server is used instead
 in such configuration.
-See also <a href="https://issues.jboss.org/browse/MODCLUSTER-430">MODCLUSTER-430 &mdash; CreateBalancers behave the same with option 0 or 2</a>
+See also <a href="https://issues.jboss.org/browse/MODCLUSTER-430">MODCLUSTER-430 – CreateBalancers behave the same with option 0 or 2</a>
 </td>
 </tr>
 </table>
@@ -3464,10 +3464,10 @@ See also <a href="https://issues.jboss.org/browse/MODCLUSTER-430">MODCLUSTER-430
 <div class="ulist">
 <ul>
 <li>
-<p>Off &mdash; Don&#8217;t check (ignore Aliases)</p>
+<p>Off – Don&#8217;t check (ignore Aliases)</p>
 </li>
 <li>
-<p>On &mdash; Check aliases</p>
+<p>On – Check aliases</p>
 </li>
 </ul>
 </div>
@@ -3557,10 +3557,10 @@ but for HTTP/HTTPS connections. The endpoint needs to implement HTTP/1.0.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>On (or no value) &mdash; Use OPTIONS</p>
+<p>On (or no value) – Use OPTIONS</p>
 </li>
 <li>
-<p>Off &mdash; Don&#8217;t use OPTIONS</p>
+<p>Off – Don&#8217;t use OPTIONS</p>
 </li>
 </ul>
 </div>
@@ -3690,7 +3690,7 @@ VirtualHost configuration. If not an error message will be displayed and httpd w
 <div class="sect3">
 <h4 id="enablemcpmreceive"><a class="link" href="#enablemcpmreceive">4.5.1. EnableMCPMReceive</a></h4>
 <div class="paragraph">
-<p>EnableMCPMReceive &mdash; allow the VirtualHost to receive Mod-Cluster Management Protocol (MCMP) messages. You need one
+<p>EnableMCPMReceive – allow the VirtualHost to receive Mod-Cluster Management Protocol (MCMP) messages. You need one
 EnableMCPMReceive in your httpd configuration to allow mod_proxy_cluster to work, put it in the VirtualHost where you
 configure advertise.</p>
 </div>
@@ -5335,7 +5335,7 @@ X-Manager-Host: test.example.com</code></pre>
 <ul>
 <li>
 <p>If there are no Advertise messages, check the firewall. Advertise uses UDP port 23364 and multicast address 224.0.1.105 by default.
-Furthermore, <strong>do not bind to localhost/127.0.0.1</strong>, use a non-localhost IP address for your balancer &mdash; workers UDP
+Furthermore, <strong>do not bind to localhost/127.0.0.1</strong>, use a non-localhost IP address for your balancer – workers UDP
 advertisement test.</p>
 </li>
 <li>
