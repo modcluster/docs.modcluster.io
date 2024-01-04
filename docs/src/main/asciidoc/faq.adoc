@@ -117,7 +117,7 @@ X-Manager-Host: test.example.com
 ----
 
 * If there are no Advertise messages, check the firewall. Advertise uses UDP port 23364 and multicast address 224.0.1.105 by default.
-  Furthermore, *do not bind to localhost/127.0.0.1*, use a non-localhost IP address for your balancer &mdash; workers UDP
+  Furthermore, *do not bind to localhost/127.0.0.1*, use a non-localhost IP address for your balancer – workers UDP
   advertisement test.
 
 * If you are unable to get the Advertisement to work, try it first without it, with a static configuration without UDP multicast).
