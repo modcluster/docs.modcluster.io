@@ -3,7 +3,7 @@
 == ModCluster Integration in JBoss AS6
 
 Overall container JIRA for this:
-http://jira.jboss.com/jira/browse/JBAS-5658[JBAS-5658]. A number of child
+https://issues.redhat.com/browse/MODCLUSTER-6[MODCLUSTER-6]. A number of child
 issues are defined below; several of these child issues also have subtasks.
 
 === Discussion Links
@@ -25,7 +25,7 @@ issues are defined below; several of these child issues also have subtasks.
     - Doing the rest requires MC-based config
 
 * Lifecycle/Deployment events
-(http://jira.jboss.com/jira/browse/JBAS-5669[JBAS-5669])
+(https://issues.redhat.com/browse/MODCLUSTER-3[MODCLUSTER-3])
     - ClusterListener handles this well
 
 * Periodic events
@@ -35,7 +35,7 @@ issues are defined below; several of these child issues also have subtasks.
 * Communication with httpd side
 
     - ClusterListener has good code for this; would be very nice to re-use
-(http://jira.jboss.com/jira/browse/JBNATIVE-60[JBNATIVE-60])
+(https://issues.redhat.com/browse/MODCLUSTER-8[MODCLUSTER-8])
 
         *** Extract from the ClusterListener class into a separate class?
 
@@ -45,7 +45,7 @@ issues are defined below; several of these child issues also have subtasks.
 
     - JBossWeb has code for this
 
-* HASingleton (http://jira.jboss.com/jira/browse/JBAS-5659[JBAS-5659])
+* HASingleton (https://issues.redhat.com/browse/MODCLUSTER-4[MODCLUSTER-4])
 
     - HASingletonSupport subclass
 
@@ -61,7 +61,7 @@ mod_cluster
 requests from master
 
 * HASingleton master election policy
-(http://jira.jboss.com/jira/browse/JBAS-5660[JBAS-5660])
+(https://issues.redhat.com/browse/MODCLUSTER-5[MODCLUSTER-5])
 
     - Allow a master per domain
 
@@ -70,7 +70,7 @@ requests from master
     - Handle the above by putting a small data object in DRM instead of simple
 string
 
-* Load Manager (http://jira.jboss.com/jira/browse/JBAS-5661[JBAS-5661])
+* Load Manager (https://issues.redhat.com/browse/MODCLUSTER-9[MODCLUSTER-9])
 
     - Gathers information from various sources of metrics
 
@@ -78,7 +78,7 @@ string
 
     - Includes a time decay function
 
-* Load metrics (http://jira.jboss.com/jira/browse/JBAS-5664[JBAS-5664])
+* Load metrics (https://issues.redhat.com/browse/MODCLUSTER-12[MODCLUSTER-12])
 
     - Interface; impl's plug into the load manager
 
