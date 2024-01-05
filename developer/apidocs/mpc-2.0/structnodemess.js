@@ -1,0 +1,27 @@
+var structnodemess =
+[
+    [ "AJPSecret", "group__MEM.html#ga919580e42646386def97a9c08df7daa7", null ],
+    [ "balancer", "group__MEM.html#gac72f61806d72d8c7bb384f26920bd672", null ],
+    [ "Domain", "group__MEM.html#gac0ade53c588225acb49cb6b3eeb26c1e", null ],
+    [ "flushpackets", "group__MEM.html#ga18f3cf1c888e074a728f01ec13a97e41", null ],
+    [ "flushwait", "group__MEM.html#ga51aba54093bca51a35d80eb31a9ab227", null ],
+    [ "Host", "group__MEM.html#gabbce1b12f2eefc9b28e9558fcac015cd", null ],
+    [ "id", "group__MEM.html#gaa65a3a8a0c8cc2ced09e9449d2c1279a", null ],
+    [ "JVMRoute", "group__MEM.html#gaa0ebf50c19235d8e4de74bacc3815b28", null ],
+    [ "lastcleantry", "group__MEM.html#gafb240ec63f6dd6aa16710ca41fb94e5b", null ],
+    [ "num_failure_idle", "group__MEM.html#gad4d2db92ffa85e1a939ff29b0ffd0a66", null ],
+    [ "num_remove_check", "group__MEM.html#gae19b3d2522c6600fe9fdf3e0a81285fb", null ],
+    [ "oldelected", "group__MEM.html#ga9b7aebe22088553ed8cb02dff2e3db17", null ],
+    [ "oldread", "group__MEM.html#ga924f409f61ff10708eb342442498d684", null ],
+    [ "ping", "group__MEM.html#ga0954a2da45ea29b5143a2a360cd28a6b", null ],
+    [ "Port", "group__MEM.html#ga890e2c2c78a9e018ab2c70ef892c99d5", null ],
+    [ "remove", "group__MEM.html#gac17c92e944dd28e681a7307644c605ce", null ],
+    [ "ResponseFieldSize", "group__MEM.html#ga110c6f649e9bf98a88cf6ca1252af06f", null ],
+    [ "reversed", "group__MEM.html#ga86002cc2381f4fd3c1605003de2a0079", null ],
+    [ "smax", "group__MEM.html#ga32d233e115a3534835d2867534a5bf12", null ],
+    [ "timeout", "group__MEM.html#gae0a21b0ccc6042df3cc8fbba45cd70a8", null ],
+    [ "ttl", "group__MEM.html#gaba8ddb1abeffb4dce9024527963eb9cd", null ],
+    [ "Type", "group__MEM.html#gaba94062b36b1452a613e21b459441beb", null ],
+    [ "updatetimelb", "group__MEM.html#gad0433cc91d0f32f2c46c874dec99bbd0", null ],
+    [ "Upgrade", "group__MEM.html#gab943306ce3676cdd90544868693577bd", null ]
+];

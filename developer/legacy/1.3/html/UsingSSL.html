@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory">Chapter 12. Using SSL in mod_cluster</title><link rel="stylesheet" href="css/jbossorg.css" type="text/css"/><meta xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" name="generator" content="DocBook XSL Stylesheets V1.72.0"/><link rel="start" href="index.html" title="mod_cluster Documentation"/><link rel="up" href="index.html" title="mod_cluster Documentation"/><link rel="prev" href="java.install.html" title="Chapter 11. Installing Server-Side Components"/><link rel="next" href="mod_jk.html" title="Chapter 13. Migration from mod_jk"/></head><body><p id="title"><a href="http://www.jboss.org" class="site_href"><strong>JBoss.org</strong></a><a href="http://docs.jboss.org/" class="doc_href"><strong>Community Documentation</strong></a></p><ul class="docnav"><li class="previous"><a accesskey="p" href="java.install.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="mod_jk.html"><strong>Next</strong></a></li></ul><div class="chapter" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="UsingSSL"/>Chapter 12. Using SSL in mod_cluster</h2></div></div></div><div class="toc"><dl><dt><span class="sect1"><a href="UsingSSL.html#d0e2858">12.1. Using SSL between JBossWEB and httpd</a></span></dt><dd><dl><dt><span class="sect2"><a href="UsingSSL.html#d0e2863">12.1.1. Apache httpd configuration part</a></span></dt><dt><span class="sect2"><a href="UsingSSL.html#d0e2878">12.1.2. ClusterListener configuration part</a></span></dt><dt><span class="sect2"><a href="UsingSSL.html#d0e2892">12.1.3. mod-cluster-jboss-beans configuration part</a></span></dt><dt><span class="sect2"><a href="UsingSSL.html#d0e2902">12.1.4. How the diferent files were created</a></span></dt></dl></dd><dt><span class="sect1"><a href="UsingSSL.html#mod_proxy_https">12.2. Using SSL between httpd and JBossWEB</a></span></dt><dd><dl><dt><span class="sect2"><a href="UsingSSL.html#d0e3008">12.2.1. How the diferent files were created</a></span></dt></dl></dd><dt><span class="sect1"><a href="UsingSSL.html#d0e3057">12.3. Forwarding SSL browser informations when using http/https between
+    httpd and JBossWEB</a></span></dt></dl></div><p>There are 2 connections between the cluster and the front-end. Both
+  could be encrypted. That chapter describes how to encrypt both
+  connections.</p><div class="sect1" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="d0e2858"/>12.1. Using SSL between JBossWEB and httpd</h2></div></div></div><p>As the ClusterListener allows to configure httpd it is adviced to
+    use SSL for that connection. The most easy is to use a virtual host that
+    will only be used to receive information from JBossWEB. Both side need
+    configuration.</p><div class="sect2" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="d0e2863"/>12.1.1. Apache httpd configuration part</h3></div></div></div><p><a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://httpd.apache.org/docs/2.2/mod/mod_ssl.html">mod_ssl</a>
+      of httpd is using to do that. See in one example how easy the
+      configuration is:</p><pre class="programlisting"> Listen 6666
+ &lt;VirtualHost 10.33.144.3:6666&gt;
+     SSLEngine on
+     SSLCipherSuite AES128-SHA:ALL:!ADH:!LOW:!MD5:!SSLV2:!NULL
+     SSLCertificateFile conf/server.crt
+     SSLCertificateKeyFile conf/server.key
+     SSLCACertificateFile conf/server-ca.crt
+     SSLVerifyClient require
+     SSLVerifyDepth  10 
+ &lt;/VirtualHost&gt;</pre><p>The conf/server.crt file is the PEM-encoded Certificate file for
+      the VirtualHost it must be signed by a Certificate Authority (CA) whose
+      certificate is stored in the sslTrustStore of the ClusterListener
+      parameter.</p><p>The conf/server.key file is the file containing the private
+      key.</p><p>The conf/server-ca.crt file is the file containing the certicate
+      of the CA that have signed the client certificate JBossWEB is using.
+      That is the CA that have signed the certificate corresponding to the
+      sslKeyAlias stored in the sslKeyStore of the ClusterListener
+      parameters.</p></div><div class="sect2" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="d0e2878"/>12.1.2. ClusterListener configuration part</h3></div></div></div><p>There is a <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www.jboss.org/community/docs/DOC-9300">wiki</a>
+      describing the SSL parameters of the ClusterListener. See in one example
+      how easy the configuration is:</p><pre class="programlisting"> &lt;Listener className="org.jboss.web.cluster.ClusterListener"
+           ssl="true"
+           sslKeyStorePass="changeit"
+           sslKeyStore="/home/jfclere/CERTS/CA/test.p12"
+           sslKeyStoreType="PKCS12"
+           sslTrustStore="/home/jfclere/CERTS/CA/ca.p12"
+           sslTrustStoreType="PKCS12" sslTrustStorePassword="changeit"
+           /&gt;</pre><p>The sslKeyStore file contains the private key and the signed
+      certificate of the client certificate JBossWEB uses to connect to httpd.
+      The certificate must be signed by a Cerficate Authority (CA) who
+      certificate is in the conf/server-ca.crt file of the httpd</p><p>The sslTrustStore file contains the CA certificate of the CA that
+      signed the certificate contained in conf/server.crt file.</p></div><div class="sect2" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="d0e2892"/>12.1.3. mod-cluster-jboss-beans configuration part</h3></div></div></div><p>The mod-cluster-jboss-beans.xml in
+      $JBOSS_HOME/server/<span class="emphasis"><em>profile</em></span>/deploy/mod-cluster.sar/META-INF
+      in the ClusterConfig you are using you should have something
+      like:</p><pre class="programlisting">      &lt;property name="ssl"&gt;true&lt;/property&gt;
+      &lt;property name="sslKeyStorePass"&gt;changeit&lt;/property&gt;
+      &lt;property name="sslKeyStore"&gt;/home/jfclere/CERTS/test.p12&lt;/property&gt;
+      &lt;property name="sslKeyStoreType"&gt;pkcs12&lt;/property&gt;
+      &lt;property name="sslTrustStore"&gt;/home/jfclere/CERTS/ca.p12&lt;/property&gt;
+      &lt;property name="sslTrustStoreType"&gt;pkcs12&lt;/property&gt;
+      &lt;property name="sslTrustStorePassword"&gt;changeit&lt;/property&gt;</pre></div><div class="sect2" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="d0e2902"/>12.1.4. How the diferent files were created</h3></div></div></div><p>The files were created using OpenSSL utilities see <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www.openssl.org/">OpenSSL</a> CA.pl
+      (/etc/pki/tls/misc/CA for example) has been used to create the test
+      Certificate authority, the certicate requests and private keys as well
+      as signing the certicate requests.</p><div class="sect3" lang="en-US"><div class="titlepage"><div><div><h4 class="title"><a id="createca"/>12.1.4.1. Create the CA</h4></div></div></div><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="orderedlist"><ol><li><p>Create a work directory and work for there:</p><pre class="programlisting">mkdir -p CERTS/Server
+cd CERTS/Server</pre></li><li><p>Create a new CA:</p><pre class="programlisting">/etc/pki/tls/misc/CA -newca </pre><p>That creates a directory for example ../../CA that contains
+            a cacert.pem file which content have to be added to the
+            conf/server-ca.crt described above.</p></li><li><p>Export the CA certificate to a .p12 file:</p><pre class="programlisting">openssl pkcs12 -export -nokeys -in ../../CA/cacert.pem -out ca.p12</pre><p>That reads the file cacert.pem that was created in the previous step and convert it into a pkcs12 file the JVM is able to read.</p><p>That is the ca.p12 file used in the <span class="emphasis"><em>sslTrustStore</em></span> parameter above.</p></li></ol></div></div><div class="sect3" lang="en-US"><div class="titlepage"><div><div><h4 class="title"><a id="createsc"/>12.1.4.2. Create the server certificate</h4></div></div></div><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="orderedlist"><ol><li><p>Create a new request:</p><pre class="programlisting">/etc/pki/tls/misc/CA -newreq </pre><p>That creates 2 files named newreq.pem and newkey.pem.
+            newkey.pem is the file conf/server.key described above.</p></li><li><p>Sign the request:</p><pre class="programlisting"> /etc/pki/tls/misc/CA -signreq </pre><p>That creates a file named newcert.pem. newcert.pem is the
+            file conf/server.crt described above. At that point you have
+            created the SSL stuff needed for the VirtualHost in httpd. You
+            should use a browser to test it after importing in the browser the
+            content of the cacert.pem file.</p></li></ol></div></div><div class="sect3" lang="en-US"><div class="titlepage"><div><div><h4 class="title"><a id="d0e2956"/>12.1.4.3. Create the client certificate</h4></div></div></div><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="orderedlist"><ol><li><p>Create a work directory and work for there:</p><pre class="programlisting">mkdir -p CERTS/Client
+cd CERTS/Client</pre></li><li><p>Create request and key for the JBossWEB part.</p><pre class="programlisting">/etc/pki/tls/misc/CA -newreq</pre><p>
+             That creates 2 files: Request is in newreq.pem, private key is in newkey.pem
+            </p></li><li><p>Sign the request.</p><pre class="programlisting">/etc/pki/tls/misc/CA -signreq</pre><p>
+             That creates a file: newcert.pem</p></li><li><p>Don't use a passphrase when creating the client certicate or
+            remove it before exporting:</p><pre class="programlisting">openssl rsa -in newkey.pem -out key.txt.pem
+mv key.txt.pem newkey.pem</pre></li><li><p>Export the client certificate and key into a p12
+            file.</p><pre class="programlisting">openssl pkcs12 -export -inkey newkey.pem -in newcert.pem -out test.p12</pre><p>That is the sslKeyStore file described above
+        (/home/jfclere/CERTS/CA/test.p12)</p></li></ol></div></div></div></div><div class="sect1" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="mod_proxy_https"/>12.2. Using SSL between httpd and JBossWEB</h2></div></div></div><p>Using https allows to encrypt communications betwen httpd and
+    JBossWEB. But due to the ressources it needs that no advised to use it in
+    high load configuration.</p><p>(See <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www.jboss.org/community/docs/DOC-9701">Encrypting connection
+    between httpd and TC</a> for detailed instructions).</p><p>httpd is configured to be a client for AS/TC so it should provide a certificate AS/TC
+    will accept and have a private key to encrypt the data, it also needs a CA certificate to valid
+    the certificate AS/TC will use for the connection.</p><pre class="programlisting">SSLProxyEngine On
+SSLProxyVerify require
+SSLProxyCACertificateFile conf/cacert.pem
+SSLProxyMachineCertificateFile conf/proxy.pem</pre><p>conf/proxy.pem should contain both key and certificate. The
+  certificate must be trusted by Tomcat via the CA in truststoreFile of &lt;connector/&gt;.</p><p>conf/cacert.pem must contain the certificat of the CA
+  that signed the AS/TC certificate. The correspond key and certificate are the pair specificed by keyAlias and truststoreFile
+  of the &lt;connector/&gt;. Of course the &lt;connector/&gt; must be the https one (normally on port 8443).</p><div class="sect2" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="d0e3008"/>12.2.1. How the diferent files were created</h3></div></div></div><p>The files were created using OpenSSL utilities see <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www.openssl.org/">OpenSSL</a> CA.pl
+      (/etc/pki/tls/misc/CA for example) has been used to create the test
+      Certificate authority, the certicate requests and private keys as well
+      as signing the certicate requests.</p><div class="sect3" lang="en-US"><div class="titlepage"><div><div><h4 class="title"><a id="d0e3016"/>12.2.1.1. Create the CA</h4></div></div></div>
+        (See <a href="UsingSSL.html#createca" title="12.1.4.1. Create the CA">above</a>)
+      </div><div class="sect3" lang="en-US"><div class="titlepage"><div><div><h4 class="title"><a id="d0e3023"/>12.2.1.2. Create the server certificate</h4></div></div></div>
+         (See <a href="UsingSSL.html#createsc" title="12.1.4.2. Create the server certificate">above</a>)
+         <p>The certificate and key need to be imported into the java keystore using keytool</p><p>make sure you don't use a passphare for the key (don't forget to clean the file when done)</p><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="orderedlist"><ol><li>
+             Convert the key and certificate to p12 file:
+             <pre class="programlisting">openssl pkcs12 -export -inkey key.pem -in newcert.pem -out test.p12</pre>
+             make sure you use the keystore password as Export passphrase.
+           </li><li>
+             Import the contents of the p12 file in the keystore:
+             <pre class="programlisting">keytool -importkeystore -srckeystore test.p12 -srcstoretype PKCS12</pre></li><li>
+             Import the CA certificate in the java trustore: (Fedora13 example).
+             <pre class="programlisting">keytool -import -trustcacerts -alias "caname" \
+-file  ../../CA/cacert.pem -keystore /etc/pki/java/cacerts</pre></li><li>
+             Edit server.xml to have a &lt;connector/&gt; similar to:
+<pre class="programlisting">
+&lt;Connector port="8443" protocol="HTTP/1.1" SSLEnabled="true"
+           keyAlias="1" 
+           truststoreFile="/etc/pki/java/cacerts"
+           maxThreads="150" scheme="https" secure="true"
+           clientAuth="true" sslProtocol="TLS" /&gt;
+</pre></li><li>
+             Start TC/AS and use openssl s_client to test the connection:
+             <pre class="programlisting">openssl s_client -CAfile /home/jfclere/CA/cacert.pem -cert newcert.pem -key newkey.pem \
+-host localhost -port 8443</pre>
+             There shouldn't be any error and you should be able to see your CA in the "Acceptable client certificate CA names".
+           </li></ol></div></div></div></div><div class="sect1" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="d0e3057"/>12.3. Forwarding SSL browser informations when using http/https between
+    httpd and JBossWEB</h2></div></div></div><p>When using http or https beween httpd and JBossWEB you need to use
+    the SSLValve and export the SSL variable as header in the request in
+    httpd. If you are using AJP, mod_proxy_ajp will read the SSL variables and
+    forward them to JBossWEB automaticaly.</p><p>(See <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www.jboss.org/community/docs/DOC-11988">Forwarding SSL
+    environment when using http/https proxy</a> for detailed
+    instructions).</p><p>The SSL variable used by mod_proxy_ajp are the following:</p><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="orderedlist"><ol><li><p>"HTTPS" SSL indicateur.</p></li><li><p>"SSL_CLIENT_CERT" Chain of client certificates.</p></li><li><p>"SSL_CIPHER" Cipher used.</p></li><li><p>"SSL_SESSION_ID" Id of the session.</p></li><li><p>"SSL_CIPHER_USEKEYSIZE" Size of the key used.</p></li></ol></div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="java.install.html"><strong>Prev</strong>Chapter 11. Installing Server-Side Components</a></li><li class="up"><a accesskey="u" href="#"><strong>Top of page</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Front page</strong></a></li><li class="next"><a accesskey="n" href="mod_jk.html"><strong>Next</strong>Chapter 13. Migration from mod_jk</a></li></ul></body></html>
