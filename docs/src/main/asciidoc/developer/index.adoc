@@ -16,7 +16,7 @@
 :idprefix:
 :idseparator: -
 
-:editurl: https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/wiki/
+:editurl: https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/developer/
 :editnote: Improve this page – edit on GitHub.
 
 ifndef::ebook-format[:leveloffset: 1]

@@ -35,7 +35,7 @@
                                 <targetPath>.</targetPath>
                             </resource>
                             <resource>
-                                <directory>src/main/asciidoc/wiki/images</directory>
+                                <directory>src/main/asciidoc/developer/images</directory>
                                 <targetPath>images</targetPath>
                             </resource>
                         </resources>
@@ -88,9 +88,9 @@
                                     <enableVerbose>true</enableVerbose>
                                 </configuration>
                             </execution>
-                            <!-- Migrated wiki docs -->
+                            <!-- Migrated Wiki - Developer resources -->
                             <execution>
-                                <id>output-html-wiki</id>
+                                <id>output-html-developer</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>process-asciidoc</goal>
@@ -102,8 +102,8 @@
                                         <linkcss>false</linkcss>
                                         <attribute-missing>warn</attribute-missing>
                                     </attributes>
-                                    <sourceDirectory>src/main/asciidoc/wiki</sourceDirectory>
-                                    <outputDirectory>target/generated-docs/wiki</outputDirectory>
+                                    <sourceDirectory>src/main/asciidoc/developer</sourceDirectory>
+                                    <outputDirectory>target/generated-docs/developer</outputDirectory>
                                     <logHandler>
                                         <failIf>
                                             <severity>WARN</severity>
