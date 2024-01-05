@@ -51,7 +51,7 @@ stored in the sslKeyStore of the ClusterListener parameters.
 
 ==== ClusterListener configuration part
 
-There is a xref:wiki/cluster_listener.adoc[wiki]
+There is a xref:wiki/cluster_listener.adoc[ModCluster Listener] article
 describing the SSL parameters of the ClusterListener. See in one example
 how easy the configuration is:
 

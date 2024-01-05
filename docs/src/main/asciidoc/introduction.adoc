@@ -89,9 +89,7 @@ that server.
 * AJP is optional
 
 Unlike mod_jk, mod_proxy_cluster does not require AJP. httpd connections to application server nodes can use HTTP, HTTPS, or AJP.
-The original concepts are described in a http://www.jboss.org/community/docs/DOC-11431[wiki].
-
-// TODO: migrate and merge this guide into this documentation - https://developer.jboss.org/docs/DOC-11431 - tracker https://github.com/modcluster/docs.modcluster.io/issues/61
+The original concepts are described in a xref:wiki/design.adoc[Design] article.
 
 == Requirements
 

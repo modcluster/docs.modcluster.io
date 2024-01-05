@@ -1,9 +1,9 @@
 [[High_Availability_Guide]]
-= mod_cluster Wiki
+= mod_cluster Developer resources
 :revdate: {localdate}
 :toc: macro
 :toclevels: 2
-:toc-title: mod_cluster wiki
+:toc-title: mod_cluster Developer resources
 :doctype: book
 :icons: font
 :source-highlighter: coderay
@@ -28,11 +28,11 @@ image::modcluster_logo_600px.png[]
 ifdef::basebackend-html[toc::[]]
 :numbered:
 
-= Wiki
+= Developer resources
 
-WARNING: This Wiki is converted from
-https://developer.jboss.org/docs/DOC-11431[here] and is likely to be
-out-of-date on various topics.
+WARNING: These resurces were converted from
+https://developer.jboss.org/docs/DOC-11431[here] and are likely to be
+out-of-date on various topics. We're working on making them up-to-date.
 
 include::design.adoc[]
 
