@@ -1,0 +1,23 @@
+= Encrypting connection between httpd and TC
+
+The only way to encrypt the data between Apache httpd and Tomcat is to use
+mod_proxy with https.
+
+In httpd.conf you need something like:
+
+[source]
+----
+SSLProxyEngine On
+SSLProxyVerify require
+SSLProxyCACertificateFile conf/cacert.pem
+SSLProxyMachineCertificateFile conf/proxy.pem
+ProxyPass / https://127.0.0.1:8443/
+ProxyPassReverse / https://127.0.0.1:8443/
+----
+
+NOTE: `conf/proxy.pem` should contain both key and certificate (and the
+certificate must be trusted by Tomcat).
+
+NOTE: `conf/cacert.pem` must contain the CA that signed the Tomcat
+certificate.
+

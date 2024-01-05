@@ -1,0 +1,110 @@
+= Using a hardware load balancer in combination with mod_cluster server-side
+load metrics
+
+When using a hardware loadbalancer you can leverage from the ability of
+mod_cluster to calculate server-side load metrics to determine how best to
+balance requests.
+
+By default, these metrics are not accessible from outside of mod_cluster, but a
+minor code change to the distribution allows you to access this so called
+“loadbalance factor” through JMX. A healthcheck servlet could access this
+information and provide this to the hardware load balancer.
+
+Follow the steps below to modify your mod_cluster distribution to enable
+additional JMX information:
+
+[source]
+----
+# Download the mod_cluster source (version 1.0.10-GA was used in combination with JBoss EAP 5.1.x) {code}
+
+$ svn co http://anonsvn.jboss.org/repos/mod_cluster/tags/1.0.10.GA
+
+{code}
+
+# Update the pom.xml to include additional repository for trove (see: [this post|https://community.jboss.org/message/625343]) {code:xml}
+
+<repository>
+
+          <id>maven-nuxeo</id>
+
+          <name>Maven Nuxeo Repository</name>
+
+          <url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
+
+          <layout>default</layout>
+
+          <releases>
+
+                    <enabled>true</enabled>
+
+                    <updatePolicy>never</updatePolicy>
+
+          </releases>
+
+          <snapshots>
+
+                    <enabled>true</enabled>
+
+                    <updatePolicy>never</updatePolicy>
+
+          </snapshots>
+
+</repository>
+
+{code}
+
+# Verify the non-patched mod_cluster build process; skip the tests as you might run into issues with your local firewall {code}
+
+$ mvn -P dist package -Dmaven.test.skip=true
+
+{code}
+
+# You will find the mod_cluster SAR under the target/ directory: {code}
+
+mod-cluster.sar/
+
+├── META-INF
+
+│   └── mod-cluster-jboss-beans.xml
+
+└── mod-cluster-1.0.10.GA.jar
+
+ 
+
+1 directory, 2 files
+
+{code}
+
+# Edit src/main/java/org/jboss/modcluster/load/impl/DynamicLoadBalanceFactorProviderMBean.java and add to the MBean interface: {code}
+
+   /**
+
+    * Returns the loadbalance factor
+
+    * @return a positive integer
+
+    */
+
+   int getLoadBalanceFactor();
+
+{code}
+
+# Run the maven task again {code}
+
+$ mvn -P dist package -Dmaven.test.skip=true
+
+{code}
+----
+
+* Install the mod_cluster server components to your JBoss installation by
+copying the mod_cluster.sar exploded archive to SERVER_HOME/deploy directory
+
+* Follow the instructions for the Lifecycle listener
+http://docs.jboss.org/mod_cluster/1.0.0/html/javaconf.html[here]
+
+* Enable the load metrics as described
+http://docs.jboss.org/mod_cluster/1.0.0/html/javaload.html[here]
+
+Last, but not least, you can get the loadbalancer factor through JMX when
+browsing to: jboss.web:LoadbalancerProvider.
+

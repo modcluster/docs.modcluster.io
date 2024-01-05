@@ -1,0 +1,45 @@
+= mod_cluster 1.2.6.Final -> 1.3.3.Final in Fedora 24 and Fedora 25
+updates-testing
+
+Dear mod_cluster users,
+
+== Fedora
+
+it has been years since mod_cluster updates in Fedora ceased. The package has
+a new owner and a bright future ahead now. Mod_cluster in Fedora will keep
+receiving regular updates and it is likely to remain ahead of tarball/zip
+mod_cluster releases.
+
+We would like to kindly ask you to fetch your Fedora 24 and Fedora 25 virtual
+machines and give it a shot:
+
+[source]
+----
+# dnf --enablerepo=updates-testing install mod_cluster mod_cluster-java-tomcat8
+----
+
+You might want to read comments in `/usr/share/doc/mod_cluster/README` on how
+to configure Tomcat's `server.xml` and see `/etc/httpd/conf.d/mod_cluster.conf`
+for firewall and SELinux hints.
+
+Your feedback is much appreciated, please, upvote the package on these links or
+let us know what you would like to have improved:
+
+* Fedora 24 https://bodhi.fedoraproject.org/updates/FEDORA-2016-249e92f700[
+mod_cluster-1.3.3-8.fc24 - Fedora Updates System]
+
+* Fedora 25 https://bodhi.fedoraproject.org/updates/FEDORA-2016-b6866c5c35[
+mod_cluster-1.3.3-8.fc25 - Fedora Updates System]
+
+== Node about Wildfly
+
+Unfortunately, Wildfly is broken in Fedora, so we suggest you test mod_cluster
+with Tomcat 8. The work on bringing Wildfly back to Fedora is in progress
+thanks to Gil, you might follow updates on:
+https://fedoraproject.org/wiki/WildFly#Current_progress[WildFly -
+FedoraProject].
+
+Cheers
+
+-K-
+

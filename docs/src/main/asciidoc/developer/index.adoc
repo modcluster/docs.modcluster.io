@@ -1,0 +1,54 @@
+[[High_Availability_Guide]]
+= mod_cluster Developer resources
+:revdate: {localdate}
+:toc: macro
+:toclevels: 2
+:toc-title: mod_cluster Developer resources
+:doctype: book
+:icons: font
+:source-highlighter: coderay
+:leveloffset: +1
+:imagesdir: images
+:nofooter:
+:favicon:
+
+:sectlinks:
+:idprefix:
+:idseparator: -
+
+:editurl: https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/developer/
+:editnote: Improve this page – edit on GitHub.
+
+ifndef::ebook-format[:leveloffset: 1]
+
+(C) 2018-2024 mod_cluster contributors
+
+image::modcluster_logo_600px.png[]
+
+ifdef::basebackend-html[toc::[]]
+:numbered:
+
+= Developer resources
+
+WARNING: These resurces were converted from
+https://developer.jboss.org/docs/DOC-11431[here] and are likely to be
+out-of-date on various topics. We're working on making them up-to-date.
+
+include::design.adoc[]
+
+
+= Miscellaneous
+
+* xref:choosing_doc_platform.adoc[Choosing Documentation Platform for
+mod_cluster]
+
+* xref:q_a_webinar.adoc[Questions and Answers on mod_cluster webinar]
+
+* xref:version_1.3.1.adoc[mod_cluster version 1.3.1.Final released!]
+
+* xref:hw_load_balancer.adoc[Using a hardware load balancer in combination with
+mod_cluster server-side load metrics]
+
+* xref:fedora24_25_update_testing.adoc[mod_cluster 1.2.6.Final -> 1.3.3.Final
+in Fedora 24 and Fedora 25 updates-testing]
+

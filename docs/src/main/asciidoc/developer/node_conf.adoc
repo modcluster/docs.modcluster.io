@@ -1,0 +1,117 @@
+= ModCluster node conf
+
+mod_cluster first spec documentation is mod_jk oriented in the node description
+mod-cluster document.
+
+mod_cluster should be based on mod_proxy and logic to guess the cluster
+configuration is not needed. Let's going through the worker ajp13 parameter and
+see what to do.
+
+The worker parameters are listed on
+http://tomcat.apache.org/connectors-doc/reference/workers.html only the
+ajp13-type worker directives make sense for us.
+
+In bold The parameters will be added to mod_jk existing worker parameters.
+
+== General node definition:
+
+* host that is host of BalancerMember http://host:port
+
+* port that is port pf BalancerMember http://host:port
+
+* type that is the scheme used ajp, http or https (type already exists in
+mod_jk but that is not the scheme and only ajp scheme was supported).
+
+* route that is the JvmRoute. In mod_jk that is the name of the node.
+
+* socket_timeout  that could be ProxyTimeout or timeout of proxy backend
+parameters.
+
+* socket_keepalive  that is keepalive of proxy backend parameters.
+
+==  pool/opened connection directives.
+
+The mod_proxy directives are more accurate for mod_cluster than the mod_jk
+ones:
+
+* connection_pool_size that is max of proxy backend parameters.
+
+* connection_pool_minsize that is min of proxy backend parameters.
+
+* connection_pool_timeout that is ttl of proxy backend parameters
+
+We will use:
+
+* `min` Minumum number of connections that will always be kept open to the
+backend server.
+
+* `max` We probably shouldn't document it because it often causes problems
+at customer.
+
+* `smax` Soft Maximum number of connections will be created on demand. Any
+connections above smax are subject to a time to `ttl`.
+
+* `acquire` Maximum time to wait for a free connection in the connection pool.
+If there are no free connections in the pool the httpd will reject the
+connection.
+
+* `ttl` Time To Live for the inactive connections above the smax connections in
+seconds. httpd will close all connections that have not been used inside that
+time period.
+
+== timeout directives
+
+* connect_timeout that is timeout of proxy backend parameters (Defaut to
+ProxyTimeout and then to server TimeOut directive).
+
+* prepost_timeout that is ping of proxy backend parameter.
+
+* reply_timeout like connect_timeout.
+
+== error handling directives
+
+* retries NOT USED.
+
+* recovery_options NOT USED.
+
+* fail_on_status NOT USED.
+
+* recovery_options NOT USED.
+
+* fail_on_status NOT USED.
+
+Existing mod_proxy code will be changed to allow one retry if ping/pong it will
+use the next node if ping/pong still fails.
+503 be returned if the request can't be forwarded to any nodes.
+
+== packet size definition
+
+max_packet_size that is iobuffersize of proxy backend parameter.
+
+== other directives:
+
+* max_reply_timeouts NOT USED.
+
+* secret NOT USED that doesn't increase the security of the connection only SSL
+would be a safe option.
+
+== routing directives:
+
+* domain The logic has to be added in mod_cluster code (See CONFIG in
+xref:management_protocol.adoc[ModCluster Management Protocol])
+
+* distance NOT USED. The logic in the cluster to calculate load factor the
+should allow that.
+
+* redirect that will be the redirect proxy backend parameters (failover node).
+Even if the logic in the cluster could trigger it via the load factor in a
+domain that is usefull feature.
+
+* sticky_session  whether sticky sessions should be used
+
+* sticky_session_force whether failover should be disallowed once a session is
+established
+
+* sticky_id That is the stickysession mod_proxy that allow to change the name
+of parameter or the cookie containing the sessionid information.
+

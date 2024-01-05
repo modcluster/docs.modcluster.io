@@ -1,0 +1,97 @@
+= Consistent-hashing based JBC data partitioning w/ mod_cluster
+
+== Overview
+
+Documentation of design discussion at our October 2008 Brno clustering dev
+meetings.
+
+JBoss Cache is considering moving to a data partitioning approach based on
+consistent hashing.  Idea is a particular key (i.e. Fqn) under which cached
+data is stored would be hashed using an algorithm that incorporates the cluster
+view.  Which nodes in the cluster the data is stored upon would be derived from
+the hash function.  This approach is a logical alternative to buddy
+replication; both seek to improve memory and network utilization by not
+requiring data to be redundantly stored on every node in the cluster.
+
+Data partitioning differs from buddy replication in not requiring data
+ownership, i.e. that access to the data should only occur from one node.
+However, the more access to the data can be confined to a node where that data
+is locally cached, the more performant the overall system would be.
+
+Storing session data in a consistent-hash based data partition can
+theoretically be highly performant, because sessions are meant to be sticky –
+i.e., accessed only via one node.  The trick is determining how to ensure that
+the node to which web requests are sent is the one where the data is locally
+stored. What I outline below is how an enhanced mod_cluster could help ensure
+this occurs.
+
+== Assumption
+
+The mod_cluster code on the httpd side has available to it the same consistent
+hashing algorithm as is used on the JBoss side, as well as the same inputs
+(i.e., the JBoss-side cluster topology). Based on this, mod_cluster can always
+determine the primary node for a session (session id being the value being
+hashed) as well as all backup nodes. With this information, mod_cluster can
+properly route requests both before and after failover.
+
+== Request Handling
+
+This is the approach discussed in Brno:
+
+1. Initial request comes to node 1. This is for a new session, so node 1 has
+the freedom to specify the session id. It generates an id that hashes to
+node 1. Effect is the session data will be cached locally.
+
+2. Second request arrives, mod_cluster hashes the session id, determines the
+data is local on node 1, so routes the request there.
+
+3. Node 1 crashes but another request comes in. mod_cluster checks the session
+hash, sees the secondary node for the session is node 3, so it routes the
+request to node 3, which handles it using its locally cached backup data.
+
+4. The AS side recognizes the failure of node 1, so the topology information
+that is an input to the hashing function changes. Following such changes, some
+portion of cached data (no more than 1/n, where n is the number of cluster
+members) will need to be moved to a new host.  In this case, the session in
+question needs to be moved and ends up on node 2.
+
+5. Another request comes in, but mod_cluster is not yet aware of the new
+topology having changed the hashing function input, so it routes the request to
+node 3. Node 3 handles the request by making remote calls to node 2 to
+read/write the session data.
+
+6. The AS side informs mod_cluster of the change to the topology.
+
+7. Next request comes in, mod_cluster uses the new topology in its hashing
+function and routes the request to node 2, where the data resides.
+
+The above is a deliberately complex scenario where the session data is moving
+around the AS-side cluster and requests are coming in while the topology info
+is inconsistent between the mod_cluster side and the AS side.
+
+== Possible Simpler Approach
+
+A simpler approach is to continue to use the jvmRoute suffix in the session id
+to control routing on the httpd side, but allow JBoss AS nodes to alter an
+emitted session cookie to point to a node other than themselves.
+
+Example:
+
+1. Initial request comes in to node 1 which, as above, generates a session id
+that points to itself.  Session cookie is 123xxx.node1.
+
+2. Node 1 fails, so a subsequent request is randomly sent by mod_cluster to
+node 2. The 123xxx session data is not stored locally on node 2, but rather on
+node 3. Node 2 handles the request by making remote calls to node 3 to
+read/write the session data.
+
+3. Node 2 recognizes that making remote calls to handle requests is
+inefficient, so in its response to the failover request, it alters the session
+cookie, not to 123xxx.node2 but to 123xxx.node3.
+
+4. Next request that comes in is routed by mod_cluster to node 3, where the
+data is local.
+
+This approach eliminates the need for mod_cluster to understand the consistent
+hashing algorithm.
+

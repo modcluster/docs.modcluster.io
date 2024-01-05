@@ -53,3 +53,8 @@ include::faq.adoc[]
 
 include::migration.adoc[]
 
+= Developer resources
+
+For more techical and detailed information you can look at our
+xref:developer/index.adoc[Developer resources].
+

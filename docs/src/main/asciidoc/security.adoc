@@ -51,7 +51,7 @@ stored in the sslKeyStore of the ClusterListener parameters.
 
 ==== ClusterListener configuration part
 
-There is a http://www.jboss.org/community/docs/DOC-9300[wiki]
+There is a xref:developer/cluster_listener.adoc[ModCluster Listener] article
 describing the SSL parameters of the ClusterListener. See in one example
 how easy the configuration is:
 
@@ -215,7 +215,8 @@ Using https allows to encrypt communications between httpd and JBossWEB.
 But due to the resources it needs that no advised to use it in high
 load configuration.
 
-(See http://www.jboss.org/community/docs/DOC-9701[Encrypting connection between httpd and TC] for detailed instructions).
+(See xref:developer/encrypting_connection.adoc[Encrypting connection between httpd
+and TC] for detailed instructions).
 
 httpd is configured to be a client for AS/TC, so it should provide a
 certificate AS/TC will accept and have a private key to encrypt the
@@ -312,9 +313,8 @@ SSLValve and export the SSL variable as header in the request in httpd.
 If you are using AJP, mod_proxy_ajp will read the SSL variables and
 forward them to JBossWEB automatically.
 
-(See http://www.jboss.org/community/docs/DOC-11988[Forwarding SSL environment when using http/https
-proxy] for detailed
-instructions).
+(See xref:developer/mod_proxy_forwarding.adoc[Forwarding SSL environment when using
+http/https proxy] for detailed instructions).
 
 The SSL variable used by mod_proxy_ajp are the following:
 

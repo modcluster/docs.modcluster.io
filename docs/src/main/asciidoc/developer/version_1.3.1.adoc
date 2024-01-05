@@ -1,0 +1,136 @@
+= mod_cluster version 1.3.1.Final released!
+
+We are happy to announce that mod_cluster version 1.3.1.Final has been
+released!
+
+You can obtain the release from:
+
+* bundled in WildFly 9.0.0.Final (TBA soon)
+
+* https://repository.jboss.org/nexus/#nexus-search;gav\~org.jboss.mod_cluster\~\~1.3.1.Final\~\~[
+JBoss Nexus] using Maven
+
+* mod_cluster community website
+http://mod-cluster.jboss.org/mod_cluster/downloads/1-3-1-Final-bin[mod_cluster
+1.3.1.Final bin Downloads - JBoss Community]
+
+* https://registry.hub.docker.com/u/karm/mod_cluster-master-dockerhub/[Docker
+image on DockerHub] with Apache HTTP Server with mod_cluster modules
+
+* source code on GitHub at
+https://github.com/modcluster/mod_cluster/tree/1.3.1.Final[modcluster/mod_cluster
+at 1.3.1.Final · GitHub]
+
+* Change log for the 1.3.1.Alpha/Beta/Final releases:
+
+== Release Notes - mod_cluster - Version 1.3.1.Final
+
+=== Bug
+
+* [https://issues.jboss.org/browse/MODCLUSTER-388[MODCLUSTER-388]] - Fix for
+MODCLUSTER-372 is broken
+
+* [https://issues.jboss.org/browse/MODCLUSTER-451[MODCLUSTER-451]] - UUID for
+auto-generated jvmRoute does not work with WildFly
+
+=== Task
+
+* [https://issues.jboss.org/browse/MODCLUSTER-441[MODCLUSTER-441]] - Upgrade
+Tomcat 8 support to 8.0.16 due to OPTIONS * broken (BZ#57187)
+
+== Release Notes - mod_cluster - Version 1.3.1.Beta1
+
+=== Bug
+
+* [https://issues.jboss.org/browse/MODCLUSTER-389[MODCLUSTER-389]] - standby
+worker doesn't work.
+
+* [https://issues.jboss.org/browse/MODCLUSTER-427[MODCLUSTER-427]] -
+mod_cluster can break stickiness for the first request on new child processes
+
+* [https://issues.jboss.org/browse/MODCLUSTER-435[MODCLUSTER-435]] - If
+"Balancer name includes" uppercase letter in name then mod_cluster will not
+maintain sticky sessions
+
+* [https://issues.jboss.org/browse/MODCLUSTER-443[MODCLUSTER-443]] -
+mod_cluster doesn't recognize ; as a proper context delimiter causing 404s on
+requests with URL jsessionids
+
+=== Enhancement
+
+* [https://issues.jboss.org/browse/MODCLUSTER-390[MODCLUSTER-390]] - add
+failonstatus to mod_cluster
+
+=== Feature Request
+
+* [https://issues.jboss.org/browse/MODCLUSTER-354[MODCLUSTER-354]] - Add
+support for Tomcat 8
+
+* [https://issues.jboss.org/browse/MODCLUSTER-431[MODCLUSTER-431]] -
+MulticastSocketFactoryImplTestCase.testMulticastSocketAllowCrossTalk doesn't
+work since JDK 1.8
+
+== Release Notes - mod_cluster - Version 1.3.1.Alpha2
+
+=== Feature Request
+
+* [https://issues.jboss.org/browse/MODCLUSTER-414[MODCLUSTER-414]] - Fix
+compilation warnings in the native part
+
+
+* [https://issues.jboss.org/browse/MODCLUSTER-423[MODCLUSTER-423]] - Proxy
+configuration to allow a desired address/interface to be specified for the AS
+side of the proxy connection
+
+== Release Notes - mod_cluster - Version 1.3.1.Alpha1
+
+=== Bug
+
+* [https://issues.jboss.org/browse/MODCLUSTER-344[MODCLUSTER-344]] - No pings
+when using HTTP connector in default configuration
+
+* [https://issues.jboss.org/browse/MODCLUSTER-392[MODCLUSTER-392]] -
+mod_proxy_cluster.c doesn't compile with httpd 2.2.22
+
+* [https://issues.jboss.org/browse/MODCLUSTER-398[MODCLUSTER-398]] -
+mod_cluster deadlock in a jboss/windows environment
+
+* [https://issues.jboss.org/browse/MODCLUSTER-403[MODCLUSTER-403]] - UseAlias
+should use flag, interprets any On/Off/on/off as 0
+
+* [https://issues.jboss.org/browse/MODCLUSTER-404[MODCLUSTER-404]] -
+ModClusterService stop commands are always draining sessions
+
+* [https://issues.jboss.org/browse/MODCLUSTER-407[MODCLUSTER-407]] -
+worker-timeout can cause httpd thread stalls
+
+* [https://issues.jboss.org/browse/MODCLUSTER-408[MODCLUSTER-408]] - Requests
+are not properly drained during undeploy
+
+* [https://issues.jboss.org/browse/MODCLUSTER-418[MODCLUSTER-418]] - Upgrade
+maven repositories to jboss developer from the deprecated repositories
+ 
+
+=== Component Upgrade
+
+* [https://issues.jboss.org/browse/MODCLUSTER-426[MODCLUSTER-426]] - Upgrade jboss-parent to version 16
+ 
+=== Enhancement
+
+* [https://issues.jboss.org/browse/MODCLUSTER-209[MODCLUSTER-209]] -
+mod_cluster_manager need better presentation
+ 
+=== Feature Request
+
+* [https://issues.jboss.org/browse/MODCLUSTER-405[MODCLUSTER-405]] - Make the
+testsuite a little more portable
+
+* [https://issues.jboss.org/browse/MODCLUSTER-409[MODCLUSTER-409]] - add
+VERSION method to MCMP
+
+* [https://issues.jboss.org/browse/MODCLUSTER-413[MODCLUSTER-413]] - Log
+superfluous stack traces onto DEBUG instead of ERROR level
+ 
+
+Enjoy!
+

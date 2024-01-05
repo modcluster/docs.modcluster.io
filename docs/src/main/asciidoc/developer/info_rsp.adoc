@@ -1,0 +1,156 @@
+= ModCluster INFO-RSP
+
+== INFO-RSP
+
+INFO-RSP is the response to a INFO command. Response would include information
+on what virtual hosts are configured (so per-webapp commands can specify the
+correct virtual host) and other info that ModClusterService can make available
+to management tools (e.g. what addresses/ports httpd is listening on.)
+
+The element are prefixed with their key id. The id of Context and Vhost are
+node, virtualhost and the record number.
+
+For example:
+
+* Balancer[1]... The balancer corresponding to the nodes,
+
+* Node: [1:1]... The first node in the node table.
+
+* Vhost: [1:1:1]... An Alias of the Virtual Host belonging to the first node
+and first Virtual Host.
+
+* Context: [1:1:2]... A Context deployed/mapped in the first node and first
+Virtual Host. That the 2 Context in the Context table.
+
+The INFO-RSP can be display using the mod_cluster_manager handler note that in
+this case the time values are in seconds except flushwait with is in
+milliseconds.
+
+=== Server (Not the actual version)
+
+Server is corresponding to the server record in httpd that is a httpd
+VirtualHost description. The following elements are dumped:
+
+* Name: (String) Name of the server.
+
+* Root: (String) Root directory.
+
+* ThreadsPerChild: (Number) Number of thread per child process.
+
+* MaxRequestsPerChild: (Number) Max requests a child will handle before
+stopping.
+
+* MaxClient: (Number) Max simultaneous requests supported.
+
+* LimitReqFieldsize: (Number) max size of any request header field.
+
+* LimitReqFields: (Number) max on number of request header fields.
+
+* Scheme: (String) The server request scheme (http/https).
+
+* KeepAlive: (Boolean) Server keeps connections opened between request.
+
+* KeepAliveTimeout (Number) Amount of time the connection between httpd and the
+browser is kept opened waiting for request.
+
+* MaxKeepAliveRequests (Number) Max number of request for a browser httpd will
+process before closing the connection.
+
+* TimeOut (Number) Max time in seconds httpd will wait for a backend server.
+
+=== Balancer
+
+Balancer is corresponding to a balancer in mod_proxy logic. The following
+elements are dumped:
+
+* Name: (String) Name of the balancer.
+
+* StickySession: (Boolean) Use JVMRoute to stick a session to a node.
+
+* StickySessionCookie: (String) Name of the cookie containing the sessionid.
+
+* StickySessionPath: (String) Name of the parameter containing the session when
+it is URL encoded.
+
+* StickySessionRemove: (Boolean) Remove sessionid if the node doesn't
+correspond to the JVMRoute.
+
+* StickySessionForce: (Boolean) Return error if no node correspond to the
+JVMRoute.
+
+* Timeout: (Number) Time to wait for an available worker. (seconds in
+mod_cluster_manager)
+
+* Maxattempts: (Number) number of attempts to send the request to the backend
+server.
+
+Example for mod_cluster_manager:
+
+----
+balancer: [1] Name: mycluster Sticky: 1 [JSESSIONID]/[jsessionid] remove: 0 force: 0 Timeout: 0 Maxtry: 1
+----
+
+=== Node
+
+None is corresponding to a node of a cluster in AS (to a <Connector/> in the
+server.xml). The following elements are dumped:
+
+* Name: (String) That is the JvmRoute.
+
+* Balancer: (String) The name of balancer that processes the loadbalancing for
+the JvmRoute.
+
+* Domain: (String) Use to group the node in buddy replicated nodes group.
+
+* Host: (String) Hostname where the cluster node runs.
+
+* Port: (Number) Port on which the connector is waiting for requests.
+
+* Type: (String) Protocol using by the connector (AJP/http/https).
+
+* Flushpackets: (String): Tell when buffer between httpd and browser should be
+flushed.
+
+* Flushwait: (Number): Time to wait before flushing (When flushpackets is
+'Auto"). (milliseconds in mod_cluster_manager)
+
+* Ping: (Number): Time to wait after a ping to receive a pong from a node.
+(seconds in mod_cluster_manager)
+
+* Smax: (Number): Max connections to keep opened between httpd and the back-end
+server.
+
+* Ttl: (Number): Max time a connection could exist when there is more than smax
+connections opened. (seconds in mod_cluster_manager)
+
+* Elected: (Number): Number of time the worker was chosen by the balancer
+logic.
+
+* Read: (Number): Number of bytes read from the back-end.
+
+* Transferred: (Number): Number of bytes send to the back-end.
+
+* Connected: (Number): Number of opened connections.
+
+* Load: (Number) Load factor received via the STATUS messages.
+
+Example from mod_cluster_manager:
+
+----
+node: [1:1],Balancer: mycluster,JVMRoute: neo3,Domain: [neuchdom],Host: 10.33.144.5,Port: 8009,Type: ajp,flushpackets: 0,flushwait: 10,ping: 10,smax: 11,ttl: 60,timeout: 0
+----
+
+=== Vhost
+
+Vhost is corresponding to the hosts and Aliases defined in the server.xml.
+
+* Alias: (String) Corresponding alias.
+
+=== Context
+
+Context is corresponding to the context deployed in the node.
+
+* Context: (String) URL to be mapped.
+
+* Status: (String) Status of the application: ENABLED, DISABLED or STOPPED.
+

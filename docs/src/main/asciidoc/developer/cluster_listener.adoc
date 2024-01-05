@@ -1,0 +1,168 @@
+= ClusterListener
+
+The ClusterListener allows a standalone JBoss Web to work with a mod_cluster
+proxy. It also works in JBoss AS.
+
+To enable it just add in server.xml:
+
+
+The following parameters are supported:
+
+* proxyList: list of proxy frond-end that will use us as backend that is a coma
+separed list of host:port example:
+
+    - `ProxyList="localhost:6666,neo:6666"localhost:7666"`
+
+* proxyURL: URL prefix to send with the commands default is no prefix
+
+    - `proxyURL="/bla"`
+
+* socketTimeout: Socket timeout for connections to the httpd servers default
+20000ms
+
+    - `socketTimeout="20000"`
+
+* domain: domain
+
+    - `domain="domain1"`
+
+* flushPackets: How mod_proxy should flush the packets.
+
+    - `flushPackets="on"`
+
+* flushWait: Time in millisecond before flushing a packet
+
+    - `flushWait="500"`
+
+* ping: Max time to wait for a cpong after a cping (Asynchronous and
+Synchronous ping/pong)
+
+    - `ping="10"`
+
+* smax: Max number of connection a process will handle in one worker
+
+    - `smax="100"`
+
+* ttl: Max time an unused connection is allowed to live in mod_cluster.
+
+    - `ttl="600"`
+
+* nodeTimeout: Max time mod_cluster is going to wait for a node to answer.
+Value in seconds.
+
+    - `nodeTimeout="10"`
+
+* balancer: Name of the balancer.
+
+    - `balancer="cluster1"`
+
+* stickySession: Use sticky session.
+
+    - `stickySession="true"`
+
+* stickySessionRemove: Remove the session id is the JVMRoute can't be used to
+route the request.
+
+    - `stickySessionRemove="true"`
+
+* stickySessionForce: Return an error is the worker corresponding to the
+JVMRoute can't be used.
+
+    - `stickySessionForce="true"`
+
+* workerTimeout: Max time to wait for a free worker. Note that is a kind of
+poll try to find the best worker. Value in seconds.
+
+    - `workerTimeout="1"`
+
+* maxAttempts: Number of retry before giving up (and returning an error)
+
+    - `maxAttempts="3"`
+
+== Using mod_advertise
+
+mod_advertise is a small httpd module that allows to discover the httpd
+front-end instead defining them in proxyList. 3 parameters are supported:
+
+* Advertise: Default is true if proxyList is not filled.
+
+* AdvertiseGroupAddress: Address of the multicast to join. Must be the same
+value as the mod_advertise directive AdvertiseGroup.
+
+    - `AdvertiseGroupAddress="232.0.0.2"`
+
+* AdvertisePort: Port of the multicast to join. Must be the same value as the
+mod_advertise directive (mod_advertise default 23364).
+
+    - `AdvertisePort="23364"`
+
+* AdvertiseSecurityKey: Key the front-end is going to send. Default no key no
+check.
+
+== Using SSL
+
+* ssl: Use SSL to connect to httpd, default false
+
+    - `ssl="true"`
+
+* sslCiphers: Ciphers to be used for the SSL connection
+
+    - `sslCiphers="cipher1,cipher2"`
+
+* sslProtocol: SSL protocol to be used for connection, default "TLS"
+
+    - `sslProtocol="name"`
+
+* sslCertificateEncodingAlgorithm: Encoding algorithm used for certificates
+
+    - `sslCertificateEncodingAlgorithm="alg"`
+
+* sslKeyStore: Certificate store, default to "~/.keystore"
+
+    - `sslKeyStore="myCertificate"`
+
+* sslKeyStorePass: Password for the certificate, default "changeit"
+
+    - `sslKeyStorePass="changeit"`
+
+* sslKeyStoreType: Certificate store type, default "JKS"
+
+    - `sslKeyStoreType="type"`
+
+* sslKeyStoreProvider: Certificate store provider
+
+    - `sslKeyStoreProvider="provider"`
+
+* sslKeyAlias: Alias name for the key
+
+    - `sslKeyAlias="alias"`
+
+* sslTrustAlgorithm: Encoding algorithm used for the trust certificates
+
+    - `sslTrustAlgorithm="alg"`
+
+* sslCrlFile: Certificate revocation list
+
+    - `sslCrlFile="file"`
+
+* sslTrustMaxCertLength: Maximum certificate chain length, default 5
+
+    - `sslTrustMaxCertLength="6"`
+
+* sslTrustStore: Trust certificate store
+
+    - `sslTrustStore="myTrustStore"`
+
+* sslTrustStorePassword: Password for the trust store, default is to use the
+main certificate password
+
+    - `sslTrustStorePassword="pass"`
+
+* sslTrustStoreType: Certificate store type
+
+    - `sslTrustStoreType="type"`
+
+* sslTrustStoreProvider: Certificate store provider
+
+    - `sslTrustStoreProvider="provider"`
+
