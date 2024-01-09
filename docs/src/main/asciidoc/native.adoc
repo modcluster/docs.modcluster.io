@@ -129,7 +129,7 @@ reverse-proxy in the path. This could be used allow httpd to serve static inform
 ProxyPassMatch ^(/.*\.gif)$ !
 ----
 
-The above for example will allow httpd to server directly the .gif files.
+The above for example will allow httpd to serve the .gif files directly.
 
 === EnableOptions
 
