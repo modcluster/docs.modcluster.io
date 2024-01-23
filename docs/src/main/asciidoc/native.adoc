@@ -624,7 +624,7 @@ mkdir build
 cd build
 cmake ..
 make
-cp modules/*so $APACHE_DIR/modules
+copy modules/*so $APACHE_DIR/modules
 ----
 
 Where `$APACHE_DIR` is the location of the installed httpd.
