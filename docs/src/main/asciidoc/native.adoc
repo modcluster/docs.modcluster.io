@@ -483,7 +483,7 @@ The example operates in cmder shell, but it is not mandatory. A simple Windows c
 
 [source]
 ----
-C:\Users\karm
+C:\Users\%username%
 ls
 httpd-2.4.58-win64-VS17/ httpd-2.4.58-win64-VS17.zip
 ----
@@ -501,13 +501,13 @@ or download https://github.com/modcluster/mod_proxy_cluster/archive/main.zip[zip
 
 [source]
 ----
-C:\Users\karm\mod_proxy_cluster\native (main)
+C:\Users\%username%\mod_proxy_cluster\native (main)
 mkdir build
 
-C:\Users\karm\mod_proxy_cluster\native (main)
+C:\Users\%username%\mod_proxy_cluster\native (main)
 cd build\
 
-C:\Users\karm\mod_proxy_cluster\native\build (main)
+C:\Users\%username%\mod_proxy_cluster\native\build (main)
 vcvars64.bat
 ----
 
@@ -516,23 +516,23 @@ for mod_proxy. Since mod_proxy is our dependency, we have to generate these expo
 
 [source]
 ----
-dumpbin /exports C:\Users\karm\Apache24\modules\mod_proxy.so> C:\Users\karm\Apache24\modules\mod_proxy.exports
+dumpbin /exports C:\Users\%username%\Apache24\modules\mod_proxy.so> C:\Users\%username%\Apache24\modules\mod_proxy.exports
 
-echo LIBRARY mod_proxy.so> C:\Users\karm\Apache24\modules\mod_proxy.def
+echo LIBRARY mod_proxy.so> C:\Users\%username%\Apache24\modules\mod_proxy.def
 
-echo EXPORTS>> C:\Users\karm\Apache24\modules\mod_proxy.def
+echo EXPORTS>> C:\Users\%username%\Apache24\modules\mod_proxy.def
 
-for /f "skip=19 tokens=4" %A in (C:\Users\karm\Apache24\modules\mod_proxy.exports) do echo %A >> C:\Users\karm\Apache24\modules\mod_proxy.def
+for /f "skip=19 tokens=4" %A in (C:\Users\%username%\Apache24\modules\mod_proxy.exports) do echo %A >> C:\Users\%username%\Apache24\modules\mod_proxy.def
 
-lib /def:C:\Users\karm\Apache24\modules\mod_proxy.def /OUT:C:\Users\karm\Apache24\modules\mod_proxy.lib /MACHINE:X64 /NAME:mod_proxy.so
+lib /def:C:\Users\%username%\Apache24\modules\mod_proxy.def /OUT:C:\Users\%username%\Apache24\modules\mod_proxy.lib /MACHINE:X64 /NAME:mod_proxy.so
 ----
 
 Let's run CMake:
 
 [source]
 ----
-C:\Users\karm\mod_proxy_cluster\native\build (main)
-cmake ../ -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DAPR_LIBRARY=C:\Users\karm\Apache24\lib\libapr-1.lib -DAPR_INCLUDE_DIR=C:\Users\karm\Apache24\include\ -DAPACHE_INCLUDE_DIR=C:\Users\karm\Apache24\include\ -DAPRUTIL_LIBRARY=C:\Users\karm\Apache24\lib\libaprutil-1.lib -DAPRUTIL_INCLUDE_DIR=C:\Users\karm\Apache24\include\ -DAPACHE_LIBRARY=C:\Users\karm\Apache24\lib\libhttpd.lib -DPROXY_LIBRARY=C:\Users\karm\Apache24\modules\mod_proxy.lib
+C:\Users\%username%\mod_proxy_cluster\native\build (main)
+cmake ../ -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DAPR_LIBRARY=C:\Users\%username%\Apache24\lib\libapr-1.lib -DAPR_INCLUDE_DIR=C:\Users\%username%\Apache24\include\ -DAPACHE_INCLUDE_DIR=C:\Users\%username%\Apache24\include\ -DAPRUTIL_LIBRARY=C:\Users\%username%\Apache24\lib\libaprutil-1.lib -DAPRUTIL_INCLUDE_DIR=C:\Users\%username%\Apache24\include\ -DAPACHE_LIBRARY=C:\Users\%username%\Apache24\lib\libhttpd.lib -DPROXY_LIBRARY=C:\Users\%username%\Apache24\modules\mod_proxy.lib
 -- Found APR: C:/Users/karm/Apache24/lib/libapr-1.lib
 -- Found APRUTIL: C:/Users/karm/Apache24/lib/libaprutil-1.lib
 -- Found APACHE: C:/Users/karm/Apache24/include
@@ -543,7 +543,7 @@ Compile
 
 [source]
 ----
-C:\Users\karm\mod_proxy_cluster\native\build (main)
+C:\Users\%username%\mod_proxy_cluster\native\build (main)
 nmake
 ----
 
@@ -551,8 +551,8 @@ Directory modules now contains all necessary modules:
 
 [source]
 ----
-C:\Users\karm\mod_proxy_cluster\native\build (main)
-cp modules/*.so C:\Users\karm\Apache24\modules\ -v
+C:\Users\%username%\mod_proxy_cluster\native\build (main)
+cp modules/*.so C:\Users\%username%\Apache24\modules\ -v
 'modules/mod_advertise.so' -> 'C:/Users/karm/Apache24/modules/mod_advertise.so'
 'odules/mod_manager.so' -> 'C:/Users/karm/Apache24/modules/mod_manager.so'
 'modules/mod_proxy_cluster.so' -> 'C:/Users/karm/Apache24/modules/mod_proxy_cluster.so'
@@ -624,7 +624,7 @@ mkdir build
 cd build
 cmake ..
 make
-cp modules/*so $APACHE_DIR/modules
+copy modules/*so $APACHE_DIR/modules
 ----
 
 Where `$APACHE_DIR` is the location of the installed httpd.
