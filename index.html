@@ -528,7 +528,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2024-01-19</span>
+<span id="revdate">2024-01-23</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -4041,7 +4041,7 @@ The example operates in cmder shell, but it is not mandatory. A simple Windows c
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>C:\Users\karm
+<pre class="CodeRay highlight"><code>C:\Users\%username%
 ls
 httpd-2.4.58-win64-VS17/ httpd-2.4.58-win64-VS17.zip</code></pre>
 </div>
@@ -4070,13 +4070,13 @@ httpd-2.4.58-win64-VS17/ httpd-2.4.58-win64-VS17.zip</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>C:\Users\karm\mod_proxy_cluster\native (main)
+<pre class="CodeRay highlight"><code>C:\Users\%username%\mod_proxy_cluster\native (main)
 mkdir build
 
-C:\Users\karm\mod_proxy_cluster\native (main)
+C:\Users\%username%\mod_proxy_cluster\native (main)
 cd build\
 
-C:\Users\karm\mod_proxy_cluster\native\build (main)
+C:\Users\%username%\mod_proxy_cluster\native\build (main)
 vcvars64.bat</code></pre>
 </div>
 </div>
@@ -4086,15 +4086,15 @@ for mod_proxy. Since mod_proxy is our dependency, we have to generate these expo
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>dumpbin /exports C:\Users\karm\Apache24\modules\mod_proxy.so&gt; C:\Users\karm\Apache24\modules\mod_proxy.exports
+<pre class="CodeRay highlight"><code>dumpbin /exports C:\Users\%username%\Apache24\modules\mod_proxy.so&gt; C:\Users\%username%\Apache24\modules\mod_proxy.exports
 
-echo LIBRARY mod_proxy.so&gt; C:\Users\karm\Apache24\modules\mod_proxy.def
+echo LIBRARY mod_proxy.so&gt; C:\Users\%username%\Apache24\modules\mod_proxy.def
 
-echo EXPORTS&gt;&gt; C:\Users\karm\Apache24\modules\mod_proxy.def
+echo EXPORTS&gt;&gt; C:\Users\%username%\Apache24\modules\mod_proxy.def
 
-for /f &quot;skip=19 tokens=4&quot; %A in (C:\Users\karm\Apache24\modules\mod_proxy.exports) do echo %A &gt;&gt; C:\Users\karm\Apache24\modules\mod_proxy.def
+for /f &quot;skip=19 tokens=4&quot; %A in (C:\Users\%username%\Apache24\modules\mod_proxy.exports) do echo %A &gt;&gt; C:\Users\%username%\Apache24\modules\mod_proxy.def
 
-lib /def:C:\Users\karm\Apache24\modules\mod_proxy.def /OUT:C:\Users\karm\Apache24\modules\mod_proxy.lib /MACHINE:X64 /NAME:mod_proxy.so</code></pre>
+lib /def:C:\Users\%username%\Apache24\modules\mod_proxy.def /OUT:C:\Users\%username%\Apache24\modules\mod_proxy.lib /MACHINE:X64 /NAME:mod_proxy.so</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4102,8 +4102,8 @@ lib /def:C:\Users\karm\Apache24\modules\mod_proxy.def /OUT:C:\Users\karm\Apache2
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>C:\Users\karm\mod_proxy_cluster\native\build (main)
-cmake ../ -G &quot;NMake Makefiles&quot; -DCMAKE_BUILD_TYPE=Release -DAPR_LIBRARY=C:\Users\karm\Apache24\lib\libapr-1.lib -DAPR_INCLUDE_DIR=C:\Users\karm\Apache24\include\ -DAPACHE_INCLUDE_DIR=C:\Users\karm\Apache24\include\ -DAPRUTIL_LIBRARY=C:\Users\karm\Apache24\lib\libaprutil-1.lib -DAPRUTIL_INCLUDE_DIR=C:\Users\karm\Apache24\include\ -DAPACHE_LIBRARY=C:\Users\karm\Apache24\lib\libhttpd.lib -DPROXY_LIBRARY=C:\Users\karm\Apache24\modules\mod_proxy.lib
+<pre class="CodeRay highlight"><code>C:\Users\%username%\mod_proxy_cluster\native\build (main)
+cmake ../ -G &quot;NMake Makefiles&quot; -DCMAKE_BUILD_TYPE=Release -DAPR_LIBRARY=C:\Users\%username%\Apache24\lib\libapr-1.lib -DAPR_INCLUDE_DIR=C:\Users\%username%\Apache24\include\ -DAPACHE_INCLUDE_DIR=C:\Users\%username%\Apache24\include\ -DAPRUTIL_LIBRARY=C:\Users\%username%\Apache24\lib\libaprutil-1.lib -DAPRUTIL_INCLUDE_DIR=C:\Users\%username%\Apache24\include\ -DAPACHE_LIBRARY=C:\Users\%username%\Apache24\lib\libhttpd.lib -DPROXY_LIBRARY=C:\Users\%username%\Apache24\modules\mod_proxy.lib
 -- Found APR: C:/Users/karm/Apache24/lib/libapr-1.lib
 -- Found APRUTIL: C:/Users/karm/Apache24/lib/libaprutil-1.lib
 -- Found APACHE: C:/Users/karm/Apache24/include
@@ -4115,7 +4115,7 @@ cmake ../ -G &quot;NMake Makefiles&quot; -DCMAKE_BUILD_TYPE=Release -DAPR_LIBRAR
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>C:\Users\karm\mod_proxy_cluster\native\build (main)
+<pre class="CodeRay highlight"><code>C:\Users\%username%\mod_proxy_cluster\native\build (main)
 nmake</code></pre>
 </div>
 </div>
@@ -4124,8 +4124,8 @@ nmake</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>C:\Users\karm\mod_proxy_cluster\native\build (main)
-cp modules/*.so C:\Users\karm\Apache24\modules\ -v
+<pre class="CodeRay highlight"><code>C:\Users\%username%\mod_proxy_cluster\native\build (main)
+cp modules/*.so C:\Users\%username%\Apache24\modules\ -v
 'modules/mod_advertise.so' -&gt; 'C:/Users/karm/Apache24/modules/mod_advertise.so'
 'odules/mod_manager.so' -&gt; 'C:/Users/karm/Apache24/modules/mod_manager.so'
 'modules/mod_proxy_cluster.so' -&gt; 'C:/Users/karm/Apache24/modules/mod_proxy_cluster.so'</code></pre>
@@ -4231,7 +4231,7 @@ mkdir build
 cd build
 cmake ..
 make
-cp modules/*so $APACHE_DIR/modules</code></pre>
+copy modules/*so $APACHE_DIR/modules</code></pre>
 </div>
 </div>
 <div class="paragraph">
