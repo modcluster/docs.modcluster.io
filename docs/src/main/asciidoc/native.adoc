@@ -552,7 +552,7 @@ Directory modules now contains all necessary modules:
 [source]
 ----
 C:\Users\%username%\mod_proxy_cluster\native\build (main)
-cp modules/*.so C:\Users\%username%\Apache24\modules\ -v
+copy modules\*.so C:\Users\%username%\Apache24\modules\
 'modules/mod_advertise.so' -> 'C:/Users/karm/Apache24/modules/mod_advertise.so'
 'odules/mod_manager.so' -> 'C:/Users/karm/Apache24/modules/mod_manager.so'
 'modules/mod_proxy_cluster.so' -> 'C:/Users/karm/Apache24/modules/mod_proxy_cluster.so'
@@ -624,7 +624,7 @@ mkdir build
 cd build
 cmake ..
 make
-copy modules/*so $APACHE_DIR/modules
+cp modules/*so $APACHE_DIR/modules
 ----
 
 Where `$APACHE_DIR` is the location of the installed httpd.
