@@ -528,7 +528,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2024-01-23</span>
+<span id="revdate">2024-01-26</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -4125,7 +4125,7 @@ nmake</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>C:\Users\%username%\mod_proxy_cluster\native\build (main)
-cp modules/*.so C:\Users\%username%\Apache24\modules\ -v
+copy modules\*.so C:\Users\%username%\Apache24\modules\
 'modules/mod_advertise.so' -&gt; 'C:/Users/karm/Apache24/modules/mod_advertise.so'
 'odules/mod_manager.so' -&gt; 'C:/Users/karm/Apache24/modules/mod_manager.so'
 'modules/mod_proxy_cluster.so' -&gt; 'C:/Users/karm/Apache24/modules/mod_proxy_cluster.so'</code></pre>
@@ -4231,7 +4231,7 @@ mkdir build
 cd build
 cmake ..
 make
-copy modules/*so $APACHE_DIR/modules</code></pre>
+cp modules/*so $APACHE_DIR/modules</code></pre>
 </div>
 </div>
 <div class="paragraph">
