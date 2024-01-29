@@ -528,7 +528,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2024-01-26</span>
+<span id="revdate">2024-01-29</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -4150,15 +4150,15 @@ by executing <code>dnf install httpd</code>), or you can build httpd from source
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">    ./configure  --prefix=apache_installation_directory \
-                 --with-included-apr \
-                 --enable-proxy-ajp \
-                 --enable-so \
-                 --enable-proxy \
-                 --enable-proxy-http \
-                 --enable-proxy-hcheck \
-                 --with-port=8000 \
-                 --with-libxml2</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">./configure --prefix=apache_installation_directory \
+            --with-included-apr \
+            --enable-proxy-ajp \
+            --enable-so \
+            --enable-proxy \
+            --enable-proxy-http \
+            --enable-proxy-hcheck \
+            --with-port=8000 \
+            --with-libxml2</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -4202,7 +4202,7 @@ protocol (<code>--enable-proxy-ajp</code>) enabled and with dso enabled (<code>-
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>git clone git://github.com/modcluster/mod_proxy_cluster.git</pre>
+<pre class="CodeRay highlight"><code data-lang="bash">git clone git://github.com/modcluster/mod_proxy_cluster.git</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4215,10 +4215,10 @@ advertise, mod_manager and mod_proxy_cluster do following:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash">sh buildconf
- ./configure --with-apxs=apxs_file_location
- make clean
- make
- cp *.so $APACHE_DIR/modules</code></pre>
+./configure --with-apxs=apxs_file_location
+make clean
+make
+cp *.so $APACHE_DIR/modules</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4286,7 +4286,7 @@ everything is in place, add the configuration from
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>httpd/sbin/apachectl start</pre>
+<pre class="CodeRay highlight"><code data-lang="bash">httpd/sbin/apachectl start</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
