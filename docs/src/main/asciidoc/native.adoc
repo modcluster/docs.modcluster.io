@@ -572,15 +572,15 @@ Download the sources and configure httpd with following:
 
 [source, bash]
 ----
-    ./configure  --prefix=apache_installation_directory \
-                 --with-included-apr \
-                 --enable-proxy-ajp \
-                 --enable-so \
-                 --enable-proxy \
-                 --enable-proxy-http \
-                 --enable-proxy-hcheck \
-                 --with-port=8000 \
-                 --with-libxml2
+./configure --prefix=apache_installation_directory \
+            --with-included-apr \
+            --enable-proxy-ajp \
+            --enable-so \
+            --enable-proxy \
+            --enable-proxy-http \
+            --enable-proxy-hcheck \
+            --with-port=8000 \
+            --with-libxml2
 ----
 
 NOTE: Please bear in mind that the exact arguments/flags might differ based on your library choosing. Always
@@ -597,6 +597,8 @@ You need an httpd installation with mod_proxy (`--enable-proxy`) and ajp
 protocol (`--enable-proxy-ajp`) enabled and with dso enabled (`--enable-so`).
 
 Download the mod_proxy_cluster sources:
+
+[source, bash]
 ----
 git clone git://github.com/modcluster/mod_proxy_cluster.git
 ----
@@ -609,10 +611,10 @@ advertise, mod_manager and mod_proxy_cluster do following:
 [source,bash]
 ----
 sh buildconf
- ./configure --with-apxs=apxs_file_location
- make clean
- make
- cp *.so $APACHE_DIR/modules
+./configure --with-apxs=apxs_file_location
+make clean
+make
+cp *.so $APACHE_DIR/modules
 ----
 
 or alternatively using CMake:
@@ -655,9 +657,9 @@ link:#mod_proxy_cluster-2-x-with-apache-http-server-2-4-x[the minimal example].
 
 To start httpd do the following:
 
+[source, bash]
 ----
 httpd/sbin/apachectl start
 ----
 
 NOTE: Make sure to use SSL before going in production.
-
