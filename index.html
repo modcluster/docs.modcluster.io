@@ -528,7 +528,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2024-01-29</span>
+<span id="revdate">2024-02-02</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -611,7 +611,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#migration-from-mod_proxy">8.2. Migration from mod_proxy</a></li>
 </ul>
 </li>
-<li><a href="#developer-resources">9. Developer resources</a></li>
+<li><a href="#developer-resources">9. Developer Resources</a></li>
 </ul>
 </div>
 </div>
@@ -1842,7 +1842,7 @@ to <code>$CATALINA_HOME/lib</code>.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The <code>mem</code> (<code>SystemMemoryUsage</code>) load metric has been removed since version 1.3, see <a href="https://issues.jboss.org/browse/MODCLUSTER-288">MODCLUSTER-288</a> for more context.
+The <code>mem</code> (<code>SystemMemoryUsage</code>) load metric has been removed since version 1.3, see <a href="https://issues.redhat.com/browse/MODCLUSTER-288">MODCLUSTER-288</a> for more context.
 </td>
 </tr>
 </table>
@@ -2425,8 +2425,8 @@ This can be used either in concert or in place of a static proxies.</p>
 </table>
 <div class="paragraph">
 <p>UDP multicast address:port on which to listen for httpd proxy multicast advertisements. Beware of the actual <strong>interface</strong> your
-balancer/worker sends to/receives from. See <a href="https://issues.jboss.org/browse/MODCLUSTER-487">MODCLUSTER-487</a> for Apache HTTP Server behaviour
-and <a href="https://issues.jboss.org/browse/MODCLUSTER-495">MODCLUSTER-495</a> for Tomcat&#8217;s caveat.</p>
+balancer/worker sends to/receives from. See <a href="https://issues.redhat.com/browse/MODCLUSTER-487">MODCLUSTER-487</a> for Apache HTTP Server behaviour
+and <a href="https://issues.redhat.com/browse/MODCLUSTER-495">MODCLUSTER-495</a> for Tomcat&#8217;s caveat.</p>
 </div>
 </div>
 <div class="sect4">
@@ -2460,7 +2460,7 @@ and <a href="https://issues.jboss.org/browse/MODCLUSTER-495">MODCLUSTER-495</a> 
 </table>
 <div class="paragraph">
 <p>If specified, httpd proxy advertisements checksums (using this value as a salt) will be required to be verified on the server side. This option <strong>does not</strong> secure your installation, it <strong>does not</strong> replace proper SSL configuration. It merely ensures that only certain workers can talk to certain balancers.
-Beware of <a href="https://issues.jboss.org/browse/MODCLUSTER-446">MODCLUSTER-446</a>.</p>
+Beware of <a href="https://issues.redhat.com/browse/MODCLUSTER-446">MODCLUSTER-446</a>.</p>
 </div>
 </div>
 <div class="sect4">
@@ -3448,7 +3448,7 @@ empty stickysession and <code>nofailover=Off</code> and the values received via 
 <strong>Default: 2</strong> If you have no <code>ProxyPass</code> directive in the <code>VirtualHost</code>, the <code>VirtualHost</code> is ignored
 by mod_proxy_cluster. So, even if <code>CreateBalancers</code> is set to <code>2</code> (default), the main server is used instead
 in such configuration.
-See also <a href="https://issues.jboss.org/browse/MODCLUSTER-430">MODCLUSTER-430 – CreateBalancers behave the same with option 0 or 2</a>
+See also <a href="https://issues.redhat.com/browse/MODCLUSTER-430">MODCLUSTER-430 – CreateBalancers behave the same with option 0 or 2</a>
 </td>
 </tr>
 </table>
@@ -5933,11 +5933,11 @@ only the balancers and the workers definitions are slightly different.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="developer-resources"><a class="link" href="#developer-resources">9. Developer resources</a></h2>
+<h2 id="developer-resources"><a class="link" href="#developer-resources">9. Developer Resources</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>For more techical and detailed information you can look at our
-<a href="developer/index.html">Developer resources</a>.</p>
+<p>For more technical and detailed information, such as the ModCluster Management Protocol (MCMP) definition,
+visit <a href="https://docs.modcluster.io/developer/">Developer Resources</a> page.</p>
 </div>
 </div>
 </div>
