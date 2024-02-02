@@ -106,7 +106,7 @@ Like ENABLE-APP.
 
 == STOP-APP-RSP
 
-That is a reponse to STOP-APP, like a http reponse it starts with
+That is a response to STOP-APP, like a http response it starts with
 HTTP/1.1 200 OK<CR><LF> and it has the format:
 
 |===
@@ -132,7 +132,7 @@ Note that a Wildcard STOP-APP won't cause a STOP-APP-RSP but just a 200 or 500.
 
 == STATUS-RSP
 
-That is a reponse, like a http reponse it starts with HTTP/1.1 200 OK<CR><LF>
+That is a response, like a http response it starts with HTTP/1.1 200 OK<CR><LF>
 and it has the format:
 
 |===

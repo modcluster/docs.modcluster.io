@@ -26,10 +26,10 @@ ifndef::ebook-format[:leveloffset: 1]
 ifdef::basebackend-html[toc::[]]
 :numbered:
 
-= Developer resources
+= Developer Resources
 
-WARNING: These resurces were converted from
-https://developer.jboss.org/docs/DOC-11431[here] and are likely to be
+WARNING: These resources were converted from retired
+https://developer.jboss.org/docs/DOC-11431[developer.jboss.org] and are likely to be
 out-of-date on various topics. We're working on making them up-to-date.
 
 include::design.adoc[]

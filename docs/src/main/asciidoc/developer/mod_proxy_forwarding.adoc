@@ -10,7 +10,7 @@ The variables supported by the servlet interface are the following:
 
 * `javax.servlet.request.key_size`
 
-To get the client certificate or any SSL information from the broswer you have
+To get the client certificate or any SSL information from the browser you have
 to use mod_header to add the SSL information to header. To do that add in
 `httpd.conf` of Apache httpd the following:
 

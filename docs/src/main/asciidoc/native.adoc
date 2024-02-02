@@ -79,7 +79,7 @@ empty stickysession and `nofailover=Off` and the values received via the MCMP CO
 NOTE: *Default: 2* If you have no `ProxyPass` directive in the `VirtualHost`, the `VirtualHost` is ignored
 by mod_proxy_cluster. So, even if `CreateBalancers` is set to `2` (default), the main server is used instead
 in such configuration.
-See also https://issues.jboss.org/browse/MODCLUSTER-430[MODCLUSTER-430 – CreateBalancers behave the same with option 0 or 2]
+See also https://issues.redhat.com/browse/MODCLUSTER-430[MODCLUSTER-430 – CreateBalancers behave the same with option 0 or 2]
 
 
 === UseAlias
