@@ -8,7 +8,7 @@ It is possible to have 2 kind of ping/pong:
 
 * a synchronous ping/pong that corresponds to a user request.
 
-* a asynchronous one that corresponds to a health-check mecanism.
+* a asynchronous one that corresponds to a health-check mechanism.
 
 A synchronous prevents broken connection due to timeout bad firewall etc.
 An asynchronous checks if a node is up at the time of the check.

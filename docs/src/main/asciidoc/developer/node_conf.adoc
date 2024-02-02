@@ -105,7 +105,7 @@ should allow that.
 
 * redirect that will be the redirect proxy backend parameters (failover node).
 Even if the logic in the cluster could trigger it via the load factor in a
-domain that is usefull feature.
+domain that is useful feature.
 
 * sticky_session  whether sticky sessions should be used
 
