@@ -227,8 +227,9 @@ due to accepting messages on insecure, unintended VirtualHosts.
 === MemManagerFile
 
 That is the base name for the names mod_manager will use to store configuration, generate keys for shared memory or lock
-files. That must be an absolute path name; the directories will be created if needed. It is highly recommended that those
-files are placed on a local drive and not an NFS share. (Context: **server config**)
+files. The value may be an absolute path name or a relative one (then it will be relative to the server root);
+the directories will be created if needed. It is highly recommended that those files are placed on a local drive and not
+an NFS share. (Context: **server config**)
 
 **Default:** `$server_root/logs/`
 ++++
