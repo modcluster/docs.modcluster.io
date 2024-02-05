@@ -3714,8 +3714,9 @@ due to accepting messages on insecure, unintended VirtualHosts.</p>
 <h4 id="memmanagerfile"><a class="link" href="#memmanagerfile">4.5.2. MemManagerFile</a></h4>
 <div class="paragraph">
 <p>That is the base name for the names mod_manager will use to store configuration, generate keys for shared memory or lock
-files. That must be an absolute path name; the directories will be created if needed. It is highly recommended that those
-files are placed on a local drive and not an NFS share. (Context: <strong>server config</strong>)</p>
+files. The value may be an absolute path name or a relative one (then it will be relative to the server root);
+the directories will be created if needed. It is highly recommended that those files are placed on a local drive and not
+an NFS share. (Context: <strong>server config</strong>)</p>
 </div>
 <div class="paragraph">
 <p><strong>Default:</strong> <code>$server_root/logs/</code></p>
