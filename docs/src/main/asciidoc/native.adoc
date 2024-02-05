@@ -189,6 +189,13 @@ When no ProxyPass or ProxyMatch match the URL, pass the raw URL path to the back
 
 **Default:** Off
 
+=== ResponseStatusCodeOnNoContext
+
+Response code returned when `ProxyPass` or `ProxyMatch` doesn't have matching context
+(see https://issues.redhat.com/browse/MODCLUSTER-801[MODCLUSTER-801]). (Since 1.3.20)
+
+*Default:* 404
+
 === ModProxyClusterThreadCount
 
 Number of threads that should be created for watchdog logic. Must be positive. (Since 2.0)
@@ -212,15 +219,15 @@ EnableMCPMReceive – allow the VirtualHost to receive Mod-Cluster Management Pr
 EnableMCPMReceive in your httpd configuration to allow mod_proxy_cluster to work, put it in the VirtualHost where you
 configure advertise.
 
-This directive was added so as to address the issue of receiving MCMP on arbitrary VirtualHosts which was problematic
+This directive was added to address the issue of receiving MCMP on arbitrary VirtualHosts which was problematic
 due to accepting messages on insecure, unintended VirtualHosts.
 
-**Default:** disabled (presence of the directive enables this funcitonality)
+**Default:** disabled (presence of the directive enables this functionality)
 
 === MemManagerFile
 
 That is the base name for the names mod_manager will use to store configuration, generate keys for shared memory or lock
-files. That must be an absolute path name; the directories will created if needed. It is highly recommended that those
+files. That must be an absolute path name; the directories will be created if needed. It is highly recommended that those
 files are placed on a local drive and not an NFS share. (Context: **server config**)
 
 **Default:** `$server_root/logs/`
