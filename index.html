@@ -528,7 +528,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2024-02-02</span>
+<span id="revdate">2024-02-05</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -3661,7 +3661,17 @@ can use (Note: In Tomcat there is  maxHttpHeaderSize that also limits it in the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="modproxyclusterthreadcount"><a class="link" href="#modproxyclusterthreadcount">4.4.14. ModProxyClusterThreadCount</a></h4>
+<h4 id="responsestatuscodeonnocontext"><a class="link" href="#responsestatuscodeonnocontext">4.4.14. ResponseStatusCodeOnNoContext</a></h4>
+<div class="paragraph">
+<p>Response code returned when <code>ProxyPass</code> or <code>ProxyMatch</code> doesn&#8217;t have matching context
+(see <a href="https://issues.redhat.com/browse/MODCLUSTER-801">MODCLUSTER-801</a>). (Since 1.3.20)</p>
+</div>
+<div class="paragraph">
+<p><strong>Default:</strong> 404</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="modproxyclusterthreadcount"><a class="link" href="#modproxyclusterthreadcount">4.4.15. ModProxyClusterThreadCount</a></h4>
 <div class="paragraph">
 <p>Number of threads that should be created for watchdog logic. Must be positive. (Since 2.0)</p>
 </div>
@@ -3670,7 +3680,7 @@ can use (Note: In Tomcat there is  maxHttpHeaderSize that also limits it in the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="deterministicfailover"><a class="link" href="#deterministicfailover">4.4.15. DeterministicFailover</a></h4>
+<h4 id="deterministicfailover"><a class="link" href="#deterministicfailover">4.4.16. DeterministicFailover</a></h4>
 <div class="paragraph">
 <p>Controls whether a node upon failover is chosen deterministically.</p>
 </div>
@@ -3693,18 +3703,18 @@ EnableMCPMReceive in your httpd configuration to allow mod_proxy_cluster to work
 configure advertise.</p>
 </div>
 <div class="paragraph">
-<p>This directive was added so as to address the issue of receiving MCMP on arbitrary VirtualHosts which was problematic
+<p>This directive was added to address the issue of receiving MCMP on arbitrary VirtualHosts which was problematic
 due to accepting messages on insecure, unintended VirtualHosts.</p>
 </div>
 <div class="paragraph">
-<p><strong>Default:</strong> disabled (presence of the directive enables this funcitonality)</p>
+<p><strong>Default:</strong> disabled (presence of the directive enables this functionality)</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="memmanagerfile"><a class="link" href="#memmanagerfile">4.5.2. MemManagerFile</a></h4>
 <div class="paragraph">
 <p>That is the base name for the names mod_manager will use to store configuration, generate keys for shared memory or lock
-files. That must be an absolute path name; the directories will created if needed. It is highly recommended that those
+files. That must be an absolute path name; the directories will be created if needed. It is highly recommended that those
 files are placed on a local drive and not an NFS share. (Context: <strong>server config</strong>)</p>
 </div>
 <div class="paragraph">
