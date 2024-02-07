@@ -192,7 +192,7 @@ When no ProxyPass or ProxyMatch match the URL, pass the raw URL path to the back
 === ResponseStatusCodeOnNoContext
 
 Response code returned when `ProxyPass` or `ProxyMatch` doesn't have matching context
-(see https://issues.redhat.com/browse/MODCLUSTER-801[MODCLUSTER-801]). (Since 1.3.20)
+(see https://issues.redhat.com/browse/MODCLUSTER-801[MODCLUSTER-801]). (Since 1.3.20.Final)
 
 *Default:* 404
 
