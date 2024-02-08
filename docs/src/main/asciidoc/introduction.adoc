@@ -69,7 +69,7 @@ Traditional httpd-based load balancers require explicit configuration of the wor
 In mod_proxy_cluster, the bulk of the proxy's configuration resides on the application servers. The set of
 proxies to which an application server will communicate is determined either by a static list or using dynamic
 discovery via the advertising mechanism. The application server relays lifecycle events (e.g. server startup/shutdown)
-to the proxies allowing them to effectively auto-configure themselves. Notably, the graceful shutdown of a server
+to the proxies allowing them to effectively autoconfigure themselves. Notably, the graceful shutdown of a server
 will not result in a failover response by a proxy, as is the case with traditional httpd-based load balancers.
 
 * Server-side load balance factor calculation
@@ -78,7 +78,7 @@ In contrast with traditional httpd-based load balancers, mod_proxy_cluster uses 
 provided by the application servers rather than computing these in the proxy. Consequently, mod_proxy_cluster offers
 a more robust and accurate set of load metrics than is available from the proxy (see Load Metrics for more).
 
-* Fine grained web-app lifecycle control
+* Fine-grained web-app lifecycle control
 
 Traditional httpd-based load balancers do not handle web application undeployments particularly well. From the proxy's
 perspective, requests to an undeployed web application are indistinguishable from a request for a non-existent
@@ -105,8 +105,6 @@ The mod_cluster container integration module (implemented in Java) is provided f
 * WildFly 8 and newer
 * JBoss AS 7
 * Tomcat 6 and newer
-
-// TODO: add a support matrix version/containers/etc - https://github.com/modcluster/docs.modcluster.io/issues/115
 
 == Limitations
 
@@ -162,7 +160,7 @@ between the nodes and httpd can be secured. The former is achieved via the mod_p
 ssl-enabled HTTP connector in JBoss Web or Undertow. The latter requires the link:#using-ssl-in-mod_cluster[mod_ssl
 module] and link:#ssl-configuration[explicit configuration in WildFly/JBoss AS/Web/Undertow].
 
-mod_cluster contains mod_ssl, therefore the warning (copied from OpenSSL https://www.openssl.org/[web site]).
+mod_cluster contains mod_ssl, therefore the warning (copied from OpenSSL https://www.openssl.org/[website]).
 
 WARNING: Strong cryptography: Please remember that export/import and/or use of strong cryptography software, providing
 cryptography hooks, or even just communicating technical details about cryptography software is illegal in some parts
