@@ -528,7 +528,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2024-02-07</span>
+<span id="revdate">2024-02-09</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -780,7 +780,7 @@ the building instructions.</p>
 In mod_proxy_cluster, the bulk of the proxy&#8217;s configuration resides on the application servers. The set of
 proxies to which an application server will communicate is determined either by a static list or using dynamic
 discovery via the advertising mechanism. The application server relays lifecycle events (e.g. server startup/shutdown)
-to the proxies allowing them to effectively auto-configure themselves. Notably, the graceful shutdown of a server
+to the proxies allowing them to effectively autoconfigure themselves. Notably, the graceful shutdown of a server
 will not result in a failover response by a proxy, as is the case with traditional httpd-based load balancers.</p>
 </div>
 <div class="ulist">
@@ -798,7 +798,7 @@ a more robust and accurate set of load metrics than is available from the proxy 
 <div class="ulist">
 <ul>
 <li>
-<p>Fine grained web-app lifecycle control</p>
+<p>Fine-grained web-app lifecycle control</p>
 </li>
 </ul>
 </div>
@@ -961,7 +961,7 @@ ssl-enabled HTTP connector in JBoss Web or Undertow. The latter requires the <a 
 module</a> and <a href="#ssl-configuration">explicit configuration in WildFly/JBoss AS/Web/Undertow</a>.</p>
 </div>
 <div class="paragraph">
-<p>mod_cluster contains mod_ssl, therefore the warning (copied from OpenSSL <a href="https://www.openssl.org/">web site</a>).</p>
+<p>mod_cluster contains mod_ssl, therefore the warning (copied from OpenSSL <a href="https://www.openssl.org/">website</a>).</p>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -3500,7 +3500,7 @@ UseAlias should be used with <code>ProxyPreserveHost On</code> to work properly.
 <div class="sect3">
 <h4 id="lbstatusrecaltime"><a class="link" href="#lbstatusrecaltime">4.4.3. LBstatusRecalTime</a></h4>
 <div class="paragraph">
-<p>Time interval in seconds for loadbalancing logic to recalculate the status of a node.</p>
+<p>Time interval in seconds for load balancing logic to recalculate the status of a node.</p>
 </div>
 <div class="paragraph">
 <p><strong>Default:</strong> 5 seconds</p>
@@ -3584,7 +3584,7 @@ to any request coming through the proxy.</p>
 <h4 id="wsupgradeheader"><a class="link" href="#wsupgradeheader">4.4.9. WSUpgradeHeader</a></h4>
 <div class="paragraph">
 <p>Use <code>WSUpgradeHeader value</code> to define the value of the upgrade header that is accepted (corresponds to
-ProxyPass upgrade=value). Accepted values are following:</p>
+<code>ProxyPass upgrade=value</code>). Accepted values are following:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -3603,14 +3603,14 @@ ProxyPass upgrade=value). Accepted values are following:</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">value</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">value</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>value</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>value</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">value</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">protocol name to check before using the WS tunnel</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">*</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">*</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>*</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>*</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ANY</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">read the header value from request</p></td>
 </tr>
@@ -3623,7 +3623,7 @@ ProxyPass upgrade=value). Accepted values are following:</p>
 </tbody>
 </table>
 <div class="paragraph">
-<p>See mod_proxy_http docs for more information.</p>
+<p>See <code>mod_proxy_http</code> documentation for more information.</p>
 </div>
 </div>
 <div class="sect3">
