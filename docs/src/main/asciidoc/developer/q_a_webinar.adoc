@@ -88,7 +88,7 @@ A: Not easily. One could configure virtual hosts in httpd.conf, and
    workers connect to certain virtual hosts only, but there is no
    enforcement of which domains are hit from the httpd side.
 
-Q: We used appliance for loadbalancing. Can we use mod-cluster for dynamic
+Q: We used appliance for load balancing. Can we use mod-cluster for dynamic
 configuration instead of using static properties? +
 A: No, mod-cluster requires the httpd to run. We intend to talk to load
 balancer vendors and get them to implement the MCMP protocol, so that their
