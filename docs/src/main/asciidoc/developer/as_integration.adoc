@@ -121,7 +121,7 @@ ModClusterService here but possibly the standalone ClusterListener). See
 xref:cluster_listener.adoc[ModCluster Listener] for a description of the relevant
 configuration properties.
 
-* ModClusterService forms the core. It's function is pretty simple:
+* ModClusterService forms the core. Its function is pretty simple:
 
     - Expose the 4 XXXConfiguration interfaces; expose setters to allow
 centralized configuration via a -beans.xml file.

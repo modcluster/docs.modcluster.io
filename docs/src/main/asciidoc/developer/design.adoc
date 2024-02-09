@@ -64,7 +64,7 @@ Jimmy Wilson and Galder Zamarreno.
   definition (See
   http://httpd.apache.org/docs/2.4/mod/mod_proxy.html#proxypass).
 
-    - More fine grained; individual contexts can be disabled/stopped, not just
+    - More fine-grained; individual contexts can be disabled/stopped, not just
       entire server instances.
 
 == Basic Architecture
