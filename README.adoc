@@ -55,12 +55,12 @@ The build uses Apache Maven.
 [INFO] --- buildnumber:3.2.0:create (get-scm-revision) @ mod_cluster-docs-parent ---
 [INFO] Executing: /bin/sh -c cd '/Users/rhusar/git/docs.modcluster.io' && 'git' 'rev-parse' '--verify' 'HEAD'
 [INFO] Working directory: /Users/rhusar/git/docs.modcluster.io
-[INFO] Storing buildNumber: aa3bc270a2a9f6172460302a1c1f9c254f1736e2 at timestamp: 1703152590154
+[INFO] Storing buildNumber: 9917545bbd99d1c3457f5ede71cb4f42c8090405 at timestamp: 1708340454545
 [INFO] Executing: /bin/sh -c cd '/Users/rhusar/git/docs.modcluster.io' && 'git' 'symbolic-ref' 'HEAD'
 [INFO] Working directory: /Users/rhusar/git/docs.modcluster.io
-[INFO] Storing scmBranch: publish-pdf
+[INFO] Storing scmBranch: main
 [INFO]
-[INFO] --- source:3.3.0:jar-no-fork (attach-sources) @ mod_cluster-docs-parent ---
+[INFO] --- source:3.2.1:jar-no-fork (attach-sources) @ mod_cluster-docs-parent ---
 [INFO]
 [INFO] ---------------< org.jboss.mod_cluster:mod_cluster-docs >---------------
 [INFO] Building mod_cluster docs: Documentation 2.0.0.Final-SNAPSHOT      [2/2]
@@ -77,35 +77,53 @@ The build uses Apache Maven.
 [INFO]
 [INFO] --- buildnumber:3.2.0:create (get-scm-revision) @ mod_cluster-docs ---
 [INFO]
-[INFO] --- asciidoctor:2.2.4:process-asciidoc (pdf) @ mod_cluster-docs ---
-[INFO] sourceDirectory /Users/rhusar/git/docs.modcluster.io/docs/src/docs/asciidoc does not exist
-[INFO] sourceDirectory /Users/rhusar/git/docs.modcluster.io/docs/src/asciidoc does not exist
-[INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] --- asciidoctor:2.2.6:process-asciidoc (output-pdf-user-guide) @ mod_cluster-docs ---
 [INFO] Copying 6 resources to images
-[INFO] Copying 1416 resources to .
+uri:classloader:/gems/prawn-svg-0.33.0/lib/prawn/svg/properties.rb:54: warning: `*' interpreted as argument prefix
+uri:classloader:/gems/prawn-svg-0.33.0/lib/prawn/svg/ttf.rb:40: warning: assigned but unused variable - platform_specific_id
+uri:classloader:/gems/prawn-svg-0.33.0/lib/prawn/svg/ttf.rb:35: warning: assigned but unused variable - format
+uri:classloader:/META-INF/jruby.home/lib/ruby/stdlib/ostruct.rb:466: warning: OpenStruct#public_send accesses caller method's state and should not be aliased
+uri:classloader:/META-INF/jruby.home/lib/ruby/stdlib/ostruct.rb:466: warning: OpenStruct#method accesses caller method's state and should not be aliased
 [INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/index.adoc
 [INFO]
-[INFO] --- source:3.3.0:jar-no-fork (attach-sources) @ mod_cluster-docs ---
+[INFO] --- source:3.2.1:jar-no-fork (attach-sources) @ mod_cluster-docs ---
 [INFO]
-[INFO] --- asciidoctor:2.2.4:process-asciidoc (output-html) @ mod_cluster-docs ---
-[INFO] sourceDirectory /Users/rhusar/git/docs.modcluster.io/docs/src/docs/asciidoc does not exist
-[INFO] sourceDirectory /Users/rhusar/git/docs.modcluster.io/docs/src/asciidoc does not exist
-[INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] --- asciidoctor:2.2.6:process-asciidoc (output-html-user-guide) @ mod_cluster-docs ---
 [INFO] Copying 6 resources to images
-[INFO] Copying 1416 resources to .
+[INFO] Copying 1524 resources to .
 [INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/index.adoc
+[INFO]
+[INFO] --- asciidoctor:2.2.6:process-asciidoc (output-html-developer-resources) @ mod_cluster-docs ---
+[INFO] Copying 5 resources to images
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/q_a_webinar.adoc
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/encrypting_connection.adoc
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/node_conf.adoc
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/ping_pong.adoc
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/cluster_listener.adoc
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/jbc_data_partitioning.adoc
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/management_protocol.adoc
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/reverse_extension.adoc
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/hw_load_balancer.adoc
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/version_1.3.1.adoc
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/internals.adoc
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/fedora24_25_update_testing.adoc
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/info_rsp.adoc
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/mod_proxy_forwarding.adoc
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/index.adoc
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/design.adoc
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/node_balancers.adoc
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/choosing_doc_platform.adoc
+[INFO] Converted /Users/rhusar/git/docs.modcluster.io/docs/src/main/asciidoc/developer/as_integration.adoc
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary for mod_cluster docs (parent) 2.0.0.Final-SNAPSHOT:
 [INFO]
-[INFO] mod_cluster docs (parent) .......................... SUCCESS [  0.730 s]
-[INFO] mod_cluster docs: Documentation .................... SUCCESS [ 24.694 s]
+[INFO] mod_cluster docs (parent) .......................... SUCCESS [  0.901 s]
+[INFO] mod_cluster docs: Documentation .................... SUCCESS [ 30.077 s]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  25.545 s
-[INFO] Finished at: 2023-12-21T10:56:55+01:00
+[INFO] Total time:  31.114 s
+[INFO] Finished at: 2024-02-19T12:01:24+01:00
 [INFO] ------------------------------------------------------------------------
 ----
 
