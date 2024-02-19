@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['server_595',['server',['../structwatchdog__thread__args.html#a385b74cd176e6d0b55153c3c1e511b16',1,'watchdog_thread_args::server()'],['../structma__advertise__srv__t.html#a6f85e0e58f0726e400b50847f157add7',1,'ma_advertise_srv_t::server()']]],
+  ['sessionid_596',['sessionid',['../group__MEM.html#gaade853c4df14cc0e43f6d48a330f2024',1,'sessionidinfo']]],
+  ['shared_597',['shared',['../structproxy__cluster__helper.html#a8e0881567c7b9acca8647b7650407069',1,'proxy_cluster_helper']]],
+  ['sizebalancer_598',['sizebalancer',['../group__MOD__PROXY__CLUSTER.html#ga02aae7691328cb6355287395485f2a8d',1,'proxy_balancer_table']]],
+  ['sizecontext_599',['sizecontext',['../group__MOD__PROXY__CLUSTER.html#ga352314437d7235aad6ae479d312d7777',1,'proxy_context_table']]],
+  ['sizenode_600',['sizenode',['../group__MOD__PROXY__CLUSTER.html#ga0cd7ed234628470edc3dc5479f3d3273',1,'proxy_node_table']]],
+  ['sizevhost_601',['sizevhost',['../group__MOD__PROXY__CLUSTER.html#ga99cd033f1088ee46d084c07f75c34034',1,'proxy_vhost_table']]],
+  ['slotmem_602',['slotmem',['../group__MOD__MANAGER.html#ga3f6cc6712ef9f8861a1ae0fc6946cf68',1,'mem']]],
+  ['smax_603',['smax',['../group__MEM.html#ga32d233e115a3534835d2867534a5bf12',1,'nodemess']]],
+  ['srvid_604',['srvid',['../structma__global__data__t.html#a71e52a28065c8e31836dd3456fe5a075',1,'ma_global_data_t']]],
+  ['ssalt_605',['ssalt',['../structma__global__data__t.html#a5008a59f85e54dd1fcd1d5c7cb7ae80b',1,'ma_global_data_t']]],
+  ['stat_606',['stat',['../group__MEM.html#gaae2a1fdf96494b9f395a36bfd5f71bda',1,'nodeinfo']]],
+  ['status_607',['status',['../structma__advertise__hdr__t.html#a49bc2fb887043e08137096089ceaaaa3',1,'ma_advertise_hdr_t::status()'],['../group__MEM.html#ga7be64082143cfb8118f24b6193f7c66c',1,'contextinfo::status()']]],
+  ['stickysession_608',['StickySession',['../group__MEM.html#gab263f10f68186ee931fb084f5d2b357a',1,'balancerinfo']]],
+  ['stickysessioncookie_609',['StickySessionCookie',['../group__MEM.html#gad6fa27356d825693cecf1bcec12dd956',1,'balancerinfo']]],
+  ['stickysessionforce_610',['StickySessionForce',['../group__MEM.html#gac826d020dec4feb4542bb3dae4db875a',1,'balancerinfo']]],
+  ['stickysessionpath_611',['StickySessionPath',['../group__MEM.html#ga5e674be60de2be79702d0965ab80cd6c',1,'balancerinfo']]],
+  ['stickysessionremove_612',['StickySessionRemove',['../group__MEM.html#gab15cc41ff3798cbc2b509f88afeffffc',1,'balancerinfo']]],
+  ['storage_613',['storage',['../group__MOD__MANAGER.html#ga790eae4822b59416ccd671bf9f80f7e0',1,'mem']]],
+  ['suuid_614',['suuid',['../structma__global__data__t.html#ae47954fb49d989df10389ccb1e4c36dd',1,'ma_global_data_t::suuid()'],['../structma__advertise__hdr__t.html#a7fd46a7319abf9262e62808b28dc5700',1,'ma_advertise_hdr_t::suuid()']]]
+];
