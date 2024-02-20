@@ -53,6 +53,7 @@
                                 <linkcss>false</linkcss>
                                 <attribute-missing>warn</attribute-missing>
                             </attributes>
+                            <sourceDirectory>src/main/asciidoc</sourceDirectory>
                             <sourceDocumentName>index.adoc</sourceDocumentName>
                             <logHandler>
                                 <failIf>
@@ -77,6 +78,7 @@
                                 </resource>
                             </resources>
                             <doctype>book</doctype>
+                            <sourceDirectory>src/main/asciidoc</sourceDirectory>
                             <sourceDocumentName>index.adoc</sourceDocumentName>
                             <enableVerbose>true</enableVerbose>
                             <outputFile>mod_cluster-v2-user-guide.pdf</outputFile>
