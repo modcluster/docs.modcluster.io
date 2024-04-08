@@ -109,7 +109,7 @@ LoadModule slotmem_shm_module   modules/mod_slotmem_shm.so
      Require ip 127.0.0
     </Location>
 
-    EnableMCPMReceive
+    EnableMCMPReceive
     <Location /mod_cluster_manager>
        SetHandler mod_cluster-manager
        Require ip 127.0.0

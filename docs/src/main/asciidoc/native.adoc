@@ -214,10 +214,10 @@ Controls whether a node upon failover is chosen deterministically.
 The Context of a mod_manger directive is VirtualHost except mentioned otherwise. **server config** means that it must be outside a
 VirtualHost configuration. If not an error message will be displayed and httpd will not start.
 
-=== EnableMCPMReceive
+=== EnableMCMPReceive
 
-EnableMCPMReceive – allow the VirtualHost to receive Mod-Cluster Management Protocol (MCMP) messages. You need one
-EnableMCPMReceive in your httpd configuration to allow mod_proxy_cluster to work, put it in the VirtualHost where you
+EnableMCMPReceive – allow the VirtualHost to receive Mod-Cluster Management Protocol (MCMP) messages. You need one
+EnableMCMPReceive in your httpd configuration to allow mod_proxy_cluster to work, put it in the VirtualHost where you
 configure advertise.
 
 This directive was added to address the issue of receiving MCMP on arbitrary VirtualHosts which was problematic
@@ -450,7 +450,7 @@ LoadModule watchdog_module      modules/mod_watchdog.so
   </Location>
 
   ServerAdvertise On
-  EnableMCPMReceive
+  EnableMCMPReceive
 
   # Where administrator reads the console from
   <Location /mod_cluster-manager>
