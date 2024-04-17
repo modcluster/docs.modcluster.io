@@ -528,7 +528,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2024-04-09</span>
+<span id="revdate">2024-04-17</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -1134,7 +1134,7 @@ LoadModule slotmem_shm_module   modules/mod_slotmem_shm.so
      Require ip 127.0.0
     &lt;/Location&gt;
 
-    EnableMCPMReceive
+    EnableMCMPReceive
     &lt;Location /mod_cluster_manager&gt;
        SetHandler mod_cluster-manager
        Require ip 127.0.0
@@ -3697,10 +3697,10 @@ If the configured value is not a standard HTTP response status code, the server 
 VirtualHost configuration. If not an error message will be displayed and httpd will not start.</p>
 </div>
 <div class="sect3">
-<h4 id="enablemcpmreceive"><a class="link" href="#enablemcpmreceive">4.5.1. EnableMCPMReceive</a></h4>
+<h4 id="enablemcmpreceive"><a class="link" href="#enablemcmpreceive">4.5.1. EnableMCMPReceive</a></h4>
 <div class="paragraph">
-<p>EnableMCPMReceive – allow the VirtualHost to receive Mod-Cluster Management Protocol (MCMP) messages. You need one
-EnableMCPMReceive in your httpd configuration to allow mod_proxy_cluster to work, put it in the VirtualHost where you
+<p>EnableMCMPReceive – allow the VirtualHost to receive Mod-Cluster Management Protocol (MCMP) messages. You need one
+EnableMCMPReceive in your httpd configuration to allow mod_proxy_cluster to work, put it in the VirtualHost where you
 configure advertise.</p>
 </div>
 <div class="paragraph">
@@ -3709,6 +3709,19 @@ due to accepting messages on insecure, unintended VirtualHosts.</p>
 </div>
 <div class="paragraph">
 <p><strong>Default:</strong> disabled (presence of the directive enables this functionality)</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This directive deprecates the original EnableMCPMReceive option as it contains a typo. The directive with the correct spelling
+is available in versions higher than 1.3.20.Final.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
@@ -3998,7 +4011,7 @@ LoadModule watchdog_module      modules/mod_watchdog.so
   &lt;/Location&gt;
 
   ServerAdvertise On
-  EnableMCPMReceive
+  EnableMCMPReceive
 
   # Where administrator reads the console from
   &lt;Location /mod_cluster-manager&gt;
@@ -4139,7 +4152,7 @@ nmake</code></pre>
 <pre class="CodeRay highlight"><code>C:\Users\%username%\mod_proxy_cluster\native\build (main)
 copy modules\*.so C:\Users\%username%\Apache24\modules\
 'modules/mod_advertise.so' -&gt; 'C:/Users/karm/Apache24/modules/mod_advertise.so'
-'odules/mod_manager.so' -&gt; 'C:/Users/karm/Apache24/modules/mod_manager.so'
+'modules/mod_manager.so' -&gt; 'C:/Users/karm/Apache24/modules/mod_manager.so'
 'modules/mod_proxy_cluster.so' -&gt; 'C:/Users/karm/Apache24/modules/mod_proxy_cluster.so'</code></pre>
 </div>
 </div>
@@ -5241,7 +5254,7 @@ Advertise directive or set explicitly:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>On the worker side, add the addresses and ports of the VirtualHost receiving MCMP (having <code>EnableMCPMReceive</code>) to the <code>proxyList</code>
+<p>On the worker side, add the addresses and ports of the VirtualHost receiving MCMP (having <code>EnableMCMPReceive</code>) to the <code>proxyList</code>
 property and set advertise to false, for example:</p>
 </div>
 <div class="sect3">
@@ -5410,7 +5423,7 @@ ServerAdvertise directive in you mod_cluster httpd configuration:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>You need to have something like the undermentioned authentication configured in the <code>EnableMCPMReceive</code> marked VirtualHost:</p>
+<p>You need to have something like the undermentioned authentication configured in the <code>EnableMCMPReceive</code> marked VirtualHost:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5455,7 +5468,7 @@ Node jboss-6-3 served   9 requests</code></pre>
 <div class="sect2">
 <h3 id="keep-seeing-http1-1-501-method-not-implemented"><a class="link" href="#keep-seeing-http1-1-501-method-not-implemented">7.5. Keep seeing "HTTP/1.1 501 Method Not Implemented"</a></h3>
 <div class="paragraph">
-<p>One needs to configure EnableMCPMReceive in
+<p>One needs to configure EnableMCMPReceive in
 the VirtualHost where you received the MCMP elements in the Apache httpd configuration.
 Something like in the aforementioned Minimal Example.</p>
 </div>
