@@ -225,6 +225,9 @@ due to accepting messages on insecure, unintended VirtualHosts.
 
 **Default:** disabled (presence of the directive enables this functionality)
 
+NOTE: This directive deprecates the original EnableMCPMReceive option as it contains a typo. The directive with the correct spelling
+is available in versions higher than 1.3.20.Final.
+
 === MemManagerFile
 
 That is the base name for the names mod_manager will use to store configuration, generate keys for shared memory or lock
