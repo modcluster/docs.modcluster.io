@@ -37,7 +37,7 @@ For example when using http instead of AJP, only remove the following line:
 LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
 ----
 
-Alternatively, if you want to use AJP only, remove the correspoing http line:
+Alternatively, if you want to use AJP only, remove the corresponding http line:
 
 [source]
 ----
@@ -225,8 +225,8 @@ due to accepting messages on insecure, unintended VirtualHosts.
 
 **Default:** disabled (presence of the directive enables this functionality)
 
-NOTE: This directive deprecates the original EnableMCPMReceive option as it contains a typo. The directive with the correct spelling
-is available in versions higher than 1.3.20.Final.
+NOTE: This directive deprecates the original `EnableMCPMReceive` option as it contains a typo.
+      The directive with the correct spelling is available in version 1.3.21.Final and newer.
 
 === MemManagerFile
 

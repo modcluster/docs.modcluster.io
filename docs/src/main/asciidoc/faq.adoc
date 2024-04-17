@@ -30,7 +30,7 @@ See <<mod_advertise>> configuration.
 
 == What to do if I don't want to use Advertise (UDP multicast)
 
-In the VirtualHost receiving the MCPM of httpd.conf don't use any
+In the VirtualHost receiving the MCMP of httpd.conf don't use any
 Advertise directive or set explicitly:
 
 [source]
