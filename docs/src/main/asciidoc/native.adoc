@@ -566,7 +566,7 @@ Directory modules now contains all necessary modules:
 C:\Users\%username%\mod_proxy_cluster\native\build (main)
 copy modules\*.so C:\Users\%username%\Apache24\modules\
 'modules/mod_advertise.so' -> 'C:/Users/karm/Apache24/modules/mod_advertise.so'
-'odules/mod_manager.so' -> 'C:/Users/karm/Apache24/modules/mod_manager.so'
+'modules/mod_manager.so' -> 'C:/Users/karm/Apache24/modules/mod_manager.so'
 'modules/mod_proxy_cluster.so' -> 'C:/Users/karm/Apache24/modules/mod_proxy_cluster.so'
 ----
 
