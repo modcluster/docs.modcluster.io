@@ -214,16 +214,19 @@ Controls whether a node upon failover is chosen deterministically.
 The Context of a mod_manger directive is VirtualHost except mentioned otherwise. **server config** means that it must be outside a
 VirtualHost configuration. If not an error message will be displayed and httpd will not start.
 
-=== EnableMCPMReceive
+=== EnableMCMPReceive
 
-EnableMCPMReceive – allow the VirtualHost to receive Mod-Cluster Management Protocol (MCMP) messages. You need one
-EnableMCPMReceive in your httpd configuration to allow mod_proxy_cluster to work, put it in the VirtualHost where you
+EnableMCMPReceive – allow the VirtualHost to receive Mod-Cluster Management Protocol (MCMP) messages. You need one
+EnableMCMPReceive in your httpd configuration to allow mod_proxy_cluster to work, put it in the VirtualHost where you
 configure advertise.
 
 This directive was added to address the issue of receiving MCMP on arbitrary VirtualHosts which was problematic
 due to accepting messages on insecure, unintended VirtualHosts.
 
 **Default:** disabled (presence of the directive enables this functionality)
+
+NOTE: This directive deprecates the original EnableMCPMReceive option as it contains a typo. The directive with the correct spelling
+is available in versions higher than 1.3.20.Final.
 
 === MemManagerFile
 
@@ -450,7 +453,7 @@ LoadModule watchdog_module      modules/mod_watchdog.so
   </Location>
 
   ServerAdvertise On
-  EnableMCPMReceive
+  EnableMCMPReceive
 
   # Where administrator reads the console from
   <Location /mod_cluster-manager>
@@ -563,7 +566,7 @@ Directory modules now contains all necessary modules:
 C:\Users\%username%\mod_proxy_cluster\native\build (main)
 copy modules\*.so C:\Users\%username%\Apache24\modules\
 'modules/mod_advertise.so' -> 'C:/Users/karm/Apache24/modules/mod_advertise.so'
-'odules/mod_manager.so' -> 'C:/Users/karm/Apache24/modules/mod_manager.so'
+'modules/mod_manager.so' -> 'C:/Users/karm/Apache24/modules/mod_manager.so'
 'modules/mod_proxy_cluster.so' -> 'C:/Users/karm/Apache24/modules/mod_proxy_cluster.so'
 ----
 

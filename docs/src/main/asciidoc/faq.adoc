@@ -38,7 +38,7 @@ Advertise directive or set explicitly:
 ServerAdvertise Off
 ----
 
-On the worker side, add the addresses and ports of the VirtualHost receiving MCMP (having `EnableMCPMReceive`) to the `proxyList`
+On the worker side, add the addresses and ports of the VirtualHost receiving MCMP (having `EnableMCMPReceive`) to the `proxyList`
 property and set advertise to false, for example:
 
 === JBoss AS 5
@@ -163,7 +163,7 @@ ServerAdvertise On http://localhost:6666
 [error] [client 10.33.144.3] client denied by server configuration: /
 ----
 
-You need to have something like the undermentioned authentication configured in the `EnableMCPMReceive` marked VirtualHost:
+You need to have something like the undermentioned authentication configured in the `EnableMCMPReceive` marked VirtualHost:
 
 [source]
 ----
@@ -200,7 +200,7 @@ This whole magic is in place in order to prevent congestion.
 
 == Keep seeing "HTTP/1.1 501 Method Not Implemented"
 
-One needs to configure EnableMCPMReceive in
+One needs to configure EnableMCMPReceive in
 the VirtualHost where you received the MCMP elements in the Apache httpd configuration.
 Something like in the aforementioned Minimal Example.
 
