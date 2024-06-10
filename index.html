@@ -865,16 +865,16 @@ the structure of each item is fixed. The following cannot be changed by configur
 <div class="ulist">
 <ul>
 <li>
-<p>Max Alias length 40 characters (Host: hostname header, Alias in&lt;Host/&gt;).</p>
+<p>Max Alias length 255 characters in 2.x, 100 characters in 1.3.x (Host: hostname header, Alias in&lt;Host/&gt;).</p>
 </li>
 <li>
-<p>Max context length 40 (for example myapp.war deploys in /myapp/myapp is the context).</p>
+<p>Max context length 80 (for example myapp.war deploys in /myapp/myapp is the context).</p>
 </li>
 <li>
 <p>Max balancer name length 40 (balancer property in mbean).</p>
 </li>
 <li>
-<p>Max JVMRoute string length 80 (JVMRoute in &lt;Engine/&gt;).</p>
+<p>Max JVMRoute string length 64 (JVMRoute in &lt;Engine/&gt;).</p>
 </li>
 <li>
 <p>Max load balancing group name length 20 (domain property in mbean).</p>
@@ -886,7 +886,7 @@ the structure of each item is fixed. The following cannot be changed by configur
 <p>Max port length for a node 7 (8009 is 4 characters, port in the &lt;Connector/&gt;).</p>
 </li>
 <li>
-<p>Max scheme length for a node 6 (possible values are http, https, ajp, liked with the protocol of &lt;Connector/&gt;).</p>
+<p>Max scheme length for a node 16 (possible values are http, https, ajp, liked with the protocol of &lt;Connector/&gt;).</p>
 </li>
 <li>
 <p>Max cookie name 30 (the header cookie name for sessionid default value: JSESSIONID from org.apache.catalina.Globals.SESSION_COOKIE_NAME).</p>
