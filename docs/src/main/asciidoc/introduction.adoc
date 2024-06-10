@@ -111,14 +111,14 @@ The mod_cluster container integration module (implemented in Java) is provided f
 mod_proxy_cluster uses shared memory to keep the nodes description, the shared memory is created at the start of httpd and
 the structure of each item is fixed. The following cannot be changed by configuration directives.
 
-* Max Alias length 40 characters (Host: hostname header, Alias in&lt;Host/&gt;).
-* Max context length 40 (for example myapp.war deploys in /myapp/myapp is the context).
+* Max Alias length 255 characters in 2.x, 100 characters in 1.3.x (Host: hostname header, Alias in&lt;Host/&gt;).
+* Max context length 80 (for example myapp.war deploys in /myapp/myapp is the context).
 * Max balancer name length 40 (balancer property in mbean).
-* Max JVMRoute string length 80 (JVMRoute in &lt;Engine/&gt;).
+* Max JVMRoute string length 64 (JVMRoute in &lt;Engine/&gt;).
 * Max load balancing group name length 20 (domain property in mbean).
 * Max hostname length for a node 64 (address in the &lt;Connector/&gt;).
 * Max port length for a node 7 (8009 is 4 characters, port in the &lt;Connector/&gt;).
-* Max scheme length for a node 6 (possible values are http, https, ajp, liked with the protocol of &lt;Connector/&gt;).
+* Max scheme length for a node 16 (possible values are http, https, ajp, liked with the protocol of &lt;Connector/&gt;).
 * Max cookie name 30 (the header cookie name for sessionid default value: JSESSIONID from org.apache.catalina.Globals.SESSION_COOKIE_NAME).
 * Max path name 30 (the parameter name for the sessionid default value: jsessionid from org.apache.catalina.Globals.SESSION_PARAMETER_NAME).
 * Max length for a sessionid 120 (something like BE81FAA969BF64C8EC2B6600457EAAAA.node01).
