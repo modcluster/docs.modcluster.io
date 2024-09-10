@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.20">
-<title>ModCluster Management Protocol</title>
+<title>ModCluster Management Protocol (MCMP)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -435,13 +435,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>ModCluster Management Protocol</h1>
+<h1>ModCluster Management Protocol (MCMP)</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_messages">Messages</a>
 <ul class="sectlevel2">
-<li><a href="#_message_payload">Message payload:</a></li>
+<li><a href="#_message_payload">Message payload</a></li>
 </ul>
 </li>
 <li><a href="#_config">CONFIG</a></li>
@@ -468,9 +468,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>The document describes the protocol elements of the
-<a href="design.html">mod_cluster</a> protocol between a container (AS) and a load
-balancer (Apache httpd).</p>
+<p>The document describes the protocol elements of the <a href="design.html">mod_cluster</a> protocol between a container (AS) and a load balancer (Apache httpd / Undertow).</p>
 </div>
 </div>
 </div>
@@ -482,11 +480,13 @@ balancer (Apache httpd).</p>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
-<tbody>
+<thead>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Message type</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<th class="tableblock halign-left valign-top">Message type</th>
+<th class="tableblock halign-left valign-top">Description</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">CONFIG</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Send configuration information for a node or set of nodes.</p></td>
@@ -546,7 +546,7 @@ balancer (Apache httpd).</p>
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="_message_payload">Message payload:</h3>
+<h3 id="_message_payload">Message payload</h3>
 <div class="paragraph">
 <p>The information is in ASCII and URL encoded if needed.</p>
 </div>
@@ -554,15 +554,14 @@ balancer (Apache httpd).</p>
 <p>All numbers are integer and a string representation is used.</p>
 </div>
 <div class="paragraph">
-<p>The command is string it is the first part of a message it is followed by
-a / HTTP/1.0&lt;CR&gt;&lt;LF&gt;</p>
+<p>The command is string it is the first part of a message it is followed by a / HTTP/1.0&lt;CR&gt;&lt;LF&gt;</p>
 </div>
 <div class="paragraph">
 <p>Example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>DISABLE-APP / HTTP/1.0&lt;CR&gt;&lt;LF&gt;</pre>
+<pre class="highlight"><code>DISABLE-APP / HTTP/1.0&lt;CR&gt;&lt;LF&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -586,18 +585,17 @@ their pairs is &lt;&amp;&gt;</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>DISABLE / HTTP/1.0&lt;CR&gt;&lt;LF&gt;
+<pre class="highlight"><code>DISABLE / HTTP/1.0&lt;CR&gt;&lt;LF&gt;
 
 Content-length: 44&lt;CR&gt;&lt;LF&gt;
 
 &lt;CR&gt;&lt;LF&gt;
 
-Jvmroute=node1&amp;Context=myapp&amp;Context=ourapp&lt;CR&gt;&lt;LF&gt;</pre>
+Jvmroute=node1&amp;Context=myapp&amp;Context=ourapp&lt;CR&gt;&lt;LF&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>To make the document more readable the " / HTTP/1.0" is not added a the end of
-the commands.</p>
+<p>To make the document more readable the " / HTTP/1.0" is not added a the end of the commands.</p>
 </div>
 </div>
 </div>
@@ -612,13 +610,15 @@ the commands.</p>
 <col style="width: 25%;">
 <col style="width: 25%;">
 </colgroup>
-<tbody>
+<thead>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Key</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Default</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Max size</p></td>
+<th class="tableblock halign-left valign-top">Key</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Max size</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Alias</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of virtual hosts like host1,host2 (See <a href="http://tomcat.apache.org/tomcat-6.0-doc/config/host.html#Host%20Name%20Aliases">Alias</a>)</p></td>
@@ -667,11 +667,94 @@ the commands.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ajp</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reversed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">flushpackets</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">flushwait</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ping</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">smax</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ttl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timeout</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySession</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionCookie</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionPath</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionRemove</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionForce</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WaitWorker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maxattempts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
+</tr>
 </tbody>
 </table>
 <div class="paragraph">
-<p>For node and balancer configuration keys refer to
-<a href="node_balancers.html">ModCluster Node and Balancer</a>.</p>
+<p>For node and balancer configuration keys refer to <a href="node_balancers.html">ModCluster Node and Balancer</a>.</p>
 </div>
 </div>
 </div>
@@ -683,11 +766,13 @@ the commands.</p>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
-<tbody>
+<thead>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Key</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<th class="tableblock halign-left valign-top">Key</th>
+<th class="tableblock halign-left valign-top">Description</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">JvmRoute</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG</p></td>
@@ -708,7 +793,7 @@ the commands.</p>
 <h2 id="_disable_app">DISABLE-APP</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Like ENABLE-APP.</p>
+<p>Same as ENABLE-APP.</p>
 </div>
 </div>
 </div>
@@ -716,7 +801,7 @@ the commands.</p>
 <h2 id="_stop_app">STOP-APP</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Like ENABLE-APP.</p>
+<p>Same as ENABLE-APP.</p>
 </div>
 </div>
 </div>
@@ -724,7 +809,7 @@ the commands.</p>
 <h2 id="_remove_app">REMOVE-APP</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Like ENABLE-APP.</p>
+<p>Same as ENABLE-APP.</p>
 </div>
 </div>
 </div>
@@ -732,8 +817,7 @@ the commands.</p>
 <h2 id="_stop_app_rsp">STOP-APP-RSP</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>That is a response to STOP-APP, like a http response it starts with
-HTTP/1.1 200 OK&lt;CR&gt;&lt;LF&gt; and it has the format:</p>
+<p>That is a response to STOP-APP, like a http response it starts with HTTP/1.1 200 OK&lt;CR&gt;&lt;LF&gt; and it has the format:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -782,13 +866,15 @@ HTTP/1.1 200 OK&lt;CR&gt;&lt;LF&gt; and it has the format:</p>
 <col style="width: 25%;">
 <col style="width: 25%;">
 </colgroup>
-<tbody>
+<thead>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Key</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Default</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Max size</p></td>
+<th class="tableblock halign-left valign-top">Key</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Max size</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">JvmRoute</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG</p></td>
@@ -819,11 +905,13 @@ and it has the format:</p>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
-<tbody>
+<thead>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Key</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<th class="tableblock halign-left valign-top">Key</th>
+<th class="tableblock halign-left valign-top">Description</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Type</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">STATUS-RSP</p></td>
@@ -856,8 +944,7 @@ and it has the format:</p>
 <h2 id="_info_rsp">INFO-RSP</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>"readable" description of the mod_cluster configuration corresponding to the
-messages the cluster has sent to mod_cluster.</p>
+<p>A "readable" description of the mod_cluster configuration corresponding to the messages the cluster has sent to mod_cluster.</p>
 </div>
 </div>
 </div>
@@ -873,8 +960,7 @@ messages the cluster has sent to mod_cluster.</p>
 <h2 id="_dump_rsp">DUMP-RSP</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>"readable" description of the mod_cluster configuration corresponding to the
-messages the cluster has sent to mod_cluster.</p>
+<p>A "readable" description of the mod_cluster configuration corresponding to the  messages the cluster has sent to mod_cluster.</p>
 </div>
 </div>
 </div>
@@ -882,18 +968,20 @@ messages the cluster has sent to mod_cluster.</p>
 <h2 id="_ping">PING</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>There are 3 different pings: (for version 0.1.0 on).</p>
+<p>There are three different pings: (for version 0.1.0 on).</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
-<tbody>
+<thead>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Combination</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<th class="tableblock halign-left valign-top">Combination</th>
+<th class="tableblock halign-left valign-top">Description</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Empty=?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">check that the proxy is alive.</p></td>
@@ -913,11 +1001,13 @@ messages the cluster has sent to mod_cluster.</p>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
-<tbody>
+<thead>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Key</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<th class="tableblock halign-left valign-top">Key</th>
+<th class="tableblock halign-left valign-top">Description</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">JvmRoute</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG</p></td>
@@ -946,11 +1036,13 @@ messages the cluster has sent to mod_cluster.</p>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
-<tbody>
+<thead>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Key</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<th class="tableblock halign-left valign-top">Key</th>
+<th class="tableblock halign-left valign-top">Description</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Type</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PING-RSP</p></td>
@@ -979,7 +1071,7 @@ mod_cluster only the JVMRoute is going to be relevant in the payload message.</p
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>DISABLE  HTTP/1.0
+<pre class="highlight"><code>DISABLE  HTTP/1.0
 
 &lt;CR&gt;&lt;LF&gt;
 
@@ -987,7 +1079,7 @@ Content-length: 44&lt;CR&gt;&lt;LF&gt;
 
 &lt;CR&gt;&lt;LF&gt;
 
-Jvmroute=node1&amp;Context=myapp&amp;Context=ourapp&lt;CR&gt;&lt;LF&gt;</pre>
+Jvmroute=node1&amp;Context=myapp&amp;Context=ourapp&lt;CR&gt;&lt;LF&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -995,13 +1087,13 @@ Jvmroute=node1&amp;Context=myapp&amp;Context=ourapp&lt;CR&gt;&lt;LF&gt;</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>DISABLE  HTTP/1.0&lt;CR&gt;&lt;LF&gt;
+<pre class="highlight"><code>DISABLE  HTTP/1.0&lt;CR&gt;&lt;LF&gt;
 
 Content-length: 15&lt;CR&gt;&lt;LF&gt;
 
 &lt;CR&gt;&lt;LF&gt;
 
-Jvmroute=node1&lt;CR&gt;&lt;LF&gt;</pre>
+Jvmroute=node1&lt;CR&gt;&lt;LF&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1060,13 +1152,13 @@ error.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>HTTP/1.1 500 ERROR
+<pre class="highlight"><code>HTTP/1.1 500 ERROR
 
 Version: version_supported
 
 Type: type
 
-Mess: "error_string"</pre>
+Mess: "error_string"</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1103,7 +1195,7 @@ to mod_cluster.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>HTTP/1.1 500 ERROR
+<pre class="highlight"><code>HTTP/1.1 500 ERROR
 Date: Fri, 16 May 2008 09:55:21 GMT
 Server: Apache/2.2.9-dev (Unix) mod_ssl/2.2.9-dev OpenSSL/0.9.8b DAV/2
 Content-Length: 557
@@ -1113,7 +1205,7 @@ Type: SYNTAX
 Mess: "Command is not supported"
 Content-Type: text/html; charset=iso-8859-1
 
-&lt;!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"&gt;</pre>
+&lt;!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -1128,7 +1220,7 @@ string is the following:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>Nonce:&lt;nonce&gt;&amp;Cmd:&lt;cmd&gt;&amp;Range:&lt;range&gt;&amp;&lt;MCMP String&gt;</pre>
+<pre class="highlight"><code>Nonce:&lt;nonce&gt;&amp;Cmd:&lt;cmd&gt;&amp;Range:&lt;range&gt;&amp;&lt;MCMP String&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1137,15 +1229,13 @@ string is the following:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>&lt;nonce&gt; Is a string like e17066b4-0cb1-4e58-93e3-cdc9efb6be9 corresponding to
-a unique id of httpd.</p>
+<p>&lt;nonce&gt; Is a string like e17066b4-0cb1-4e58-93e3-cdc9efb6be9 corresponding to a unique id of httpd.</p>
 </li>
 <li>
 <p>&lt;cmd&gt; Is the command: one of ENABLE_APP, DISABLE_APP etc.</p>
 </li>
 <li>
-<p>&lt;range&gt; Is a "NODE" or "CONTEXT". "NODE" means that the _APP command is a
-wildcard command.</p>
+<p>&lt;range&gt; Is a "NODE" or "CONTEXT". "NODE" means that the _APP command is a wildcard command.</p>
 </li>
 <li>
 <p>&lt;MCMP String&gt; is a string containing a command described above.</p>
@@ -1153,11 +1243,11 @@ wildcard command.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Example</p>
+<p>Example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>http://localhost:8000/mod_cluster-manager?nonce=e17066b4-0cb1-4e58-93e3-cdc9efb6be9c&amp;Cmd=DISABLE-APP&amp;Range=CONTEXT&amp;JVMRoute=jvm1&amp;Alias=</pre>
+<pre class="highlight"><code>http://localhost:8000/mod_cluster-manager?nonce=e17066b4-0cb1-4e58-93e3-cdc9efb6be9c&amp;Cmd=DISABLE-APP&amp;Range=CONTEXT&amp;JVMRoute=jvm1&amp;Alias=</code></pre>
 </div>
 </div>
 </div>
@@ -1165,7 +1255,7 @@ wildcard command.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-09-03 08:42:22 UTC
+Last updated 2024-09-10 13:32:58 UTC
 </div>
 </div>
 </body>
