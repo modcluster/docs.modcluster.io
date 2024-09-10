@@ -21,7 +21,7 @@ See also the following wiki pages:
 
 Implementation details:
 
-* xref:management_protocol.adoc[ModCluster_Management_Protocol]
+* xref:management_protocol.adoc[ModCluster Management Protocol (MCMP)]
 
 * xref:internals.adoc[ModCluster_Internals]
 
