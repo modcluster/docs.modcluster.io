@@ -16,6 +16,11 @@ The document describes the protocol elements of the xref:design.adoc[mod_cluster
 | INFO        | Request configuration info from mod_cluster-manager.
 | DUMP        | Request a text dump of the current configuration seen by mod_cluster_manager.
 | PING        | Request a ping to httpd or node. The node could defined by JVMRoute or Scheme, Host, and Port (since version 0.1.0).
+| ERROR       | TODO
+| ADDID       | TODO
+| REMOVEID    | TODO
+| QUERY       | TODO
+| VERSION     | TODO
 |===
 
 === Message payload
