@@ -5,22 +5,17 @@ The document describes the protocol elements of the xref:design.adoc[mod_cluster
 == Messages
 
 |===
-| Message type | Description
+| Message type / Request method | Description
 
-| CONFIG       | Send configuration information for a node or set of nodes.
-| ENABLE-APP   | Send requests and assign new sessions to the specified app. Use of to identify the app means enable all apps on the given node.
-| DISABLE-APP  | apache should not create new session for this webapp, but still continue serving existing session on this node. Use of to identify the app means disable all apps on the given node.
-| STOP-APP     | New requests for this webapp should not be sent to this node. Use of to identify the app means stop all apps on the given node.
-| STOP-APP-RSP | Response to STOP-APP (since version 0.2.0)
-| REMOVE-APP   | Remove the information about this webapp from mod_cluster tables.
-| STATUS       | Send the current load balance factor for this node (or a set of nodes). Periodically sent.
-| STATUS-RSP   | mod_cluster_manager response to a STATUS.
-| INFO         | Request configuration info from mod_cluster-manager.
-| INFO-RSP     | Response to INFO virtual host and listen address/port.
-| DUMP         | Request a text dump of the current configuration seen by mod_cluster_manager.
-| DUMP-RSP     | Response to DUMP.
-| PING         | Request a ping to httpd or node. The node could defined by JVMRoute or Scheme, Host, and Port (since version 0.1.0).
-| PING-RSP     | Response to PING
+| CONFIG      | Send configuration information for a node or set of nodes.
+| ENABLE-APP  | Send requests and assign new sessions to the specified app. Use of to identify the app means enable all apps on the given node.
+| DISABLE-APP | apache should not create new session for this webapp, but still continue serving existing session on this node. Use of to identify the app means disable all apps on the given node.
+| STOP-APP    | New requests for this webapp should not be sent to this node. Use of to identify the app means stop all apps on the given node.
+| REMOVE-APP  | Remove the information about this webapp from mod_cluster tables.
+| STATUS      | Send the current load balance factor for this node (or a set of nodes). Periodically sent.
+| INFO        | Request configuration info from mod_cluster-manager.
+| DUMP        | Request a text dump of the current configuration seen by mod_cluster_manager.
+| PING        | Request a ping to httpd or node. The node could defined by JVMRoute or Scheme, Host, and Port (since version 0.1.0).
 |===
 
 === Message payload
@@ -49,169 +44,250 @@ their pairs is <&>
 
 <CR><LF> means end of <COMMAND>
 
+For certain values you can specify a list, in such cases separate the individual values by commas
+(e.g., `Alias=localhost,demo`).
+
+NOTE: All parameter names are case insensitive, but their values are NOT.
+
 Example:
 
 [source]
 ----
-DISABLE / HTTP/1.0<CR><LF>
+DISABLE-APP / HTTP/1.0<CR><LF>
 
 Content-length: 44<CR><LF>
 
 <CR><LF>
 
-Jvmroute=node1&Context=myapp&Context=ourapp<CR><LF>
+Jvmroute=node1&Context=/myapp&Alias=demo<CR><LF>
 ----
 
 To make the document more readable the " / HTTP/1.0" is not added a the end of the commands.
 
-== CONFIG
+You can send the command with `curl` executing following
+
+[source]
+----
+curl -XDISABLE-APP -d "JVMRoute=node1" -d "Context=/myapp" -d "Alias=demo" http://localhost:6666
+----
+
+== Message Types
+
+Following are the descritpions of individual message types with their parameters.
+
+=== CONFIG
+
+This message adds a new node or updates an existing one.
 
 |===
-| Key      | Description                                                                                                                        | Default   | Max size
+| Key      | Description                                                                                                       | Default   | Required
 
-| Alias    | List of virtual hosts like host1,host2 (See http://tomcat.apache.org/tomcat-6.0-doc/config/host.html#Host%20Name%20Aliases[Alias]) |           | 
-| Balancer | is the name of the balancer in httpd (for example mycluster in ProxyPass /myapp balancer://mycluster/)                             | mycluster | 40
-| Context  | List the context the virtual host list supports like (Ex. "/myapp,/ourapp")                                                        |           | 
-| Domain   | is the domain corresponding to the node                                                                                            | NULL      | 20
-| Host     | is the IP address (or hostname) where the node is going to receive requests from httpd                                             |           |
-| JvmRoute | Is what is after the . in the JSESSIONID cookie or the parameter jsessionid                                                        |           | 80
-| Port     | is the port on which the node except to receive requests                                                                           | 8009      | 7
-| Type     | http/https/ajp The protocol to use between httpd and AS to process requests                                                        | ajp       | 6
-
-// The following is a dump of parameters sent by the current implementation, which were missing from the protocol definition
-// TODO: these need to properly described
-// https://github.com/modcluster/mod_cluster/blob/main/core/src/main/java/org/jboss/modcluster/mcmp/impl/DefaultMCMPRequestFactory.java#L39
-
-| Reversed | TODO | TODO | TODO
-| flushpackets | TODO | TODO | TODO
-| flushwait | TODO | TODO | TODO
-| ping | TODO | TODO | TODO
-| smax | TODO | TODO | TODO
-| ttl | TODO | TODO | TODO
-| Timeout | TODO | TODO | TODO
-| StickySession | TODO | TODO | TODO
-| StickySessionCookie | TODO | TODO | TODO
-| StickySessionPath | TODO | TODO | TODO
-| StickySessionRemove | TODO | TODO | TODO
-| StickySessionForce | TODO | TODO | TODO
-| WaitWorker | TODO | TODO | TODO
-| Maxattempts | TODO | TODO | TODO
-
+| Alias    | List of virtual hosts (See http://tomcat.apache.org/tomcat-6.0-doc/config/host.html#Host%20Name%20Aliases[Alias]) |           |
+| Balancer | is the name of the balancer in httpd (for example mycluster in ProxyPass /myapp balancer://mycluster/)            | mycluster |
+| Context  | List the context the virtual host list supports like (Ex. "/myapp,/ourapp")                                       |           |
+| Domain   | is the domain corresponding to the node                                                                           |           |
+| Host     | is the IP address (or hostname) where the node is going to receive requests from httpd                            | localhost |
+| JVMRoute | Is what is after the . in the JSESSIONID cookie or the parameter jsessionid                                       |           | Yes
+| Port     | is the port on which the node except to receive requests                                                          | 8009      |
+| Type     | http/https/ajp The protocol to use between httpd and AS to process requests                                       | ajp       |
 |===
 
-For node and balancer configuration keys refer to xref:node_balancers.adoc[ModCluster Node and Balancer].
+NOTE: There are some limitations with regard to maximal lengths of some values. See
+https://docs.modcluster.io/#limitations[Limitations] section for more information.
 
-== ENABLE-APP
+The response in case of success is empty with HTTP code 200. In case of an error, HTTP 500 response is sent with header values `Type` and `Mess` set
+containing the type of the error and its descritpion respectively.
+
+
+=== INFO
+
+This message doesn't expect parameters, but you can supply an `Accept` header specifying the context type of the response. If `"text/xml"`
+is specified, the response will contain an XML. Otherwise plain text response is sent.
+
+The plain text format has a following structure:
+
+[source]
+----
+<Nodes>
+<Hosts>
+<Contexts>
+----
+
+where <Nodes> are 0 or more node records separated by a newline where each node record has following structure:
+
+[source]
+----
+Node: [<number>],Name: <JVMRoute value>,Balancer: <Balancer name>,LBGroup: <LBGroup>,Host: <Host name>,Port: <port value>,Type: <scheme/protocol to use>,Flushpackets: <value>,Flushwait: <value>,Ping: <value>,Smax: <value>,Ttl: <value>,Elected: <value>,Read: <value>,Transfered: <value>,Connected: <value>,Load: <value>
+----
+
+NOTE: For definitions of the individual values see the corresponding documentation section describing related
+https://docs.modcluster.io/#mod_proxy_cluster[directives].
+
+<Hosts> are 0 or more records separated by a newline where each host record has following structure:
+
+[source]
+----
+Vhost: [<number>:<number>:<number>], Alias: <alias value>
+----
+
+and <Contexts> are 0 or more records separated by a newline where each record has following structure:
+
+[source]
+----
+Context: [<number>:<number>:<number>], Context: <context value>, Status: <one of ENABLED, STOPPED, DISABLED>
+----
+
+NOTE: The first field in each of the described records is intended for debugging purposes and are present only in the text representation.
+
+Example:
+
+[source]
+----
+Node: [0],Name: spare,Balancer: mycluster,LBGroup: ,Host: localhost,Port: 8888,Type: ws,Flushpackets: Off,Flushwait: 10,Ping: 10,Smax: -1,Ttl: 60,Elected: 0,Read: 0,Transfered: 0,Connected: 0,Load: 0
+Node: [1],Name: test,Balancer: mycluster,LBGroup: ,Host: localhost,Port: 8889,Type: ws,Flushpackets: Off,Flushwait: 10,Ping: 10,Smax: -1,Ttl: 60,Elected: 0,Read: 0,Transfered: 0,Connected: 0,Load: -1
+Vhost: [1:1:0], Alias: localhost
+Context: [1:1:0], Context: test, Status: STOPPED
+----
+
+TODO: Desribe the XML format.
+
+=== DUMP
+
+This message doesn't expect parameters, but you can supply an `Accept` header specifying the context type of the response. If `"text/xml"`
+is specified, the response will contain an XML. Otherwise plain text response is sent.
+
+The plain text format has a following structure:
+
+[source]
+----
+<Balancers>
+<Nodes>
+<Hosts>
+<Contexts>
+----
+
+where the individual sections contain 0 or more records separated by a newline. The structure is similar to the corresponding
+the records of INFO response, however, there are a few differences such as missing commas in most of the cases.
+
+The balancer records have the following structure:
+
+[source]
+----
+balancer: [<number>] Name: <balancer name> Sticky: <value> [<Sticky session cookie]/[Sticky session path] remove: <value> force: <value> Timeout: <value> maxAttempts: <value>
+----
+
+The structure of node records is following:
+
+[source]
+----
+node: [<number>:<number>],Balancer: <balancer name>,JVMRoute: <value>,LBGroup: [<value>],Host: <value>,Port: <value>,Type: <value>,flushpackets: <value>,flushwait: <value>,ping: <value>,smax: <value>,ttl: <value>,timeout: <value>
+----
+
+The host structure:
+
+[source]
+----
+host: <number> [<host/alias value>] vhost: <number - host id> node: <number - node id>
+----
+
+and finally the context structure:
+
+[source]
+----
+context: <number> [<context value>] vhost: <number - host id> node: <number - node id> status: <1 for ENABLED, 2 for DISABLED, 3 for STOPPED>
+----
+
+NOTE: The first field in described records is intended for debugging purposes and are present only in the text representation.
+
+Example:
+
+[source]
+----
+balancer: [0] Name: mycluster Sticky: 1 [JSESSIONID]/[jsessionid] remove: 0 force: 1 Timeout: 0 maxAttempts: 1
+node: [0:0],Balancer: mycluster,JVMRoute: spare,LBGroup: [],Host: localhost,Port: 8888,Type: ws,flushpackets: 0,flushwait: 10,ping: 10,smax: -1,ttl: 60,timeout: 0
+node: [1:1],Balancer: mycluster,JVMRoute: test,LBGroup: [],Host: localhost,Port: 8889,Type: ws,flushpackets: 0,flushwait: 10,ping: 10,smax: -1,ttl: 60,timeout: 0
+host: 0 [localhost] vhost: 1 node: 1
+context: 0 [test] vhost: 1 node: 1 status: 3
+----
+
+TODO: Describe the XML output.
+
+
+=== STATUS
+
+The STATUS command requires single `JVMRoute` parameter specifying the node for which we want know the status. Optionally, you can supply `Load` parameter with
+a numerical value that will set the `Load` factor for the target node.
+
+In case of success, HTTP response with code 200 is sent with following parameters:
+
+* `Type` with value `STATUS-RSP`
+* `JVMRoute` corresponding to the value sent
+* `State` with value `OK` or `NOK`
+* `id` with a numerical value that is the generation id of process in httpd if it changes (increases) when httpd has been restarted and its view of the cluster
+configuration could be incorrect. In this case ModClusterService should send a new CONFIG ASAP so the information could be updated.
+
+In case of an error, HTTP 500 response is sent with headers `Type` and `Mess` set to the type and description of the error.
+
+Example:
+
+[source]
+----
+Type=STATUS-RSP&JVMRoute=spare&State=OK&id=698675605
+----
+
+
+=== PING
+
+The `PING` command does not require any parameter, but there are a few optional parameters you can use changing the command behavior. See
+the table below.
+
+|===
+| Key      | Description                                                                            | Required
+
+| JVMRoute | Is what is after the . in the JSESSIONID cookie or the parameter jsessionid            | No
+| Host     | is the IP address (or hostname) where the node is going to receive requests from httpd | Yes if Scheme or Port is specified
+| Port     | is the port on which the node except to receive requests                               | Yes if Host or Scheme is specified
+| Scheme   | http/https/ajp The protocol to use between httpd and AS to process requests            | Yes if Host or Port is specified
+|===
+
+If no parameter is supplied, then the `PING` checks whether the proxy if alive. In case `JVMRoute` is specified, then the corresponding node
+is checked. When `Host`, `Port`, and `Scheme` are used, then it is checked whether httpd can reach a possible node using `Scheme://Host:Port`.
+In case all parameters are specified, only `JVMRoute` is used and the behavior is the same as if the other ones were not present.
+
+
+=== ENABLE-APP
+
+This command enables an application under the corresponding context and alias. If the application doesn't exist, an existing virtual host
+is updated or a new one is created (that depends on the context/alias values).
+
+TODO: Describe the update/insert logic properly.
 
 |===
 | Key      | Description
 
-| JvmRoute | See CONFIG
-| Alias    | See CONFIG
-| Context  | That is the context of the application
+| JVMRoute | JVMRoute on which we enable the application
+| Context  | List of context under which the application should be deployed
+| Alias    | List of aliases for the corresponding virtual host
 |===
 
-== DISABLE-APP
+In case of success, an empty HTTP response with code 200 is sent. When an error occurs, HTTP 500 response is sent with `Type` and `Mess`
+headers containing the details.
 
-Same as ENABLE-APP.
+===  DISABLE-APP
+
+Same as ENABLE-APP only sets the app status to DISABLED.
+
+=== STOP-APP
+
+Same as ENABLE-APP only sets the app status to STOPPED.
+
+=== REMOVE-APP
+
+Same as ENABLE-APP but removes the app from the proxy.
 
 
-== STOP-APP
 
-Same as ENABLE-APP.
-
-== REMOVE-APP
-
-Same as ENABLE-APP.
-
-== STOP-APP-RSP
-
-That is a response to STOP-APP, like a http response it starts with HTTP/1.1 200 OK<CR><LF> and it has the format:
-
-|===
-| Key      | Description
-| Type     | STOP-APP-RSP
-| JvmRoute | See CONFIG
-| Alias    | See CONFIG
-| Context  | See CONFIG
-| Requests | That the number of requests active on the context at the time of STOP-APP command
-|===
-
-Note that a Wildcard STOP-APP won't cause a STOP-APP-RSP but just a 200 or 500.
-
-== STATUS
-
-|===
-| Key | Description | Default | Max size
-
-| JvmRoute | See CONFIG | | 
-| Load | number between 1 and 100 and defines the normalized weighted load applied to the worker. Only possible values are real load factor."0": node is on standby. +
-"-1": node is broken (The cluster can't connect to it). +
-"-2": just do a cping/cpong. | 0 | 3
-|===
-
-== STATUS-RSP
-
-That is a response, like a http response it starts with HTTP/1.1 200 OK<CR><LF>
-and it has the format:
-
-|===
-| Key      | Description
-
-| Type     | STATUS-RSP
-| JvmRoute | See CONFIG
-| State    | That is the state httpd see for the node at the time of the processing (value from shared memory).
-| id       | That is the generation id of process in httpd if it changes (increases) when httpd has been restarted and its view of the cluster configuration could be incorrect. In this case ModClusterService should send a new CONFIG ASAP so the information could be updated.
-|===
-
-== INFO
-
-Empty request.
-
-== INFO-RSP
-
-A "readable" description of the mod_cluster configuration corresponding to the messages the cluster has sent to mod_cluster.
-
-== DUMP
-
-Empty request.
-
-== DUMP-RSP
-
-A "readable" description of the mod_cluster configuration corresponding to the  messages the cluster has sent to mod_cluster.
-
-== PING
-
-There are three different pings: (for version 0.1.0 on).
-
-|===
-| Combination          | Description
-
-| Empty=?              | check that the proxy is alive.
-| JvmRoute=?           | check if a node is alive.
-| Type=?&Host=?&Port=? | check that httpd can connect to a possible node defined by Type://Host:Port/
-|===
-
-|===
-| Key      | Description
-
-| JvmRoute | See CONFIG
-| Type     | See CONFIG
-| Host     | See CONFIG
-| Port     | See CONFIG
-|===
-
-== PING-RSP
-
-|===
-| Key   | Description
-
-| Type  | PING-RSP
-| State | See STATUS_RSP
-| id    | See STATUS_RSP
-|===
-
-== Using -APP command with wildcard
+=== Using -APP command with wildcard
 
 In case a -APP command with wildcard is sent by ModClusterManager to
 mod_cluster only the JVMRoute is going to be relevant in the payload message.
