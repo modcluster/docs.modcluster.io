@@ -101,7 +101,7 @@ NOTE: There are some limitations with regard to maximal lengths of some values. 
 https://docs.modcluster.io/#limitations[Limitations] section for more information.
 
 The response in case of success is empty with HTTP code 200. In case of an error, HTTP 500 response is sent with header values `Type` and `Mess` set
-containing the type of the error and its descritpion respectively.
+containing the type of the error and its descritpion respectively. See the <<Error handling>> section for more information.
 
 
 === INFO
@@ -291,124 +291,37 @@ Same as ENABLE-APP only sets the app status to STOPPED.
 Same as ENABLE-APP but removes the app from the proxy.
 
 
-
-=== Using -APP command with wildcard
-
-In case a -APP command with wildcard is sent by ModClusterManager to
-mod_cluster only the JVMRoute is going to be relevant in the payload message.
-
-For example:
-
-[source]
-----
-DISABLE  HTTP/1.0
-
-<CR><LF>
-
-Content-length: 44<CR><LF>
-
-<CR><LF>
-
-Jvmroute=node1&Context=myapp&Context=ourapp<CR><LF>
-----
-
-will be handled like:
-
-[source]
-----
-DISABLE  HTTP/1.0<CR><LF>
-
-Content-length: 15<CR><LF>
-
-<CR><LF>
-
-Jvmroute=node1<CR><LF>
-----
-
-Other values between the command and HTTP/1.0 (or 1.1) are ignored in the actual version of the protocol.
-
-A shutdown of a node will cause the following events:
-
-* DISABLE-APP / for each application.
-* STOP-APP / for each application.
-* DISABLE-APP
-* STOP-APP
-
-(xref:design.adoc[ModCluster Design] suggests that
-ModClusterManager should wait until all sessions have been finished but that
-requires a to be written tool. The idea is that an administrator initiated
-step; similar to what people do now by changing workers.properties to quiesce a
-node in mod_jk, but it could be initiated from the JBoss side via a management
-tool). If a request arrives for a context corresponding to this node 500 will
-be returned to the client.
-
-An additional utility could be written to send a REMOVE-APP once the JBoss node
-is stopped REMOTE-APP will remove all the node information from mod_cluster
-table and any socket between httpd and the node will be closed. (For a more
-complete description see xref:internals.adoc[ModCluster Internals].) If
-a request arrives for a context corresponding to this node 404 will be returned
-to the client: in fact the mod_proxy will not be called for the request and an
-httpd page could be displayed. A REMOVE-APP / for example will just clean the
-mod_cluster table corresponding to the application defined in the payload.
-
 == Error handling
 
-Once a error occurs in mod_cluster 500 is returned and the status line tells
-the version of protocol mod_cluster is using and a short description of the
-error.
+Once an error occurs during the MCMP communication, an HTTP response with code 500 is returned. The response contains headers
+containing more details about the nature of the error. Namely `Type` and `Mess` header fields.
 
-The error response status line will be something like:
 
-[source]
-----
-HTTP/1.1 500 ERROR
-
-Version: version_supported
-
-Type: type
-
-Mess: "error_string"
-----
-
-Where version_supported is the version of the protocol mod_cluster is able to
-support.
-
-Where type is the type of error, for example: MEM to tell the message contains
-syntax errors (SYNTAX) or the data can't be updated to update the shared memory
-(MEM).
-
-The "error_string" should help to understand what was wrong and the n.p.n
-VERSION information tells which highest version of the protocol mod_cluster
-understands.
-
-The first part of the error_string should help to make a decision how to go on:
-
-SYNTAX: mod_cluster can't understand the message or part of the message.
-Another version of the protocol should used or ModClusterService should be
-fixed.
-
-MEM: mod_cluster can't update the shared memory. If that is the answer to
-a -APP messages or a STATUS message new CONFIG message should be send. If it is
-the answer to a CONFIG message the configuration of the cluster in
-ModCusterService should be checked or/and the CONFIG message should be resend
-to mod_cluster.
-
-Example:
+For example
 
 [source]
 ----
-HTTP/1.1 500 ERROR
-Date: Fri, 16 May 2008 09:55:21 GMT
-Server: Apache/2.2.9-dev (Unix) mod_ssl/2.2.9-dev OpenSSL/0.9.8b DAV/2
-Content-Length: 557
-Connection: close
-Version: 0.0.0
+HTTP/1.1 500 Internal Server Error
+Date: Wed, 11 Sep 2024 13:45:44 GMT
+Server: Apache/2.4.62 (Unix) mod_cluster/2.0.0.Alpha1-SNAPSHOT
+Version: 0.2.1
 Type: SYNTAX
-Mess: "Command is not supported"
+Mess: Can't parse MCMP message. It might have contained illegal symbols or unknown elements.
+Content-Length: 528
+Connection: close
 Content-Type: text/html; charset=iso-8859-1
 
-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<some html>
 ----
+
+where
+
+* Version is the supported version of the ModCluster Management Protocol.
+
+* Type specifies type of the error (e.g., `SYNTAX` when the message is not formed correctly or `MEM` when the data cannot be
+updated in or read from the shared memory).
+
+* Mess is the message describing the error in more detail
 
 == mod_cluster-manager handler
 
@@ -434,3 +347,24 @@ Example:
 ----
 http://localhost:8000/mod_cluster-manager?nonce=e17066b4-0cb1-4e58-93e3-cdc9efb6be9c&Cmd=DISABLE-APP&Range=CONTEXT&JVMRoute=jvm1&Alias=
 ----
+
+== Miscellaneous
+
+(xref:design.adoc[ModCluster Design] suggests that
+ModClusterManager should wait until all sessions have been finished but that
+requires a to be written tool. The idea is that an administrator initiated
+step; similar to what people do now by changing workers.properties to quiesce a
+node in mod_jk, but it could be initiated from the JBoss side via a management
+tool). If a request arrives for a context corresponding to this node 500 will
+be returned to the client.
+
+An additional utility could be written to send a REMOVE-APP once the JBoss node
+is stopped REMOTE-APP will remove all the node information from mod_cluster
+table and any socket between httpd and the node will be closed. (For a more
+complete description see xref:internals.adoc[ModCluster Internals].) If
+a request arrives for a context corresponding to this node 404 will be returned
+to the client: in fact the mod_proxy will not be called for the request and an
+httpd page could be displayed. A REMOVE-APP / for example will just clean the
+mod_cluster table corresponding to the application defined in the payload.
+
+
