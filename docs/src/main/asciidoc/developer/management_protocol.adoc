@@ -1,6 +1,7 @@
 = ModCluster Management Protocol (MCMP)
 
-The document describes the protocol elements of the xref:design.adoc[mod_cluster] protocol between a container (AS) and a load balancer (Apache httpd / Undertow).
+This document describes elements of the xref:design.adoc[ModCluster] Management Protocol for communication between a container (AS)
+and a load balancer (Apache httpd / Undertow).
 
 == Messages
 
@@ -8,28 +9,24 @@ The document describes the protocol elements of the xref:design.adoc[mod_cluster
 | Message type / Request method | Description
 
 | CONFIG      | Send configuration information for a node or set of nodes.
-| ENABLE-APP  | Send requests and assign new sessions to the specified app. Use of to identify the app means enable all apps on the given node.
-| DISABLE-APP | apache should not create new session for this webapp, but still continue serving existing session on this node. Use of to identify the app means disable all apps on the given node.
-| STOP-APP    | New requests for this webapp should not be sent to this node. Use of to identify the app means stop all apps on the given node.
-| REMOVE-APP  | Remove the information about this webapp from mod_cluster tables.
-| STATUS      | Send the current load balance factor for this node (or a set of nodes). Periodically sent.
 | INFO        | Request configuration info from mod_cluster-manager.
 | DUMP        | Request a text dump of the current configuration seen by mod_cluster_manager.
+| STATUS      | Send the current load balance factor for this node (or a set of nodes). Periodically sent.
 | PING        | Request a ping to httpd or node. The node could defined by JVMRoute or Scheme, Host, and Port (since version 0.1.0).
-| ERROR       | TODO
-| ADDID       | TODO
-| REMOVEID    | TODO
-| QUERY       | TODO
-| VERSION     | TODO
+| VERSION     | Request information about the software version used and supported MCMP version
+| ENABLE-APP  | Send requests and assign new sessions to the specified app. Use of to identify the app means enable all apps on the given node.
+| DISABLE-APP | Apache should not create new session for this webapp, but still continue serving existing session on this node. Use of to identify the app means disable all apps on the given node.
+| STOP-APP    | New requests for this webapp should not be sent to this node. Use of to identify the app means stop all apps on the given node.
+| REMOVE-APP  | Remove the information about this webapp from mod_cluster tables.
 |===
 
 === Message payload
 
 The information is in ASCII and URL encoded if needed.
 
-All numbers are integer and a string representation is used.
+All numbers are integers, string representation is used.
 
-The command is string it is the first part of a message it is followed by a / HTTP/1.0<CR><LF>
+The command is a string in the first part of a message followed by `/ HTTP/1.0<CR><LF>`.
 
 Example:
 
@@ -67,9 +64,7 @@ Content-length: 44<CR><LF>
 Jvmroute=node1&Context=/myapp&Alias=demo<CR><LF>
 ----
 
-To make the document more readable the " / HTTP/1.0" is not added a the end of the commands.
-
-You can send the command with `curl` executing following
+You can send the command using `curl` executing following:
 
 [source]
 ----
@@ -78,7 +73,7 @@ curl -XDISABLE-APP -d "JVMRoute=node1" -d "Context=/myapp" -d "Alias=demo" http:
 
 == Message Types
 
-Following are the descritpions of individual message types with their parameters.
+Following are the descriptions of individual message types with their parameters.
 
 === CONFIG
 
@@ -101,7 +96,7 @@ NOTE: There are some limitations with regard to maximal lengths of some values. 
 https://docs.modcluster.io/#limitations[Limitations] section for more information.
 
 The response in case of success is empty with HTTP code 200. In case of an error, HTTP 500 response is sent with header values `Type` and `Mess` set
-containing the type of the error and its descritpion respectively. See the <<Error handling>> section for more information.
+containing the type of the error and its description respectively. See the <<Error handling>> section for more information.
 
 
 === INFO
@@ -258,6 +253,23 @@ the table below.
 If no parameter is supplied, then the `PING` checks whether the proxy if alive. In case `JVMRoute` is specified, then the corresponding node
 is checked. When `Host`, `Port`, and `Scheme` are used, then it is checked whether httpd can reach a possible node using `Scheme://Host:Port`.
 In case all parameters are specified, only `JVMRoute` is used and the behavior is the same as if the other ones were not present.
+
+
+=== VERSION
+
+This command requests the information about the used version and supported MCMP version. The HTTP 200 response has following format:
+
+[source]
+----
+release: <software version>, protocol: <supported MCMP version>
+----
+
+so for example this is a valid response:
+
+[source]
+----
+release: mod_cluster/1.3.20.Final, protocol: 0.2.1
+----
 
 
 === ENABLE-APP
