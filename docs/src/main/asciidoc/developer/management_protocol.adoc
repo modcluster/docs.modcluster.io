@@ -45,7 +45,7 @@ their pairs is <&>
 
 <&> in value is escaped as &26
 
-<=> in value is escaped %3D
+\<\=> in value is escaped %3D
 
 <CR><LF> means end of <COMMAND>
 
