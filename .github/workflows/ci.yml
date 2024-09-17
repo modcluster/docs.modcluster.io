@@ -28,10 +28,9 @@ jobs:
             ${{ runner.os }}-maven-
       - name: Build with Maven
         run: mvn -B -ntp verify
-      - name: Preserve generated docs
+      - name: Upload generated-docs
         uses: actions/upload-artifact@v4
         with:
           name: generated-docs
           path: docs/target/generated-docs/*
           retention-days: 7
-
