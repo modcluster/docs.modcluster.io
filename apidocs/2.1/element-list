@@ -1,0 +1,16 @@
+org.jboss.modcluster
+org.jboss.modcluster.advertise
+org.jboss.modcluster.advertise.impl
+org.jboss.modcluster.config
+org.jboss.modcluster.config.builder
+org.jboss.modcluster.config.impl
+org.jboss.modcluster.container
+org.jboss.modcluster.container.catalina.standalone
+org.jboss.modcluster.container.listeners
+org.jboss.modcluster.container.tomcat
+org.jboss.modcluster.load
+org.jboss.modcluster.load.impl
+org.jboss.modcluster.load.metric
+org.jboss.modcluster.load.metric.impl
+org.jboss.modcluster.mcmp
+org.jboss.modcluster.mcmp.impl
