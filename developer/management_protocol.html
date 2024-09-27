@@ -444,23 +444,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_message_payload">Message payload</a></li>
 </ul>
 </li>
+<li><a href="#_message_types">Message Types</a>
+<ul class="sectlevel2">
 <li><a href="#_config">CONFIG</a></li>
+<li><a href="#_info">INFO</a></li>
+<li><a href="#_dump">DUMP</a></li>
+<li><a href="#_status">STATUS</a></li>
+<li><a href="#_ping">PING</a></li>
+<li><a href="#_version">VERSION</a></li>
 <li><a href="#_enable_app">ENABLE-APP</a></li>
 <li><a href="#_disable_app">DISABLE-APP</a></li>
 <li><a href="#_stop_app">STOP-APP</a></li>
 <li><a href="#_remove_app">REMOVE-APP</a></li>
-<li><a href="#_stop_app_rsp">STOP-APP-RSP</a></li>
-<li><a href="#_status">STATUS</a></li>
-<li><a href="#_status_rsp">STATUS-RSP</a></li>
-<li><a href="#_info">INFO</a></li>
-<li><a href="#_info_rsp">INFO-RSP</a></li>
-<li><a href="#_dump">DUMP</a></li>
-<li><a href="#_dump_rsp">DUMP-RSP</a></li>
-<li><a href="#_ping">PING</a></li>
-<li><a href="#_ping_rsp">PING-RSP</a></li>
-<li><a href="#_using_app_command_with_wildcard">Using -APP command with wildcard</a></li>
+</ul>
+</li>
 <li><a href="#_error_handling">Error handling</a></li>
 <li><a href="#_mod_cluster_manager_handler">mod_cluster-manager handler</a></li>
+<li><a href="#_miscellaneous">Miscellaneous</a></li>
 </ul>
 </div>
 </div>
@@ -468,7 +468,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>The document describes the protocol elements of the <a href="design.html">mod_cluster</a> protocol between a container (AS) and a load balancer (Apache httpd / Undertow).</p>
+<p>This document describes elements of the <a href="design.html">ModCluster</a> Management Protocol for communication between a container (AS)
+and a load balancer (Apache httpd / Undertow).</p>
 </div>
 </div>
 </div>
@@ -482,7 +483,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Message type</th>
+<th class="tableblock halign-left valign-top">Message type / Request method</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
@@ -492,56 +493,40 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">Send configuration information for a node or set of nodes.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ENABLE-APP</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Send requests and assign new sessions to the specified app. Use of to identify the app means enable all apps on the given node.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DISABLE-APP</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">apache should not create new session for this webapp, but still continue serving existing session on this node. Use of to identify the app means disable all apps on the given node.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">STOP-APP</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">New requests for this webapp should not be sent to this node. Use of to identify the app means stop all apps on the given node.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">STOP-APP-RSP</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Response to STOP-APP (since version 0.2.0)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">REMOVE-APP</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Remove the information about this webapp from mod_cluster tables.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">STATUS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Send the current load balance factor for this node (or a set of nodes). Periodically sent.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">STATUS-RSP</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">mod_cluster_manager response to a STATUS.</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">INFO</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Request configuration info from mod_cluster-manager.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">INFO-RSP</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Response to INFO virtual host and listen address/port.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">DUMP</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Request a text dump of the current configuration seen by mod_cluster_manager.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DUMP-RSP</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Response to DUMP.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STATUS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Send the current load balance factor for this node (or a set of nodes). Periodically sent.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PING</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Request a ping to httpd or node. The node could defined by JVMRoute or Scheme, Host, and Port (since version 0.1.0).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PING-RSP</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Response to PING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VERSION</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Request information about the software version used and supported MCMP version</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ENABLE-APP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Send requests and assign new sessions to the specified app. Use of to identify the app means enable all apps on the given node.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DISABLE-APP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Apache should not create new session for this webapp, but still continue serving existing session on this node. Use of to identify the app means disable all apps on the given node.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STOP-APP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">New requests for this webapp should not be sent to this node. Use of to identify the app means stop all apps on the given node.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">REMOVE-APP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove the information about this webapp from mod_cluster tables.</p></td>
 </tr>
 </tbody>
 </table>
@@ -551,10 +536,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>The information is in ASCII and URL encoded if needed.</p>
 </div>
 <div class="paragraph">
-<p>All numbers are integer and a string representation is used.</p>
+<p>All numbers are integers, string representation is used.</p>
 </div>
 <div class="paragraph">
-<p>The command is string it is the first part of a message it is followed by a / HTTP/1.0&lt;CR&gt;&lt;LF&gt;</p>
+<p>The command is a string in the first part of a message followed by <code>/ HTTP/1.0&lt;CR&gt;&lt;LF&gt;</code>.</p>
 </div>
 <div class="paragraph">
 <p>Example:</p>
@@ -575,34 +560,63 @@ their pairs is &lt;&amp;&gt;</p>
 <p>&lt;&amp;&gt; in value is escaped as &amp;26</p>
 </div>
 <div class="paragraph">
-<p>&lt;&#8658; in value is escaped %3D</p>
+<p>&lt;=&gt; in value is escaped %3D</p>
 </div>
 <div class="paragraph">
 <p>&lt;CR&gt;&lt;LF&gt; means end of &lt;COMMAND&gt;</p>
+</div>
+<div class="paragraph">
+<p>For certain values you can specify a list, in such cases separate the individual values by commas
+(e.g., <code>Alias=localhost,demo</code>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+All parameter names are case insensitive, but their values are NOT.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>DISABLE / HTTP/1.0&lt;CR&gt;&lt;LF&gt;
+<pre class="highlight"><code>DISABLE-APP / HTTP/1.0&lt;CR&gt;&lt;LF&gt;
 
 Content-length: 44&lt;CR&gt;&lt;LF&gt;
 
 &lt;CR&gt;&lt;LF&gt;
 
-Jvmroute=node1&amp;Context=myapp&amp;Context=ourapp&lt;CR&gt;&lt;LF&gt;</code></pre>
+Jvmroute=node1&amp;Context=/myapp&amp;Alias=demo&lt;CR&gt;&lt;LF&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>To make the document more readable the " / HTTP/1.0" is not added a the end of the commands.</p>
+<p>You can send the command using <code>curl</code> executing following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>curl -XDISABLE-APP -d "JVMRoute=node1" -d "Context=/myapp" -d "Alias=demo" http://localhost:6666</code></pre>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_config">CONFIG</h2>
+<h2 id="_message_types">Message Types</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Following are the descriptions of individual message types with their parameters.</p>
+</div>
+<div class="sect2">
+<h3 id="_config">CONFIG</h3>
+<div class="paragraph">
+<p>This message adds a new node or updates an existing one.</p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -615,13 +629,13 @@ Jvmroute=node1&amp;Context=myapp&amp;Context=ourapp&lt;CR&gt;&lt;LF&gt;</code></
 <th class="tableblock halign-left valign-top">Key</th>
 <th class="tableblock halign-left valign-top">Description</th>
 <th class="tableblock halign-left valign-top">Default</th>
-<th class="tableblock halign-left valign-top">Max size</th>
+<th class="tableblock halign-left valign-top">Required</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Alias</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of virtual hosts like host1,host2 (See <a href="http://tomcat.apache.org/tomcat-6.0-doc/config/host.html#Host%20Name%20Aliases">Alias</a>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of virtual hosts (See <a href="http://tomcat.apache.org/tomcat-6.0-doc/config/host.html#Host%20Name%20Aliases">Alias</a>)</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -629,7 +643,7 @@ Jvmroute=node1&amp;Context=myapp&amp;Context=ourapp&lt;CR&gt;&lt;LF&gt;</code></
 <td class="tableblock halign-left valign-top"><p class="tableblock">Balancer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">is the name of the balancer in httpd (for example mycluster in ProxyPass /myapp balancer://mycluster/)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">mycluster</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Context</p></td>
@@ -640,502 +654,376 @@ Jvmroute=node1&amp;Context=myapp&amp;Context=ourapp&lt;CR&gt;&lt;LF&gt;</code></
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Domain</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">is the domain corresponding to the node</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Host</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">is the IP address (or hostname) where the node is going to receive requests from httpd</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">localhost</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JvmRoute</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JVMRoute</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Is what is after the . in the JSESSIONID cookie or the parameter jsessionid</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">80</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Port</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">is the port on which the node except to receive requests</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8009</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Type</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">http/https/ajp The protocol to use between httpd and AS to process requests</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ajp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Reversed</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">flushpackets</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">flushwait</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ping</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">smax</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ttl</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Timeout</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">StickySession</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionCookie</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionPath</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionRemove</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionForce</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">WaitWorker</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Maxattempts</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>For node and balancer configuration keys refer to <a href="node_balancers.html">ModCluster Node and Balancer</a>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_enable_app">ENABLE-APP</h2>
-<div class="sectionbody">
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Key</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JvmRoute</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Alias</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Context</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">That is the context of the application</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_disable_app">DISABLE-APP</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Same as ENABLE-APP.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_stop_app">STOP-APP</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Same as ENABLE-APP.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_remove_app">REMOVE-APP</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Same as ENABLE-APP.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_stop_app_rsp">STOP-APP-RSP</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>That is a response to STOP-APP, like a http response it starts with HTTP/1.1 200 OK&lt;CR&gt;&lt;LF&gt; and it has the format:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Key</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Type</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">STOP-APP-RSP</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JvmRoute</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Alias</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Context</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Requests</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">That the number of requests active on the context at the time of STOP-APP command</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Note that a Wildcard STOP-APP won&#8217;t cause a STOP-APP-RSP but just a 200 or 500.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_status">STATUS</h2>
-<div class="sectionbody">
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Key</th>
-<th class="tableblock halign-left valign-top">Description</th>
-<th class="tableblock halign-left valign-top">Default</th>
-<th class="tableblock halign-left valign-top">Max size</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JvmRoute</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG</p></td>
-<td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Load</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">number between 1 and 100 and defines the normalized weighted load applied to the worker. Only possible values are real load factor."0": node is on standby.<br>
-"-1": node is broken (The cluster can&#8217;t connect to it).<br>
-"-2": just do a cping/cpong.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
-</tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_status_rsp">STATUS-RSP</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>That is a response, like a http response it starts with HTTP/1.1 200 OK&lt;CR&gt;&lt;LF&gt;
-and it has the format:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
+<div class="admonitionblock note">
+<table>
 <tr>
-<th class="tableblock halign-left valign-top">Key</th>
-<th class="tableblock halign-left valign-top">Description</th>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+There are some limitations with regard to maximal lengths of some values. See
+<a href="https://docs.modcluster.io/#limitations">Limitations</a> section for more information.
+</td>
 </tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Type</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">STATUS-RSP</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JvmRoute</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">State</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">That is the state httpd see for the node at the time of the processing (value from shared memory).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">That is the generation id of process in httpd if it changes (increases) when httpd has been restarted and its view of the cluster configuration could be incorrect. In this case ModClusterService should send a new CONFIG ASAP so the information could be updated.</p></td>
-</tr>
-</tbody>
 </table>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_info">INFO</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>Empty request.</p>
+<p>The response in case of success is empty with HTTP code 200. In case of an error, HTTP 500 response is sent with header values <code>Type</code> and <code>Mess</code> set
+containing the type of the error and its description respectively. See the <a href="#_error_handling">Error handling</a> section for more information.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_info_rsp">INFO-RSP</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_info">INFO</h3>
 <div class="paragraph">
-<p>A "readable" description of the mod_cluster configuration corresponding to the messages the cluster has sent to mod_cluster.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_dump">DUMP</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Empty request.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_dump_rsp">DUMP-RSP</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>A "readable" description of the mod_cluster configuration corresponding to the  messages the cluster has sent to mod_cluster.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_ping">PING</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>There are three different pings: (for version 0.1.0 on).</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Combination</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Empty=?</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">check that the proxy is alive.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JvmRoute=?</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">check if a node is alive.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Type=?&amp;Host=?&amp;Port=?</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">check that httpd can connect to a possible node defined by Type://Host:Port/</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Key</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JvmRoute</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Type</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Host</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Port</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_ping_rsp">PING-RSP</h2>
-<div class="sectionbody">
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Key</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Type</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PING-RSP</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">State</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">See STATUS_RSP</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">See STATUS_RSP</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_using_app_command_with_wildcard">Using -APP command with wildcard</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>In case a -APP command with wildcard is sent by ModClusterManager to
-mod_cluster only the JVMRoute is going to be relevant in the payload message.</p>
+<p>This message doesn&#8217;t expect parameters, but you can supply an <code>Accept</code> header specifying the context type of the response. If <code>"text/xml"</code>
+is specified, the response will contain an XML. Otherwise plain text response is sent.</p>
 </div>
 <div class="paragraph">
-<p>For example:</p>
+<p>The plain text format has a following structure:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>DISABLE  HTTP/1.0
-
-&lt;CR&gt;&lt;LF&gt;
-
-Content-length: 44&lt;CR&gt;&lt;LF&gt;
-
-&lt;CR&gt;&lt;LF&gt;
-
-Jvmroute=node1&amp;Context=myapp&amp;Context=ourapp&lt;CR&gt;&lt;LF&gt;</code></pre>
+<pre class="highlight"><code>&lt;Nodes&gt;
+&lt;Hosts&gt;
+&lt;Contexts&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>will be handled like:</p>
+<p>where &lt;Nodes&gt; are 0 or more node records separated by a newline where each node record has following structure:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>DISABLE  HTTP/1.0&lt;CR&gt;&lt;LF&gt;
-
-Content-length: 15&lt;CR&gt;&lt;LF&gt;
-
-&lt;CR&gt;&lt;LF&gt;
-
-Jvmroute=node1&lt;CR&gt;&lt;LF&gt;</code></pre>
+<pre class="highlight"><code>Node: [&lt;number&gt;],Name: &lt;JVMRoute value&gt;,Balancer: &lt;Balancer name&gt;,LBGroup: &lt;LBGroup&gt;,Host: &lt;Host name&gt;,Port: &lt;port value&gt;,Type: &lt;scheme/protocol to use&gt;,Flushpackets: &lt;value&gt;,Flushwait: &lt;value&gt;,Ping: &lt;value&gt;,Smax: &lt;value&gt;,Ttl: &lt;value&gt;,Elected: &lt;value&gt;,Read: &lt;value&gt;,Transfered: &lt;value&gt;,Connected: &lt;value&gt;,Load: &lt;value&gt;</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+For definitions of the individual values see the corresponding documentation section describing related
+<a href="https://docs.modcluster.io/#mod_proxy_cluster">directives</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>&lt;Hosts&gt; are 0 or more records separated by a newline where each host record has following structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>Vhost: [&lt;number&gt;:&lt;number&gt;:&lt;number&gt;], Alias: &lt;alias value&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Other values between the command and HTTP/1.0 (or 1.1) are ignored in the actual version of the protocol.</p>
+<p>and &lt;Contexts&gt; are 0 or more records separated by a newline where each record has following structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>Context: [&lt;number&gt;:&lt;number&gt;:&lt;number&gt;], Context: &lt;context value&gt;, Status: &lt;one of ENABLED, STOPPED, DISABLED&gt;</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The first field in each of the described records is intended for debugging purposes and are present only in the text representation.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>A shutdown of a node will cause the following events:</p>
+<p>Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>Node: [0],Name: spare,Balancer: mycluster,LBGroup: ,Host: localhost,Port: 8888,Type: ws,Flushpackets: Off,Flushwait: 10,Ping: 10,Smax: -1,Ttl: 60,Elected: 0,Read: 0,Transfered: 0,Connected: 0,Load: 0
+Node: [1],Name: test,Balancer: mycluster,LBGroup: ,Host: localhost,Port: 8889,Type: ws,Flushpackets: Off,Flushwait: 10,Ping: 10,Smax: -1,Ttl: 60,Elected: 0,Read: 0,Transfered: 0,Connected: 0,Load: -1
+Vhost: [1:1:0], Alias: localhost
+Context: [1:1:0], Context: test, Status: STOPPED</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>TODO: Desribe the XML format.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dump">DUMP</h3>
+<div class="paragraph">
+<p>This message doesn&#8217;t expect parameters, but you can supply an <code>Accept</code> header specifying the context type of the response. If <code>"text/xml"</code>
+is specified, the response will contain an XML. Otherwise plain text response is sent.</p>
+</div>
+<div class="paragraph">
+<p>The plain text format has a following structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;Balancers&gt;
+&lt;Nodes&gt;
+&lt;Hosts&gt;
+&lt;Contexts&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where the individual sections contain 0 or more records separated by a newline. The structure is similar to the corresponding
+the records of INFO response, however, there are a few differences such as missing commas in most of the cases.</p>
+</div>
+<div class="paragraph">
+<p>The balancer records have the following structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>balancer: [&lt;number&gt;] Name: &lt;balancer name&gt; Sticky: &lt;value&gt; [&lt;Sticky session cookie]/[Sticky session path] remove: &lt;value&gt; force: &lt;value&gt; Timeout: &lt;value&gt; maxAttempts: &lt;value&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The structure of node records is following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>node: [&lt;number&gt;:&lt;number&gt;],Balancer: &lt;balancer name&gt;,JVMRoute: &lt;value&gt;,LBGroup: [&lt;value&gt;],Host: &lt;value&gt;,Port: &lt;value&gt;,Type: &lt;value&gt;,flushpackets: &lt;value&gt;,flushwait: &lt;value&gt;,ping: &lt;value&gt;,smax: &lt;value&gt;,ttl: &lt;value&gt;,timeout: &lt;value&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The host structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>host: &lt;number&gt; [&lt;host/alias value&gt;] vhost: &lt;number - host id&gt; node: &lt;number - node id&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and finally the context structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>context: &lt;number&gt; [&lt;context value&gt;] vhost: &lt;number - host id&gt; node: &lt;number - node id&gt; status: &lt;1 for ENABLED, 2 for DISABLED, 3 for STOPPED&gt;</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The first field in described records is intended for debugging purposes and are present only in the text representation.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>balancer: [0] Name: mycluster Sticky: 1 [JSESSIONID]/[jsessionid] remove: 0 force: 1 Timeout: 0 maxAttempts: 1
+node: [0:0],Balancer: mycluster,JVMRoute: spare,LBGroup: [],Host: localhost,Port: 8888,Type: ws,flushpackets: 0,flushwait: 10,ping: 10,smax: -1,ttl: 60,timeout: 0
+node: [1:1],Balancer: mycluster,JVMRoute: test,LBGroup: [],Host: localhost,Port: 8889,Type: ws,flushpackets: 0,flushwait: 10,ping: 10,smax: -1,ttl: 60,timeout: 0
+host: 0 [localhost] vhost: 1 node: 1
+context: 0 [test] vhost: 1 node: 1 status: 3</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>TODO: Describe the XML output.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_status">STATUS</h3>
+<div class="paragraph">
+<p>The STATUS command requires single <code>JVMRoute</code> parameter specifying the node for which we want know the status. Optionally, you can supply <code>Load</code> parameter with
+a numerical value that will set the <code>Load</code> factor for the target node.</p>
+</div>
+<div class="paragraph">
+<p>In case of success, HTTP response with code 200 is sent with following parameters:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>DISABLE-APP / for each application.</p>
+<p><code>Type</code> with value <code>STATUS-RSP</code></p>
 </li>
 <li>
-<p>STOP-APP / for each application.</p>
+<p><code>JVMRoute</code> corresponding to the value sent</p>
 </li>
 <li>
-<p>DISABLE-APP</p>
+<p><code>State</code> with value <code>OK</code> or <code>NOK</code></p>
 </li>
 <li>
-<p>STOP-APP</p>
+<p><code>id</code> with a numerical value that is the generation id of process in httpd if it changes (increases) when httpd has been restarted and its view of the cluster
+configuration could be incorrect. In this case ModClusterService should send a new CONFIG ASAP so the information could be updated.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>(<a href="design.html">ModCluster Design</a> suggests that
-ModClusterManager should wait until all sessions have been finished but that
-requires a to be written tool. The idea is that an administrator initiated
-step; similar to what people do now by changing workers.properties to quiesce a
-node in mod_jk, but it could be initiated from the JBoss side via a management
-tool). If a request arrives for a context corresponding to this node 500 will
-be returned to the client.</p>
+<p>In case of an error, HTTP 500 response is sent with headers <code>Type</code> and <code>Mess</code> set to the type and description of the error.</p>
 </div>
 <div class="paragraph">
-<p>An additional utility could be written to send a REMOVE-APP once the JBoss node
-is stopped REMOTE-APP will remove all the node information from mod_cluster
-table and any socket between httpd and the node will be closed. (For a more
-complete description see <a href="internals.html">ModCluster Internals</a>.) If
-a request arrives for a context corresponding to this node 404 will be returned
-to the client: in fact the mod_proxy will not be called for the request and an
-httpd page could be displayed. A REMOVE-APP / for example will just clean the
-mod_cluster table corresponding to the application defined in the payload.</p>
+<p>Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>Type=STATUS-RSP&amp;JVMRoute=spare&amp;State=OK&amp;id=698675605</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ping">PING</h3>
+<div class="paragraph">
+<p>The <code>PING</code> command does not require any parameter, but there are a few optional parameters you can use changing the command behavior. See
+the table below.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Key</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JVMRoute</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Is what is after the . in the JSESSIONID cookie or the parameter jsessionid</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Host</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">is the IP address (or hostname) where the node is going to receive requests from httpd</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes if Scheme or Port is specified</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">is the port on which the node except to receive requests</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes if Host or Scheme is specified</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scheme</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">http/https/ajp The protocol to use between httpd and AS to process requests</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes if Host or Port is specified</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If no parameter is supplied, then the <code>PING</code> checks whether the proxy if alive. In case <code>JVMRoute</code> is specified, then the corresponding node
+is checked. When <code>Host</code>, <code>Port</code>, and <code>Scheme</code> are used, then it is checked whether httpd can reach a possible node using <code>Scheme://Host:Port</code>.
+In case all parameters are specified, only <code>JVMRoute</code> is used and the behavior is the same as if the other ones were not present.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_version">VERSION</h3>
+<div class="paragraph">
+<p>This command requests the information about the used version and supported MCMP version. The HTTP 200 response has following format:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>release: &lt;software version&gt;, protocol: &lt;supported MCMP version&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>so for example this is a valid response:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>release: mod_cluster/1.3.20.Final, protocol: 0.2.1</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enable_app">ENABLE-APP</h3>
+<div class="paragraph">
+<p>This command enables an application under the corresponding context and alias. If the application doesn&#8217;t exist, an existing virtual host
+is updated or a new one is created (that depends on the context/alias values).</p>
+</div>
+<div class="paragraph">
+<p>TODO: Describe the update/insert logic properly.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Key</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JVMRoute</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JVMRoute on which we enable the application</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Context</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of context under which the application should be deployed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of aliases for the corresponding virtual host</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>In case of success, an empty HTTP response with code 200 is sent. When an error occurs, HTTP 500 response is sent with <code>Type</code> and <code>Mess</code>
+headers containing the details.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_disable_app">DISABLE-APP</h3>
+<div class="paragraph">
+<p>Same as ENABLE-APP only sets the app status to DISABLED.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_stop_app">STOP-APP</h3>
+<div class="paragraph">
+<p>Same as ENABLE-APP only sets the app status to STOPPED.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_remove_app">REMOVE-APP</h3>
+<div class="paragraph">
+<p>Same as ENABLE-APP but removes the app from the proxy.</p>
+</div>
 </div>
 </div>
 </div>
@@ -1143,70 +1031,43 @@ mod_cluster table corresponding to the application defined in the payload.</p>
 <h2 id="_error_handling">Error handling</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Once a error occurs in mod_cluster 500 is returned and the status line tells
-the version of protocol mod_cluster is using and a short description of the
-error.</p>
+<p>Once an error occurs during the MCMP communication, an HTTP response with code 500 is returned. The response contains headers
+containing more details about the nature of the error. Namely <code>Type</code> and <code>Mess</code> header fields.</p>
 </div>
 <div class="paragraph">
-<p>The error response status line will be something like:</p>
+<p>For example</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>HTTP/1.1 500 ERROR
-
-Version: version_supported
-
-Type: type
-
-Mess: "error_string"</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Where version_supported is the version of the protocol mod_cluster is able to
-support.</p>
-</div>
-<div class="paragraph">
-<p>Where type is the type of error, for example: MEM to tell the message contains
-syntax errors (SYNTAX) or the data can&#8217;t be updated to update the shared memory
-(MEM).</p>
-</div>
-<div class="paragraph">
-<p>The "error_string" should help to understand what was wrong and the n.p.n
-VERSION information tells which highest version of the protocol mod_cluster
-understands.</p>
-</div>
-<div class="paragraph">
-<p>The first part of the error_string should help to make a decision how to go on:</p>
-</div>
-<div class="paragraph">
-<p>SYNTAX: mod_cluster can&#8217;t understand the message or part of the message.
-Another version of the protocol should used or ModClusterService should be
-fixed.</p>
-</div>
-<div class="paragraph">
-<p>MEM: mod_cluster can&#8217;t update the shared memory. If that is the answer to
-a -APP messages or a STATUS message new CONFIG message should be send. If it is
-the answer to a CONFIG message the configuration of the cluster in
-ModCusterService should be checked or/and the CONFIG message should be resend
-to mod_cluster.</p>
-</div>
-<div class="paragraph">
-<p>Example:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>HTTP/1.1 500 ERROR
-Date: Fri, 16 May 2008 09:55:21 GMT
-Server: Apache/2.2.9-dev (Unix) mod_ssl/2.2.9-dev OpenSSL/0.9.8b DAV/2
-Content-Length: 557
-Connection: close
-Version: 0.0.0
+<pre class="highlight"><code>HTTP/1.1 500 Internal Server Error
+Date: Wed, 11 Sep 2024 13:45:44 GMT
+Server: Apache/2.4.62 (Unix) mod_cluster/2.0.0.Alpha1-SNAPSHOT
+Version: 0.2.1
 Type: SYNTAX
-Mess: "Command is not supported"
+Mess: Can't parse MCMP message. It might have contained illegal symbols or unknown elements.
+Content-Length: 528
+Connection: close
 Content-Type: text/html; charset=iso-8859-1
 
-&lt;!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"&gt;</code></pre>
+&lt;some html&gt;</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>where</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Version is the supported version of the ModCluster Management Protocol.</p>
+</li>
+<li>
+<p>Type specifies type of the error (e.g., <code>SYNTAX</code> when the message is not formed correctly or <code>MEM</code> when the data cannot be
+updated in or read from the shared memory).</p>
+</li>
+<li>
+<p>Mess is the message describing the error in more detail</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -1252,10 +1113,34 @@ string is the following:</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_miscellaneous">Miscellaneous</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>(<a href="design.html">ModCluster Design</a> suggests that
+ModClusterManager should wait until all sessions have been finished but that
+requires a to be written tool. The idea is that an administrator initiated
+step; similar to what people do now by changing workers.properties to quiesce a
+node in mod_jk, but it could be initiated from the JBoss side via a management
+tool). If a request arrives for a context corresponding to this node 500 will
+be returned to the client.</p>
+</div>
+<div class="paragraph">
+<p>An additional utility could be written to send a REMOVE-APP once the JBoss node
+is stopped REMOTE-APP will remove all the node information from mod_cluster
+table and any socket between httpd and the node will be closed. (For a more
+complete description see <a href="internals.html">ModCluster Internals</a>.) If
+a request arrives for a context corresponding to this node 404 will be returned
+to the client: in fact the mod_proxy will not be called for the request and an
+httpd page could be displayed. A REMOVE-APP / for example will just clean the
+mod_cluster table corresponding to the application defined in the payload.</p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-09-19 09:50:58 UTC
+Last updated 2024-09-27 12:31:17 UTC
 </div>
 </div>
 </body>
