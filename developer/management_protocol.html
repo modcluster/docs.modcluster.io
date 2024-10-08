@@ -681,6 +681,90 @@ Jvmroute=node1&amp;Context=/myapp&amp;Alias=demo&lt;CR&gt;&lt;LF&gt;</code></pre
 <td class="tableblock halign-left valign-top"><p class="tableblock">ajp</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reversed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reverse connection</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flushpackets</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enables/disables packet flushing (values: on/off/auto)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">off</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flushwait</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time to wait before flushing packets in milliseconds. A value of -1 means wait forever</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PROXY_FLUSH_WAIT</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ping</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time (in seconds) in which to wait for a pong answer to a ping</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10 seconds</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Smax</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Soft maximum idle connection count (that is the smax in worker mod_proxy documentation). The maximum value depends on the httpd thread configuration (ThreadsPerChild or 1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ttl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time to live (in seconds) for idle connections above smax (in seconds)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60 seconds</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timeout</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timeout (in seconds) for proxy connections to a node. That is the time mod_cluster will wait for the back-end response before returning error. That corresponds to timeout in the worker mod_proxy documentation. A value of -1 indicates no timeout. Note that mod_cluster always uses a cping/cpong before forwarding a request and the connectiontimeout value used by mod_cluster is the ping value</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySession</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates whether subsequent requests for a given session should be routed to the same node, if possible</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionCookie</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Value of the Session cookie</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JSESSIONID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionPath</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Value of the Session path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">jsessionid</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionRemove</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates whether the httpd proxy should remove session stickiness in the event that the balancer is unable to route a request to the node to which it is stuck. Ignored if stickySession is false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionForce</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates whether the httpd proxy should return an error in the event that the balancer is unable to route a request to the node to which it is stuck. Ignored if stickySession is false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WaitWorker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of seconds to wait for a worker to become available to handle a request. When no workers of a balancer are usable, mod_cluster will retry after a while (workerTimeout/100). That is timeout in the balancer mod_proxy documentation. A value of -1 indicates that the httpd will not wait for a worker to be available and will return an error if none is available (in seconds)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MaxAttempts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum number of failover attempts before giving up. The minimum value is 0, i.e. no failover. The default value is 1, i.e. do a one failover attempt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
 </tbody>
 </table>
 <div class="admonitionblock note">
@@ -1140,7 +1224,7 @@ mod_cluster table corresponding to the application defined in the payload.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-10-08 06:25:26 UTC
+Last updated 2024-10-08 06:28:38 UTC
 </div>
 </div>
 </body>
