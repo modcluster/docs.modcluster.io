@@ -1,5 +1,7 @@
 = ModCluster INFO-RSP
 
+NOTE: {editurl}info_rsp.adoc[{editnote}]
+
 == INFO-RSP
 
 INFO-RSP is the response to a INFO command. Response would include information

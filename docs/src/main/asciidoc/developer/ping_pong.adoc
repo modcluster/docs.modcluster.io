@@ -1,4 +1,7 @@
+[[ping-pong]]
 = ModCluster ping pong
+
+NOTE: {editurl}ping_pong.adoc[{editnote}]
 
 The ping/pong is AJP feature that allows to check the availability of a node
 quickly. It would be possible to add the same feature to the http/https
@@ -58,7 +61,6 @@ A simple request on the http for node like:
 
 GET ping/node1 HTTP/1.0
 Ping: On
-
 ----
 
 "Ping: On" is custom header from administrator app that will cause balancer to
@@ -68,5 +70,4 @@ node1 state can be changed to ENABLE
 
 === Using 'OPTIONS ' and internal redirect:
 
-(ADD SOMETHING HERE).
-
+NOTE: TODO

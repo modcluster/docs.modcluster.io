@@ -1,6 +1,9 @@
+[[mcmp]]
 = ModCluster Management Protocol (MCMP)
 
-This document describes elements of the xref:design.adoc[ModCluster] Management Protocol for communication between a container (AS)
+NOTE: {editurl}management_protocol.adoc[{editnote}]
+
+This document describes elements of the <<design,ModCluster>> Management Protocol for communication between a container (AS)
 and a load balancer (Apache httpd / Undertow).
 
 == Messages
@@ -377,7 +380,7 @@ http://localhost:8000/mod_cluster-manager?nonce=e17066b4-0cb1-4e58-93e3-cdc9efb6
 
 == Miscellaneous
 
-(xref:design.adoc[ModCluster Design] suggests that
+(<<design,ModCluster Design>> suggests that
 ModClusterManager should wait until all sessions have been finished but that
 requires a to be written tool. The idea is that an administrator initiated
 step; similar to what people do now by changing workers.properties to quiesce a
@@ -388,7 +391,7 @@ be returned to the client.
 An additional utility could be written to send a REMOVE-APP once the JBoss node
 is stopped REMOTE-APP will remove all the node information from mod_cluster
 table and any socket between httpd and the node will be closed. (For a more
-complete description see xref:internals.adoc[ModCluster Internals].) If
+complete description see <<internals,ModCluster Internals>>.) If
 a request arrives for a context corresponding to this node 404 will be returned
 to the client: in fact the mod_proxy will not be called for the request and an
 httpd page could be displayed. A REMOVE-APP / for example will just clean the

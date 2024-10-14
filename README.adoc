@@ -1,6 +1,6 @@
 :toc:
 
-= The mod_cluster Project Documentation
+= The mod_cluster Project Documentation image:https://github.com/modcluster/docs.modcluster.io/workflows/Deploy/badge.svg[CI,link=https://github.com/modcluster/docs.modcluster.io/actions/workflows/deploy.yml]
 
 Welcome to the new mod_cluster live documentation!
 

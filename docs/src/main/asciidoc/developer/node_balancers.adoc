@@ -1,15 +1,17 @@
 = ModCluster node balancer
 
+NOTE: {editurl}node_balancers.adoc[{editnote}]
+
 The page describes the node and balancer part of the CONFIG message.
 
 == Node
 
 |===
 | Key          | Description                                                                                                        | Default | Max size
-| JvmRoute     | See CONFIG in xref:management_protocol.adoc[ModCluster Management Protocol]                                        |         | 
-| Domain       | See CONFIG in xref:management_protocol.adoc[ModCluster Management Protocol]                                        |         | 
-| Port         | See CONFIG in xref:management_protocol.adoc[ModCluster Management Protocol]                                        |         | 
-| Type         | See CONFIG in xref:management_protocol.adoc[ModCluster Management Protocol]                                        |         |
+| JvmRoute     | See CONFIG in <<mcmp,ModCluster Management Protocol>>                                                              |         |
+| Domain       | See CONFIG in <<mcmp,ModCluster Management Protocol>>                                                              |         |
+| Port         | See CONFIG in <<mcmp,ModCluster Management Protocol>>                                                              |         |
+| Type         | See CONFIG in <<mcmp,ModCluster Management Protocol>>                                                              |         |
 | flushpackets | Tell how to flush the packets. On: Send immediately, Auto wait for flushwait time before sending, Off don't flush. | Off     |
 | flushwait    | Time in milliseconds to wait before flushing.                                                                      | 10      | 
 | ping         | Time in seconds to wait for a pong answer to a ping. 0 means we don't try to ping before sending.                  | 10      | 
@@ -25,7 +27,7 @@ in mod_cluster.
 
 |===
 | Key                 | Description                                                                                                                    | Default    | Max size
-| Balancer            | See CONFIG in xref:management_protocol.adoc[ModCluster Management Protocol]                                                    |            |
+| Balancer            | See CONFIG in <<mcmp,ModCluster Management Protocol>>                                                                          |            |
 | StickySession       | **Yes**: use JVMRoute to stick a request to a node; **No**: ignore JVMRoute                                                    | Yes        | 3
 | StickySessionCookie | Name of the cookie containing the "sessionid"                                                                                  | JSESSIONID | 30
 | StickySessionPath   | Name of the parameter containing the "sessionid"                                                                               | jsessionid | 30

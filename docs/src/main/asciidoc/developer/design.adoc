@@ -1,49 +1,12 @@
-[[design]]
 = ModClusterDesign
 
-// NOTE: {editurl}design.adoc[{editnote}]
+NOTE: {editurl}design.adoc[{editnote}]
 
 == Next Generation Web Tier Load Balancing Design
 
-Design document for the next generation JBoss AS web tier load balancing
-architecture.
+Design document for the next generation JBoss AS web tier load balancing architecture.
 
-See http://www.jboss.com/index.html?module=bb&op=viewtopic&t=126109[here] for
-the discussion forum related to this document.
-
-See also the following wiki pages:
-
-* xref:ping_pong.adoc[ModCluster_ping_pong]
-
-* xref:node_conf.adoc[ModCluster_node_conf]
-
-* xref:reverse_extension.adoc[ModCluster_ReverseExtension]
-
-Implementation details:
-
-* xref:management_protocol.adoc[ModCluster Management Protocol (MCMP)]
-
-* xref:internals.adoc[ModCluster_Internals]
-
-* xref:node_balancers.adoc[nodes and balancers]
-
-* xref:info_rsp.adoc[INFO-RSP description]
-
-* xref:as_integration.adoc[AS Integration]
-
-JBossWeb listener:
-
-* xref:cluster_listener.adoc[ClusterListener]
-
-ModCluster project home page:
-
-* link:https://www.modcluster.io/[mod_cluster]
-
-Future directions:
-
-* xref:jbc_data_partitioning.adoc[JBC data partitioning and mod_cluster]
-
-Initial document is derived from discussions held in Neuchatel on December 6,
+The Initial document is derived from discussions held in Neuchâtel on December 6,
 2007. Participants were Bela Ban, Frederic-Clere, Jason Greene, Sacha Labourey,
 Mircea Markus, Remy Maucherat, Brian Stansberry, Manik Surtani, Mladen Turk,
 Jimmy Wilson and Galder Zamarreno.
@@ -219,8 +182,7 @@ supported by mod_jk.
 **Question/TODO:** __Which if any of these are not available, given that the
 code base is mod_proxy not mod_jk?__
 
-**Answer:** See xref:node_conf.adoc[this] for a proposal
-for that stuff.
+**Answer:** See <<modcluster-node-conf,node configuration>> for a proposal for that stuff.
 
 Other configuration items mentioned in the Neuchatel discussions that are
 notdirectly mentioned in the reference guide:
@@ -308,7 +270,7 @@ mod_cluster_manager to completely remove all configuration information for a
 node from memory. Perhaps a different name than **STOP**, e.g. **REMOVE**.
 
 A detailed protocol proposal could be found in
-xref:management_protocol.adoc[Mod-Cluster_Management_Protocol].
+<<mcmp,Mod-Cluster_Management_Protocol>>.
 
 Responses to the above requests will contain something like:
 
@@ -585,7 +547,7 @@ node.
 The node will be marked UP and mod_cluster will forward new requests to it if
 the connectivity between mod_cluster and the node is still lost all those
 requests will timeout on connect and fall back to another node. See
-xref:ping_pong.adoc[this document].__
+<<ping-pong,this document>>.__
 
 10. Connectivity is lost between mod_cluster and a node (node is the
 HASingleton)
@@ -634,5 +596,3 @@ usage.
 
 * Where should the code live.  Who will use it (see issue above), what will the
 dependencies be, etc.
-
-
