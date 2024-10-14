@@ -1,18 +1,18 @@
-:toc:
+= mod_cluster Project Documentation image:https://github.com/modcluster/docs.modcluster.io/workflows/Deploy/badge.svg[CI,link=https://github.com/modcluster/docs.modcluster.io/actions/workflows/deploy.yml]
 
-= The mod_cluster Project Documentation image:https://github.com/modcluster/docs.modcluster.io/workflows/Deploy/badge.svg[CI,link=https://github.com/modcluster/docs.modcluster.io/actions/workflows/deploy.yml]
+Are you here to read the documentation? Just head over to https://docs.modcluster.io/ rightaway.
 
-Welcome to the new mod_cluster live documentation!
+But if you are here to contribute then welcome to the mod_cluster live documentation!
 
 == Contributing
 
 How can I contribute?
 
 * Get familiar with https://asciidoctor.org/docs/asciidoc-writers-guide/[AsciiDoc].
-* Open https://docs.modcluster.io and locate section you want to contribute to.
+* Open https://docs.modcluster.io and locate section you want to contribute.
 * Click 'Improve this page – edit on GitHub.' at the top of each section.
 * Once finished editing, click 'Propose changes' which will open a new pull request.
-** If you prefer using an IDE, fork and clone the repository locally and head over to `docs/src/main/asciidoc/` directory. Commit and propose changes as you normally would.
+** Alternatively, if you prefer using an IDE, fork and clone the repository locally and head over to `docs/src/main/asciidoc/` directory. Commit and propose changes as you normally would.
 * Pull request will be promptly reviewed by mod_cluster project maintainers, merged, and changes will be live almost instantly!
 
 == Guidelines
