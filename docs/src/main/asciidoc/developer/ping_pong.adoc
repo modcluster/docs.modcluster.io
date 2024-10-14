@@ -61,7 +61,6 @@ A simple request on the http for node like:
 
 GET ping/node1 HTTP/1.0
 Ping: On
-
 ----
 
 "Ping: On" is custom header from administrator app that will cause balancer to
@@ -71,5 +70,4 @@ node1 state can be changed to ENABLE
 
 === Using 'OPTIONS ' and internal redirect:
 
-(ADD SOMETHING HERE).
-
+NOTE: TODO

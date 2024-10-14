@@ -5,11 +5,8 @@ NOTE: {editurl}mod_proxy_forwarding.adoc[{editnote}]
 The variables supported by the servlet interface are the following:
 
 * `javax.servlet.request.X509Certificate`
-
 * `javax.servlet.request.cipher_suite`
-
 * `javax.servlet.request.ssl_session`
-
 * `javax.servlet.request.key_size`
 
 To get the client certificate or any SSL information from the browser you have
@@ -29,7 +26,7 @@ Headers. See http://anonsvn.jboss.org/repos/jbossweb/sandbox/valves/[the
 original code]. The valve has been integrated in Tomcat and in JBossWeb
 (since 2007).
 
-Once you have build the `valves.jar` copy it in `server/lib/` and edit
+Once you have built the `valves.jar` copy it in `server/lib/` and edit
 `server.xml` to add `<Valve className="SSLValve"/>` in the `<Engine/>` part
 of the file.
 

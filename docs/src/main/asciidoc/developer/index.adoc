@@ -57,6 +57,10 @@ include::as_integration.adoc[leveloffset=+1]
 
 include::hw_load_balancer.adoc[leveloffset=+1]
 
+include::encrypting_connection.adoc[leveloffset=+1]
+
+include::mod_proxy_forwarding.adoc[leveloffset=+1]
+
 = JBossWeb listener
 
 include::cluster_listener.adoc[leveloffset=+1]
