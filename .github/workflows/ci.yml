@@ -28,3 +28,22 @@ jobs:
           name: generated-docs
           path: docs/target/generated-docs/*
           retention-days: 7
+
+  deploy:
+    needs: ci
+    if: github.repository_owner == 'modcluster' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get generated-docs
+        uses: actions/download-artifact@v4
+        with:
+          name: generated-docs
+          path: generated-docs/
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.6.8
+        with:
+          branch: gh-pages
+          folder: generated-docs/
+          git-config-name: mod_cluster documentation bot
+          git-config-email: docs-bot@modcluster.io
+
