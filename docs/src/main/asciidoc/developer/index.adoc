@@ -32,6 +32,7 @@ WARNING: These resources were converted from the read-only https://developer.jbo
 which is being retired thus are out-of-date on various topics.
 We're working on making them up to date.
 
+[[design]]
 = Design
 
 include::design.adoc[leveloffset=+1]

@@ -182,8 +182,7 @@ supported by mod_jk.
 **Question/TODO:** __Which if any of these are not available, given that the
 code base is mod_proxy not mod_jk?__
 
-**Answer:** See xref:node_conf.adoc[this] for a proposal
-for that stuff.
+**Answer:** See <<modcluster-node-conf,node configuration>> for a proposal for that stuff.
 
 Other configuration items mentioned in the Neuchatel discussions that are
 notdirectly mentioned in the reference guide:
@@ -271,7 +270,7 @@ mod_cluster_manager to completely remove all configuration information for a
 node from memory. Perhaps a different name than **STOP**, e.g. **REMOVE**.
 
 A detailed protocol proposal could be found in
-xref:management_protocol.adoc[Mod-Cluster_Management_Protocol].
+<<mcmp,Mod-Cluster_Management_Protocol>>.
 
 Responses to the above requests will contain something like:
 
@@ -548,7 +547,7 @@ node.
 The node will be marked UP and mod_cluster will forward new requests to it if
 the connectivity between mod_cluster and the node is still lost all those
 requests will timeout on connect and fall back to another node. See
-xref:ping_pong.adoc[this document].__
+<<ping-pong,this document>>.__
 
 10. Connectivity is lost between mod_cluster and a node (node is the
 HASingleton)

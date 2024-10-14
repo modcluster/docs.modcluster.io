@@ -1,3 +1,4 @@
+[[modcluster-node-conf]]
 = ModCluster node conf
 
 mod_cluster first spec documentation is mod_jk oriented in the node description
@@ -97,8 +98,7 @@ would be a safe option.
 
 == routing directives:
 
-* domain The logic has to be added in mod_cluster code (See CONFIG in
-xref:management_protocol.adoc[ModCluster Management Protocol])
+* domain The logic has to be added in mod_cluster code (See CONFIG in <<mcmp,ModCluster Management Protocol>>)
 
 * distance NOT USED. The logic in the cluster to calculate load factor the
 should allow that.

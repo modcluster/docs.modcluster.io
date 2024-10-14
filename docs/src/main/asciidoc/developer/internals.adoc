@@ -1,3 +1,4 @@
+[[internals]]
 = ModCluster Internals
 
 This page describe the internal logic of mod_cluster on the httpd site.
@@ -77,7 +78,7 @@ r->handler to "mod-cluster" when detecting those method.
 The asynchronous requests are used to fill the shared area information
 according to the cluster information. The STATUS messages are handled a special
 way they validate the information according to the result of an
-xref:ping_pong.adoc[asynchronous ping/pong]. Once the information is validated
+<<ping-pong,asynchronous ping/pong>>. Once the information is validated
 it is stored in the shared memory.
 
 == Tables in the shared memory

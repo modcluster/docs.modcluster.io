@@ -1,3 +1,4 @@
+[[ping-pong]]
 = ModCluster ping pong
 
 The ping/pong is AJP feature that allows to check the availability of a node

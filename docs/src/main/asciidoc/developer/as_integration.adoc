@@ -118,7 +118,7 @@ an AdvertiseListener and communicate with mod_cluster. I've divided these into
 different interfaces so different clients (e.g. JSSESocketFactory only see the
 necessary properties. Use interfaces so different classes can implement (e.g.
 ModClusterService here but possibly the standalone ClusterListener). See
-xref:cluster_listener.adoc[ModCluster Listener] for a description of the relevant
+<<ClusterListener,ModCluster Listener>> for a description of the relevant
 configuration properties.
 
 * ModClusterService forms the core. Its function is pretty simple:

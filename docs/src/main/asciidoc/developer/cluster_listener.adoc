@@ -1,3 +1,4 @@
+[[ClusterListener]]
 = ClusterListener
 
 The ClusterListener allows a standalone JBoss Web to work with a mod_cluster
