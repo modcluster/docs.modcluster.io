@@ -1,49 +1,12 @@
-[[design]]
 = ModClusterDesign
 
 // NOTE: {editurl}design.adoc[{editnote}]
 
 == Next Generation Web Tier Load Balancing Design
 
-Design document for the next generation JBoss AS web tier load balancing
-architecture.
+Design document for the next generation JBoss AS web tier load balancing architecture.
 
-See http://www.jboss.com/index.html?module=bb&op=viewtopic&t=126109[here] for
-the discussion forum related to this document.
-
-See also the following wiki pages:
-
-* xref:ping_pong.adoc[ModCluster_ping_pong]
-
-* xref:node_conf.adoc[ModCluster_node_conf]
-
-* xref:reverse_extension.adoc[ModCluster_ReverseExtension]
-
-Implementation details:
-
-* xref:management_protocol.adoc[ModCluster Management Protocol (MCMP)]
-
-* xref:internals.adoc[ModCluster_Internals]
-
-* xref:node_balancers.adoc[nodes and balancers]
-
-* xref:info_rsp.adoc[INFO-RSP description]
-
-* xref:as_integration.adoc[AS Integration]
-
-JBossWeb listener:
-
-* xref:cluster_listener.adoc[ClusterListener]
-
-ModCluster project home page:
-
-* link:https://www.modcluster.io/[mod_cluster]
-
-Future directions:
-
-* xref:jbc_data_partitioning.adoc[JBC data partitioning and mod_cluster]
-
-Initial document is derived from discussions held in Neuchatel on December 6,
+The Initial document is derived from discussions held in Neuchâtel on December 6,
 2007. Participants were Bela Ban, Frederic-Clere, Jason Greene, Sacha Labourey,
 Mircea Markus, Remy Maucherat, Brian Stansberry, Manik Surtani, Mladen Turk,
 Jimmy Wilson and Galder Zamarreno.
@@ -634,5 +597,3 @@ usage.
 
 * Where should the code live.  Who will use it (see issue above), what will the
 dependencies be, etc.
-
-

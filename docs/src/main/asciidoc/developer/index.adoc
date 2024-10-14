@@ -17,7 +17,7 @@
 :idseparator: -
 
 :editurl: https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/developer/
-:editnote: Improve this page – edit on GitHub.
+:editnote: Edit on GitHub.
 
 ifndef::ebook-format[:leveloffset: 1]
 
@@ -28,15 +28,42 @@ ifdef::basebackend-html[toc::[]]
 
 = Developer Resources
 
-WARNING: These resources were converted from retired https://developer.jboss.org/docs/DOC-11431[developer.jboss.org]
-and are out-of-date on various topics.
+WARNING: These resources were converted from the read-only https://developer.jboss.org/docs/DOC-11431[developer.jboss.org]
+which is being retired thus are out-of-date on various topics.
 We're working on making them up to date.
 
-include::design.adoc[]
+= Design
 
+include::design.adoc[leveloffset=+1]
 
-= Miscellaneous
+include::ping_pong.adoc[leveloffset=+1]
 
-* xref:q_a_webinar.adoc[Questions and Answers on mod_cluster webinar]
-* xref:hw_load_balancer.adoc[Using a hardware load balancer in combination with mod_cluster server-side load metrics]
-* xref:fedora24_25_update_testing.adoc[mod_cluster 1.2.6.Final -> 1.3.3.Final in Fedora 24 and Fedora 25 updates-testing]
+include::node_conf.adoc[leveloffset=+1]
+
+include::reverse_extension.adoc[leveloffset=+1]
+
+= Implementation details
+
+include::management_protocol.adoc[leveloffset=+1]
+
+include::internals.adoc[leveloffset=+1]
+
+include::node_balancers.adoc[leveloffset=+1]
+
+include::info_rsp.adoc[leveloffset=+1]
+
+include::as_integration.adoc[leveloffset=+1]
+
+include::hw_load_balancer.adoc[leveloffset=+1]
+
+= JBossWeb listener
+
+include::cluster_listener.adoc[leveloffset=+1]
+
+= Future directions
+
+include::jbc_data_partitioning.adoc[leveloffset=+1]
+
+= FAQ
+
+include::q_a_webinar.adoc[leveloffset=+1]
