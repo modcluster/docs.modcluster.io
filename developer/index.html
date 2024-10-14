@@ -528,27 +528,47 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Developer resources</h1>
 <div class="details">
-<span id="revdate">2024-10-10</span>
+<span id="revdate">2024-10-14</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster Developer resources</div>
 <ul class="sectlevel1">
 <li><a href="#developer-resources">1. Developer Resources</a></li>
-<li><a href="#design">2. ModClusterDesign</a>
+<li><a href="#design">2. Design</a>
 <ul class="sectlevel2">
-<li><a href="#next-generation-web-tier-load-balancing-design">2.1. Next Generation Web Tier Load Balancing Design</a></li>
-<li><a href="#key-design-goals">2.2. Key Design Goals</a></li>
-<li><a href="#basic-architecture">2.3. Basic Architecture</a></li>
-<li><a href="#modes">2.4. Modes</a></li>
-<li><a href="#as-zo-mod_cluster-communications-modcluster-managment-protocol-mcmp">2.5. AS zo mod_cluster Communications – ModCluster Managment Protocol (MCMP)</a></li>
-<li><a href="#modclusterservice-design">2.6. ModClusterService Design</a></li>
-<li><a href="#clustering-issues">2.7. Clustering Issues</a></li>
-<li><a href="#use-cases">2.8. Use cases</a></li>
-<li><a href="#misc">2.9. Misc</a></li>
-<li><a href="#other-considerations">2.10. Other Considerations</a></li>
+<li><a href="#modclusterdesign">2.1. ModClusterDesign</a></li>
+<li><a href="#ping-pong">2.2. ModCluster ping pong</a></li>
+<li><a href="#modcluster-node-conf">2.3. ModCluster node conf</a></li>
+<li><a href="#modcluster-reverseextension">2.4. ModCluster ReverseExtension</a></li>
 </ul>
 </li>
-<li><a href="#miscellaneous">3. Miscellaneous</a></li>
+<li><a href="#implementation-details">3. Implementation details</a>
+<ul class="sectlevel2">
+<li><a href="#mcmp">3.1. ModCluster Management Protocol (MCMP)</a></li>
+<li><a href="#internals">3.2. ModCluster Internals</a></li>
+<li><a href="#modcluster-node-balancer">3.3. ModCluster node balancer</a></li>
+<li><a href="#modcluster-info-rsp">3.4. ModCluster INFO-RSP</a></li>
+<li><a href="#modcluster-as-integration">3.5. ModCluster AS Integration</a></li>
+<li><a href="#using-a-hardware-load-balancer-in-combination-with-mod_cluster-server-side-load-metrics">3.6. Using a hardware load balancer in combination with mod_cluster server-side load metrics</a></li>
+<li><a href="#encrypting-connection-between-httpd-and-tc">3.7. Encrypting connection between httpd and TC</a></li>
+<li><a href="#forwarding-ssl-environment-when-using-httphttps-proxy">3.8. Forwarding SSL environment when using http/https proxy:</a></li>
+</ul>
+</li>
+<li><a href="#jbossweb-listener">4. JBossWeb listener</a>
+<ul class="sectlevel2">
+<li><a href="#ClusterListener">4.1. ClusterListener</a></li>
+</ul>
+</li>
+<li><a href="#future-directions">5. Future directions</a>
+<ul class="sectlevel2">
+<li><a href="#consistent-hashing-based-jbc-data-partitioning-w-mod_cluster">5.1. Consistent-hashing based JBC data partitioning w/ mod_cluster</a></li>
+</ul>
+</li>
+<li><a href="#faq">6. FAQ</a>
+<ul class="sectlevel2">
+<li><a href="#questions-and-answers-on-mod_cluster-webinar">6.1. Questions and Answers on mod_cluster webinar</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -571,8 +591,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-These resources were converted from retired <a href="https://developer.jboss.org/docs/DOC-11431">developer.jboss.org</a>
-and are out-of-date on various topics.
+These resources were converted from the read-only <a href="https://developer.jboss.org/docs/DOC-11431">developer.jboss.org</a>
+which is being retired thus are out-of-date on various topics.
 We&#8217;re working on making them up to date.
 </td>
 </tr>
@@ -581,95 +601,36 @@ We&#8217;re working on making them up to date.
 </div>
 </div>
 <div class="sect1">
-<h2 id="design"><a class="link" href="#design">2. ModClusterDesign</a></h2>
+<h2 id="design"><a class="link" href="#design">2. Design</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="next-generation-web-tier-load-balancing-design"><a class="link" href="#next-generation-web-tier-load-balancing-design">2.1. Next Generation Web Tier Load Balancing Design</a></h3>
-<div class="paragraph">
-<p>Design document for the next generation JBoss AS web tier load balancing
-architecture.</p>
+<h3 id="modclusterdesign"><a class="link" href="#modclusterdesign">2.1. ModClusterDesign</a></h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/developer/design.adoc">Improve this page – edit on GitHub.</a>
+</td>
+</tr>
+</table>
 </div>
+<div class="sect3">
+<h4 id="next-generation-web-tier-load-balancing-design"><a class="link" href="#next-generation-web-tier-load-balancing-design">2.1.1. Next Generation Web Tier Load Balancing Design</a></h4>
 <div class="paragraph">
-<p>See <a href="http://www.jboss.com/index.html?module=bb&amp;op=viewtopic&amp;t=126109">here</a> for
-the discussion forum related to this document.</p>
-</div>
-<div class="paragraph">
-<p>See also the following wiki pages:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="ping_pong.html">ModCluster_ping_pong</a></p>
-</li>
-<li>
-<p><a href="node_conf.html">ModCluster_node_conf</a></p>
-</li>
-<li>
-<p><a href="reverse_extension.html">ModCluster_ReverseExtension</a></p>
-</li>
-</ul>
+<p>Design document for the next generation JBoss AS web tier load balancing architecture.</p>
 </div>
 <div class="paragraph">
-<p>Implementation details:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="management_protocol.html">ModCluster Management Protocol (MCMP)</a></p>
-</li>
-<li>
-<p><a href="internals.html">ModCluster_Internals</a></p>
-</li>
-<li>
-<p><a href="node_balancers.html">nodes and balancers</a></p>
-</li>
-<li>
-<p><a href="info_rsp.html">INFO-RSP description</a></p>
-</li>
-<li>
-<p><a href="as_integration.html">AS Integration</a></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>JBossWeb listener:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="cluster_listener.html">ClusterListener</a></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>ModCluster project home page:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://www.modcluster.io/">mod_cluster</a></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Future directions:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="jbc_data_partitioning.html">JBC data partitioning and mod_cluster</a></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Initial document is derived from discussions held in Neuchatel on December 6,
+<p>The Initial document is derived from discussions held in Neuchâtel on December 6,
 2007. Participants were Bela Ban, Frederic-Clere, Jason Greene, Sacha Labourey,
 Mircea Markus, Remy Maucherat, Brian Stansberry, Manik Surtani, Mladen Turk,
 Jimmy Wilson and Galder Zamarreno.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="key-design-goals"><a class="link" href="#key-design-goals">2.2. Key Design Goals</a></h3>
+<div class="sect3">
+<h4 id="key-design-goals"><a class="link" href="#key-design-goals">2.1.2. Key Design Goals</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -705,8 +666,8 @@ entire server instances.</p>
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="basic-architecture"><a class="link" href="#basic-architecture">2.3. Basic Architecture</a></h3>
+<div class="sect3">
+<h4 id="basic-architecture"><a class="link" href="#basic-architecture">2.1.3. Basic Architecture</a></h4>
 <div class="paragraph">
 <p>A new Apache module, "mod_cluster" will be created, based on the existing
 mod_proxy module. See JBNATIVE-53 for details.</p>
@@ -728,13 +689,13 @@ static configuration; there will be no dynamic discovery of httpd instances.
 management tool.)</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="modes"><a class="link" href="#modes">2.4. Modes</a></h3>
+<div class="sect3">
+<h4 id="modes"><a class="link" href="#modes">2.1.4. Modes</a></h4>
 <div class="paragraph">
 <p>We discussed two possible modes in which the ModClusterService could operate:</p>
 </div>
-<div class="sect3">
-<h4 id="non-clustered-as-instances"><a class="link" href="#non-clustered-as-instances">2.4.1. "Non-Clustered" AS instances</a></h4>
+<div class="sect4">
+<h5 id="non-clustered-as-instances"><a class="link" href="#non-clustered-as-instances">"Non-Clustered" AS instances</a></h5>
 <div class="paragraph">
 <p>Here the AS instances do not exchange information amongst themselves. Think in
 terms of a group of AS instances running the "default" config, with no JGroups
@@ -796,8 +757,8 @@ don&#8217;t want to maintain load balance policy code in mod_cluster. See above
 factor to reflect its own appraisal of its status.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="clustered-as-instances"><a class="link" href="#clustered-as-instances">2.4.2. "Clustered" AS instances</a></h4>
+<div class="sect4">
+<h5 id="clustered-as-instances"><a class="link" href="#clustered-as-instances">"Clustered" AS instances</a></h5>
 <div class="paragraph">
 <p>The AS instances would form a cluster (using JGroups) and could thus exchange
 various metrics that would be used in the load balance factor calculation.
@@ -822,8 +783,8 @@ information.</em></p>
 of the cluster could "ping" htttpd.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="normal-request-handling"><a class="link" href="#normal-request-handling">2.4.3. Normal Request Handling</a></h4>
+<div class="sect4">
+<h5 id="normal-request-handling"><a class="link" href="#normal-request-handling">Normal Request Handling</a></h5>
 <div class="paragraph">
 <p>Normal request traffic is passed from mod_cluster to the AJP connector in the
 normal, fashion; i.e. via AJP over a pool of long-lasting connections.</p>
@@ -835,8 +796,8 @@ normal, fashion; i.e. via AJP over a pool of long-lasting connections.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="as-zo-mod_cluster-communications-modcluster-managment-protocol-mcmp"><a class="link" href="#as-zo-mod_cluster-communications-modcluster-managment-protocol-mcmp">2.5. AS zo mod_cluster Communications – ModCluster Managment Protocol (MCMP)</a></h3>
+<div class="sect3">
+<h4 id="as-zo-mod_cluster-communications-modcluster-managment-protocol-mcmp"><a class="link" href="#as-zo-mod_cluster-communications-modcluster-managment-protocol-mcmp">2.1.5. AS zo mod_cluster Communications – ModCluster Managment Protocol (MCMP)</a></h4>
 <div class="paragraph">
 <p>The specification of the communication protocol between the ModClusterService
 and httpd is the main detail area that needs to be hammered out between the AS
@@ -889,10 +850,10 @@ SetHandler mod-cluster
 &lt;/VirtualHost&gt;</code></pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="basic-categories-of-messages"><a class="link" href="#basic-categories-of-messages">2.5.1. Basic categories of messages:</a></h4>
 <div class="sect4">
-<h5 id="configuration-information"><a class="link" href="#configuration-information">Configuration Information</a></h5>
+<h5 id="basic-categories-of-messages"><a class="link" href="#basic-categories-of-messages">Basic categories of messages:</a></h5>
+<div class="sect5">
+<h6 id="configuration-information"><a class="link" href="#configuration-information">Configuration Information</a></h6>
 <div class="paragraph">
 <p>Per node.  Initially provided by each node (or perhaps by the HASingleton)
 during the startup process for the node.</p>
@@ -908,8 +869,7 @@ supported by mod_jk.</p>
 code base is mod_proxy not mod_jk?</em></p>
 </div>
 <div class="paragraph">
-<p><strong>Answer:</strong> See <a href="node_conf.html">this</a> for a proposal
-for that stuff.</p>
+<p><strong>Answer:</strong> See <a href="#modcluster-node-conf">node configuration</a> for a proposal for that stuff.</p>
 </div>
 <div class="paragraph">
 <p>Other configuration items mentioned in the Neuchatel discussions that are
@@ -934,15 +894,15 @@ initial registration of a worker.</em></p>
 while processing new connections and new requests.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="load-balancing-factors"><a class="link" href="#load-balancing-factors">Load Balancing Factors</a></h5>
+<div class="sect5">
+<h6 id="load-balancing-factors"><a class="link" href="#load-balancing-factors">Load Balancing Factors</a></h6>
 <div class="paragraph">
 <p>Either a single load balance factor (in "non-clustered" mode) or a set of
 factors (in "clustered" mode).</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="general-load-balancing-configurations"><a class="link" href="#general-load-balancing-configurations">General Load Balancing Configurations</a></h5>
+<div class="sect5">
+<h6 id="general-load-balancing-configurations"><a class="link" href="#general-load-balancing-configurations">General Load Balancing Configurations</a></h6>
 <div class="paragraph">
 <p>Things like the mod_jk 'sticky-session' and 'sticky-session-force' directives.
 See the "Load Balancing Directives section in the
@@ -961,8 +921,8 @@ configuration for these global values.</p>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="management-message-types"><a class="link" href="#management-message-types">2.5.2. Management Message Types</a></h4>
+<div class="sect4">
+<h5 id="management-message-types"><a class="link" href="#management-message-types">Management Message Types</a></h5>
 <div class="paragraph">
 <p>Requests from ModClusterService notify the httpd side of lifecycle events:
 startup/shutdown of JBossWeb instances; deploy/undeploy of webapps.</p>
@@ -1031,7 +991,7 @@ node from memory. Perhaps a different name than <strong>STOP</strong>, e.g. <str
 </div>
 <div class="paragraph">
 <p>A detailed protocol proposal could be found in
-<a href="management_protocol.html">Mod-Cluster_Management_Protocol</a>.</p>
+<a href="#mcmp">Mod-Cluster_Management_Protocol</a>.</p>
 </div>
 <div class="paragraph">
 <p>Responses to the above requests will contain something like:</p>
@@ -1068,8 +1028,8 @@ wish to use in load balancing calculations.</p>
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="virtual-hosts"><a class="link" href="#virtual-hosts">2.5.3. Virtual Hosts</a></h4>
+<div class="sect4">
+<h5 id="virtual-hosts"><a class="link" href="#virtual-hosts">Virtual Hosts</a></h5>
 <div class="paragraph">
 <p>Messages pertaining to particular webapps will need to qualify the webapp&#8217;s
 context name with virtual host information.  This virtual host information
@@ -1086,8 +1046,8 @@ correlate them to the appropriate httpd virtual hosts.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="modclusterservice-design"><a class="link" href="#modclusterservice-design">2.6. ModClusterService Design</a></h3>
+<div class="sect3">
+<h4 id="modclusterservice-design"><a class="link" href="#modclusterservice-design">2.1.6. ModClusterService Design</a></h4>
 <div class="paragraph">
 <p>The ModClusterService will be based on a modular architecture, with as many
 points as possible pluggable and extendable. Major components include:</p>
@@ -1130,10 +1090,10 @@ injection.</p>
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="clustering-issues"><a class="link" href="#clustering-issues">2.7. Clustering Issues</a></h3>
 <div class="sect3">
-<h4 id="domains"><a class="link" href="#domains">2.7.1. Domains</a></h4>
+<h4 id="clustering-issues"><a class="link" href="#clustering-issues">2.1.7. Clustering Issues</a></h4>
+<div class="sect4">
+<h5 id="domains"><a class="link" href="#domains">Domains</a></h5>
 <div class="paragraph">
 <p>We want full support for domains.</p>
 </div>
@@ -1181,8 +1141,8 @@ changing B, C and D&#8217;s factor with no mention of A doesn&#8217;t somehow se
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="split-brain-syndrome"><a class="link" href="#split-brain-syndrome">2.7.2. Split-Brain Syndrome</a></h4>
+<div class="sect4">
+<h5 id="split-brain-syndrome"><a class="link" href="#split-brain-syndrome">Split-Brain Syndrome</a></h5>
 <div class="paragraph">
 <p>Problem here is if there is a network partition disrupting intra-cluster
 JGroups traffic. Assume traffic between the httpd boxes and the AS instances is
@@ -1201,8 +1161,8 @@ telling mod_cluster_manager to remove the node.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="use-cases"><a class="link" href="#use-cases">2.8. Use cases</a></h3>
+<div class="sect3">
+<h4 id="use-cases"><a class="link" href="#use-cases">2.1.8. Use cases</a></h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1507,7 +1467,7 @@ node.</p>
 The node will be marked UP and mod_cluster will forward new requests to it if
 the connectivity between mod_cluster and the node is still lost all those
 requests will timeout on connect and fall back to another node. See
-<a href="ping_pong.html">this document</a>.</em></p>
+<a href="#ping-pong">this document</a>.</em></p>
 </li>
 </ul>
 </div>
@@ -1545,8 +1505,8 @@ send to mod_cluster_manager?</p>
 </ol>
 </div>
 </div>
-<div class="sect2">
-<h3 id="misc"><a class="link" href="#misc">2.9. Misc</a></h3>
+<div class="sect3">
+<h4 id="misc"><a class="link" href="#misc">2.1.9. Misc</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1568,8 +1528,8 @@ be configured via MCMP</p>
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="other-considerations"><a class="link" href="#other-considerations">2.10. Other Considerations</a></h3>
+<div class="sect3">
+<h4 id="other-considerations"><a class="link" href="#other-considerations">2.1.10. Other Considerations</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1599,22 +1559,3832 @@ dependencies be, etc.</p>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="ping-pong"><a class="link" href="#ping-pong">2.2. ModCluster ping pong</a></h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/developer/ping_pong.adoc">Improve this page – edit on GitHub.</a>
+</td>
+</tr>
+</table>
 </div>
-<div class="sect1">
-<h2 id="miscellaneous"><a class="link" href="#miscellaneous">3. Miscellaneous</a></h2>
-<div class="sectionbody">
+<div class="paragraph">
+<p>The ping/pong is AJP feature that allows to check the availability of a node
+quickly. It would be possible to add the same feature to the http/https
+(There already some work done in the ASF httpd dev-list).</p>
+</div>
+<div class="paragraph">
+<p>It is possible to have 2 kind of ping/pong:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="q_a_webinar.html">Questions and Answers on mod_cluster webinar</a></p>
+<p>a synchronous ping/pong that corresponds to a user request.</p>
 </li>
 <li>
-<p><a href="hw_load_balancer.html">Using a hardware load balancer in combination with mod_cluster server-side load metrics</a></p>
-</li>
-<li>
-<p><a href="fedora24_25_update_testing.html">mod_cluster 1.2.6.Final &#8594; 1.3.3.Final in Fedora 24 and Fedora 25 updates-testing</a></p>
+<p>a asynchronous one that corresponds to a health-check mechanism.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>A synchronous prevents broken connection due to timeout bad firewall etc.
+An asynchronous checks if a node is up at the time of the check.</p>
+</div>
+<div class="sect3">
+<h4 id="why-do-we-need-an-asynchronous-pingpong"><a class="link" href="#why-do-we-need-an-asynchronous-pingpong">2.2.1. Why do we need an asynchronous ping/pong.</a></h4>
+<div class="paragraph">
+<p>If a node is connected to 2 Ethernet boards it could happen that the connection
+between httpd and the node is broken but not the connection to the rest of the
+cluster.</p>
+</div>
+<div class="paragraph">
+<p>So a STATUS message from the cluster would put the node back in the UP state
+with a good load factor (as it is not used). So all the new incoming requests
+will go to that node and the connection will fail and mod_cluster will have to
+fail over to another node. That is very bad for the quality of service.</p>
+</div>
+<div class="paragraph">
+<p>If we do a ping/pong before setting the node to the UP state we could easy
+prevent this.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="other-way-to-get-the-feature"><a class="link" href="#other-way-to-get-the-feature">2.2.2. Other way to get the feature:</a></h4>
+<div class="paragraph">
+<p>There are some other way to get the feature.</p>
+</div>
+<div class="sect4">
+<h5 id="using-a-status-message-from-the-node-to-httpd"><a class="link" href="#using-a-status-message-from-the-node-to-httpd">Using a STATUS message from the node to httpd:</a></h5>
+<div class="paragraph">
+<p>To check for a broken connection it is possible to send a STATUS message from
+the node to httpd. If httpd answers the connection is back.</p>
+</div>
+<div class="paragraph">
+<p>If not the cluster should think that the node is still DOWN.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="using-mod_rewrite-and-http-connect"><a class="link" href="#using-mod_rewrite-and-http-connect">Using mod_rewrite and http Connect:</a></h5>
+<div class="paragraph">
+<p>It needs some configuration in httpd something like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>ProxyPass / balancer://cluster stickysession=;jsessionid
+
+NameVirtualHost *:8000
+
+# Virtual host for the cluster manager
+&lt;VirtualHost *:8000&gt;
+  RewriteEngine On
+  RewriteRule /ping/(.*) /*;jsessionid=0.$1 [PT]
+&lt;/VirtualHost&gt;
+
+A simple request on the http for node like:
+
+GET ping/node1 HTTP/1.0
+Ping: On</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>"Ping: On" is custom header from administrator app that will cause balancer to
+select node1 and create a request and 200 if the request to node1 is successful
+in this case the administrator application can then inform the cluster that
+node1 state can be changed to ENABLE</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="using-options-and-internal-redirect"><a class="link" href="#using-options-and-internal-redirect">Using 'OPTIONS ' and internal redirect:</a></h5>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+TODO
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="modcluster-node-conf"><a class="link" href="#modcluster-node-conf">2.3. ModCluster node conf</a></h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/developer/node_conf.adoc">Improve this page – edit on GitHub.</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>mod_cluster first spec documentation is mod_jk oriented in the node description
+mod-cluster document.</p>
+</div>
+<div class="paragraph">
+<p>mod_cluster should be based on mod_proxy and logic to guess the cluster
+configuration is not needed. Let&#8217;s going through the worker ajp13 parameter and
+see what to do.</p>
+</div>
+<div class="paragraph">
+<p>The worker parameters are listed on
+<a href="http://tomcat.apache.org/connectors-doc/reference/workers.html" class="bare">http://tomcat.apache.org/connectors-doc/reference/workers.html</a> only the
+ajp13-type worker directives make sense for us.</p>
+</div>
+<div class="paragraph">
+<p>In bold The parameters will be added to mod_jk existing worker parameters.</p>
+</div>
+<div class="sect3">
+<h4 id="general-node-definition"><a class="link" href="#general-node-definition">2.3.1. General node definition:</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>host that is host of BalancerMember <a href="http://host:port" class="bare">http://host:port</a></p>
+</li>
+<li>
+<p>port that is port pf BalancerMember <a href="http://host:port" class="bare">http://host:port</a></p>
+</li>
+<li>
+<p>type that is the scheme used ajp, http or https (type already exists in
+mod_jk but that is not the scheme and only ajp scheme was supported).</p>
+</li>
+<li>
+<p>route that is the JvmRoute. In mod_jk that is the name of the node.</p>
+</li>
+<li>
+<p>socket_timeout  that could be ProxyTimeout or timeout of proxy backend
+parameters.</p>
+</li>
+<li>
+<p>socket_keepalive  that is keepalive of proxy backend parameters.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="poolopened-connection-directives"><a class="link" href="#poolopened-connection-directives">2.3.2. pool/opened connection directives.</a></h4>
+<div class="paragraph">
+<p>The mod_proxy directives are more accurate for mod_cluster than the mod_jk
+ones:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>connection_pool_size that is max of proxy backend parameters.</p>
+</li>
+<li>
+<p>connection_pool_minsize that is min of proxy backend parameters.</p>
+</li>
+<li>
+<p>connection_pool_timeout that is ttl of proxy backend parameters</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>We will use:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>min</code> Minumum number of connections that will always be kept open to the
+backend server.</p>
+</li>
+<li>
+<p><code>max</code> We probably shouldn&#8217;t document it because it often causes problems
+at customer.</p>
+</li>
+<li>
+<p><code>smax</code> Soft Maximum number of connections will be created on demand. Any
+connections above smax are subject to a time to <code>ttl</code>.</p>
+</li>
+<li>
+<p><code>acquire</code> Maximum time to wait for a free connection in the connection pool.
+If there are no free connections in the pool the httpd will reject the
+connection.</p>
+</li>
+<li>
+<p><code>ttl</code> Time To Live for the inactive connections above the smax connections in
+seconds. httpd will close all connections that have not been used inside that
+time period.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="timeout-directives"><a class="link" href="#timeout-directives">2.3.3. timeout directives</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>connect_timeout that is timeout of proxy backend parameters (Defaut to
+ProxyTimeout and then to server TimeOut directive).</p>
+</li>
+<li>
+<p>prepost_timeout that is ping of proxy backend parameter.</p>
+</li>
+<li>
+<p>reply_timeout like connect_timeout.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="error-handling-directives"><a class="link" href="#error-handling-directives">2.3.4. error handling directives</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>retries NOT USED.</p>
+</li>
+<li>
+<p>recovery_options NOT USED.</p>
+</li>
+<li>
+<p>fail_on_status NOT USED.</p>
+</li>
+<li>
+<p>recovery_options NOT USED.</p>
+</li>
+<li>
+<p>fail_on_status NOT USED.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Existing mod_proxy code will be changed to allow one retry if ping/pong it will
+use the next node if ping/pong still fails.
+503 be returned if the request can&#8217;t be forwarded to any nodes.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="packet-size-definition"><a class="link" href="#packet-size-definition">2.3.5. packet size definition</a></h4>
+<div class="paragraph">
+<p>max_packet_size that is iobuffersize of proxy backend parameter.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="other-directives"><a class="link" href="#other-directives">2.3.6. other directives:</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>max_reply_timeouts NOT USED.</p>
+</li>
+<li>
+<p>secret NOT USED that doesn&#8217;t increase the security of the connection only SSL
+would be a safe option.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="routing-directives"><a class="link" href="#routing-directives">2.3.7. routing directives:</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>domain The logic has to be added in mod_cluster code (See CONFIG in <a href="#mcmp">ModCluster Management Protocol</a>)</p>
+</li>
+<li>
+<p>distance NOT USED. The logic in the cluster to calculate load factor the
+should allow that.</p>
+</li>
+<li>
+<p>redirect that will be the redirect proxy backend parameters (failover node).
+Even if the logic in the cluster could trigger it via the load factor in a
+domain that is useful feature.</p>
+</li>
+<li>
+<p>sticky_session  whether sticky sessions should be used</p>
+</li>
+<li>
+<p>sticky_session_force whether failover should be disallowed once a session is
+established</p>
+</li>
+<li>
+<p>sticky_id That is the stickysession mod_proxy that allow to change the name
+of parameter or the cookie containing the sessionid information.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="modcluster-reverseextension"><a class="link" href="#modcluster-reverseextension">2.4. ModCluster ReverseExtension</a></h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/developer/reverse_extension.adoc">Improve this page – edit on GitHub.</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>There is a "Reverse Connection Function in JBoss AS" feature request.
+The concept is to get the AJP/http/https connections created in Tomcat instead in
+httpd.</p>
+</div>
+<div class="paragraph">
+<p>The first idea is to implement it is to add a feature in mod_cluster to fill
+the worker connection pool with the sockets resulting of an accept() on the
+httpd side.</p>
+</div>
+<div class="paragraph">
+<p>Of course the Tomcat connector needs to be modified too.</p>
+</div>
+<div class="sect3">
+<h4 id="how-does-that-work"><a class="link" href="#how-does-that-work">2.4.1. How does that work?</a></h4>
+<div class="paragraph">
+<p>When a CONFIG containing "Reversed" = "yes" is received the mod_cluster logic
+will listen to a connection from Tomcat instead try to connect to it.</p>
+</div>
+<div class="paragraph">
+<p>Due to multiprocess logic in httpd a range of port needs to be use. It is the
+responsibility of the node configuration to provide a port number that won&#8217;t
+collide with any other listener in the httpd box. The port and local address
+are provided in the CONFIG message by the ModClusterService. (via Host: and
+Port:)</p>
+</div>
+<div class="paragraph">
+<p>This will work only with not (or limited) forked httpd mpm models.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="trying-to-work-around-the-multi-process-problems"><a class="link" href="#trying-to-work-around-the-multi-process-problems">2.4.2. Trying to work-around the multi-process problems:</a></h4>
+<div class="paragraph">
+<p>Problem several processes. Use a range of port: (start to start+n where is
+properties -D global.bla=n (n number) in AprEndpoint.Acceptor:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>Socket.connect(socket, serverAddress);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Well just change the serverAddress to use different port. (easy no?).</p>
+</div>
+<div class="paragraph">
+<p>The IP and starting port come from the Connector in server.xml:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>port=&quot;$&quot; address=&quot;$&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s see how it works:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>when a worker is created it binds on one available port in the range. It
+stays binded for all its live time.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>On the TC side the poller notes it is running of connections so it will open
+new connections to httpd.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>TC logic should distribute the connections on all the ports.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Notes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the connections are created with keep-alive to prevent firewall problems</p>
+</li>
+<li>
+<p>the socket timeout is also set to a reasonable value.</p>
+</li>
+<li>
+<p>size of receive buffer (APR_SO_RCVBUF) is set.</p>
+</li>
+<li>
+<p>APR_TCP_NODELAY is also set (like the best connection parameters mod_proxy is
+normaly using).</p>
+</li>
+<li>
+<p>when httpd process finishes the connections are closed&#8230;&#8203; So the poller in</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>TC will note it. It will try to connect and will reach the newly created httpd
+process.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In the proxy_worker struct there is an:
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>void            opaque;    / per scheme worker data /</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The local socket we are bind to is stored there. The accept() is done using it.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="implementation-details"><a class="link" href="#implementation-details">3. Implementation details</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="mcmp"><a class="link" href="#mcmp">3.1. ModCluster Management Protocol (MCMP)</a></h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/developer/management_protocol.adoc">Improve this page – edit on GitHub.</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This document describes elements of the <a href="#design">ModCluster</a> Management Protocol for communication between a container (AS)
+and a load balancer (Apache httpd / Undertow).</p>
+</div>
+<div class="sect3">
+<h4 id="messages"><a class="link" href="#messages">3.1.1. Messages</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Message type / Request method</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CONFIG</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Send configuration information for a node or set of nodes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">INFO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Request configuration info from mod_cluster-manager.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DUMP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Request a text dump of the current configuration seen by mod_cluster_manager.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STATUS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Send the current load balance factor for this node (or a set of nodes). Periodically sent.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Request a ping to httpd or node. The node could defined by JVMRoute or Scheme, Host, and Port (since version 0.1.0).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VERSION</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Request information about the software version used and supported MCMP version</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ENABLE-APP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Send requests and assign new sessions to the specified app. Use of to identify the app means enable all apps on the given node.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DISABLE-APP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Apache should not create new session for this webapp, but still continue serving existing session on this node. Use of to identify the app means disable all apps on the given node.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STOP-APP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">New requests for this webapp should not be sent to this node. Use of to identify the app means stop all apps on the given node.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">REMOVE-APP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove the information about this webapp from mod_cluster tables.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect4">
+<h5 id="message-payload"><a class="link" href="#message-payload">Message payload</a></h5>
+<div class="paragraph">
+<p>The information is in ASCII and URL encoded if needed.</p>
+</div>
+<div class="paragraph">
+<p>All numbers are integers, string representation is used.</p>
+</div>
+<div class="paragraph">
+<p>The command is a string in the first part of a message followed by <code>/ HTTP/1.0&lt;CR&gt;&lt;LF&gt;</code>.</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>DISABLE-APP / HTTP/1.0&lt;CR&gt;&lt;LF&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All parameters are send as &lt;PARAMETER_NAME&gt;=&lt;VALUE&gt; and the separator between
+their pairs is &lt;&amp;&gt;</p>
+</div>
+<div class="paragraph">
+<p>&lt;SPACE&gt; in value is escaped as &lt;+&gt;</p>
+</div>
+<div class="paragraph">
+<p>&lt;&amp;&gt; in value is escaped as &amp;26</p>
+</div>
+<div class="paragraph">
+<p>&lt;=&gt; in value is escaped %3D</p>
+</div>
+<div class="paragraph">
+<p>&lt;CR&gt;&lt;LF&gt; means end of &lt;COMMAND&gt;</p>
+</div>
+<div class="paragraph">
+<p>For certain values you can specify a list, in such cases separate the individual values by commas
+(e.g., <code>Alias=localhost,demo</code>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+All parameter names are case insensitive, but their values are NOT.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>DISABLE-APP / HTTP/1.0&lt;CR&gt;&lt;LF&gt;
+
+Content-length: 44&lt;CR&gt;&lt;LF&gt;
+
+&lt;CR&gt;&lt;LF&gt;
+
+Jvmroute=node1&amp;Context=/myapp&amp;Alias=demo&lt;CR&gt;&lt;LF&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can send the command using <code>curl</code> executing following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>curl -XDISABLE-APP -d &quot;JVMRoute=node1&quot; -d &quot;Context=/myapp&quot; -d &quot;Alias=demo&quot; http://localhost:6666</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="message-types"><a class="link" href="#message-types">3.1.2. Message Types</a></h4>
+<div class="paragraph">
+<p>Following are the descriptions of individual message types with their parameters.</p>
+</div>
+<div class="sect4">
+<h5 id="config"><a class="link" href="#config">CONFIG</a></h5>
+<div class="paragraph">
+<p>This message adds a new node or updates an existing one.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Key</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of virtual hosts (See <a href="http://tomcat.apache.org/tomcat-6.0-doc/config/host.html#Host%20Name%20Aliases">Alias</a>)</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Balancer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">is the name of the balancer in httpd (for example mycluster in ProxyPass /myapp balancer://mycluster/)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mycluster</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Context</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List the context the virtual host list supports like (Ex. "/myapp,/ourapp")</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">is the domain corresponding to the node</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Host</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">is the IP address (or hostname) where the node is going to receive requests from httpd</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">localhost</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JVMRoute</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Is what is after the . in the JSESSIONID cookie or the parameter jsessionid</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">is the port on which the node except to receive requests</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8009</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">http/https/ajp The protocol to use between httpd and AS to process requests</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ajp</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reversed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reverse connection</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flushpackets</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enables/disables packet flushing (values: on/off/auto)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">off</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flushwait</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time to wait before flushing packets in milliseconds. A value of -1 means wait forever</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PROXY_FLUSH_WAIT</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ping</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time (in seconds) in which to wait for a pong answer to a ping</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10 seconds</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Smax</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Soft maximum idle connection count (that is the smax in worker mod_proxy documentation). The maximum value depends on the httpd thread configuration (ThreadsPerChild or 1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ttl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time to live (in seconds) for idle connections above smax (in seconds)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60 seconds</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timeout</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timeout (in seconds) for proxy connections to a node. That is the time mod_cluster will wait for the back-end response before returning error. That corresponds to timeout in the worker mod_proxy documentation. A value of -1 indicates no timeout. Note that mod_cluster always uses a cping/cpong before forwarding a request and the connectiontimeout value used by mod_cluster is the ping value</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySession</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates whether subsequent requests for a given session should be routed to the same node, if possible</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionCookie</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Value of the Session cookie</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JSESSIONID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionPath</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Value of the Session path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">jsessionid</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionRemove</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates whether the httpd proxy should remove session stickiness in the event that the balancer is unable to route a request to the node to which it is stuck. Ignored if stickySession is false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionForce</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates whether the httpd proxy should return an error in the event that the balancer is unable to route a request to the node to which it is stuck. Ignored if stickySession is false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WaitWorker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of seconds to wait for a worker to become available to handle a request. When no workers of a balancer are usable, mod_cluster will retry after a while (workerTimeout/100). That is timeout in the balancer mod_proxy documentation. A value of -1 indicates that the httpd will not wait for a worker to be available and will return an error if none is available (in seconds)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MaxAttempts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum number of failover attempts before giving up. The minimum value is 0, i.e. no failover. The default value is 1, i.e. do a one failover attempt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+There are some limitations with regard to maximal lengths of some values. See
+<a href="https://docs.modcluster.io/#limitations">Limitations</a> section for more information.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The response in case of success is empty with HTTP code 200. In case of an error, HTTP 500 response is sent with header values <code>Type</code> and <code>Mess</code> set
+containing the type of the error and its description respectively. See the <a href="#error-handling">Error handling</a> section for more information.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="info"><a class="link" href="#info">INFO</a></h5>
+<div class="paragraph">
+<p>This message doesn&#8217;t expect parameters, but you can supply an <code>Accept</code> header specifying the context type of the response. If <code>"text/xml"</code>
+is specified, the response will contain an XML. Otherwise plain text response is sent.</p>
+</div>
+<div class="paragraph">
+<p>The plain text format has a following structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;Nodes&gt;
+&lt;Hosts&gt;
+&lt;Contexts&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where &lt;Nodes&gt; are 0 or more node records separated by a newline where each node record has following structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>Node: [&lt;number&gt;],Name: &lt;JVMRoute value&gt;,Balancer: &lt;Balancer name&gt;,LBGroup: &lt;LBGroup&gt;,Host: &lt;Host name&gt;,Port: &lt;port value&gt;,Type: &lt;scheme/protocol to use&gt;,Flushpackets: &lt;value&gt;,Flushwait: &lt;value&gt;,Ping: &lt;value&gt;,Smax: &lt;value&gt;,Ttl: &lt;value&gt;,Elected: &lt;value&gt;,Read: &lt;value&gt;,Transfered: &lt;value&gt;,Connected: &lt;value&gt;,Load: &lt;value&gt;</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For definitions of the individual values see the corresponding documentation section describing related
+<a href="https://docs.modcluster.io/#mod_proxy_cluster">directives</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>&lt;Hosts&gt; are 0 or more records separated by a newline where each host record has following structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>Vhost: [&lt;number&gt;:&lt;number&gt;:&lt;number&gt;], Alias: &lt;alias value&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and &lt;Contexts&gt; are 0 or more records separated by a newline where each record has following structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>Context: [&lt;number&gt;:&lt;number&gt;:&lt;number&gt;], Context: &lt;context value&gt;, Status: &lt;one of ENABLED, STOPPED, DISABLED&gt;</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The first field in each of the described records is intended for debugging purposes and are present only in the text representation.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>Node: [0],Name: spare,Balancer: mycluster,LBGroup: ,Host: localhost,Port: 8888,Type: ws,Flushpackets: Off,Flushwait: 10,Ping: 10,Smax: -1,Ttl: 60,Elected: 0,Read: 0,Transfered: 0,Connected: 0,Load: 0
+Node: [1],Name: test,Balancer: mycluster,LBGroup: ,Host: localhost,Port: 8889,Type: ws,Flushpackets: Off,Flushwait: 10,Ping: 10,Smax: -1,Ttl: 60,Elected: 0,Read: 0,Transfered: 0,Connected: 0,Load: -1
+Vhost: [1:1:0], Alias: localhost
+Context: [1:1:0], Context: test, Status: STOPPED</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>TODO: Desribe the XML format.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="dump"><a class="link" href="#dump">DUMP</a></h5>
+<div class="paragraph">
+<p>This message doesn&#8217;t expect parameters, but you can supply an <code>Accept</code> header specifying the context type of the response. If <code>"text/xml"</code>
+is specified, the response will contain an XML. Otherwise plain text response is sent.</p>
+</div>
+<div class="paragraph">
+<p>The plain text format has a following structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;Balancers&gt;
+&lt;Nodes&gt;
+&lt;Hosts&gt;
+&lt;Contexts&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where the individual sections contain 0 or more records separated by a newline. The structure is similar to the corresponding
+the records of INFO response, however, there are a few differences such as missing commas in most of the cases.</p>
+</div>
+<div class="paragraph">
+<p>The balancer records have the following structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>balancer: [&lt;number&gt;] Name: &lt;balancer name&gt; Sticky: &lt;value&gt; [&lt;Sticky session cookie]/[Sticky session path] remove: &lt;value&gt; force: &lt;value&gt; Timeout: &lt;value&gt; maxAttempts: &lt;value&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The structure of node records is following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>node: [&lt;number&gt;:&lt;number&gt;],Balancer: &lt;balancer name&gt;,JVMRoute: &lt;value&gt;,LBGroup: [&lt;value&gt;],Host: &lt;value&gt;,Port: &lt;value&gt;,Type: &lt;value&gt;,flushpackets: &lt;value&gt;,flushwait: &lt;value&gt;,ping: &lt;value&gt;,smax: &lt;value&gt;,ttl: &lt;value&gt;,timeout: &lt;value&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The host structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>host: &lt;number&gt; [&lt;host/alias value&gt;] vhost: &lt;number - host id&gt; node: &lt;number - node id&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and finally the context structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>context: &lt;number&gt; [&lt;context value&gt;] vhost: &lt;number - host id&gt; node: &lt;number - node id&gt; status: &lt;1 for ENABLED, 2 for DISABLED, 3 for STOPPED&gt;</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The first field in described records is intended for debugging purposes and are present only in the text representation.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>balancer: [0] Name: mycluster Sticky: 1 [JSESSIONID]/[jsessionid] remove: 0 force: 1 Timeout: 0 maxAttempts: 1
+node: [0:0],Balancer: mycluster,JVMRoute: spare,LBGroup: [],Host: localhost,Port: 8888,Type: ws,flushpackets: 0,flushwait: 10,ping: 10,smax: -1,ttl: 60,timeout: 0
+node: [1:1],Balancer: mycluster,JVMRoute: test,LBGroup: [],Host: localhost,Port: 8889,Type: ws,flushpackets: 0,flushwait: 10,ping: 10,smax: -1,ttl: 60,timeout: 0
+host: 0 [localhost] vhost: 1 node: 1
+context: 0 [test] vhost: 1 node: 1 status: 3</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>TODO: Describe the XML output.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="status"><a class="link" href="#status">STATUS</a></h5>
+<div class="paragraph">
+<p>The STATUS command requires single <code>JVMRoute</code> parameter specifying the node for which we want know the status. Optionally, you can supply <code>Load</code> parameter with
+a numerical value that will set the <code>Load</code> factor for the target node.</p>
+</div>
+<div class="paragraph">
+<p>In case of success, HTTP response with code 200 is sent with following parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Type</code> with value <code>STATUS-RSP</code></p>
+</li>
+<li>
+<p><code>JVMRoute</code> corresponding to the value sent</p>
+</li>
+<li>
+<p><code>State</code> with value <code>OK</code> or <code>NOK</code></p>
+</li>
+<li>
+<p><code>id</code> with a numerical value that is the generation id of process in httpd if it changes (increases) when httpd has been restarted and its view of the cluster
+configuration could be incorrect. In this case ModClusterService should send a new CONFIG ASAP so the information could be updated.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In case of an error, HTTP 500 response is sent with headers <code>Type</code> and <code>Mess</code> set to the type and description of the error.</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>Type=STATUS-RSP&amp;JVMRoute=spare&amp;State=OK&amp;id=698675605</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="ping"><a class="link" href="#ping">PING</a></h5>
+<div class="paragraph">
+<p>The <code>PING</code> command does not require any parameter, but there are a few optional parameters you can use changing the command behavior. See
+the table below.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Key</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JVMRoute</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Is what is after the . in the JSESSIONID cookie or the parameter jsessionid</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Host</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">is the IP address (or hostname) where the node is going to receive requests from httpd</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes if Scheme or Port is specified</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">is the port on which the node except to receive requests</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes if Host or Scheme is specified</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scheme</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">http/https/ajp The protocol to use between httpd and AS to process requests</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes if Host or Port is specified</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If no parameter is supplied, then the <code>PING</code> checks whether the proxy if alive. In case <code>JVMRoute</code> is specified, then the corresponding node
+is checked. When <code>Host</code>, <code>Port</code>, and <code>Scheme</code> are used, then it is checked whether httpd can reach a possible node using <code>Scheme://Host:Port</code>.
+In case all parameters are specified, only <code>JVMRoute</code> is used and the behavior is the same as if the other ones were not present.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="version"><a class="link" href="#version">VERSION</a></h5>
+<div class="paragraph">
+<p>This command requests the information about the used version and supported MCMP version. The HTTP 200 response has following format:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>release: &lt;software version&gt;, protocol: &lt;supported MCMP version&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>so for example this is a valid response:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>release: mod_cluster/1.3.20.Final, protocol: 0.2.1</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="enable-app"><a class="link" href="#enable-app">ENABLE-APP</a></h5>
+<div class="paragraph">
+<p>This command enables an application under the corresponding context and alias. If the application doesn&#8217;t exist, an existing virtual host
+is updated or a new one is created (that depends on the context/alias values).</p>
+</div>
+<div class="paragraph">
+<p>TODO: Describe the update/insert logic properly.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Key</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JVMRoute</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JVMRoute on which we enable the application</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Context</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of context under which the application should be deployed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alias</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of aliases for the corresponding virtual host</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>In case of success, an empty HTTP response with code 200 is sent. When an error occurs, HTTP 500 response is sent with <code>Type</code> and <code>Mess</code>
+headers containing the details.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="disable-app"><a class="link" href="#disable-app">DISABLE-APP</a></h5>
+<div class="paragraph">
+<p>Same as ENABLE-APP only sets the app status to DISABLED.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="stop-app"><a class="link" href="#stop-app">STOP-APP</a></h5>
+<div class="paragraph">
+<p>Same as ENABLE-APP only sets the app status to STOPPED.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="remove-app"><a class="link" href="#remove-app">REMOVE-APP</a></h5>
+<div class="paragraph">
+<p>Same as ENABLE-APP but removes the app from the proxy.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="error-handling"><a class="link" href="#error-handling">3.1.3. Error handling</a></h4>
+<div class="paragraph">
+<p>Once an error occurs during the MCMP communication, an HTTP response with code 500 is returned. The response contains headers
+containing more details about the nature of the error. Namely <code>Type</code> and <code>Mess</code> header fields.</p>
+</div>
+<div class="paragraph">
+<p>For example</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>HTTP/1.1 500 Internal Server Error
+Date: Wed, 11 Sep 2024 13:45:44 GMT
+Server: Apache/2.4.62 (Unix) mod_cluster/2.0.0.Alpha1-SNAPSHOT
+Version: 0.2.1
+Type: SYNTAX
+Mess: Can't parse MCMP message. It might have contained illegal symbols or unknown elements.
+Content-Length: 528
+Connection: close
+Content-Type: text/html; charset=iso-8859-1
+
+&lt;some html&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Version is the supported version of the ModCluster Management Protocol.</p>
+</li>
+<li>
+<p>Type specifies type of the error (e.g., <code>SYNTAX</code> when the message is not formed correctly or <code>MEM</code> when the data cannot be
+updated in or read from the shared memory).</p>
+</li>
+<li>
+<p>Mess is the message describing the error in more detail</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="mod_cluster-manager-handler"><a class="link" href="#mod_cluster-manager-handler">3.1.4. mod_cluster-manager handler</a></h4>
+<div class="paragraph">
+<p>The mod_cluster-manager handler allows to do operation like
+ENABLE_APP/DISABLE_APP through a web interface. The format of the request
+string is the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>Nonce:&lt;nonce&gt;&amp;Cmd:&lt;cmd&gt;&amp;Range:&lt;range&gt;&amp;&lt;MCMP String&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>&lt;nonce&gt; Is a string like e17066b4-0cb1-4e58-93e3-cdc9efb6be9 corresponding to a unique id of httpd.</p>
+</li>
+<li>
+<p>&lt;cmd&gt; Is the command: one of ENABLE_APP, DISABLE_APP etc.</p>
+</li>
+<li>
+<p>&lt;range&gt; Is a "NODE" or "CONTEXT". "NODE" means that the _APP command is a wildcard command.</p>
+</li>
+<li>
+<p>&lt;MCMP String&gt; is a string containing a command described above.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>http://localhost:8000/mod_cluster-manager?nonce=e17066b4-0cb1-4e58-93e3-cdc9efb6be9c&amp;Cmd=DISABLE-APP&amp;Range=CONTEXT&amp;JVMRoute=jvm1&amp;Alias=</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="miscellaneous"><a class="link" href="#miscellaneous">3.1.5. Miscellaneous</a></h4>
+<div class="paragraph">
+<p>(<a href="#design">ModCluster Design</a> suggests that
+ModClusterManager should wait until all sessions have been finished but that
+requires a to be written tool. The idea is that an administrator initiated
+step; similar to what people do now by changing workers.properties to quiesce a
+node in mod_jk, but it could be initiated from the JBoss side via a management
+tool). If a request arrives for a context corresponding to this node 500 will
+be returned to the client.</p>
+</div>
+<div class="paragraph">
+<p>An additional utility could be written to send a REMOVE-APP once the JBoss node
+is stopped REMOTE-APP will remove all the node information from mod_cluster
+table and any socket between httpd and the node will be closed. (For a more
+complete description see <a href="#internals">ModCluster Internals</a>.) If
+a request arrives for a context corresponding to this node 404 will be returned
+to the client: in fact the mod_proxy will not be called for the request and an
+httpd page could be displayed. A REMOVE-APP / for example will just clean the
+mod_cluster table corresponding to the application defined in the payload.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="internals"><a class="link" href="#internals">3.2. ModCluster Internals</a></h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/developer/internals.adoc">Improve this page – edit on GitHub.</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This page describe the internal logic of mod_cluster on the httpd site.
+mod_cluster in fact is the just a sophisticated proxy balancer provider. It
+uses a provider for "shared" memory handling a post_read_request and one
+handler.</p>
+</div>
+<div class="sect3">
+<h4 id="structure-of-the-httpd-part"><a class="link" href="#structure-of-the-httpd-part">3.2.1. Structure of the httpd part</a></h4>
+<div class="paragraph">
+<p>mod_cluster is made of 3 modules:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>mod_sharedmem: Shared memory and persistence handler.</p>
+</li>
+<li>
+<p>mod_proxy_cluster: A mod_proxy balancer that allows dynamic creation of
+balancers and workers.</p>
+</li>
+<li>
+<p>mod_manager: A handler that process messages coming for the ModCLusterService
+and fill the shared memory according to the messages.</p>
+</li>
+<li>
+<p>a patch to the actual 2.2.x mod_proxy code.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The modules use provider (via ap_lookup_provider/ap_register_provider) to
+interact. For first version only AJP will be supported.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="normal-request-processing-mod_proxy_cluster"><a class="link" href="#normal-request-processing-mod_proxy_cluster">3.2.2. Normal request processing (mod_proxy_cluster)</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>The translate_name hook will check that the url and vhost correspond to
+mappable location according the data from the shared memory.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>If it is mappable r&#8594;handler will be set to "proxy-server" and the
+r&#8594;filename to proxy:cluster://URI. So that mod_proxy logic could process the
+request and give it our balancer.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>The proxy_handler will process the request (because of the value of r&#8594;handler).</p>
+</li>
+<li>
+<p>In our find_best_bytraffic the following is done:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Update the workers according to the table in shared memory (create or
+remove workers)</p>
+</li>
+<li>
+<p>While not ok and can retry. (only on valid workers).</p>
+<div class="ulist">
+<ul>
+<li>
+<p>start proxying request.</p>
+</li>
+<li>
+<p>ap_proxy_pre_request will call our balancer that will return the
+worker to use.</p>
+</li>
+<li>
+<p>proxy_run_scheme_handler will forward the request to our balancer
+logic (via the canon_handler hook). That will find the cluster node and use
+again the scheme_handler to get it sending the request and reading the response</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Done</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When a request is received mod_cluster will try to map it to a host of the
+virtual hosts table is that fails the request is DECLINED so the rest of
+httpd may process it. If the request corresponds to a virtual host then the URL
+of the request is used to see if it corresponds to an context in the Contexts
+table if that fails DECLINED is returned (or do we want 404?) otherwise the
+request is processed according to the status of the context in the table. If
+the status is ENABLED the request is marked to be forwarded to the cluster. If
+the status is DISABLE and the request contains a sessionid the request is
+forwarded to the cluster if it doesn&#8217;t contain a sessionid 500 is returned. If
+the status is STOPPED, 500 is returned. That is done in an handler to prevent
+useless processing of request that can&#8217;t be processed by the cluster.</p>
+</div>
+<div class="paragraph">
+<p>When choosing a node (worker) in cluster_bytraffic the host and corresponding
+context information are checked to prevent sending a request to a node that
+can&#8217;t process it (wrong host or application not deployed etc).</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="asynchronous-requests-processing-mod_manager"><a class="link" href="#asynchronous-requests-processing-mod_manager">3.2.3. Asynchronous requests processing (mod_manager)</a></h4>
+<div class="paragraph">
+<p>The asynchronous requests are processed by the mod_manager part of mod-cluster.
+As the protocol uses "special" method names the translate_name hook will set
+r&#8594;handler to "mod-cluster" when detecting those method.</p>
+</div>
+<div class="paragraph">
+<p>The asynchronous requests are used to fill the shared area information
+according to the cluster information. The STATUS messages are handled a special
+way they validate the information according to the result of an
+<a href="#ping-pong">asynchronous ping/pong</a>. Once the information is validated
+it is stored in the shared memory.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="tables-in-the-shared-memory"><a class="link" href="#tables-in-the-shared-memory">3.2.4. Tables in the shared memory</a></h4>
+<div class="paragraph">
+<p>The CONFIG messages allow to fill the 3 tables of shared memory:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>nodes</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>That is a part of the CONFIG messages. An id is added to this description
+to identify the corresponding virtual hosts.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>JvmRoute: &lt;JvmRoute&gt; Domain: &lt;Domain&gt; &lt;Host: &lt;Node IP&gt; Port: &lt;Connector Port&gt; Type: &lt;Type of the connector&gt; (&lt;node conf&gt;) nodeid balancer name</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>virtual hosts</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>That is a part of the CONFIG messages. A node id and vhost id are added to this
+description to identify the context and the node. For each virtual host of the
+Alias: an entry is created in the virtual hosts table.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>host nodeid vhostid</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Contexts</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>That is a part of the CONFIG messages. A host id and status are added to this
+description. The status can have the following values:
+DISABLED/ENABLED/STOPPED. The contexts are created in the state STOPPED. For
+each context of the Context: an entry is create in the Contexts table.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>context vhostid status</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Balancers</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>That is a part of the CONFIG or ManagerBalancerName directives.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>balancer balancerid (&lt;balancer conf&gt;)</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="directives-of-mod_cluster"><a class="link" href="#directives-of-mod_cluster">3.2.5. Directives of mod_cluster</a></h4>
+<div class="paragraph">
+<p>MemManagerFile filename. Base name to access to shared memory.</p>
+</div>
+<div class="paragraph">
+<p>ManagerBalancerName name NoMapping. Name of the balancer to use with ProxyPass
+directive. Without NoMapping the balancer will be created automatically and
+mod_cluster will automatically maps the context deployed in the nodes.</p>
+</div>
+<div class="paragraph">
+<p>Maxcontext number. Max number of contexts mod_cluster can handle.</p>
+</div>
+<div class="paragraph">
+<p>Maxnode number. Max number of nodes mod_cluster can handle.</p>
+</div>
+<div class="paragraph">
+<p>Maxhost number. Max number of aliases (virtual hosts) mod_cluster can handle.</p>
+</div>
+<div class="paragraph">
+<p>Maxbalancer. Max number of balancer mod_cluster can handle.</p>
+</div>
+<div class="sect4">
+<h5 id="examples"><a class="link" href="#examples">Examples</a></h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
+LoadModule sharedmem_module modules/mod_sharedmem.so
+LoadModule proxy_cluster_module modules/mod_proxy_cluster.so
+LoadModule manager_module modules/mod_manager.so
+
+ProxyPass /myapp balancer://mycluster/myapp lbmethod=cluster_bytraffic
+ManagerBalancerName mycluster NoMapping</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The nodes information of the balancer mycluster is filled by the mod_cluster
+logic corresponding to mycluster.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
+LoadModule sharedmem_module modules/mod_sharedmem.so
+LoadModule proxy_cluster_module modules/mod_proxy_cluster.so
+LoadModule manager_module modules/mod_manager.so</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The balancer is created with default values and the mapping to the contexts is
+done dynamically according to the CONFIG messages.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="hooks-of-mod_sharedmem"><a class="link" href="#hooks-of-mod_sharedmem">3.2.6. Hooks of mod_sharedmem</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>post_config: Register a cleanup for the pools and memory.</p>
+</li>
+<li>
+<p>pre_config:  Create a global pool for shared memory handling.</p>
+</li>
+<li>
+<p>provides a slotmem_storage_method (do (call a callback routine on each
+existing slot), create, attach and mem (returns a pointer to a slot)).</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="hooks-for-mod_proxy_cluster"><a class="link" href="#hooks-for-mod_proxy_cluster">3.2.7. Hooks for mod_proxy_cluster</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>post_config: Find the providers that handle access to  balancers, hosts,
+contexts and node (from mod_manager).</p>
+</li>
+<li>
+<p>child_init: Create the maintenance task. The maintenance task checks
+regularly that the child balancers and workers corresponds to the shared memory
+information and create/delete/recreate new balancers or workers if needed.
+Additionally from time to time it checks the connection to node and force the
+cleaning of elapsed TTL connections (by cleaning the one it has used to test
+the node</p>
+</li>
+<li>
+<p>translate_name: Check if the request corresponds to a URL mod_cluster could
+handle if yes sets the r&#8594;handler to "proxy-server" and r&#8594;filename to
+"proxy:cluster://balancer_name so that our pre_request hook will process it.</p>
+</li>
+<li>
+<p>pre_request (proxy_hook_pre_request): It finds the worker to use and rewrite
+the URL to give the request to the corresponding scheme handler. This hook is
+called by proxy_handler() of mod_proxy.</p>
+</li>
+<li>
+<p>canon_handler: It process the canonicalising of the URL.</p>
+</li>
+<li>
+<p>provides a proxy_cluster_isup() to check that a node is reachable. (Using a
+"asynchronous" ping/pong for example).</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="hooks-of-mod_manager"><a class="link" href="#hooks-of-mod_manager">3.2.8. Hooks of mod_manager</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>post_config: Create shared memory for balancers, hosts, contexts and nodes
+(using mod_sharedmem).</p>
+</li>
+<li>
+<p>translate_name: Check the method of the request and if it is one defined by
+the protocol it sets r&#8594;handler to "mod-cluster".</p>
+</li>
+<li>
+<p>handler: It process the commands received and update the shared memory.</p>
+</li>
+<li>
+<p>provides a storage_method for balancers, hosts, contexts and nodes. A
+storage_method contains a read(), ids_used(), get_max_size() and remove().</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The read accepts 2 parameters a id or key value and does 2 things reads a
+record using the slot number in the shared memory or the key corresponding to
+the second parameters.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="processing-remove-app"><a class="link" href="#processing-remove-app">3.2.9. Processing REMOVE-APP</a></h4>
+<div class="paragraph">
+<p>Remove REMOVE-APP requires a "special" handling in mod_manager the context and
+host corresponding to the node will be removed from the shared memory and the
+node will marked as "removed". The logic to remove the node from the shared
+memory will be the following:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>remove = mark removed (can&#8217;t be updated in future operations).</p>
+</li>
+<li>
+<p>Any CONFIG corresponding to this node will now insert a new one = create a
+new id (use it to create the worker).</p>
+</li>
+<li>
+<p>the maintenance threads will remove the information of the "mark removed"
+workers.</p>
+</li>
+<li>
+<p>the  maintenance threads will create the new worker.</p>
+</li>
+<li>
+<p>After a while the "mark removed" entry will be removed by the one of
+maintenance threads only at that point the information of the node is removed
+from the shared memory.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="modcluster-node-balancer"><a class="link" href="#modcluster-node-balancer">3.3. ModCluster node balancer</a></h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/developer/node_balancers.adoc">Improve this page – edit on GitHub.</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The page describes the node and balancer part of the CONFIG message.</p>
+</div>
+<div class="sect3">
+<h4 id="node"><a class="link" href="#node">3.3.1. Node</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Key</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Max size</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JvmRoute</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG in <a href="#mcmp">ModCluster Management Protocol</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG in <a href="#mcmp">ModCluster Management Protocol</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG in <a href="#mcmp">ModCluster Management Protocol</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG in <a href="#mcmp">ModCluster Management Protocol</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">flushpackets</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tell how to flush the packets. On: Send immediately, Auto wait for flushwait time before sending, Off don&#8217;t flush.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Off</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">flushwait</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time in milliseconds to wait before flushing.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ping</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time in seconds to wait for a pong answer to a ping. 0 means we don&#8217;t try to ping before sending.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">smax</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">soft max inactive connection over that limit after ttl are closed.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MPM configuration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ttl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">max time in seconds to life for connection above smax.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timeout</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Max time in seconds httpd will wait for the backend connection.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>When a field is not present in the CONFIG message the default value is used
+in mod_cluster.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="balancer"><a class="link" href="#balancer">3.3.2. BALANCER</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Key</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Max size</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Balancer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">See CONFIG in <a href="#mcmp">ModCluster Management Protocol</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySession</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Yes</strong>: use JVMRoute to stick a request to a node; <strong>No</strong>: ignore JVMRoute</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionCookie</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the cookie containing the "sessionid"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JSESSIONID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionPath</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the parameter containing the "sessionid"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">jsessionid</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionRemove</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Yes</strong>: remove the sessionid (cookie or parameter) when the request can&#8217;t be routed to the right node; <strong>No</strong>: send it anyway</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StickySessionForce</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Yes</strong>: Return an error if the request can&#8217;t be routed according to JVMRoute; <strong>No</strong>: Route it to another node</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WaitWorker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">time in seconds to wait for an available worker. ("0" means no wait)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maxattempts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">number of attempts to send the request to the backend server.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>When a field is not present in the CONFIG message the default value is used
+in mod_cluster.</p>
+</div>
+<div class="sect4">
+<h5 id="notes-on-node-in-httpd-internals"><a class="link" href="#notes-on-node-in-httpd-internals">Notes on node in httpd internals</a></h5>
+<div class="paragraph">
+<p>The Notes describe how the httpd internal tables are filled with the above node
+description.</p>
+</div>
+<div class="sect5">
+<h6 id="reslist-parameters"><a class="link" href="#reslist-parameters">reslist parameters</a></h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hmax</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">size of the connection pool (hard max). Use ap_mpm_query(AP_MPMQ_MAX_THREADS)</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">smax</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">soft max inactive connection over that limit after ttl are closed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hmax</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">min</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">min number of connections to have available. Use 0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">acquire</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">time in milliseconds to wait for an available connection. Use 0 no wait return error</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ttl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">max time in seconds to life for connection above smax</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Those are parameters to the apr_reslist_create() that handles the pool of
+connections.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="keepalive-behavior"><a class="link" href="#keepalive-behavior">keepalive behavior</a></h6>
+<div class="paragraph">
+<p>We force keepalive on.</p>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="others"><a class="link" href="#others">Others</a></h5>
+<div class="paragraph">
+<p>Other field of the proxy_worker structure will be filled with the default
+values from mod_proxy.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="proxy_worker_stat-parameters"><a class="link" href="#proxy_worker_stat-parameters">proxy_worker_stat parameters</a></h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Updated by mod_proxy_cluster</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Updated by mod_manager</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">error_time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">retries</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">lbstatus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">lbfactor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">transferred</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">read</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">elected</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">route</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">redirect</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">busy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">lbset</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>status is filled by STATUS commands.</p>
+</div>
+<div class="paragraph">
+<p>route is JVMRoute it is filled by CONFIG commands.</p>
+</div>
+<div class="paragraph">
+<p>This information is in shared memory and the proxy_worker_stat uses a part of
+this shared memory:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>/* proxy_worker_stat structure: */
+    int             status;
+    apr_time_t      error_time; /* time of the last error */
+    int             retries;    /* number of retries on this worker */
+    int             lbstatus;   /* Current lbstatus */
+    int             lbfactor;   /* dynamic lbfactor */
+    apr_off_t       transferred;/* Number of bytes transferred to remote */
+    apr_off_t       read;       /* Number of bytes read from remote */
+    apr_size_t      elected;    /* Number of times the worker was elected */
+    char            route[PROXY_WORKER_MAX_ROUTE_SIZ+1];
+    char            redirect[PROXY_WORKER_MAX_ROUTE_SIZ+1];
+    void            *context;   /* general purpose storage */
+    apr_size_t      busy;       /* busyness factor *
+    int             lbset;      /* load balancer cluster set */</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="notes-on-balancer-in-httpd-internals"><a class="link" href="#notes-on-balancer-in-httpd-internals">3.3.3. Notes on balancer in httpd internals</a></h4>
+<div class="paragraph">
+<p>The Notes describe how the httpd internal tables are filled with the above
+balancer description.</p>
+</div>
+<div class="paragraph">
+<p>The information from the CONFIG message is packed in the shared memory:</p>
+</div>
+<div class="paragraph">
+<p>StickySessionCookie and StickySessionPath are stored in sticky and separed by
+a '|'</p>
+</div>
+<div class="paragraph">
+<p>StickySession, StickySessionRemove and StickySessionForce are stored in
+sticky_force</p>
+</div>
+<div class="paragraph">
+<p>The StickySessionForce forces only to the domain (to node belonging to the same
+domain) when the node corresponding to the sessionid belongs to a domain.</p>
+</div>
+<div class="paragraph">
+<p>max_attempts_set: is set if Maxattemps is in the CONFIG message and its value
+different from 1.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>sticky sticky_force timeout max_attempts max_attempts_set</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>That is what is needed to create the balancer to be able to use it.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>/* proxy_balancer structure extract: */
+    const char *sticky;          /* sticky session identifier */
+    int         sticky_force;    /* Disable failover for sticky sessions */
+    apr_interval_time_t timeout; /* Timeout for waiting on free connection */
+    int                 max_attempts; /* Number of attempts before failing */
+    char                max_attempts_set;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="modcluster-info-rsp"><a class="link" href="#modcluster-info-rsp">3.4. ModCluster INFO-RSP</a></h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/developer/info_rsp.adoc">Improve this page – edit on GitHub.</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="info-rsp"><a class="link" href="#info-rsp">3.4.1. INFO-RSP</a></h4>
+<div class="paragraph">
+<p>INFO-RSP is the response to a INFO command. Response would include information
+on what virtual hosts are configured (so per-webapp commands can specify the
+correct virtual host) and other info that ModClusterService can make available
+to management tools (e.g. what addresses/ports httpd is listening on.)</p>
+</div>
+<div class="paragraph">
+<p>The element are prefixed with their key id. The id of Context and Vhost are
+node, virtualhost and the record number.</p>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Balancer[1]&#8230;&#8203; The balancer corresponding to the nodes,</p>
+</li>
+<li>
+<p>Node: [1:1]&#8230;&#8203; The first node in the node table.</p>
+</li>
+<li>
+<p>Vhost: [1:1:1]&#8230;&#8203; An Alias of the Virtual Host belonging to the first node
+and first Virtual Host.</p>
+</li>
+<li>
+<p>Context: [1:1:2]&#8230;&#8203; A Context deployed/mapped in the first node and first
+Virtual Host. That the 2 Context in the Context table.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The INFO-RSP can be display using the mod_cluster_manager handler note that in
+this case the time values are in seconds except flushwait with is in
+milliseconds.</p>
+</div>
+<div class="sect4">
+<h5 id="server-not-the-actual-version"><a class="link" href="#server-not-the-actual-version">Server (Not the actual version)</a></h5>
+<div class="paragraph">
+<p>Server is corresponding to the server record in httpd that is a httpd
+VirtualHost description. The following elements are dumped:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Name: (String) Name of the server.</p>
+</li>
+<li>
+<p>Root: (String) Root directory.</p>
+</li>
+<li>
+<p>ThreadsPerChild: (Number) Number of thread per child process.</p>
+</li>
+<li>
+<p>MaxRequestsPerChild: (Number) Max requests a child will handle before
+stopping.</p>
+</li>
+<li>
+<p>MaxClient: (Number) Max simultaneous requests supported.</p>
+</li>
+<li>
+<p>LimitReqFieldsize: (Number) max size of any request header field.</p>
+</li>
+<li>
+<p>LimitReqFields: (Number) max on number of request header fields.</p>
+</li>
+<li>
+<p>Scheme: (String) The server request scheme (http/https).</p>
+</li>
+<li>
+<p>KeepAlive: (Boolean) Server keeps connections opened between request.</p>
+</li>
+<li>
+<p>KeepAliveTimeout (Number) Amount of time the connection between httpd and the
+browser is kept opened waiting for request.</p>
+</li>
+<li>
+<p>MaxKeepAliveRequests (Number) Max number of request for a browser httpd will
+process before closing the connection.</p>
+</li>
+<li>
+<p>TimeOut (Number) Max time in seconds httpd will wait for a backend server.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="balancer-2"><a class="link" href="#balancer-2">Balancer</a></h5>
+<div class="paragraph">
+<p>Balancer is corresponding to a balancer in mod_proxy logic. The following
+elements are dumped:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Name: (String) Name of the balancer.</p>
+</li>
+<li>
+<p>StickySession: (Boolean) Use JVMRoute to stick a session to a node.</p>
+</li>
+<li>
+<p>StickySessionCookie: (String) Name of the cookie containing the sessionid.</p>
+</li>
+<li>
+<p>StickySessionPath: (String) Name of the parameter containing the session when
+it is URL encoded.</p>
+</li>
+<li>
+<p>StickySessionRemove: (Boolean) Remove sessionid if the node doesn&#8217;t
+correspond to the JVMRoute.</p>
+</li>
+<li>
+<p>StickySessionForce: (Boolean) Return error if no node correspond to the
+JVMRoute.</p>
+</li>
+<li>
+<p>Timeout: (Number) Time to wait for an available worker. (seconds in
+mod_cluster_manager)</p>
+</li>
+<li>
+<p>Maxattempts: (Number) number of attempts to send the request to the backend
+server.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Example for mod_cluster_manager:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>balancer: [1] Name: mycluster Sticky: 1 [JSESSIONID]/[jsessionid] remove: 0 force: 0 Timeout: 0 Maxtry: 1</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="node-2"><a class="link" href="#node-2">Node</a></h5>
+<div class="paragraph">
+<p>None is corresponding to a node of a cluster in AS (to a &lt;Connector/&gt; in the
+server.xml). The following elements are dumped:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Name: (String) That is the JvmRoute.</p>
+</li>
+<li>
+<p>Balancer: (String) The name of balancer that processes the loadbalancing for
+the JvmRoute.</p>
+</li>
+<li>
+<p>Domain: (String) Use to group the node in buddy replicated nodes group.</p>
+</li>
+<li>
+<p>Host: (String) Hostname where the cluster node runs.</p>
+</li>
+<li>
+<p>Port: (Number) Port on which the connector is waiting for requests.</p>
+</li>
+<li>
+<p>Type: (String) Protocol using by the connector (AJP/http/https).</p>
+</li>
+<li>
+<p>Flushpackets: (String): Tell when buffer between httpd and browser should be
+flushed.</p>
+</li>
+<li>
+<p>Flushwait: (Number): Time to wait before flushing (When flushpackets is
+'Auto"). (milliseconds in mod_cluster_manager)</p>
+</li>
+<li>
+<p>Ping: (Number): Time to wait after a ping to receive a pong from a node.
+(seconds in mod_cluster_manager)</p>
+</li>
+<li>
+<p>Smax: (Number): Max connections to keep opened between httpd and the back-end
+server.</p>
+</li>
+<li>
+<p>Ttl: (Number): Max time a connection could exist when there is more than smax
+connections opened. (seconds in mod_cluster_manager)</p>
+</li>
+<li>
+<p>Elected: (Number): Number of time the worker was chosen by the balancer
+logic.</p>
+</li>
+<li>
+<p>Read: (Number): Number of bytes read from the back-end.</p>
+</li>
+<li>
+<p>Transferred: (Number): Number of bytes send to the back-end.</p>
+</li>
+<li>
+<p>Connected: (Number): Number of opened connections.</p>
+</li>
+<li>
+<p>Load: (Number) Load factor received via the STATUS messages.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Example from mod_cluster_manager:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>node: [1:1],Balancer: mycluster,JVMRoute: neo3,Domain: [neuchdom],Host: 10.33.144.5,Port: 8009,Type: ajp,flushpackets: 0,flushwait: 10,ping: 10,smax: 11,ttl: 60,timeout: 0</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="vhost"><a class="link" href="#vhost">Vhost</a></h5>
+<div class="paragraph">
+<p>Vhost is corresponding to the hosts and Aliases defined in the server.xml.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Alias: (String) Corresponding alias.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="context"><a class="link" href="#context">Context</a></h5>
+<div class="paragraph">
+<p>Context is corresponding to the context deployed in the node.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Context: (String) URL to be mapped.</p>
+</li>
+<li>
+<p>Status: (String) Status of the application: ENABLED, DISABLED or STOPPED.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="modcluster-as-integration"><a class="link" href="#modcluster-as-integration">3.5. ModCluster AS Integration</a></h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/developer/as_integration.adoc">Improve this page – edit on GitHub.</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="modcluster-integration-in-jboss-as6"><a class="link" href="#modcluster-integration-in-jboss-as6">3.5.1. ModCluster Integration in JBoss AS6</a></h4>
+<div class="paragraph">
+<p>Overall container JIRA for this:
+<a href="https://issues.redhat.com/browse/MODCLUSTER-6">MODCLUSTER-6</a>. A number of child
+issues are defined below; several of these child issues also have subtasks.</p>
+</div>
+<div class="sect4">
+<h5 id="discussion-links"><a class="link" href="#discussion-links">Discussion Links</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://www.jboss.com/index.html?module=bb&amp;op=viewtopic&amp;t=139268">Election of HASingleton master</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="elements"><a class="link" href="#elements">Elements</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p>Configuration</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Things to configure</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Node</p>
+</li>
+<li>
+<p>Balancer</p>
+</li>
+<li>
+<p>HASingleton election</p>
+</li>
+<li>
+<p>load balance policy (what metrics drive the decision)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>ClusterListener handles the first 2 of these; is that how we want it?</p>
+</li>
+<li>
+<p>Doing the rest requires MC-based config</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Lifecycle/Deployment events
+(<a href="https://issues.redhat.com/browse/MODCLUSTER-3">MODCLUSTER-3</a>)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>ClusterListener handles this well</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Periodic events</p>
+<div class="ulist">
+<ul>
+<li>
+<p>ClusterListener uses JBossWeb background thread from Engine</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Communication with httpd side</p>
+<div class="ulist">
+<ul>
+<li>
+<p>ClusterListener has good code for this; would be very nice to re-use
+(<a href="https://issues.redhat.com/browse/MODCLUSTER-8">MODCLUSTER-8</a>)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Extract from the ClusterListener class into a separate class?</p>
+</li>
+<li>
+<p>Use an interface so the HASingleton-based version can add behavior</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>mod_cluster advertisement</p>
+<div class="ulist">
+<ul>
+<li>
+<p>JBossWeb has code for this</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>HASingleton (<a href="https://issues.redhat.com/browse/MODCLUSTER-4">MODCLUSTER-4</a>)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>HASingletonSupport subclass</p>
+</li>
+<li>
+<p>Primary task is polling nodes for load information, aggregating, feeding
+to mod_cluster</p>
+</li>
+<li>
+<p>Also detects intra-cluster comm failures, alternate mechanism to notify
+mod_cluster</p>
+</li>
+<li>
+<p>Gateway to mod_cluster for all other messages (lifecycle/deployment)?</p>
+</li>
+<li>
+<p>When not functioning as singleton master, it acts as RPC handler for
+requests from master</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>HASingleton master election policy
+(<a href="https://issues.redhat.com/browse/MODCLUSTER-5">MODCLUSTER-5</a>)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Allow a master per domain</p>
+</li>
+<li>
+<p>Node that can&#8217;t reach mod_cluster shouldn&#8217;t be master</p>
+</li>
+<li>
+<p>Handle the above by putting a small data object in DRM instead of simple
+string</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Load Manager (<a href="https://issues.redhat.com/browse/MODCLUSTER-9">MODCLUSTER-9</a>)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Gathers information from various sources of metrics</p>
+</li>
+<li>
+<p>Aggregates into an overall metric</p>
+</li>
+<li>
+<p>Includes a time decay function</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Load metrics (<a href="https://issues.redhat.com/browse/MODCLUSTER-12">MODCLUSTER-12</a>)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Interface; impl&#8217;s plug into the load manager</p>
+</li>
+<li>
+<p>Each impl handles a metric or set of related metrics (e.g. web requests,
+web sessions, VM/machine metrics, transactions)</p>
+</li>
+<li>
+<p>Need to figure how to integrate into various subsystems that provide data</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="questions"><a class="link" href="#questions">Questions</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p>Individual nodes communicate lifecycle/deployments events directly to
+mod_cluster, or via HASingleton?</p>
+<div class="ulist">
+<ul>
+<li>
+<p>We want all nodes to be able confirm their ability to communicate with
+mod_cluster, so even with HASingleton nodes need to be able to contact
+mod_cluster themselves</p>
+</li>
+<li>
+<p><strong>Answer:</strong> A STATUS message sent by the HASingleton can trigger a
+ping/pong check of a different node, so there is no need for each node to
+communicate with mod_cluster. So, route all messages through the singleton.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="high-level-design"><a class="link" href="#high-level-design">High Level Design</a></h5>
+<div class="imageblock">
+<div class="content">
+<img src="images/standaloneoverview.gif" alt="standaloneoverview">
+</div>
+</div>
+<div class="paragraph">
+<p>Explanation:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The four XXXConfiguration interfaces basically package the getters of all the
+configuration properties exposed by the JBoss Web ClusterListener class.
+NodeConfiguration is the info about a particular node that gets passed to
+mod_cluster; BalancerConfiguration is non-node specific stuff like sticky
+session configuration that gets passed to mod_cluster. SSLConfiguration
+configures any JSSESocketFactory; subinterface MCMPHandlerConfiguration
+includes the other properties that govern how to discover (via static config or
+an AdvertiseListener and communicate with mod_cluster. I&#8217;ve divided these into
+different interfaces so different clients (e.g. JSSESocketFactory only see the
+necessary properties. Use interfaces so different classes can implement (e.g.
+ModClusterService here but possibly the standalone ClusterListener). See
+<a href="#ClusterListener">ModCluster Listener</a> for a description of the relevant
+configuration properties.</p>
+</li>
+<li>
+<p>ModClusterService forms the core. Its function is pretty simple:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Expose the 4 XXXConfiguration interfaces; expose setters to allow
+centralized configuration via a -beans.xml file.</p>
+</li>
+<li>
+<p>Create (or have dependency injected) the other components; wire them
+together as needed.</p>
+</li>
+<li>
+<p>Expose the main management interface (JMX, embedded console)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>BasicClusterListener implements the Tomcat LifecycleListener and
+ContainerListener interfaces.  The core event listener code from the JBoss Web
+ClusterListener class.  When it receives events it calls into</p>
+</li>
+<li>
+<p>JBossWebEventHandler exposes the various operations that are implemented as
+protected methods in the JBoss Web ClusterListener class. I make this an
+interface to support different implementations in a clustered, non-clustered or
+standalone environment.</p>
+</li>
+<li>
+<p>ClusterCoordinator is the HASingleton. It implements JBossWebEventHandler so
+it receives events from BasicClusterListener.  When it receives events it
+either makes RPC calls to whichever of its peers is the coordinator, or if its
+the coordinator it drives the process of gathering load data from around the
+cluster and sending status messages to mod_cluster. Not shown on the diagram is
+the expectation that ClusterCoordinator is a subclass of the HASingletonSupport
+class and has injected into it an HASingletonElectionPolicy impl and an
+HAPartition.</p>
+</li>
+<li>
+<p>Each node&#8217;s ClusterCoordinator gets the current load balance factor from a
+LoadBalanceFactorProvider.  The implementation of that interface is a whole
+subsystem.</p>
+</li>
+<li>
+<p>If a ClusterCoordinator is the HASingleton master, it needs to communicate
+with the http side.  It does this through an implementation of the MCMPHandler
+interface.</p>
+</li>
+<li>
+<p>DefaultMCMPHandler is the standard implementation of MCMPHandler. It
+basically encapsulates the proxy management and request sending code in the
+JBoss Web ClusterListener.  If so configured, it creates an AdvertiseListener
+to listen for multicast service advertisements by mod_cluster instances.</p>
+</li>
+<li>
+<p>MCMPRequest (not shown except as a param or return type) is a simple data
+object that encapsulates an enum identifying the request type (CONFIG,
+ENABLE-APP, STATUS, etc), the wildcard boolean, and the Map&lt;String, String&gt; of
+parameters.</p>
+</li>
+<li>
+<p>ResetRequestSource is a bit of an oddity that came with factoring the proxy
+management code in DefaultMCMPHandler out of ClusterListener. The proxy mgmt
+code during periodic status checks checks to see if any of its proxies to
+mod_cluster were in error state; if so it would tell the listener
+(via <code>reset(int pos)</code> to send a set of messages to that mod_cluster instances
+to reestablish configuration state. That reset(int pos) call was problematic in
+decoupling the proxy mgmt code, as it exposes internal details of the proxy
+manager (the pos).  So, instead I created an interface ResetRequestSource an
+instance of which is injected into an MCMPHandler.  When the MCMPHandler
+discovers it needs to reset a proxy, it asks the ResetRequestSource to provide
+a List&lt;MCMPRequest&gt; of commands that need to be invoked on mod_cluster to reset
+the node&#8217;s state.  Any class with access to the Tomcat Server object and to the
+NodeConfiguration and BalancerConfiguration could play this role.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="other-uses-of-the-same-abstractions"><a class="link" href="#other-uses-of-the-same-abstractions">Other Uses of the Same Abstractions?</a></h5>
+<div class="paragraph">
+<p>The following shows how many of the same abstractions can be used in standalone
+JBoss Web. Not surprising since they mostly came from JBoss Web&#8217;s
+ClusterListener. This diagram basically represents a possible factoring of the
+current ClusterListener into separate classes to allow code reuse in the AS.
+Ignore the package names below; they can be changed:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/modclusterserviceoverview.gif" alt="modclusterserviceoverview">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The XXXConfiguration interfaces are same as described above. Here they are
+implemented by ClusterListener instead of ModClusterService.</p>
+</li>
+<li>
+<p>ClusterListener plays the role played by ModClusterService in the AS, since
+there is no -beans.xml.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Expose the 4 XXXConfiguration interfaces; expose setters to allow
+centralized configuration, here via the Listener element in server.xml.</p>
+</li>
+<li>
+<p>Create the other components; wire them together as needed.</p>
+</li>
+<li>
+<p>Expose any management interface (JMX)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>ClusterListener is actually a subclass of BasicClusterListener (discussed
+above), which contains the actual event listener implementation.</p>
+</li>
+<li>
+<p>ClusterListener provides to its BasicClusterListener superclass the
+JBossWebEventHandler impl to use. Here it is DefaultJBossWebEventHandler which
+basically just encapsulates the relevant methods that are in the current
+ClusterListener impl.</p>
+</li>
+<li>
+<p>MCMPHandler interface and DefaultMCMPHandler impl are the same as is used in
+the AS cluster discussion above.</p>
+</li>
+<li>
+<p>Here the ClusterListener acts as the ResetRequestSource.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="using-a-hardware-load-balancer-in-combination-with-mod_cluster-server-side-load-metrics"><a class="link" href="#using-a-hardware-load-balancer-in-combination-with-mod_cluster-server-side-load-metrics">3.6. Using a hardware load balancer in combination with mod_cluster server-side load metrics</a></h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/developer/hw_load_balancer.adoc">Improve this page – edit on GitHub.</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>When using a hardware loadbalancer you can leverage from the ability of
+mod_cluster to calculate server-side load metrics to determine how best to
+balance requests.</p>
+</div>
+<div class="paragraph">
+<p>By default, these metrics are not accessible from outside of mod_cluster, but a
+minor code change to the distribution allows you to access this so called
+“loadbalance factor” through JMX. A healthcheck servlet could access this
+information and provide this to the hardware load balancer.</p>
+</div>
+<div class="paragraph">
+<p>Follow the steps below to modify your mod_cluster distribution to enable
+additional JMX information:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code># Download the mod_cluster source (version 1.0.10-GA was used in combination with JBoss EAP 5.1.x) {code}
+$ svn co http://anonsvn.jboss.org/repos/mod_cluster/tags/1.0.10.GA
+
+# Update the pom.xml to include additional repository for trove (see: this post https://community.jboss.org/message/625343)
+
+&lt;repository&gt;
+          &lt;id&gt;maven-nuxeo&lt;/id&gt;
+          &lt;name&gt;Maven Nuxeo Repository&lt;/name&gt;
+          &lt;url&gt;https://maven.nuxeo.org/nexus/content/groups/public/&lt;/url&gt;
+          &lt;layout&gt;default&lt;/layout&gt;
+          &lt;releases&gt;
+                    &lt;enabled&gt;true&lt;/enabled&gt;
+                    &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
+          &lt;/releases&gt;
+          &lt;snapshots&gt;
+                    &lt;enabled&gt;true&lt;/enabled&gt;
+                    &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
+          &lt;/snapshots&gt;
+&lt;/repository&gt;
+
+# Verify the non-patched mod_cluster build process; skip the tests as you might run into issues with your local firewall {code}
+$ mvn -P dist package -Dmaven.test.skip=true
+
+# You will find the mod_cluster SAR under the target/ directory: {code}
+mod-cluster.sar/
+├── META-INF
+│   └── mod-cluster-jboss-beans.xml
+└── mod-cluster-1.0.10.GA.jar
+
+1 directory, 2 files
+
+# Edit src/main/java/org/jboss/modcluster/load/impl/DynamicLoadBalanceFactorProviderMBean.java and add to the MBean interface: {code}
+   /**
+    * Returns the loadbalance factor
+    * @return a positive integer
+    */
+   int getLoadBalanceFactor();
+
+# Run the maven task again {code}
+$ mvn -P dist package -Dmaven.test.skip=true</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Install the mod_cluster server components to your JBoss installation by
+copying the mod_cluster.sar exploded archive to SERVER_HOME/deploy directory</p>
+</li>
+<li>
+<p>Follow the instructions for the Lifecycle listener
+<a href="http://docs.jboss.org/mod_cluster/1.0.0/html/javaconf.html">here</a></p>
+</li>
+<li>
+<p>Enable the load metrics as described
+<a href="http://docs.jboss.org/mod_cluster/1.0.0/html/javaload.html">here</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Last, but not least, you can get the loadbalancer factor through JMX when
+browsing to: jboss.web:LoadbalancerProvider.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="encrypting-connection-between-httpd-and-tc"><a class="link" href="#encrypting-connection-between-httpd-and-tc">3.7. Encrypting connection between httpd and TC</a></h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/developer/encrypting_connection.adoc">Improve this page – edit on GitHub.</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The only way to encrypt the data between Apache httpd and Tomcat is to use mod_proxy with https.</p>
+</div>
+<div class="paragraph">
+<p>In <code>httpd.conf</code> you need something like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>SSLProxyEngine On
+SSLProxyVerify require
+SSLProxyCACertificateFile conf/cacert.pem
+SSLProxyMachineCertificateFile conf/proxy.pem
+ProxyPass / https://127.0.0.1:8443/
+ProxyPassReverse / https://127.0.0.1:8443/</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>conf/proxy.pem</code> should contain both key and certificate (and the certificate must be trusted by Tomcat).
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>conf/cacert.pem</code> must contain the CA that signed the Tomcat certificate.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="forwarding-ssl-environment-when-using-httphttps-proxy"><a class="link" href="#forwarding-ssl-environment-when-using-httphttps-proxy">3.8. Forwarding SSL environment when using http/https proxy:</a></h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/developer/mod_proxy_forwarding.adoc">Improve this page – edit on GitHub.</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The variables supported by the servlet interface are the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>javax.servlet.request.X509Certificate</code></p>
+</li>
+<li>
+<p><code>javax.servlet.request.cipher_suite</code></p>
+</li>
+<li>
+<p><code>javax.servlet.request.ssl_session</code></p>
+</li>
+<li>
+<p><code>javax.servlet.request.key_size</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To get the client certificate or any SSL information from the browser you have
+to use mod_header to add the SSL information to header. To do that add in
+<code>httpd.conf</code> of Apache httpd the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>RequestHeader set SSL_CLIENT_CERT &quot;%s&quot;
+RequestHeader set SSL_CIPHER &quot;%s&quot;
+RequestHeader set SSL_SESSION_ID &quot;%s&quot;
+RequestHeader set SSL_CIPHER_USEKEYSIZE &quot;%s&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then you need a valve in Tomcat to extract the information from the request
+Headers. See <a href="http://anonsvn.jboss.org/repos/jbossweb/sandbox/valves/">the
+original code</a>. The valve has been integrated in Tomcat and in JBossWeb
+(since 2007).</p>
+</div>
+<div class="paragraph">
+<p>Once you have built the <code>valves.jar</code> copy it in <code>server/lib/</code> and edit
+<code>server.xml</code> to add <code>&lt;Valve className="SSLValve"/&gt;</code> in the <code>&lt;Engine/&gt;</code> part
+of the file.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="jbossweb-listener"><a class="link" href="#jbossweb-listener">4. JBossWeb listener</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="ClusterListener"><a class="link" href="#ClusterListener">4.1. ClusterListener</a></h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/developer/cluster_listener.adoc">Improve this page – edit on GitHub.</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The ClusterListener allows a standalone JBoss Web to work with a mod_cluster
+proxy. It also works in JBoss AS.</p>
+</div>
+<div class="paragraph">
+<p>To enable it just add in server.xml:</p>
+</div>
+<div class="paragraph">
+<p>The following parameters are supported:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>proxyList: list of proxy frond-end that will use us as backend that is a coma
+separed list of host:port example:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ProxyList="localhost:6666,neo:6666"localhost:7666"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>proxyURL: URL prefix to send with the commands default is no prefix</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>proxyURL="/bla"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>socketTimeout: Socket timeout for connections to the httpd servers default
+20000ms</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>socketTimeout="20000"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>domain: domain</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>domain="domain1"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>flushPackets: How mod_proxy should flush the packets.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>flushPackets="on"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>flushWait: Time in millisecond before flushing a packet</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>flushWait="500"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>ping: Max time to wait for a cpong after a cping (Asynchronous and
+Synchronous ping/pong)</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ping="10"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>smax: Max number of connection a process will handle in one worker</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>smax="100"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>ttl: Max time an unused connection is allowed to live in mod_cluster.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ttl="600"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>nodeTimeout: Max time mod_cluster is going to wait for a node to answer.
+Value in seconds.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>nodeTimeout="10"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>balancer: Name of the balancer.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>balancer="cluster1"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>stickySession: Use sticky session.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>stickySession="true"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>stickySessionRemove: Remove the session id is the JVMRoute can&#8217;t be used to
+route the request.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>stickySessionRemove="true"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>stickySessionForce: Return an error is the worker corresponding to the
+JVMRoute can&#8217;t be used.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>stickySessionForce="true"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>workerTimeout: Max time to wait for a free worker. Note that is a kind of
+poll try to find the best worker. Value in seconds.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>workerTimeout="1"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>maxAttempts: Number of retry before giving up (and returning an error)</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>maxAttempts="3"</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="using-mod_advertise"><a class="link" href="#using-mod_advertise">4.1.1. Using mod_advertise</a></h4>
+<div class="paragraph">
+<p>mod_advertise is a small httpd module that allows to discover the httpd
+front-end instead defining them in proxyList. 3 parameters are supported:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Advertise: Default is true if proxyList is not filled.</p>
+</li>
+<li>
+<p>AdvertiseGroupAddress: Address of the multicast to join. Must be the same
+value as the mod_advertise directive AdvertiseGroup.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>AdvertiseGroupAddress="232.0.0.2"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>AdvertisePort: Port of the multicast to join. Must be the same value as the
+mod_advertise directive (mod_advertise default 23364).</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>AdvertisePort="23364"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>AdvertiseSecurityKey: Key the front-end is going to send. Default no key no
+check.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="using-ssl"><a class="link" href="#using-ssl">4.1.2. Using SSL</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>ssl: Use SSL to connect to httpd, default false</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ssl="true"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>sslCiphers: Ciphers to be used for the SSL connection</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sslCiphers="cipher1,cipher2"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>sslProtocol: SSL protocol to be used for connection, default "TLS"</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sslProtocol="name"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>sslCertificateEncodingAlgorithm: Encoding algorithm used for certificates</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sslCertificateEncodingAlgorithm="alg"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>sslKeyStore: Certificate store, default to "~/.keystore"</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sslKeyStore="myCertificate"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>sslKeyStorePass: Password for the certificate, default "changeit"</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sslKeyStorePass="changeit"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>sslKeyStoreType: Certificate store type, default "JKS"</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sslKeyStoreType="type"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>sslKeyStoreProvider: Certificate store provider</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sslKeyStoreProvider="provider"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>sslKeyAlias: Alias name for the key</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sslKeyAlias="alias"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>sslTrustAlgorithm: Encoding algorithm used for the trust certificates</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sslTrustAlgorithm="alg"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>sslCrlFile: Certificate revocation list</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sslCrlFile="file"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>sslTrustMaxCertLength: Maximum certificate chain length, default 5</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sslTrustMaxCertLength="6"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>sslTrustStore: Trust certificate store</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sslTrustStore="myTrustStore"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>sslTrustStorePassword: Password for the trust store, default is to use the
+main certificate password</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sslTrustStorePassword="pass"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>sslTrustStoreType: Certificate store type</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sslTrustStoreType="type"</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>sslTrustStoreProvider: Certificate store provider</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sslTrustStoreProvider="provider"</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="future-directions"><a class="link" href="#future-directions">5. Future directions</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="consistent-hashing-based-jbc-data-partitioning-w-mod_cluster"><a class="link" href="#consistent-hashing-based-jbc-data-partitioning-w-mod_cluster">5.1. Consistent-hashing based JBC data partitioning w/ mod_cluster</a></h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/developer/jbc_data_partitioning.adoc">Improve this page – edit on GitHub.</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="overview"><a class="link" href="#overview">5.1.1. Overview</a></h4>
+<div class="paragraph">
+<p>Documentation of design discussion at our October 2008 Brno clustering dev
+meetings.</p>
+</div>
+<div class="paragraph">
+<p>JBoss Cache is considering moving to a data partitioning approach based on
+consistent hashing.  Idea is a particular key (i.e. Fqn) under which cached
+data is stored would be hashed using an algorithm that incorporates the cluster
+view.  Which nodes in the cluster the data is stored upon would be derived from
+the hash function.  This approach is a logical alternative to buddy
+replication; both seek to improve memory and network utilization by not
+requiring data to be redundantly stored on every node in the cluster.</p>
+</div>
+<div class="paragraph">
+<p>Data partitioning differs from buddy replication in not requiring data
+ownership, i.e. that access to the data should only occur from one node.
+However, the more access to the data can be confined to a node where that data
+is locally cached, the more performant the overall system would be.</p>
+</div>
+<div class="paragraph">
+<p>Storing session data in a consistent-hash based data partition can
+theoretically be highly performant, because sessions are meant to be sticky –
+i.e., accessed only via one node.  The trick is determining how to ensure that
+the node to which web requests are sent is the one where the data is locally
+stored. What I outline below is how an enhanced mod_cluster could help ensure
+this occurs.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="assumption"><a class="link" href="#assumption">5.1.2. Assumption</a></h4>
+<div class="paragraph">
+<p>The mod_cluster code on the httpd side has available to it the same consistent
+hashing algorithm as is used on the JBoss side, as well as the same inputs
+(i.e., the JBoss-side cluster topology). Based on this, mod_cluster can always
+determine the primary node for a session (session id being the value being
+hashed) as well as all backup nodes. With this information, mod_cluster can
+properly route requests both before and after failover.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="request-handling"><a class="link" href="#request-handling">5.1.3. Request Handling</a></h4>
+<div class="paragraph">
+<p>This is the approach discussed in Brno:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Initial request comes to node 1. This is for a new session, so node 1 has
+the freedom to specify the session id. It generates an id that hashes to
+node 1. Effect is the session data will be cached locally.</p>
+</li>
+<li>
+<p>Second request arrives, mod_cluster hashes the session id, determines the
+data is local on node 1, so routes the request there.</p>
+</li>
+<li>
+<p>Node 1 crashes but another request comes in. mod_cluster checks the session
+hash, sees the secondary node for the session is node 3, so it routes the
+request to node 3, which handles it using its locally cached backup data.</p>
+</li>
+<li>
+<p>The AS side recognizes the failure of node 1, so the topology information
+that is an input to the hashing function changes. Following such changes, some
+portion of cached data (no more than 1/n, where n is the number of cluster
+members) will need to be moved to a new host.  In this case, the session in
+question needs to be moved and ends up on node 2.</p>
+</li>
+<li>
+<p>Another request comes in, but mod_cluster is not yet aware of the new
+topology having changed the hashing function input, so it routes the request to
+node 3. Node 3 handles the request by making remote calls to node 2 to
+read/write the session data.</p>
+</li>
+<li>
+<p>The AS side informs mod_cluster of the change to the topology.</p>
+</li>
+<li>
+<p>Next request comes in, mod_cluster uses the new topology in its hashing
+function and routes the request to node 2, where the data resides.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The above is a deliberately complex scenario where the session data is moving
+around the AS-side cluster and requests are coming in while the topology info
+is inconsistent between the mod_cluster side and the AS side.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="possible-simpler-approach"><a class="link" href="#possible-simpler-approach">5.1.4. Possible Simpler Approach</a></h4>
+<div class="paragraph">
+<p>A simpler approach is to continue to use the jvmRoute suffix in the session id
+to control routing on the httpd side, but allow JBoss AS nodes to alter an
+emitted session cookie to point to a node other than themselves.</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Initial request comes in to node 1 which, as above, generates a session id
+that points to itself.  Session cookie is 123xxx.node1.</p>
+</li>
+<li>
+<p>Node 1 fails, so a subsequent request is randomly sent by mod_cluster to
+node 2. The 123xxx session data is not stored locally on node 2, but rather on
+node 3. Node 2 handles the request by making remote calls to node 3 to
+read/write the session data.</p>
+</li>
+<li>
+<p>Node 2 recognizes that making remote calls to handle requests is
+inefficient, so in its response to the failover request, it alters the session
+cookie, not to 123xxx.node2 but to 123xxx.node3.</p>
+</li>
+<li>
+<p>Next request that comes in is routed by mod_cluster to node 3, where the
+data is local.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This approach eliminates the need for mod_cluster to understand the consistent
+hashing algorithm.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="faq"><a class="link" href="#faq">6. FAQ</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="questions-and-answers-on-mod_cluster-webinar"><a class="link" href="#questions-and-answers-on-mod_cluster-webinar">6.1. Questions and Answers on mod_cluster webinar</a></h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://github.com/modcluster/docs.modcluster.io/edit/main/docs/src/main/asciidoc/developer/q_a_webinar.adoc">Improve this page – edit on GitHub.</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Want to know more, explained by the developer see:
+<a href="http://www.vimeo.com/13180921" class="bare">http://www.vimeo.com/13180921</a> and read the resulting QA:</p>
+</div>
+<div class="paragraph">
+<p>Q: Is the demo application available?<br>
+A: Yes, it&#8217;s part of the mod-cluster download (under demo/client). The
+   SessionDemo itself is not available, but it&#8217;s a simple demo
+   adding data to an HTTP session. I can make it available if
+   necessary&#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p>Q: Are the slides available?<br>
+A: www.jboss.org/webinars</p>
+</div>
+<div class="paragraph">
+<p>Q: Is this a direct competition to Terracotta&#8217;s offering?<br>
+A: No; mod-cluster is about (1) dynamic discovery of workers, (2) web
+   applications, and (3) intelligent load balancing. Clustering is an
+   orthogonal aspect; as a matter of fact, clustering could be used
+   among a number of workers which are not clustered.</p>
+</div>
+<div class="paragraph">
+<p>Q: Is the clustering between jboss instances within a domain done @ JVM level?<br>
+A: No; we use JGroups (www.jgroups.org) and JBossCache
+   (jboss.org/jbosscache) to replicate sessions. In JBoss 6, we&#8217;ve
+   replaced JBossCache with Infinispan (infinispan.org) to replicate
+   and/or distribute sessions among a cluster.</p>
+</div>
+<div class="paragraph">
+<p>Q: Why should the deployment topology use httpd? Can&#8217;t the tomcat (bundled in
+JBoss) use APR.<br>
+A: Yes, JBossWeb can use APR, and as a matter of fact does use it if
+   the shared APR lib is found on the library path. However, using APR
+   and httpd are orthogonal issues; while the mod-cluster module could
+   theoretically be used in JBossWeb directly, we haven&#8217;t tried it
+   out, as many deployments still use httpd in production.
+   Note that JBossWen cannot be used as a reverse proxy.</p>
+</div>
+<div class="paragraph">
+<p>Q: What are the steps involved to migrate a setup which is on mod_jk to
+mod_cluster?<br>
+A: There are only a few steps involved (more details can be found on
+   jboss.org/mod_cluster):
+   - Use the httpd modules downloadable from jboss.org/mod_cluster
+   - Configure httpd.conf accordingly
+   - Drop workers.properties and uriworkermap.properties
+   - Configure JBoss AS to include the addresses of the httpd
+     daemon(s) running
+   - (Optional) Configure the domain for the JBoss AS instance
+   The steps are described in detail in
+   <a href="http://docs.jboss.org/mod_cluster/1.1.0/html/mod_jk.html" class="bare">http://docs.jboss.org/mod_cluster/1.1.0/html/mod_jk.html</a></p>
+</div>
+<div class="paragraph">
+<p>Q: Are there seperate logging mechanism for mod_cluster like we use to have
+for mod_jk<br>
+A: No; mod-cluster uses the normal httpd log, and this is configured in
+httpd.conf (similar
+   to mod-jk / mod-proxy). On the JBoss AS side, the normal AS logging
+   is used (e.g. conf/log4j.xml)</p>
+</div>
+<div class="paragraph">
+<p>Q: Is the mod_cluster the same as mod_proxy_balancer?<br>
+A: No; mod_proxy_balancer requires manual configuration
+   (e.g. hosts to be balanced over). Also, web applications have to be
+   present on all hosts, and don&#8217;t register themselves
+   automatically. Plus, mod_proxy_balancer doesn&#8217;t have any notion of
+   load balance factors sent to it by the workers.</p>
+</div>
+<div class="paragraph">
+<p>Q: I have an application that uses an HASingleton(ejbtimer). In case of a
+multidomains architecture, my application would fail because I would have an
+ejbtimer in each domain. How would you get a large cluster work in this
+scenario.<br>
+A: If one singleton timer per domain is not desired, then one could
+   place the singleton timer into a separate cluster, which spans
+   multiple domains. Note that an HASingleton ejb timer and
+   distributed cache will use separate channels by default.</p>
+</div>
+<div class="paragraph">
+<p>Q: Is it not efficient to avoid sticky-sessions? If we avoided sticky sessions,
+then We could use hardware based load-balancers which did load balancing @
+Transport (TCP/IP) layer rather than Application layer.<br>
+A: Making sessions non-sticky means that access to sessions can be random, ie.
+requests for an HTTP session can go to any node within a domain. However, this
+means that we should not use asynchronous replication, as a write to an
+attribute followed by an immediate read of the same attribute but on a
+different node might lead to the reading of stale data. However, using
+synchronous replication is slower because every write incurs a round trip to
+the cluster, and the caller blocks until all responses have been received. Our
+recommendation is to use sticky sessions and asynchronous replication, for the
+best performance.</p>
+</div>
+<div class="paragraph">
+<p>Q: Is it possible to configure mod_cluster or mod_jk in a way that certain IPs
+requests go to just a particular domain<br>
+A: Not easily. One could configure virtual hosts in httpd.conf, and
+   workers connect to certain virtual hosts only, but there is no
+   enforcement of which domains are hit from the httpd side.</p>
+</div>
+<div class="paragraph">
+<p>Q: We used appliance for load balancing. Can we use mod-cluster for dynamic
+configuration instead of using static properties?<br>
+A: No, mod-cluster requires the httpd to run. We intend to talk to load
+balancer vendors and get them to implement the MCMP protocol, so that their
+balancers could be used with mod-cluster enabled workers.</p>
+</div>
+<div class="paragraph">
+<p>Q: Is mod_cluster delivered as a native module in Apache just as mod_proxy?<br>
+A: Yes, on the httpd side. On the JBoss AS side, we use a service archive
+(mod_cluster.sar), in /deploy</p>
+</div>
+<div class="paragraph">
+<p>Q: A little more general clustering question. What about distributing jboss
+servers across datacenters but that belong to the same cluster?<br>
+A: This is possible, however, in most cases IP multicasting would not be
+available over a WAN. Therefore, the configuration of JBoss AS should use a
+TCP based stack rather than a UDP based stack.</p>
+</div>
+<div class="paragraph">
+<p>Q: Can you suggest the pattern to cluster the Apache server for Fail over when
+acting as Load balancer for Jboss Cluster<br>
+A: This is very simple: just start multiple httpds and add them to JBoss AS,
+   e.g. mod_cluster.proxyList=host1:8000,Host2:8000 etc
+   Workers (JBoss instances) will then register themselves and their
+   applications with all httpds in the list.</p>
+</div>
+<div class="paragraph">
+<p>Q: Is mod_cluster available with JBoss AS (community) or JBoss Enterprise
+Application Platform from Red Hat?<br>
+A: Currently, mod-cluster 1.1.0.CR3 will ship as part of JBoss AS 6. The
+mod-cluster functionality is part of EAP 5.0.1 and will also be part of JBoss EAP 5.1.</p>
+</div>
+<div class="paragraph">
+<p>Q: Can the worker nodes be configured from JON?<br>
+A: Not yet (with respect to mod-cluster configuration). This is on the roadmap.</p>
+</div>
+<div class="paragraph">
+<p>Q: What is the configuration for dynamically adding nodes as load increases?<br>
+A: This feature is not available. It might be available as part of our
+Deltacloud product. Currently, third party vendor&#8217;s products, such as
+RightScale, could be used to do this.</p>
+</div>
+<div class="paragraph">
+<p>Q: Which version of mod_cluster do you use ? in my version i cannot see the
+sessions<br>
+A: To see sessions in mod_cluster_manager, the following entry has to be added
+to httpd.conf:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;IfModule mod_manager.c&gt;
+    MaxsessionId 50
+&lt;/IfModule&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that sessions are by default not shown in mod_cluster_manager.
+Refer to the documentation at jboss.org/mod_cluster for details.</p>
+</div>
+<div class="paragraph">
+<p>Q: can you show config quickly how mod_cluster automatically detect new hosts?<br>
+A: When a new JBoss instance is started, as soon as the mod_cluster.sar service
+is deployed, the host and all of its applications will be registered with all
+httpds, so this happens immediately.</p>
+</div>
+<div class="paragraph">
+<p>Q: What do you advice in a multi-datacenter setup? Can we use mod_cluster and
+won&#8217;t this cause a event-storm when one of the datacenters goes down?<br>
+A: When you have domains across multiple data centers, and one data center goes
+down, then the other data center has to accommodate the traffic from the data
+center which is down. This causes more traffic to the surviving data center, so
+when doing capacity planning this should be taken into account. If the nodes in
+a domain run in the cloud, then one could envisage automatically starting new
+virtualized instances to accommodate the handling of this increased traffic.</p>
+</div>
+<div class="paragraph">
+<p>Q: Are there seperate logging mechanism for mod_cluster like we use to have for
+mod_jk<br>
+A: mod-cluster is configured through the usual mechanism in httpd.conf</p>
+</div>
+<div class="paragraph">
+<p>Q: Do we need a mod_cluster manager on all nodes [in the cluster]?<br>
+A: Note that mod_cluster_manager is only available on the httpd side</p>
+</div>
+<div class="paragraph">
+<p>Q: Is gossiprouter high available?<br>
+A: Yes, multiple GossipRouters can be started. Note that, if running only on
+EC2, then a protocol called S3_PING can be used as an alternative. It uses an
+S3 bucket to store cluster topology information.</p>
+</div>
+<div class="paragraph">
+<p>Q: For the group of HTTP daemons in front of the clusters, I assume those can
+be round robin&#8217;d DNS, or any other method of load balancing them?<br>
+A: No, DNS round robin (or a hardware load balancer fronting the httpds) works.
+When using sticky sessions, the jsessionid is sent with each request (cookie or
+URL rewriting) and it is suffixed with the jvmRoute of the node which hosts a
+given session.</p>
+</div>
+<div class="paragraph">
+<p>Q: Does JBoss support UNICAST messaging?<br>
+A: Yes; JGroups would have to be configured appropriately to do that. When
+using TCP, this is done automatically. When using UDP, ip_mcast="false" would
+have to be set.</p>
+</div>
+<div class="paragraph">
+<p>Q: Is there support for mount point exclusions like JkUnMount in mod-jk?<br>
+A: Yes, use
+<code>&lt;property name="excludedContexts"&gt;jmx-console,web-admin,ROOT&lt;/property&gt;</code> in
+<code>/deploy/mod_cluster.sar/META-INF/mod_cluster-jboss-beans.xml</code></p>
+</div>
+<div class="paragraph">
+<p>Q: What are the steps involved to migrate a setup which is on mod_jk to
+mod_cluster?<br>
+A: See the previous answer above
+(<a href="http://docs.jboss.org/mod_cluster/1.1.0/html/mod_jk.html" class="bare">http://docs.jboss.org/mod_cluster/1.1.0/html/mod_jk.html</a>)</p>
+</div>
+<div class="paragraph">
+<p>Q: There is implicit, a concept, of starting connections from the jboss
+"backend" to the frontend" ,this seems odd to me?<br>
+A: This is only conceptual; workers will <strong>not</strong> create a socket connection to
+   httpd. Instead httpd connects to the workers (ie. JBoss AS instances) and
+   the workers use the same channel to send status updates, registration of web
+   applications etc.</p>
+</div>
+<div class="paragraph">
+<p>Q: Can you use buddy list to replicate session accross domains?<br>
+A: Yes, that can be done, as a domain doesn&#8217;t need to have the same scope as a
+   cluster; a cluster can span multiple domains. However, for scalability
+   purposes, we recommend to restrict a cluster to a domain</p>
+</div>
+<div class="paragraph">
+<p>Q: How does full replication in each domain compare to using buddy replication
+   and just one cluster/domain?<br>
+A: The scalability of full replication is a function of cluster size and
+   average data size, so if we have many nodes and/or large data sets, then we
+   hit a scalability ceiling.
+   If DATA_SIZE * NUMBER_OF_HOSTS is smaller than the memory available to each
+   host, the full replication is preferred, as reads are always local. If this
+   is not the case, then we can use multiple domains, or we can use one single
+   cluster, but switch from full replication to either buddy replication
+   (JBossCache) or distribution (Infinispan). Distribution only stores N copies
+   of a session, therefore scales much better than full replication.</p>
+</div>
+<div class="paragraph">
+<p>Q: Is there any turorial provided?<br>
+A: There&#8217;s a quick start guide available at jboss.org/mod_cluster</p>
+</div>
+<div class="paragraph">
+<p>Q: Is it possible to limit which hosts are allowed to join the cluster easily?<br>
+A: Yes. This can be done at the JGroups level, by using a protocol called AUTH
+   (<a href="http://community.jboss.org/wiki/JGroupsAUTH" class="bare">http://community.jboss.org/wiki/JGroupsAUTH</a>). It provides passwords, X.509
+   certificates, host lists and simple MD5 hashes as authentication, but it is
+   pluggable, so other mechanisms can be included. Post questions on AUTH to
+   the JGroups mailing list (jgroups.org).</p>
+</div>
+<div class="paragraph">
+<p>Q: to uprade without downtime you have to have at least two domains for each
+application, right?<br>
+A: Yes</p>
+</div>
+<div class="paragraph">
+<p>Q: Is there any method/workaround to avail Session Replication across Domains?<br>
+A: A cluster isn&#8217;t restricted in scope to a domain, it can span multiple
+   domains. However, that defeats the purpose of a domain (divide-and-conquer),
+   and makes rolling upgrade more difficult. For instance, if a cluster spans 2
+   domains, then it is better to club the 2 domains together into one.</p>
+</div>
+<div class="paragraph">
+<p>Q: I missed some of the demo - I saw the session replication/migration in the
+demo, but wanted to know if I have 2 apache servers in front of the jboss
+cluster and a network load balancer doing round robins will mod_cluster
+maintain the session across them?<br>
+A: Yes. The jvmRoute is appended to the jsessionid and identifies the node in a
+given domain uniquely. See also the question above on DNS round robin.</p>
+</div>
+<div class="paragraph">
+<p>Q: on apache side, which is required versions? 2.2 or also 2.0?<br>
+A: 2.2.8 or higher</p>
+</div>
+<div class="paragraph">
+<p>Q: Im using JBoss 4.2.2 GA.. Should I migrate to JBoss6?<br>
+A: JBoss 5 or higher. You <strong>can</strong> use mod_cluster with JBoss 4.2.2 - but
+   you&#8217;d need to configure it as you would for JBoss Web standalone
+   (or Tomcat) - and consequently has slightly limited functionality,
+   e.g. no HA-mode, limited to 1 load metric.</p>
+</div>
+<div class="paragraph">
+<p>Q: UDP broadcast?<br>
+A: The ability to send a packet to all hosts on a given subnet. IP multicasting
+   is more efficient because a packet is only sent to subscribed hosts. IP
+   multicasting is more efficient than TCP is large clusters, because the
+   switch copies the packet to all recipients, whereas with TCP a packet has to
+   be sent N-1 times (where N is the cluster size)</p>
+</div>
+<div class="paragraph">
+<p>Q: Normally how much time it takes for new node to be detected by
+   mod_cluster..is it configurable?<br>
+A: No, it is not configurable. As soon as the JBoss instance is started, it
+   (and its webapps) will get registered.
+   The time required to do this depends on how the node finds out
+   about the proxy. If you&#8217;ve configured mod_cluster with a static
+   proxy list, then it registers with the httpd proxy upon startup. If
+   you configured mod_cluster server-side to use an HASingleton (via
+   HAModClusterService), then it knows about the proxy upon joining
+   the cluster - also upon startup. Otherwise, you are relying on the
+   advertise mechanism - so the time required to register with the
+   proxy is a product of the advertise interval (AdvertiseFrequency,
+   configured in httpd.conf), and the status interval
+   (Engine.backgroundProcessorDelay, configured in server.xml)</p>
+</div>
+<div class="paragraph">
+<p>Q: how the new servers got added pick up the sessions? are they new or existing
+   sessions?<br>
+A: The new servers use a mechanism provided by JGroups called state transfer
+   (see <a href="http://www.jgroups.org/manual/html/user-channel.html#GetState" class="bare">http://www.jgroups.org/manual/html/user-channel.html#GetState</a>), which
+   copies the existing sessions into a new server. This way, the new server can
+   be failed over to should an existing server crash.
+   Note that state transfer is not needed if we use distribution instead of
+   replication (see above).</p>
+</div>
+<div class="paragraph">
+<p>Q: When performing rolling upgrades, how do you mitigate issues where the
+   database schema changes? So certain domains may be using JNDI to hook into
+   one core db - if another domain is upgraded in a roll out then hibernate
+   will update / alter those tables?<br>
+A: Schema migration is a difficult topic, outside the scope of mod-cluster. One
+   possible way could be to have a separate DB in the new domain, drain the old
+   domain, and - when the old domain is shut down - transfer the data from the
+   old to the new DB. But, again, this is very application dependent, and
+   generic advise moot.</p>
+</div>
+<div class="paragraph">
+<p>Q: Is mod_cluster also wokring with JBoss 5.1 with the same power, or does it
+   require Jboss 6?<br>
+A: mod-cluster works with 5.1, but is already integrated into AS 6 out
+   of the box.
+   The latest mod_cluster 1.1.0.CR3 release will work with JBoss 5.1
+   with no configuration changes - just drop in the mod_cluster.sar
+   into the $JBOSS_HOME/server/all/deploy directory.</p>
+</div>
+<div class="paragraph">
+<p>Q: How do nodes identify other nodes within their cluster?  In other words how
+   do EC2 nodes only cluster with EC2 nodes etc.?<br>
+A: Nodes find other nodes through JGroups (www.jgroups.org). On EC2, we can
+   either use a GossipRouter, which is a separate lookup process, or S3_PING
+   which is based on S3 buckets.
+   A cluster is defined via (a) the same configuration and (b) the same cluster
+   name. All nodes which have (a) and (b) form a cluster. Nodes which have (a)
+   but a different cluster name for a different cluster.</p>
+</div>
+<div class="paragraph">
+<p>Q: Is it possible to shutdown and drain a single web app?<br>
+A: Yes. The steps are:
+   - Disable the app
+   - Wait until the sessions for the app have drained
+   - Undeploy the app
+   - Deploy the new app
+   Note that the old and new webapp needs to be compatible, ie. classes
+   cannot change between redeployments.
+   If there is an incompatible change, I recommend to drain all webapps of the same type
+   (context) in a domain.</p>
+</div>
+<div class="paragraph">
+<p>Note that undeploy of a web application will perform the above operations
+automatically! Use the stopContextTimeout/stopContextTimeoutUnit config
+properties to control the default drain timeout. If you&#8217;re using session
+replication, then you don&#8217;t need to wait for all sessions to drain - just all
+current requests to complete, since those session will be available elsewhere.
+The method of draining is determined by whether or not the target web
+application is distributable or not. Additionally, the sessionDrainingStrategy
+config property can be used to always force session draining, even for
+distributable web applications.</p>
+</div>
+<div class="paragraph">
+<p>Alternatively, you can stop a single context manually in once step via the
+stopContext(&#8230;&#8203;) JMX operation.</p>
+</div>
+<div class="paragraph">
+<p>Q: Is mod_cluster delivered as a native module in Apache, just as mod_proxy?<br>
+A: Yes</p>
+</div>
+<div class="paragraph">
+<p>Q: Does the "load balancer demo app" come with mod_cluster?<br>
+A: Yes, under /demo/client</p>
+</div>
+<div class="paragraph">
+<p>Q: Can you configure the jboss nodes to announce themselves to the httpd
+servers over a local/private network keeping that communication private and
+seperate from the public access to the application?<br>
+A: Yes. You can - since a separate connection is used, provided these
+   routes exist. This private network address/port would be provided by
+   the advertise mechanism or via the server-side proxyList.
+   The private and public network could be created in httpd.conf,
+   using virtual hosts.</p>
+</div>
+<div class="paragraph">
+<p>Q: When a new version of a web app is deployed, how does JBoss/mod_cluster
+   know how to replicate between old versions and new versions?<br>
+A: The webapp needs to be compatible to existing versions. If it isn&#8217;t, deploy
+   it into a new domain, or redeploy all existing webapps of the same type.</p>
+</div>
+<div class="paragraph">
+<p>Q: Can mod_clustered enabled when v use configure Elastic Load Balance?<br>
+A: Yes, but this doesn&#8217;t make much sense. Compared to ELB, mod-cluster is (1)
+   cloud independent (ELB only exists in EC2), (2) allows for dynamic
+   registration of workers (this is static in ELB), (3) allows for dynamic
+   registration/de-registration of webapps (ELB doesn&#8217;t) and (4) sends dynamic
+   load balancer information back to httpd (ELB has some built-in LB
+   functionality, but it is not extensible).</p>
+</div>
+<div class="paragraph">
+<p>Q: what about the performance when we divide one large cluster in to small
+   clusters?<br>
+A: Performance is probably better, for various reasons. For example, if we use
+   TCP, cluster wide calls (RPCs) have a cost of N-1. With smaller N&#8217;s, these
+   calls become less costly.</p>
+</div>
 </div>
 </div>
 </div>
