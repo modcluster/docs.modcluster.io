@@ -298,11 +298,11 @@ is updated or a new one is created (that depends on the context/alias values).
 TODO: Describe the update/insert logic properly.
 
 |===
-| Key      | Description
+| Key      | Description                                                     | Required
 
-| JVMRoute | JVMRoute on which we enable the application
-| Context  | List of context under which the application should be deployed
-| Alias    | List of aliases for the corresponding virtual host
+| JVMRoute | JVMRoute on which we enable the application                     | Yes
+| Context  | List of context under which the application should be deployed  | Yes if the request path is not `/*`
+| Alias    | List of aliases for the corresponding virtual host              | Yes if the request path is not `/*`
 |===
 
 In case of success, an empty HTTP response with code 200 is sent. When an error occurs, HTTP 500 response is sent with `Type` and `Mess`
