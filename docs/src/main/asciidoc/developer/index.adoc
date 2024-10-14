@@ -1,9 +1,8 @@
-[[High_Availability_Guide]]
-= mod_cluster Developer resources
+= mod_cluster Developer Resources
 :revdate: {localdate}
 :toc: macro
 :toclevels: 2
-:toc-title: mod_cluster Developer resources
+:toc-title: mod_cluster Developer Resources
 :doctype: book
 :icons: font
 :source-highlighter: coderay
