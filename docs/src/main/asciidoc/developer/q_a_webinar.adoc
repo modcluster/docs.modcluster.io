@@ -1,6 +1,8 @@
 = Questions and Answers on mod_cluster webinar
 
-Want to know more, explained by the developper see:
+NOTE: {editurl}q_a_webinar.adoc[{editnote}]
+
+Want to know more, explained by the developer see:
 http://www.vimeo.com/13180921 and read the resulting QA:
 
 Q: Is the demo application available? +

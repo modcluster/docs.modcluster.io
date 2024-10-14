@@ -1,5 +1,7 @@
 = Consistent-hashing based JBC data partitioning w/ mod_cluster
 
+NOTE: {editurl}jbc_data_partitioning.adoc[{editnote}]
+
 == Overview
 
 Documentation of design discussion at our October 2008 Brno clustering dev

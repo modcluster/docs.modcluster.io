@@ -1,6 +1,8 @@
 [[modcluster-node-conf]]
 = ModCluster node conf
 
+NOTE: {editurl}node_conf.adoc[{editnote}]
+
 mod_cluster first spec documentation is mod_jk oriented in the node description
 mod-cluster document.
 

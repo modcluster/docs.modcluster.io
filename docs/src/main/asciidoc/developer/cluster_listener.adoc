@@ -1,6 +1,8 @@
 [[ClusterListener]]
 = ClusterListener
 
+NOTE: {editurl}cluster_listener.adoc[{editnote}]
+
 The ClusterListener allows a standalone JBoss Web to work with a mod_cluster
 proxy. It also works in JBoss AS.
 

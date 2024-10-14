@@ -1,5 +1,7 @@
 = Encrypting connection between httpd and TC
 
+NOTE: {editurl}encrypting_connection.adoc[{editnote}]
+
 The only way to encrypt the data between Apache httpd and Tomcat is to use
 mod_proxy with https.
 

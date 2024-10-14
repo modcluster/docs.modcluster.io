@@ -1,5 +1,7 @@
 =  Forwarding SSL environment when using http/https proxy:
 
+NOTE: {editurl}mod_proxy_forwarding.adoc[{editnote}]
+
 The variables supported by the servlet interface are the following:
 
 * `javax.servlet.request.X509Certificate`

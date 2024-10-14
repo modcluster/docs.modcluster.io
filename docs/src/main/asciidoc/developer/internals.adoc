@@ -1,6 +1,8 @@
 [[internals]]
 = ModCluster Internals
 
+NOTE: {editurl}internals.adoc[{editnote}]
+
 This page describe the internal logic of mod_cluster on the httpd site.
 mod_cluster in fact is the just a sophisticated proxy balancer provider. It
 uses a provider for "shared" memory handling a post_read_request and one

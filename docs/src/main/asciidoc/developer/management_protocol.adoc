@@ -1,6 +1,8 @@
 [[mcmp]]
 = ModCluster Management Protocol (MCMP)
 
+NOTE: {editurl}management_protocol.adoc[{editnote}]
+
 This document describes elements of the <<design,ModCluster>> Management Protocol for communication between a container (AS)
 and a load balancer (Apache httpd / Undertow).
 

@@ -1,6 +1,6 @@
 = ModClusterDesign
 
-// NOTE: {editurl}design.adoc[{editnote}]
+NOTE: {editurl}design.adoc[{editnote}]
 
 == Next Generation Web Tier Load Balancing Design
 

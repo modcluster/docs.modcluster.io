@@ -1,5 +1,7 @@
 = ModCluster node balancer
 
+NOTE: {editurl}node_balancers.adoc[{editnote}]
+
 The page describes the node and balancer part of the CONFIG message.
 
 == Node

@@ -1,5 +1,7 @@
 = ModCluster AS Integration
 
+NOTE: {editurl}as_integration.adoc[{editnote}]
+
 == ModCluster Integration in JBoss AS6
 
 Overall container JIRA for this:

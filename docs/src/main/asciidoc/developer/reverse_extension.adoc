@@ -1,7 +1,9 @@
 = ModCluster ReverseExtension
 
+NOTE: {editurl}reverse_extension.adoc[{editnote}]
+
 There is a "Reverse Connection Function in JBoss AS" feature request.
-The concept to get the AJP/http/https connections created in Tomcat instead in
+The concept is to get the AJP/http/https connections created in Tomcat instead in
 httpd.
 
 The first idea is to implement it is to add a feature in mod_cluster to fill

@@ -1,5 +1,6 @@
-= Using a hardware load balancer in combination with mod_cluster server-side
-load metrics
+= Using a hardware load balancer in combination with mod_cluster server-side load metrics
+
+NOTE: {editurl}hw_load_balancer.adoc[{editnote}]
 
 When using a hardware loadbalancer you can leverage from the ability of
 mod_cluster to calculate server-side load metrics to determine how best to

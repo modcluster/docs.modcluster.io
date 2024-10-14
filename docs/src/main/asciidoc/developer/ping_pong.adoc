@@ -1,6 +1,8 @@
 [[ping-pong]]
 = ModCluster ping pong
 
+NOTE: {editurl}ping_pong.adoc[{editnote}]
+
 The ping/pong is AJP feature that allows to check the availability of a node
 quickly. It would be possible to add the same feature to the http/https
 (There already some work done in the ASF httpd dev-list).
