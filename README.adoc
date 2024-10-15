@@ -1,8 +1,8 @@
 = mod_cluster Project Documentation image:https://github.com/modcluster/docs.modcluster.io/workflows/CI/badge.svg[CI,link=https://github.com/modcluster/docs.modcluster.io/actions/workflows/ci.yml]
 
-Are you here to read the documentation? Just head over to https://docs.modcluster.io/ rightaway.
+Are you here to read the mod_cluster documentation? Just head over to https://docs.modcluster.io/ right away.
 
-But if you are here to contribute then welcome to the mod_cluster live documentation!
+If you're here to contribute, welcome to the mod_cluster documentation repository!
 
 == Contributing
 
