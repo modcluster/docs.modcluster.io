@@ -528,7 +528,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Developer Resources</h1>
 <div class="details">
-<span id="revdate">2024-10-14</span>
+<span id="revdate">2024-10-15</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster Developer Resources</div>
@@ -2623,27 +2623,32 @@ is updated or a new one is created (that depends on the context/alias values).</
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Key</th>
 <th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Required</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">JVMRoute</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">JVMRoute on which we enable the application</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Context</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of context under which the application should be deployed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes if the request path is not <code>/*</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Alias</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of aliases for the corresponding virtual host</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes if the request path is not <code>/*</code></p></td>
 </tr>
 </tbody>
 </table>
