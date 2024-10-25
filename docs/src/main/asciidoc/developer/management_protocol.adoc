@@ -295,7 +295,9 @@ release: mod_cluster/1.3.20.Final, protocol: 0.2.1
 This command enables an application under the corresponding context and alias. If the application doesn't exist, an existing virtual host
 is updated or a new one is created (that depends on the context/alias values).
 
-TODO: Describe the update/insert logic properly.
+// TODO: Maybe add a more verbose description with examples 
+The insert/update logic works as follow. The proxy server goes through all received aliases and if any of them mathces to already
+existing virtual host (first match), an update occurs. If there is no match, then a new virtual host is created.
 
 |===
 | Key      | Description                                                     | Required
