@@ -296,7 +296,7 @@ This command enables an application under the corresponding context and alias. I
 is updated or a new one is created (that depends on the context/alias values).
 
 // TODO: Maybe add a more verbose description with examples 
-The insert/update logic works as follow. The proxy server goes through all received aliases and if any of them mathces to already
+The insert/update logic works as follows: the proxy server goes through all received aliases and if any of them matches an
 existing virtual host (first match), an update occurs. If there is no match, then a new virtual host is created.
 
 |===
