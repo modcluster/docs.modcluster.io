@@ -200,9 +200,8 @@ This whole magic is in place in order to prevent congestion.
 
 == Keep seeing "HTTP/1.1 501 Method Not Implemented"
 
-One needs to configure EnableMCMPReceive in
-the VirtualHost where you received the MCMP elements in the Apache httpd configuration.
-Something like in the aforementioned Minimal Example.
+The `EnableMCMPReceive` must be configured in the `VirtualHost` where the MCMP elements are configured in the Apache httpd configuration.
+See minimal example above.
 
 == Redirect is not working (Tomcat, JBossWeb):
 
@@ -303,7 +302,7 @@ Creating targeted mod_cluster.pp policy package
 rm tmp/mod_cluster.mod.fc tmp/mod_cluster.mod
 ----
 
-The `mod_cluster.pp` file should be proceeded by semodule as root:
+The `mod_cluster.pp` file should be proceeded by `semodule` as root:
 
 [source]
 ----
@@ -315,7 +314,28 @@ Alternatively, one may use `semanage` and add ports and paths labels manually.
 
 == How do I change STATUS message frequency?
 
-In WildFly, this behavior is configurable in the mod_cluster subsystem. 
-For Tomcat you can use system property to modify this behaviour. 
+In WildFly, this behavior is configurable in the mod_cluster subsystem.
+Run the following CLI command to adjust to 20 seconds in this example:
+
+[source]
+----
+/subsystem=modcluster/proxy=default:write-attribute(name=status-interval, value=20)
+----
+
+In Tomcat, you need to use system property to modify this behavior.
 Setting `org.jboss.modcluster.container.catalina.status-frequency` (default: 1) makes worker to send STATUS MCMP messages only `1/n` periodic event.
 The events occur every `backgroundProcessorDelay` _(default 10 seconds)_.
+
+== How can I debug requests in Undertow?
+
+Undertow by default provides a `RequestDumpingHandler` from the main `io.undertow.core` module.
+Use the following CLI script to configure Undertow to log the request to the log:
+
+[source]
+----
+batch
+/subsystem=undertow/configuration=filter/custom-filter=request-dumping-filter:add(class-name=io.undertow.server.handlers.RequestDumpingHandler, module=io.undertow.core)
+/subsystem=undertow/server=default-server/host=default-host/filter-ref=request-dumping-filter:add
+run-batch
+reload
+----
