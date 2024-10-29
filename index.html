@@ -528,7 +528,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2024-10-25</span>
+<span id="revdate">2024-10-29</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -603,6 +603,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#chrome-does-not-display-mod_cluster-manager-page">7.8. Chrome does not display /mod_cluster-manager page</a></li>
 <li><a href="#how-do-i-use-mod_cluster-with-selinux">7.9. How do I use mod_cluster with SELinux?</a></li>
 <li><a href="#how-do-i-change-status-message-frequency">7.10. How do I change STATUS message frequency?</a></li>
+<li><a href="#how-can-i-debug-requests-in-undertow">7.11. How can I debug requests in Undertow?</a></li>
 </ul>
 </li>
 <li><a href="#migration-2">8. Migration</a>
@@ -5482,9 +5483,8 @@ Node jboss-6-3 served   9 requests</code></pre>
 <div class="sect2">
 <h3 id="keep-seeing-http1-1-501-method-not-implemented"><a class="link" href="#keep-seeing-http1-1-501-method-not-implemented">7.5. Keep seeing "HTTP/1.1 501 Method Not Implemented"</a></h3>
 <div class="paragraph">
-<p>One needs to configure EnableMCMPReceive in
-the VirtualHost where you received the MCMP elements in the Apache httpd configuration.
-Something like in the aforementioned Minimal Example.</p>
+<p>The <code>EnableMCMPReceive</code> must be configured in the <code>VirtualHost</code> where the MCMP elements are configured in the Apache httpd configuration.
+See minimal example above.</p>
 </div>
 </div>
 <div class="sect2">
@@ -5599,7 +5599,7 @@ rm tmp/mod_cluster.mod.fc tmp/mod_cluster.mod</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>mod_cluster.pp</code> file should be proceeded by semodule as root:</p>
+<p>The <code>mod_cluster.pp</code> file should be proceeded by <code>semodule</code> as root:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5615,9 +5615,33 @@ rm tmp/mod_cluster.mod.fc tmp/mod_cluster.mod</code></pre>
 <h3 id="how-do-i-change-status-message-frequency"><a class="link" href="#how-do-i-change-status-message-frequency">7.10. How do I change STATUS message frequency?</a></h3>
 <div class="paragraph">
 <p>In WildFly, this behavior is configurable in the mod_cluster subsystem.
-For Tomcat you can use system property to modify this behaviour.
+Run the following CLI command to adjust to 20 seconds in this example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>/subsystem=modcluster/proxy=default:write-attribute(name=status-interval, value=20)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In Tomcat, you need to use system property to modify this behavior.
 Setting <code>org.jboss.modcluster.container.catalina.status-frequency</code> (default: 1) makes worker to send STATUS MCMP messages only <code>1/n</code> periodic event.
 The events occur every <code>backgroundProcessorDelay</code> <em>(default 10 seconds)</em>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="how-can-i-debug-requests-in-undertow"><a class="link" href="#how-can-i-debug-requests-in-undertow">7.11. How can I debug requests in Undertow?</a></h3>
+<div class="paragraph">
+<p>Undertow by default provides a <code>RequestDumpingHandler</code> from the main <code>io.undertow.core</code> module.
+Use the following CLI script to configure Undertow to log the request to the log:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>batch
+/subsystem=undertow/configuration=filter/custom-filter=request-dumping-filter:add(class-name=io.undertow.server.handlers.RequestDumpingHandler, module=io.undertow.core)
+/subsystem=undertow/server=default-server/host=default-host/filter-ref=request-dumping-filter:add
+run-batch
+reload</code></pre>
+</div>
 </div>
 </div>
 </div>
