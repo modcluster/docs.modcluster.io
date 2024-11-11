@@ -42,7 +42,7 @@ jobs:
           name: generated-docs
           path: generated-docs/
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.6.9
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: generated-docs/
