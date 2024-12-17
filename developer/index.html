@@ -529,7 +529,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Developer Resources</h1>
 <div class="details">
-<span id="revdate">2024-11-22</span>
+<span id="revdate">2024-12-17</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster Developer Resources</div>
@@ -537,7 +537,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#developer-resources">1. Developer Resources</a></li>
 <li><a href="#design">2. Design</a>
 <ul class="sectlevel2">
-<li><a href="#modclusterdesign">2.1. ModClusterDesign</a></li>
+<li><a href="#mod_cluster-design">2.1. ModClusterDesign</a></li>
 <li><a href="#ping-pong">2.2. ModCluster ping pong</a></li>
 <li><a href="#modcluster-node-conf">2.3. ModCluster node conf</a></li>
 <li><a href="#modcluster-reverseextension">2.4. ModCluster ReverseExtension</a></li>
@@ -551,8 +551,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#modcluster-info-rsp">3.4. ModCluster INFO-RSP</a></li>
 <li><a href="#modcluster-as-integration">3.5. ModCluster AS Integration</a></li>
 <li><a href="#using-a-hardware-load-balancer-in-combination-with-mod_cluster-server-side-load-metrics">3.6. Using a hardware load balancer in combination with mod_cluster server-side load metrics</a></li>
-<li><a href="#encrypting-connection-between-httpd-and-tc">3.7. Encrypting connection between httpd and TC</a></li>
-<li><a href="#forwarding-ssl-environment-when-using-httphttps-proxy">3.8. Forwarding SSL environment when using http/https proxy:</a></li>
+<li><a href="#encrypting-connection-tomcat">3.7. Encrypting connection between httpd and Tomcat</a></li>
+<li><a href="#modproxy-forwarding">3.8. Forwarding SSL environment when using http/https proxy</a></li>
 </ul>
 </li>
 <li><a href="#jbossweb-listener">4. JBossWeb listener</a>
@@ -605,7 +605,7 @@ We&#8217;re working on making them up to date.
 <h2 id="design"><a class="link" href="#design">2. Design</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="modclusterdesign"><a class="link" href="#modclusterdesign">2.1. ModClusterDesign</a></h3>
+<h3 id="mod_cluster-design"><a class="link" href="#mod_cluster-design">2.1. ModClusterDesign</a></h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -4286,7 +4286,7 @@ browsing to: jboss.web:LoadbalancerProvider.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="encrypting-connection-between-httpd-and-tc"><a class="link" href="#encrypting-connection-between-httpd-and-tc">3.7. Encrypting connection between httpd and TC</a></h3>
+<h3 id="encrypting-connection-tomcat"><a class="link" href="#encrypting-connection-tomcat">3.7. Encrypting connection between httpd and Tomcat</a></h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -4341,7 +4341,7 @@ ProxyPassReverse / https://127.0.0.1:8443/</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="forwarding-ssl-environment-when-using-httphttps-proxy"><a class="link" href="#forwarding-ssl-environment-when-using-httphttps-proxy">3.8. Forwarding SSL environment when using http/https proxy:</a></h3>
+<h3 id="modproxy-forwarding"><a class="link" href="#modproxy-forwarding">3.8. Forwarding SSL environment when using http/https proxy</a></h3>
 <div class="admonitionblock note">
 <table>
 <tr>

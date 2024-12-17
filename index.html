@@ -529,7 +529,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2024-11-22</span>
+<span id="revdate">2024-12-17</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -697,35 +697,40 @@ the former name mod_cluster is currently used for container implementation.
 <h4 id="container-integration-modules"><a class="link" href="#container-integration-modules">1.1.1. Container Integration Modules</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Release</th>
 <th class="tableblock halign-left valign-top">Tomcat versions</th>
+<th class="tableblock halign-left valign-top">Java SE</th>
 <th class="tableblock halign-left valign-top">Code</th>
 <th class="tableblock halign-left valign-top">Documentation</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.1</code> (in development)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.1</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>11.0</code>, <code>10.1</code>, <code>9.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/modcluster/mod_cluster/tree/main">SCM Branch</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://docs.modcluster.io/apidocs/2.1/">Javadoc</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>2.0</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.1</code>, <code>9.0</code>, <code>8.5</code> (EOL)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/modcluster/mod_cluster/tree/2.0.x">SCM Branch</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://docs.modcluster.io/apidocs/2.0/">Javadoc</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>1.4</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>9.0</code>, <code>8.5</code> (EOL), <code>8.0</code> (EOL), <code>7.0</code> (EOL)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/modcluster/mod_cluster/tree/1.4.x">SCM Branch</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://docs.modcluster.io/apidocs/1.4/">Javadoc</a></p></td>
 </tr>
@@ -834,7 +839,7 @@ that server.</p>
 </div>
 <div class="paragraph">
 <p>Unlike mod_jk, mod_proxy_cluster does not require AJP. httpd connections to application server nodes can use HTTP, HTTPS, or AJP.
-The original concepts are described in a <a href="developer/design.html">Design</a> article.</p>
+The original concepts are described in a <a href="developer/index.html#mod_cluster-design">Design</a> article.</p>
 </div>
 </div>
 <div class="sect2">
@@ -4419,7 +4424,7 @@ stored in the sslKeyStore of the ClusterListener parameters.</p>
 <div class="sect4">
 <h5 id="clusterlistener-configuration-part"><a class="link" href="#clusterlistener-configuration-part">ClusterListener configuration part</a></h5>
 <div class="paragraph">
-<p>There is a <a href="developer/cluster_listener.html">ModCluster Listener</a> article
+<p>There is a <a href="developer/index.html#ClusterListener">ModCluster Listener</a> article
 describing the SSL parameters of the ClusterListener. See in one example
 how easy the configuration is:</p>
 </div>
@@ -4611,8 +4616,7 @@ But due to the resources it needs that no advised to use it in high
 load configuration.</p>
 </div>
 <div class="paragraph">
-<p>(See <a href="developer/encrypting_connection.html">Encrypting connection between httpd
-and TC</a> for detailed instructions).</p>
+<p>See <a href="developer/index.html#encrypting-connection-tomcat">Encrypting connection between httpd and TC</a> for detailed instructions.</p>
 </div>
 <div class="paragraph">
 <p>httpd is configured to be a client for AS/TC, so it should provide a
@@ -4730,8 +4734,7 @@ If you are using AJP, mod_proxy_ajp will read the SSL variables and
 forward them to JBossWEB automatically.</p>
 </div>
 <div class="paragraph">
-<p>(See <a href="developer/mod_proxy_forwarding.html">Forwarding SSL environment when using
-http/https proxy</a> for detailed instructions).</p>
+<p>See <a href="developer/index.html#modproxy-forwarding">Forwarding SSL environment when using http/https proxy</a> for detailed instructions.</p>
 </div>
 <div class="paragraph">
 <p>The SSL variable used by mod_proxy_ajp are the following:</p>
