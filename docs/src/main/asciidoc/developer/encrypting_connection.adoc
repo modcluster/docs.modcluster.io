@@ -1,4 +1,5 @@
-= Encrypting connection between httpd and TC
+[[encrypting-connection-tomcat]]
+= Encrypting connection between httpd and Tomcat
 
 NOTE: {editurl}encrypting_connection.adoc[{editnote}]
 

@@ -1,4 +1,5 @@
-=  Forwarding SSL environment when using http/https proxy:
+[[modproxy-forwarding]]
+= Forwarding SSL environment when using http/https proxy
 
 NOTE: {editurl}mod_proxy_forwarding.adoc[{editnote}]
 
