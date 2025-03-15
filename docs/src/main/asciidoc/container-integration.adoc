@@ -660,7 +660,7 @@ The capacity of a metric serves 2 functions:
 
 -   To normalize the load values from each metric. In some load metrics,
     capacity is already reflected in the load values. The capacity of a
-    metric should be configured such that `0 \<= (load / capacity) \>= 1`.
+    metric should be configured such that `0 \<= (load / capacity) \<= 1`.
 
 -   To favor some nodes over others. By setting the metric capacities to
     different values on each node, proxies will effectively favor nodes
