@@ -529,7 +529,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Developer Resources</h1>
 <div class="details">
-<span id="revdate">2025-03-25</span>
+<span id="revdate">2025-04-02</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster Developer Resources</div>
@@ -2724,7 +2724,7 @@ updated in or read from the shared memory).</p>
 <h4 id="mod_cluster-manager-handler"><a class="link" href="#mod_cluster-manager-handler">3.1.4. mod_cluster-manager handler</a></h4>
 <div class="paragraph">
 <p>The mod_cluster-manager handler allows to do operation like
-ENABLE_APP/DISABLE_APP through a web interface. The format of the request
+ENABLE-APP/DISABLE-APP through a web interface. The format of the request
 string is the following:</p>
 </div>
 <div class="listingblock">
@@ -2741,10 +2741,10 @@ string is the following:</p>
 <p>&lt;nonce&gt; Is a string like e17066b4-0cb1-4e58-93e3-cdc9efb6be9 corresponding to a unique id of httpd.</p>
 </li>
 <li>
-<p>&lt;cmd&gt; Is the command: one of ENABLE_APP, DISABLE_APP etc.</p>
+<p>&lt;cmd&gt; Is the command: one of ENABLE-APP, DISABLE-APP etc.</p>
 </li>
 <li>
-<p>&lt;range&gt; Is a "NODE" or "CONTEXT". "NODE" means that the _APP command is a wildcard command.</p>
+<p>&lt;range&gt; Is a "NODE" or "CONTEXT". "NODE" means that the -APP command is a wildcard command.</p>
 </li>
 <li>
 <p>&lt;MCMP String&gt; is a string containing a command described above.</p>
