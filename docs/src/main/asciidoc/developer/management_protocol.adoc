@@ -358,7 +358,7 @@ updated in or read from the shared memory).
 == mod_cluster-manager handler
 
 The mod_cluster-manager handler allows to do operation like
-ENABLE_APP/DISABLE_APP through a web interface. The format of the request
+ENABLE-APP/DISABLE-APP through a web interface. The format of the request
 string is the following:
 
 [source]
@@ -369,8 +369,8 @@ Nonce:<nonce>&Cmd:<cmd>&Range:<range>&<MCMP String>
 where:
 
 * <nonce> Is a string like e17066b4-0cb1-4e58-93e3-cdc9efb6be9 corresponding to a unique id of httpd.
-* <cmd> Is the command: one of ENABLE_APP, DISABLE_APP etc.
-* <range> Is a "NODE" or "CONTEXT". "NODE" means that the _APP command is a wildcard command.
+* <cmd> Is the command: one of ENABLE-APP, DISABLE-APP etc.
+* <range> Is a "NODE" or "CONTEXT". "NODE" means that the -APP command is a wildcard command.
 * <MCMP String> is a string containing a command described above.
 
 Example:
