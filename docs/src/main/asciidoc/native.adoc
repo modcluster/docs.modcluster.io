@@ -388,7 +388,7 @@ the VirtualHost)
 
 === AdvertiseGroup
 
-AdvertiseGroup IP:port: That is the multicast address to use (something like 232.0.0.2:8888 for example).
+AdvertiseGroup IP:port: That is the multicast address to use (something like 232.0.0.2:8090 for example).
 IP should correspond to AdvertiseGroupAddress and port to AdvertisePort in the JBoss AS/JBossWeb/Tomcat configuration.
 Note that if JBoss AS is used and the -u startup switch is included in the AS startup command, the default AdvertiseGroupAddress
 is the value passed via the -u. If port is missing the default port will be used: 23364.
@@ -397,15 +397,15 @@ is the value passed via the -u. If port is missing the default port will be used
 
 === AdvertiseFrequency
 
-AdvertiseFrequency seconds[.miliseconds]: Time between the multicast
-messages advertising the IP and port.
+AdvertiseFrequency seconds[.milliseconds]: Time between the multicast messages advertising the IP and port.
 
 **Default:** 10
 
 === AdvertiseSecurityKey
 
-AdvertiseSecurityKey value: key string used to verify advertisements checksums. If configured on either side the verification
-is required. Both sides must use the same security key.
+AdvertiseSecurityKey value: key string used to verify advertisements checksums.
+If configured on either side the verification is required.
+Both sides must use the same security key.
 
 **Default:** No default value.
 
@@ -443,9 +443,9 @@ LoadModule advertise_module     modules/mod_advertise.so
 LoadModule watchdog_module      modules/mod_watchdog.so
 
 <IfModule manager_module>
-  Listen 6666
+  Listen 8090
   ServerName localhost
-  <VirtualHost *:6666>
+  <VirtualHost *:8090>
 
   # Where your worker nodes connect from
   <Location />
