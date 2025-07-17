@@ -71,7 +71,7 @@ You can send the command using `curl` executing following:
 
 [source]
 ----
-curl -XDISABLE-APP -d "JVMRoute=node1" -d "Context=/myapp" -d "Alias=demo" http://localhost:6666
+curl -XDISABLE-APP -d "JVMRoute=node1" -d "Context=/myapp" -d "Alias=demo" http://localhost:8090
 ----
 
 == Message Types
@@ -161,18 +161,19 @@ Example:
 
 [source]
 ----
-Node: [0],Name: spare,Balancer: mycluster,LBGroup: ,Host: localhost,Port: 8888,Type: ws,Flushpackets: Off,Flushwait: 10,Ping: 10,Smax: -1,Ttl: 60,Elected: 0,Read: 0,Transfered: 0,Connected: 0,Load: 0
-Node: [1],Name: test,Balancer: mycluster,LBGroup: ,Host: localhost,Port: 8889,Type: ws,Flushpackets: Off,Flushwait: 10,Ping: 10,Smax: -1,Ttl: 60,Elected: 0,Read: 0,Transfered: 0,Connected: 0,Load: -1
+Node: [0],Name: spare,Balancer: mycluster,LBGroup: ,Host: localhost,Port: 8090,Type: ws,Flushpackets: Off,Flushwait: 10,Ping: 10,Smax: -1,Ttl: 60,Elected: 0,Read: 0,Transfered: 0,Connected: 0,Load: 0
+Node: [1],Name: test,Balancer: mycluster,LBGroup: ,Host: localhost,Port: 8091,Type: ws,Flushpackets: Off,Flushwait: 10,Ping: 10,Smax: -1,Ttl: 60,Elected: 0,Read: 0,Transfered: 0,Connected: 0,Load: -1
 Vhost: [1:1:0], Alias: localhost
 Context: [1:1:0], Context: test, Status: STOPPED
 ----
 
-TODO: Desribe the XML format.
+// TODO: Describe the XML format.
 
 === DUMP
 
-This message doesn't expect parameters, but you can supply an `Accept` header specifying the context type of the response. If `"text/xml"`
-is specified, the response will contain an XML. Otherwise plain text response is sent.
+This message doesn't expect parameters, but you can supply an `Accept` header specifying the context type of the response.
+If `"text/xml"` is specified, the response will contain an XML.
+Otherwise, plain text response is sent.
 
 The plain text format has a following structure:
 
@@ -222,13 +223,13 @@ Example:
 [source]
 ----
 balancer: [0] Name: mycluster Sticky: 1 [JSESSIONID]/[jsessionid] remove: 0 force: 1 Timeout: 0 maxAttempts: 1
-node: [0:0],Balancer: mycluster,JVMRoute: spare,LBGroup: [],Host: localhost,Port: 8888,Type: ws,flushpackets: 0,flushwait: 10,ping: 10,smax: -1,ttl: 60,timeout: 0
-node: [1:1],Balancer: mycluster,JVMRoute: test,LBGroup: [],Host: localhost,Port: 8889,Type: ws,flushpackets: 0,flushwait: 10,ping: 10,smax: -1,ttl: 60,timeout: 0
+node: [0:0],Balancer: mycluster,JVMRoute: spare,LBGroup: [],Host: localhost,Port: 8090,Type: ws,flushpackets: 0,flushwait: 10,ping: 10,smax: -1,ttl: 60,timeout: 0
+node: [1:1],Balancer: mycluster,JVMRoute: test,LBGroup: [],Host: localhost,Port: 8091,Type: ws,flushpackets: 0,flushwait: 10,ping: 10,smax: -1,ttl: 60,timeout: 0
 host: 0 [localhost] vhost: 1 node: 1
 context: 0 [test] vhost: 1 node: 1 status: 3
 ----
 
-TODO: Describe the XML output.
+// TODO: Describe the XML output.
 
 
 === STATUS

@@ -17,7 +17,7 @@ Date: Wed, 08 Apr 2009 12:26:32 GMT
 Sequence: 16
 Digest: f2d5f806a53effa6c67973d2ddcdd233
 Server: 1b60092e-76f3-49fd-9f99-a51c69c89e2d
-X-Manager-Address: 127.0.0.1:6666
+X-Manager-Address: 127.0.0.1:8090
 X-Manager-Url: /bla
 X-Manager-Protocol: http
 X-Manager-Host: 10.33.144.3
@@ -45,7 +45,7 @@ property and set advertise to false, for example:
 
 [source,xml]
 ----
-<property name="proxyList">10.33.144.3:6666,10.33.144.1:6666</property>
+<property name="proxyList">10.33.144.1:8090,10.33.144.2:8090</property>
 <property name="advertise">false</property>
 ----
 
@@ -66,7 +66,7 @@ to
 ----
 <Listener className="org.jboss.modcluster.container.catalina.standalone.ModClusterListener"
           advertise="false"
-          proxyList="10.33.144.3:6666,10.33.144.1:6666"
+          proxyList="10.33.144.1:8090,10.33.144.2:8090"
 />
 ----
 
@@ -110,7 +110,7 @@ Date: Mon, 28 Jun 2010 07:30:31 GMT
 Sequence: 1
 Digest: df8a4321fa99e5098174634f2fe2f87c
 Server: 1403c3be-837a-4e76-85b1-9dfe5ddb4378
-X-Manager-Address: test.example.com:6666
+X-Manager-Address: test.example.com:8090
 X-Manager-Url: /1403c3be-837a-4e76-85b1-9dfe5ddb4378
 X-Manager-Protocol: http
 X-Manager-Host: test.example.com
@@ -129,18 +129,18 @@ X-Manager-Host: test.example.com
 
 [source]
 ----
-INFO [DefaultMCMPHandler] IO error sending command INFO to proxy jfcpc/10.33.144.3:8888
+INFO [DefaultMCMPHandler] IO error sending command INFO to proxy localhost/10.33.144.3:8090
 ----
 
 it means that the worker was unable to *contact the balancer*. Keep in mind that the communication is *bidirectional*.
 
 You can use telnet hostname/address port to check that it is OK, e.g.:
 
-[source,xml]
+[source]
 ----
-[jfclere@jfcpc docs]$ telnet 10.33.144.3 8888
+[user@host ~]$ telnet 10.33.144.3 8090
 Trying 10.33.144.3…
-Connected to jfcpc.
+Connected to host.
 Escape character is '^]'.
 GET /
 <html><body><h1>It works!</h1></body></html>Connection closed by foreign host.
@@ -149,9 +149,9 @@ GET /
 Check that the address and port are the expected ones you may use
 ServerAdvertise directive in you mod_cluster httpd configuration:
 
-[source,xml]
+[source]
 ----
-ServerAdvertise On http://localhost:6666
+ServerAdvertise On http://localhost:8090
 ----
 
 === Error in error_log
@@ -238,24 +238,23 @@ In Web subsystem:
 <connector name="http" protocol="HTTP/1.1" scheme="http" socket-binding="http" max-connections="513"/>
 ----
 
-== Chrome does not display /mod_cluster-manager page
+== Google Chrome does not display `/mod_cluster-manager` page
 
-When using Chrome with mod_cluster-manager, the page is not displayed
-and the following error is displayed instead:
+When using ports such as 6666 for the virtual host and using Google Chrome with mod_cluster-manager,
+the page is not displayed and the following error is displayed instead:
 
 [source]
 ----
 Error 312 (net::ERR_UNSAFE_PORT): Unknown error.
 ----
 
-you can change the port of the VirtualHost to 7777 or any value chrome accepts or add:
+you can change the port of the VirtualHost to 8090 or any value chrome that is not considered unsafe by the browser,
+or start parameters for Google Chrome:
 
 [source]
 ----
- –explicitly-allowed-ports=6666
+-–explicitly-allowed-ports=6666
 ----
-
-to the start parameters of Chrome.
 
 == How do I use mod_cluster with SELinux?
 

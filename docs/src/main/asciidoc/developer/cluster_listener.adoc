@@ -11,10 +11,9 @@ To enable it just add in server.xml:
 
 The following parameters are supported:
 
-* proxyList: list of proxy frond-end that will use us as backend that is a coma
-separed list of host:port example:
+* proxyList: list of proxy frond-end that will use us as backend that is a comma-separated list of host:port example:
 
-    - `ProxyList="localhost:6666,neo:6666"localhost:7666"`
+    - `ProxyList="localhost:8090,localhost:8091"`
 
 * proxyURL: URL prefix to send with the commands default is no prefix
 
