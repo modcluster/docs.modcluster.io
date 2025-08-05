@@ -102,9 +102,9 @@ LoadModule watchdog_module      modules/mod_watchdog.so
 LoadModule slotmem_shm_module   modules/mod_slotmem_shm.so
 
 <IfModule manager_module>
-  Listen 127.0.0.1:6666
+  Listen 127.0.0.1:8090
   ManagerBalancerName mycluster
-  <VirtualHost 127.0.0.1:6666>
+  <VirtualHost 127.0.0.1:8090>
     <Location />
      Require ip 127.0.0
     </Location>
@@ -176,7 +176,7 @@ Edit the `$CATALINA_HOME/conf/server.xml` file, adding the following next to the
 
 [source,xml]
 ----
-<Listener className="org.jboss.modcluster.container.catalina.standalone.ModClusterListener" proxyList="127.0.0.1:6666"/>
+<Listener className="org.jboss.modcluster.container.catalina.standalone.ModClusterListener" proxyList="127.0.0.1:8090"/>
 ----
 
 === Start httpd
