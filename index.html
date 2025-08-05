@@ -529,7 +529,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Documentation</h1>
 <div class="details">
-<span id="revdate">2025-07-16</span>
+<span id="revdate">2025-08-05</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster</div>
@@ -601,7 +601,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#keep-seeing-http1-1-501-method-not-implemented">7.5. Keep seeing "HTTP/1.1 501 Method Not Implemented"</a></li>
 <li><a href="#redirect-is-not-working-tomcat-jbossweb">7.6. Redirect is not working (Tomcat, JBossWeb):</a></li>
 <li><a href="#i-have-more-than-one-tomcatjbossweb-connector">7.7. I have more than one Tomcat/JBossWeb Connector</a></li>
-<li><a href="#chrome-does-not-display-mod_cluster-manager-page">7.8. Chrome does not display /mod_cluster-manager page</a></li>
+<li><a href="#google-chrome-does-not-display-mod_cluster-manager-page">7.8. Google Chrome does not display <code>/mod_cluster-manager</code> page</a></li>
 <li><a href="#how-do-i-use-mod_cluster-with-selinux">7.9. How do I use mod_cluster with SELinux?</a></li>
 <li><a href="#how-do-i-change-status-message-frequency">7.10. How do I change STATUS message frequency?</a></li>
 <li><a href="#how-can-i-debug-requests-in-undertow">7.11. How can I debug requests in Undertow?</a></li>
@@ -1148,9 +1148,9 @@ LoadModule watchdog_module      modules/mod_watchdog.so
 LoadModule slotmem_shm_module   modules/mod_slotmem_shm.so
 
 &lt;IfModule manager_module&gt;
-  Listen 127.0.0.1:6666
+  Listen 127.0.0.1:8090
   ManagerBalancerName mycluster
-  &lt;VirtualHost 127.0.0.1:6666&gt;
+  &lt;VirtualHost 127.0.0.1:8090&gt;
     &lt;Location /&gt;
      Require ip 127.0.0
     &lt;/Location&gt;
@@ -1243,7 +1243,7 @@ For WildFly-specific configuration refer to <a href="https://docs.wildfly.org/">
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;Listener</span> <span class="attribute-name">className</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">org.jboss.modcluster.container.catalina.standalone.ModClusterListener</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">proxyList</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">127.0.0.1:6666</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;Listener</span> <span class="attribute-name">className</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">org.jboss.modcluster.container.catalina.standalone.ModClusterListener</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">proxyList</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">127.0.0.1:8090</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
 </div>
 </div>
 </div>
@@ -3951,7 +3951,7 @@ the VirtualHost)</p>
 <div class="sect3">
 <h4 id="advertisegroup"><a class="link" href="#advertisegroup">4.5.17. AdvertiseGroup</a></h4>
 <div class="paragraph">
-<p>AdvertiseGroup IP:port: That is the multicast address to use (something like 232.0.0.2:8888 for example).
+<p>AdvertiseGroup IP:port: That is the multicast address to use (something like 232.0.0.2:8090 for example).
 IP should correspond to AdvertiseGroupAddress and port to AdvertisePort in the JBoss AS/JBossWeb/Tomcat configuration.
 Note that if JBoss AS is used and the -u startup switch is included in the AS startup command, the default AdvertiseGroupAddress
 is the value passed via the -u. If port is missing the default port will be used: 23364.</p>
@@ -3963,8 +3963,7 @@ is the value passed via the -u. If port is missing the default port will be used
 <div class="sect3">
 <h4 id="advertisefrequency"><a class="link" href="#advertisefrequency">4.5.18. AdvertiseFrequency</a></h4>
 <div class="paragraph">
-<p>AdvertiseFrequency seconds[.miliseconds]: Time between the multicast
-messages advertising the IP and port.</p>
+<p>AdvertiseFrequency seconds[.milliseconds]: Time between the multicast messages advertising the IP and port.</p>
 </div>
 <div class="paragraph">
 <p><strong>Default:</strong> 10</p>
@@ -3973,8 +3972,9 @@ messages advertising the IP and port.</p>
 <div class="sect3">
 <h4 id="advertisesecuritykey"><a class="link" href="#advertisesecuritykey">4.5.19. AdvertiseSecurityKey</a></h4>
 <div class="paragraph">
-<p>AdvertiseSecurityKey value: key string used to verify advertisements checksums. If configured on either side the verification
-is required. Both sides must use the same security key.</p>
+<p>AdvertiseSecurityKey value: key string used to verify advertisements checksums.
+If configured on either side the verification is required.
+Both sides must use the same security key.</p>
 </div>
 <div class="paragraph">
 <p><strong>Default:</strong> No default value.</p>
@@ -4022,9 +4022,9 @@ LoadModule advertise_module     modules/mod_advertise.so
 LoadModule watchdog_module      modules/mod_watchdog.so
 
 &lt;IfModule manager_module&gt;
-  Listen 6666
+  Listen 8090
   ServerName localhost
-  &lt;VirtualHost *:6666&gt;
+  &lt;VirtualHost *:8090&gt;
 
   # Where your worker nodes connect from
   &lt;Location /&gt;
@@ -4392,9 +4392,9 @@ See in one example how easy the configuration is:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>Listen 6666
+<pre class="CodeRay highlight"><code>Listen 8090
 
-&lt;VirtualHost 10.33.144.3:6666&gt;
+&lt;VirtualHost 10.33.144.3:8090&gt;
     SSLEngine on
     SSLCipherSuite AES128-SHA:ALL:!ADH:!LOW:!MD5:!SSLV2:!NULL
     SSLCertificateFile conf/server.crt
@@ -5247,7 +5247,7 @@ Date: Wed, 08 Apr 2009 12:26:32 GMT
 Sequence: 16
 Digest: f2d5f806a53effa6c67973d2ddcdd233
 Server: 1b60092e-76f3-49fd-9f99-a51c69c89e2d
-X-Manager-Address: 127.0.0.1:6666
+X-Manager-Address: 127.0.0.1:8090
 X-Manager-Url: /bla
 X-Manager-Protocol: http
 X-Manager-Host: 10.33.144.3</code></pre>
@@ -5280,7 +5280,7 @@ property and set advertise to false, for example:</p>
 <h4 id="jboss-as-5"><a class="link" href="#jboss-as-5">7.2.1. JBoss AS 5</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">proxyList</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>10.33.144.3:6666,10.33.144.1:6666<span class="tag">&lt;/property&gt;</span>
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">proxyList</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>10.33.144.1:8090,10.33.144.2:8090<span class="tag">&lt;/property&gt;</span>
 <span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">advertise</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>false<span class="tag">&lt;/property&gt;</span></code></pre>
 </div>
 </div>
@@ -5305,7 +5305,7 @@ property and set advertise to false, for example:</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;Listener</span> <span class="attribute-name">className</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">org.jboss.modcluster.container.catalina.standalone.ModClusterListener</span><span class="delimiter">&quot;</span></span>
           <span class="attribute-name">advertise</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span>
-          <span class="attribute-name">proxyList</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10.33.144.3:6666,10.33.144.1:6666</span><span class="delimiter">&quot;</span></span>
+          <span class="attribute-name">proxyList</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10.33.144.1:8090,10.33.144.2:8090</span><span class="delimiter">&quot;</span></span>
 <span class="tag">/&gt;</span></code></pre>
 </div>
 </div>
@@ -5367,7 +5367,7 @@ Date: Mon, 28 Jun 2010 07:30:31 GMT
 Sequence: 1
 Digest: df8a4321fa99e5098174634f2fe2f87c
 Server: 1403c3be-837a-4e76-85b1-9dfe5ddb4378
-X-Manager-Address: test.example.com:6666
+X-Manager-Address: test.example.com:8090
 X-Manager-Url: /1403c3be-837a-4e76-85b1-9dfe5ddb4378
 X-Manager-Protocol: http
 X-Manager-Host: test.example.com</code></pre>
@@ -5398,7 +5398,7 @@ If you have something like:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>INFO [DefaultMCMPHandler] IO error sending command INFO to proxy jfcpc/10.33.144.3:8888</code></pre>
+<pre class="CodeRay highlight"><code>INFO [DefaultMCMPHandler] IO error sending command INFO to proxy localhost/10.33.144.3:8090</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -5409,12 +5409,12 @@ If you have something like:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml">[jfclere@jfcpc docs]$ telnet 10.33.144.3 8888
+<pre class="CodeRay highlight"><code>[user@host ~]$ telnet 10.33.144.3 8090
 Trying 10.33.144.3…
-Connected to jfcpc.
+Connected to host.
 Escape character is '^]'.
 GET /
-<span class="tag">&lt;html&gt;</span><span class="tag">&lt;body&gt;</span><span class="tag">&lt;h1&gt;</span>It works!<span class="tag">&lt;/h1&gt;</span><span class="tag">&lt;/body&gt;</span><span class="tag">&lt;/html&gt;</span>Connection closed by foreign host.</code></pre>
+&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;Connection closed by foreign host.</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -5423,7 +5423,7 @@ ServerAdvertise directive in you mod_cluster httpd configuration:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml">ServerAdvertise On http://localhost:6666</code></pre>
+<pre class="CodeRay highlight"><code>ServerAdvertise On http://localhost:8090</code></pre>
 </div>
 </div>
 </div>
@@ -5533,10 +5533,10 @@ maxthreads value. That is <code>maxThreads</code> in Tomcat 6/7/8 and JBoss AS 5
 </div>
 </div>
 <div class="sect2">
-<h3 id="chrome-does-not-display-mod_cluster-manager-page"><a class="link" href="#chrome-does-not-display-mod_cluster-manager-page">7.8. Chrome does not display /mod_cluster-manager page</a></h3>
+<h3 id="google-chrome-does-not-display-mod_cluster-manager-page"><a class="link" href="#google-chrome-does-not-display-mod_cluster-manager-page">7.8. Google Chrome does not display <code>/mod_cluster-manager</code> page</a></h3>
 <div class="paragraph">
-<p>When using Chrome with mod_cluster-manager, the page is not displayed
-and the following error is displayed instead:</p>
+<p>When using ports such as 6666 for the virtual host and using Google Chrome with mod_cluster-manager,
+the page is not displayed and the following error is displayed instead:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5544,15 +5544,13 @@ and the following error is displayed instead:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>you can change the port of the VirtualHost to 7777 or any value chrome accepts or add:</p>
+<p>you can change the port of the VirtualHost to 8090 or any value chrome that is not considered unsafe by the browser,
+or start parameters for Google Chrome:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code> –explicitly-allowed-ports=6666</code></pre>
+<pre class="CodeRay highlight"><code>-–explicitly-allowed-ports=6666</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>to the start parameters of Chrome.</p>
 </div>
 </div>
 <div class="sect2">

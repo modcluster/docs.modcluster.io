@@ -529,7 +529,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>mod_cluster Developer Resources</h1>
 <div class="details">
-<span id="revdate">2025-07-16</span>
+<span id="revdate">2025-08-05</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">mod_cluster Developer Resources</div>
@@ -2164,7 +2164,7 @@ Jvmroute=node1&amp;Context=/myapp&amp;Alias=demo&lt;CR&gt;&lt;LF&gt;</code></pre
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>curl -XDISABLE-APP -d &quot;JVMRoute=node1&quot; -d &quot;Context=/myapp&quot; -d &quot;Alias=demo&quot; http://localhost:6666</code></pre>
+<pre class="CodeRay highlight"><code>curl -XDISABLE-APP -d &quot;JVMRoute=node1&quot; -d &quot;Context=/myapp&quot; -d &quot;Alias=demo&quot; http://localhost:8090</code></pre>
 </div>
 </div>
 </div>
@@ -2417,21 +2417,19 @@ The first field in each of the described records is intended for debugging purpo
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>Node: [0],Name: spare,Balancer: mycluster,LBGroup: ,Host: localhost,Port: 8888,Type: ws,Flushpackets: Off,Flushwait: 10,Ping: 10,Smax: -1,Ttl: 60,Elected: 0,Read: 0,Transfered: 0,Connected: 0,Load: 0
-Node: [1],Name: test,Balancer: mycluster,LBGroup: ,Host: localhost,Port: 8889,Type: ws,Flushpackets: Off,Flushwait: 10,Ping: 10,Smax: -1,Ttl: 60,Elected: 0,Read: 0,Transfered: 0,Connected: 0,Load: -1
+<pre class="CodeRay highlight"><code>Node: [0],Name: spare,Balancer: mycluster,LBGroup: ,Host: localhost,Port: 8090,Type: ws,Flushpackets: Off,Flushwait: 10,Ping: 10,Smax: -1,Ttl: 60,Elected: 0,Read: 0,Transfered: 0,Connected: 0,Load: 0
+Node: [1],Name: test,Balancer: mycluster,LBGroup: ,Host: localhost,Port: 8091,Type: ws,Flushpackets: Off,Flushwait: 10,Ping: 10,Smax: -1,Ttl: 60,Elected: 0,Read: 0,Transfered: 0,Connected: 0,Load: -1
 Vhost: [1:1:0], Alias: localhost
 Context: [1:1:0], Context: test, Status: STOPPED</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>TODO: Desribe the XML format.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="dump"><a class="link" href="#dump">DUMP</a></h5>
 <div class="paragraph">
-<p>This message doesn&#8217;t expect parameters, but you can supply an <code>Accept</code> header specifying the context type of the response. If <code>"text/xml"</code>
-is specified, the response will contain an XML. Otherwise plain text response is sent.</p>
+<p>This message doesn&#8217;t expect parameters, but you can supply an <code>Accept</code> header specifying the context type of the response.
+If <code>"text/xml"</code> is specified, the response will contain an XML.
+Otherwise, plain text response is sent.</p>
 </div>
 <div class="paragraph">
 <p>The plain text format has a following structure:</p>
@@ -2498,14 +2496,11 @@ The first field in described records is intended for debugging purposes and are 
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>balancer: [0] Name: mycluster Sticky: 1 [JSESSIONID]/[jsessionid] remove: 0 force: 1 Timeout: 0 maxAttempts: 1
-node: [0:0],Balancer: mycluster,JVMRoute: spare,LBGroup: [],Host: localhost,Port: 8888,Type: ws,flushpackets: 0,flushwait: 10,ping: 10,smax: -1,ttl: 60,timeout: 0
-node: [1:1],Balancer: mycluster,JVMRoute: test,LBGroup: [],Host: localhost,Port: 8889,Type: ws,flushpackets: 0,flushwait: 10,ping: 10,smax: -1,ttl: 60,timeout: 0
+node: [0:0],Balancer: mycluster,JVMRoute: spare,LBGroup: [],Host: localhost,Port: 8090,Type: ws,flushpackets: 0,flushwait: 10,ping: 10,smax: -1,ttl: 60,timeout: 0
+node: [1:1],Balancer: mycluster,JVMRoute: test,LBGroup: [],Host: localhost,Port: 8091,Type: ws,flushpackets: 0,flushwait: 10,ping: 10,smax: -1,ttl: 60,timeout: 0
 host: 0 [localhost] vhost: 1 node: 1
 context: 0 [test] vhost: 1 node: 1 status: 3</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>TODO: Describe the XML output.</p>
 </div>
 </div>
 <div class="sect4">
@@ -4430,12 +4425,11 @@ proxy. It also works in JBoss AS.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>proxyList: list of proxy frond-end that will use us as backend that is a coma
-separed list of host:port example:</p>
+<p>proxyList: list of proxy frond-end that will use us as backend that is a comma-separated list of host:port example:</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>ProxyList="localhost:6666,neo:6666"localhost:7666"</code></p>
+<p><code>ProxyList="localhost:8090,localhost:8091"</code></p>
 </li>
 </ul>
 </div>
