@@ -37,34 +37,4 @@
         <url>https://github.com/modcluster/docs.modcluster.io</url>
     </scm>
 
-    <properties>
-        <version.asciidoctor-maven-plugin>3.2.0</version.asciidoctor-maven-plugin>
-        <version.org.asciidoctor.asciidoctorj-pdf>2.3.19</version.org.asciidoctor.asciidoctorj-pdf>
-    </properties>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>enforce-https-repositories</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <bannedRepositories>
-                                    <bannedRepositories>http://*</bannedRepositories>
-                                    <bannedPluginRepositories>http://*</bannedPluginRepositories>
-                                </bannedRepositories>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>
